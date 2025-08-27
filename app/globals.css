@@ -1,2 +1,12 @@
 @import "tailwindcss";
 
+/* Smooth transitions applied globally */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+/* globals.css */
+[dir="rtl"] select {
+  background-position: left 12px center;
+}

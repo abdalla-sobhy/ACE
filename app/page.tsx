@@ -1,24 +1,11 @@
 import styles from './Landing.module.css';
 import Link from 'next/link';
+import NavigationBar from '@/components/Nav/Nav';
 
 export default function LandingPage() {
   return (
     <div className={styles.container}>
-      {/* Navigation */}
-      <nav className={styles.nav}>
-        <div className={styles.navContainer}>
-          <div className={styles.navLeft}>
-            <h2 className={styles.logo}>EduEgypt</h2>
-            <Link href="/features">المميزات</Link>
-            <Link href="/courses">الكورسات</Link>
-            <Link href="/about">من نحن</Link>
-          </div>
-          <div className={styles.navRight}>
-            <Link href="/login" className={styles.signIn}>تسجيل الدخول</Link>
-            <Link href="/signup" className={styles.signUp}>انضم مجاناً</Link>
-          </div>
-        </div>
-      </nav>
+      <NavigationBar />
 
       {/* Hero Section */}
       <section className={styles.hero}>
