@@ -1,0 +1,611 @@
+/* Container */
+.container {
+  min-height: 100vh;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+  direction: rtl;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  padding: 200px 24px 120px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.heroPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at 20% 50%, rgba(88, 166, 255, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(121, 192, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 56px;
+  font-weight: 800;
+  margin: 0 0 24px;
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+.hero p {
+  font-size: 24px;
+  color: #8b949e;
+  margin: 0;
+}
+
+/* Mission Section */
+.mission {
+  padding: 80px 24px;
+  background: #010409;
+  border-top: 1px solid #30363d;
+}
+
+.missionContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.missionContent h2 {
+  font-size: 40px;
+  font-weight: 700;
+  margin: 0 0 24px;
+}
+
+.missionContent > p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #8b949e;
+  margin: 0 0 48px;
+}
+
+.missionPoints {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.point {
+  display: flex;
+  gap: 16px;
+  align-items: start;
+}
+
+.pointIcon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.point h3 {
+  font-size: 20px;
+  margin: 0 0 8px;
+  color: #f0f6fc;
+}
+
+.point p {
+  color: #8b949e;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Mission Visual */
+.statsCard {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 48px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.statItem {
+  margin-bottom: 32px;
+}
+
+.statItem:last-child {
+  margin-bottom: 0;
+}
+
+.statNumber {
+  display: block;
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(to bottom, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.statLabel {
+  color: #8b949e;
+  font-size: 18px;
+}
+
+/* Story Section */
+.story {
+  padding: 80px 24px;
+  background: #0d1117;
+}
+
+.storyContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.story h2 {
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 64px;
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.timeline {
+  position: relative;
+  padding-right: 32px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #30363d;
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 48px;
+}
+
+.timelineItem:last-child {
+  margin-bottom: 0;
+}
+
+.timelineDot {
+  position: absolute;
+  right: -6px;
+  top: 8px;
+  width: 14px;
+  height: 14px;
+  background: #58a6ff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #0d1117;
+}
+
+.timelineContent {
+  padding-right: 32px;
+}
+
+.timelineContent h3 {
+  font-size: 20px;
+  margin: 0 0 8px;
+  color: #f0f6fc;
+}
+
+.timelineContent p {
+  color: #8b949e;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Team Section */
+.team {
+  padding: 80px 24px;
+  background: #010409;
+  border-top: 1px solid #30363d;
+}
+
+.teamContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.team h2 {
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 16px;
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.teamSubtitle {
+  text-align: center;
+  color: #8b949e;
+  font-size: 18px;
+  margin: 0 0 64px;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.teamCard {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.teamCard:hover {
+  transform: translateY(-4px);
+  border-color: #58a6ff;
+}
+
+.cardImage {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #30363d;
+}
+.cardImageTL{
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #30363d;
+}
+
+.cardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 17, 23, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.teamCard:hover .cardOverlay {
+  opacity: 1;
+}
+
+.cardOverlay a {
+  color: #c9d1d9;
+  transition: color 0.2s;
+}
+
+.cardOverlay a:hover {
+  color: #58a6ff;
+}
+
+.teamCard h3 {
+  font-size: 20px;
+  margin: 0 0 8px;
+  color: #f0f6fc;
+}
+
+.role {
+  display: block;
+  color: #58a6ff;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.bio {
+  color: #8b949e;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Values Section */
+.values {
+  padding: 80px 24px;
+  background: #0d1117;
+}
+
+.valuesContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.values h2 {
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 64px;
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.value {
+  text-align: center;
+}
+
+.valueIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.value h3 {
+  font-size: 20px;
+  margin: 0 0 12px;
+  color: #f0f6fc;
+}
+
+.value p {
+  color: #8b949e;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Contact CTA */
+.contactCta {
+  background: #161b22;
+  padding: 80px 24px;
+  text-align: center;
+  border-top: 1px solid #30363d;
+}
+
+.contactContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contactCta h2 {
+  font-size: 40px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+.contactCta p {
+  color: #8b949e;
+  font-size: 20px;
+  margin: 0 0 48px;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  background: #238636;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.primaryButton:hover {
+  background: #2ea043;
+}
+
+.secondaryButton {
+  background: transparent;
+  color: #58a6ff;
+  padding: 16px 32px;
+  text-decoration: none;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.secondaryButton:hover {
+  border-color: #58a6ff;
+  background: rgba(88, 166, 255, 0.1);
+}
+
+.tertiaryButton {
+  background: transparent;
+  color: #8b949e;
+  padding: 16px 32px;
+  text-decoration: none;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.tertiaryButton:hover {
+  color: #c9d1d9;
+  border-color: #8b949e;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroContent,
+.missionContent,
+.missionVisual,
+.timelineItem,
+.teamCard,
+.value {
+  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.heroContent { animation-delay: 0.1s; }
+.missionContent { animation-delay: 0.2s; }
+.missionVisual { animation-delay: 0.3s; }
+.timelineItem:nth-child(1) { animation-delay: 0.4s; }
+.timelineItem:nth-child(2) { animation-delay: 0.5s; }
+.timelineItem:nth-child(3) { animation-delay: 0.6s; }
+.timelineItem:nth-child(4) { animation-delay: 0.7s; }
+.teamCard:nth-child(1) { animation-delay: 0.3s; }
+.teamCard:nth-child(2) { animation-delay: 0.4s; }
+.teamCard:nth-child(3) { animation-delay: 0.5s; }
+.teamCard:nth-child(4) { animation-delay: 0.6s; }
+.value:nth-child(1) { animation-delay: 0.3s; }
+.value:nth-child(2) { animation-delay: 0.4s; }
+.value:nth-child(3) { animation-delay: 0.5s; }
+.value:nth-child(4) { animation-delay: 0.6s; }
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .missionContainer {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  
+  .teamGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .valuesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .navLeft a:not(.logo) {
+    display: none;
+  }
+  
+  .hero h1 {
+    font-size: 36px;
+  }
+  
+  .hero p {
+    font-size: 18px;
+  }
+  
+  .mission h2,
+  .story h2,
+  .team h2,
+  .values h2,
+  .contactCta h2 {
+    font-size: 32px;
+  }
+  
+  .teamGrid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .valuesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .primaryButton,
+  .secondaryButton,
+  .tertiaryButton {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+  }
+  
+  .statsCard {
+    padding: 32px;
+  }
+  
+  .statNumber {
+    font-size: 36px;
+  }
+  
+  .timeline {
+    padding-right: 24px;
+  }
+  
+  .timelineContent {
+    padding-right: 24px;
+  }
+}
+
+.teamCard {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.teamCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(88, 166, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.teamCard:hover::before {
+  opacity: 1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+button:focus {
+  outline: 2px solid #58a6ff;
+  outline-offset: 2px;
+}
