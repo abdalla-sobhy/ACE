@@ -3,7 +3,7 @@
 
 import styles from "./Signup.module.css";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { FaUser, FaChalkboardTeacher, FaUserFriends } from "react-icons/fa";
@@ -97,7 +97,7 @@ const parentAdditionalSchema = z.object({
   childrenCount: z.string().min(1, "يرجى اختيار عدد الأبناء"),
 });
 
-export default function SignupPage() {
+function SignupContent() {
   const [step, setStep] = useState(1);
   const [userType, setUserType] = useState<UserType>(null);
   const [diditVerified, setDiditVerified] = useState(false);
@@ -1118,5 +1118,22 @@ export default function SignupPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh' 
+      }}>
+        <div>Loading...</div>
+      </div>
+    }>
+      <SignupContent />
+    </Suspense>
   );
 }
