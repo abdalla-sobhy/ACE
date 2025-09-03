@@ -1,30 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */ /* This needs to be changed */
-'use client';
+"use client";
 
-import styles from './Signup.module.css';
-import Link from 'next/link';
-import { useState } from 'react';
-import PhoneInput from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
-import { FaUser, FaChalkboardTeacher, FaUserFriends } from 'react-icons/fa';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import styles from "./Signup.module.css";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { FaUser, FaChalkboardTeacher, FaUserFriends } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams, useRouter } from "next/navigation";
 
-type UserType = 'student' | 'teacher' | 'parent' | null;
+type UserType = "student" | "teacher" | "parent" | null;
 
 // Base form data type
 interface BaseFormData {
   firstName: string;
   lastName: string;
   email: string;
+  phone: string;
   password: string;
   confirmPassword: string;
 }
 
 // Student form data type
 interface StudentFormData extends BaseFormData {
-  phoneNumber: string;
   grade: string;
   birthDate: string;
 }
@@ -41,118 +42,192 @@ interface ParentAdditionalData {
 }
 
 // Validation schemas
-const baseSchema = z.object({
-  firstName: z.string().min(2, 'الاسم يجب أن يكون حرفين على الأقل'),
-  lastName: z.string().min(2, 'اسم العائلة يجب أن يكون حرفين على الأقل'),
-  email: z.string().email('البريد الإلكتروني غير صحيح'),
-  password: z.string()
-    .min(8, 'كلمة المرور يجب أن تكون 8 أحرف على الأقل')
-    .regex(/[A-Z]/, 'يجب أن تحتوي على حرف كبير واحد على الأقل')
-    .regex(/[0-9]/, 'يجب أن تحتوي على رقم واحد على الأقل'),
-  confirmPassword: z.string()
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "كلمات المرور غير متطابقة",
-  path: ["confirmPassword"],
-});
+const baseSchema = z
+  .object({
+    firstName: z.string().min(2, "الاسم يجب أن يكون حرفين على الأقل"),
+    lastName: z.string().min(2, "اسم العائلة يجب أن يكون حرفين على الأقل"),
+    email: z.string().email("البريد الإلكتروني غير صحيح"),
+    phone: z
+      .string()
+      .regex(/^\+20[0-9]{10}$/, "رقم الهاتف يجب أن يكون رقم مصري صحيح"),
+    password: z
+      .string()
+      .min(8, "كلمة المرور يجب أن تكون 8 أحرف على الأقل")
+      .regex(/[A-Z]/, "يجب أن تحتوي على حرف كبير واحد على الأقل")
+      .regex(/[0-9]/, "يجب أن تحتوي على رقم واحد على الأقل"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "كلمات المرور غير متطابقة",
+    path: ["confirmPassword"],
+  });
 
-const studentSchema = z.object({
-  firstName: z.string().min(2, 'الاسم يجب أن يكون حرفين على الأقل'),
-  lastName: z.string().min(2, 'اسم العائلة يجب أن يكون حرفين على الأقل'),
-  email: z.string().email('البريد الإلكتروني غير صحيح'),
-  password: z.string()
-    .min(8, 'كلمة المرور يجب أن تكون 8 أحرف على الأقل')
-    .regex(/[A-Z]/, 'يجب أن تحتوي على حرف كبير واحد على الأقل')
-    .regex(/[0-9]/, 'يجب أن تحتوي على رقم واحد على الأقل'),
-  confirmPassword: z.string(),
-  phoneNumber: z.string().regex(/^\+20[0-9]{10}$/, 'رقم الهاتف يجب أن يكون رقم مصري صحيح'),
-  grade: z.string().min(1, 'يرجى اختيار المرحلة الدراسية'),
-  birthDate: z.string().refine((date) => {
-    const age = new Date().getFullYear() - new Date(date).getFullYear();
-    return age >= 6 && age <= 25;
-  }, 'العمر يجب أن يكون بين 6 و 25 سنة')
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "كلمات المرور غير متطابقة",
-  path: ["confirmPassword"],
-});
+// Update student schema to use phone instead of phoneNumber
+const studentSchema = z
+  .object({
+    firstName: z.string().min(2, "الاسم يجب أن يكون حرفين على الأقل"),
+    lastName: z.string().min(2, "اسم العائلة يجب أن يكون حرفين على الأقل"),
+    email: z.string().email("البريد الإلكتروني غير صحيح"),
+    phone: z
+      .string()
+      .regex(/^\+20[0-9]{10}$/, "رقم الهاتف يجب أن يكون رقم مصري صحيح"),
+    password: z
+      .string()
+      .min(8, "كلمة المرور يجب أن تكون 8 أحرف على الأقل")
+      .regex(/[A-Z]/, "يجب أن تحتوي على حرف كبير واحد على الأقل")
+      .regex(/[0-9]/, "يجب أن تحتوي على رقم واحد على الأقل"),
+    confirmPassword: z.string(),
+    grade: z.string().min(1, "يرجى اختيار المرحلة الدراسية"),
+    birthDate: z.string().refine((date) => {
+      const age = new Date().getFullYear() - new Date(date).getFullYear();
+      return age >= 6 && age <= 25;
+    }, "العمر يجب أن يكون بين 6 و 25 سنة"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "كلمات المرور غير متطابقة",
+    path: ["confirmPassword"],
+  });
 
 const teacherAdditionalSchema = z.object({
-  specialization: z.string().min(1, 'يرجى اختيار التخصص'),
-  yearsOfExperience: z.string().min(1, 'يرجى اختيار سنوات الخبرة'),
+  specialization: z.string().min(1, "يرجى اختيار التخصص"),
+  yearsOfExperience: z.string().min(1, "يرجى اختيار سنوات الخبرة"),
 });
 
 const parentAdditionalSchema = z.object({
-  childrenCount: z.string().min(1, 'يرجى اختيار عدد الأبناء'),
+  childrenCount: z.string().min(1, "يرجى اختيار عدد الأبناء"),
 });
 
 export default function SignupPage() {
   const [step, setStep] = useState(1);
   const [userType, setUserType] = useState<UserType>(null);
-  const [personaVerified, setPersonaVerified] = useState(false);
-  const [personaInquiryId, setPersonaInquiryId] = useState<string | null>(null);
+  const [diditVerified, setDiditVerified] = useState(false);
+  const [diditSessionId, setDiditSessionId] = useState<string | null>(null);
+  const [verificationLoading, setVerificationLoading] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [verificationStatus, setVerificationStatus] = useState<
+    "idle" | "checking" | "approved" | "failed" | "retry"
+  >("idle");
+  const [verificationMessage, setVerificationMessage] = useState("");
+
+  // Didit verification functions
+  useEffect(() => {
+    // Check if searchParams exists and if returning from verification
+    if (searchParams && searchParams.get("verification") === "complete") {
+      // Restore saved state
+      const savedState = sessionStorage.getItem("registrationState");
+      const savedSessionId = sessionStorage.getItem("diditSessionId");
+
+      if (savedState) {
+        const state = JSON.parse(savedState);
+
+        // Restore form state
+        setStep(state.step);
+        setUserType(state.userType);
+
+        // Restore form data
+        if (state.userType === "student" && state.formData) {
+          Object.keys(state.formData).forEach((key) => {
+            studentForm.setValue(key as any, state.formData[key]);
+          });
+        } else if (state.formData) {
+          Object.keys(state.formData).forEach((key) => {
+            baseForm.setValue(key as any, state.formData[key]);
+          });
+        }
+
+        // Restore additional data for teachers/parents
+        if (state.userType === "teacher" && state.teacherData) {
+          Object.keys(state.teacherData).forEach((key) => {
+            teacherAdditionalForm.setValue(key as any, state.teacherData[key]);
+          });
+        } else if (state.userType === "parent" && state.parentData) {
+          Object.keys(state.parentData).forEach((key) => {
+            parentAdditionalForm.setValue(key as any, state.parentData[key]);
+          });
+        }
+
+        // IMPORTANT: Check the actual verification status instead of auto-marking as verified
+        if (savedSessionId) {
+          setDiditSessionId(savedSessionId);
+          // Check the actual status
+          checkVerificationStatus(savedSessionId);
+        }
+
+        // Clean up
+        sessionStorage.removeItem("registrationState");
+        // Don't remove diditSessionId yet - we need it for status check
+
+        // Clean the URL
+        router.push("/signup");
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   // Base form for teachers and parents
   const baseForm = useForm<BaseFormData>({
     resolver: zodResolver(baseSchema),
-    mode: 'onChange'
+    mode: "onChange",
   });
 
   // Student form with all fields
   const studentForm = useForm<StudentFormData>({
     resolver: zodResolver(studentSchema),
-    mode: 'onChange'
+    mode: "onChange",
   });
 
   // Teacher additional form
   const teacherAdditionalForm = useForm<TeacherAdditionalData>({
     resolver: zodResolver(teacherAdditionalSchema),
-    mode: 'onChange'
+    mode: "onChange",
   });
 
   // Parent additional form
   const parentAdditionalForm = useForm<ParentAdditionalData>({
     resolver: zodResolver(parentAdditionalSchema),
-    mode: 'onChange'
+    mode: "onChange",
   });
 
   // Helper function to get form field properties
   const getFormField = (fieldName: keyof BaseFormData) => {
-  if (userType === 'student') {
-    return {
-      register: studentForm.register(fieldName),
-      error: studentForm.formState.errors[fieldName],
-      errorMessage: studentForm.formState.errors[fieldName]?.message
-    };
-  } else {
-    return {
-      register: baseForm.register(fieldName),
-      error: baseForm.formState.errors[fieldName],
-      errorMessage: baseForm.formState.errors[fieldName]?.message
-    };
-  }
-};
+    if (userType === "student") {
+      return {
+        register: studentForm.register(fieldName),
+        error: studentForm.formState.errors[fieldName],
+        errorMessage: studentForm.formState.errors[fieldName]?.message,
+      };
+    } else {
+      return {
+        register: baseForm.register(fieldName),
+        error: baseForm.formState.errors[fieldName],
+        errorMessage: baseForm.formState.errors[fieldName]?.message,
+      };
+    }
+  };
 
   const userTypes = [
     {
-      type: 'student' as UserType,
+      type: "student" as UserType,
       icon: <FaUser />,
-      title: 'طالب',
-      description: 'احضر المحاضرات وتفاعل مع المعلمين',
-      color: '#58a6ff'
+      title: "طالب",
+      description: "احضر المحاضرات وتفاعل مع المعلمين",
+      color: "#58a6ff",
     },
     {
-      type: 'teacher' as UserType,
+      type: "teacher" as UserType,
       icon: <FaChalkboardTeacher />,
-      title: 'محاضر',
-      description: 'شارك علمك وساعد الطلاب على التفوق',
-      color: '#3fb950'
+      title: "محاضر",
+      description: "شارك علمك وساعد الطلاب على التفوق",
+      color: "#3fb950",
     },
     {
-      type: 'parent' as UserType,
+      type: "parent" as UserType,
       icon: <FaUserFriends />,
-      title: 'ولي أمر',
-      description: 'تابع تقدم أبنائك وأدائهم الدراسي',
-      color: '#f85149'
-    }
+      title: "ولي أمر",
+      description: "تابع تقدم أبنائك وأدائهم الدراسي",
+      color: "#f85149",
+    },
   ];
 
   const handleUserTypeSelect = (type: UserType) => {
@@ -162,14 +237,14 @@ export default function SignupPage() {
 
   const handleBasicInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (userType === 'student') {
+    if (userType === "student") {
       studentForm.handleSubmit((data) => {
-        console.log('Student info validated:', data);
+        console.log("Student info validated:", data);
         setStep(3);
       })();
     } else {
       baseForm.handleSubmit((data) => {
-        console.log('Basic info validated:', data);
+        console.log("Basic info validated:", data);
         setStep(3);
       })();
     }
@@ -177,14 +252,14 @@ export default function SignupPage() {
 
   const handleAdditionalInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (userType === 'teacher') {
+    if (userType === "teacher") {
       teacherAdditionalForm.handleSubmit((data) => {
-        console.log('Teacher additional info validated:', data);
+        console.log("Teacher additional info validated:", data);
         setStep(4);
       })();
-    } else if (userType === 'parent') {
+    } else if (userType === "parent") {
       parentAdditionalForm.handleSubmit((data) => {
-        console.log('Parent additional info validated:', data);
+        console.log("Parent additional info validated:", data);
         setStep(4);
       })();
     }
@@ -200,31 +275,172 @@ export default function SignupPage() {
   };
 
   const handleFinalSubmit = async () => {
-    let submitData: any = { userType, personaInquiryId };
+    let submitData: any = { userType, diditSessionId };
 
-    if (userType === 'student') {
+    if (userType === "student") {
       submitData = { ...submitData, ...studentForm.getValues() };
     } else {
       submitData = { ...submitData, ...baseForm.getValues() };
-      if (userType === 'teacher') {
+      if (userType === "teacher") {
         submitData = { ...submitData, ...teacherAdditionalForm.getValues() };
-      } else if (userType === 'parent') {
+      } else if (userType === "parent") {
         submitData = { ...submitData, ...parentAdditionalForm.getValues() };
       }
     }
 
-    console.log('Submitting to backend:', submitData);
-    // API call here
-    setStep(5);
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submitData),
+      });
+
+      await response.json();
+
+      if (response.ok) {
+        setStep(5);
+      } else {
+        // alert(data.message || 'حدث خطأ في التسجيل');
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      // alert('حدث خطأ في الاتصال بالخادم');
+    }
   };
 
-  // Simulate Persona verification
-  const startVerification = () => {
-    console.log('Starting verification process...');
-    setTimeout(() => {
-      setPersonaInquiryId('simulated-inquiry-id-12345');
-      setPersonaVerified(true);
-    }, 3000);
+  const startVerification = async () => {
+    try {
+      setVerificationLoading(true);
+
+      // Save current form state before leaving the page
+      const registrationState = {
+        step: step,
+        userType: userType,
+        formData:
+          userType === "student"
+            ? studentForm.getValues()
+            : baseForm.getValues(),
+        teacherData:
+          userType === "teacher" ? teacherAdditionalForm.getValues() : null,
+        parentData:
+          userType === "parent" ? parentAdditionalForm.getValues() : null,
+      };
+
+      sessionStorage.setItem(
+        "registrationState",
+        JSON.stringify(registrationState)
+      );
+
+      const userData =
+        userType === "student" ? studentForm.getValues() : baseForm.getValues();
+
+      const response = await fetch("/api/didit/create-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to create session");
+      }
+
+      if (data.success && data.verificationUrl) {
+        sessionStorage.setItem("diditSessionId", data.sessionId);
+
+        window.location.href = data.verificationUrl;
+      }
+    } catch (error) {
+      console.error("Verification error:", error);
+      setVerificationLoading(false);
+      sessionStorage.removeItem("registrationState");
+      alert(
+        `فشل في بدء التحقق: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
+    }
+  };
+
+  const checkVerificationStatus = async (sessionId: string) => {
+    try {
+      setVerificationLoading(true);
+      setVerificationStatus("checking");
+      setVerificationMessage("جاري التحقق من حالة التوثيق...");
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      const response = await fetch(`/api/didit/session-status/${sessionId}`);
+      const data = await response.json();
+
+      console.log("Verification decision response:", data);
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to check status");
+      }
+
+      const status = data.status;
+
+      console.log("Status:", status);
+
+      if (status === "Approved") {
+        setDiditVerified(true);
+        setVerificationStatus("approved");
+        setVerificationMessage("تم التحقق من هويتك بنجاح! ✅");
+        sessionStorage.removeItem("diditSessionId");
+      } else if (
+        status === "Declined" ||
+        status === "Failed" ||
+        status === "Rejected"
+      ) {
+        setDiditVerified(false);
+        setVerificationStatus("failed");
+        setVerificationMessage("فشل التحقق من الهوية. يرجى المحاولة مرة أخرى.");
+        sessionStorage.removeItem("diditSessionId");
+        setVerificationLoading(false);
+      } else if (
+        status === "Not Started" ||
+        status === "In Progress" ||
+        status === "Pending"
+      ) {
+        setVerificationStatus("retry");
+        setVerificationMessage(
+          "لم يكتمل التحقق بعد. يرجى المحاولة مرة أخرى..."
+        );
+      } else if (status === "In Review") {
+        setVerificationStatus("checking");
+        setVerificationMessage(
+          "تحتاج هويتك إلى مراجعة يدوية. سيتم إخطارك عند اكتمال المراجعة."
+        );
+        sessionStorage.removeItem("diditSessionId");
+        setVerificationLoading(false);
+      } else {
+        setVerificationStatus("failed");
+        setVerificationMessage("حالة التحقق غير معروفة. يرجى الاتصال بالدعم.");
+        console.warn("Unknown verification status:", status);
+        sessionStorage.removeItem("diditSessionId");
+        setVerificationLoading(false);
+      }
+    } catch (error) {
+      console.error("Status check error:", error);
+      setVerificationStatus("failed");
+      setVerificationMessage(
+        `حدث خطأ في التحقق من الحالة: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
+      setVerificationLoading(false);
+      sessionStorage.removeItem("diditSessionId");
+    }
   };
 
   return (
@@ -232,10 +448,14 @@ export default function SignupPage() {
       {/* Navigation */}
       <nav className={styles.nav}>
         <div className={styles.navContainer}>
-          <Link href="/" className={styles.logo}>EduEgypt</Link>
+          <Link href="/" className={styles.logo}>
+            EduEgypt
+          </Link>
           <div className={styles.navRight}>
             <span className={styles.navText}>لديك حساب بالفعل؟</span>
-            <Link href="/login" className={styles.loginLink}>تسجيل الدخول</Link>
+            <Link href="/login" className={styles.loginLink}>
+              تسجيل الدخول
+            </Link>
           </div>
         </div>
       </nav>
@@ -243,8 +463,8 @@ export default function SignupPage() {
       {/* Progress Bar */}
       <div className={styles.progressBar}>
         <div className={styles.progressContainer}>
-          <div 
-            className={styles.progressFill} 
+          <div
+            className={styles.progressFill}
             style={{ width: `${(step / 5) * 100}%` }}
           />
         </div>
@@ -258,14 +478,16 @@ export default function SignupPage() {
             <div className={styles.stepContent}>
               <h1 className={styles.title}>أهلاً بك في EduEgypt</h1>
               <p className={styles.subtitle}>اختر نوع حسابك للبدء</p>
-              
+
               <div className={styles.userTypeGrid}>
                 {userTypes.map((type) => (
                   <button
                     key={type.type}
                     className={styles.userTypeCard}
                     onClick={() => handleUserTypeSelect(type.type)}
-                    style={{ '--accent-color': type.color } as React.CSSProperties}
+                    style={
+                      { "--accent-color": type.color } as React.CSSProperties
+                    }
                   >
                     <div className={styles.userTypeIcon}>{type.icon}</div>
                     <h3 className={styles.userTypeTitle}>{type.title}</h3>
@@ -275,226 +497,321 @@ export default function SignupPage() {
               </div>
 
               <div className={styles.adminLink}>
-                <p>مسؤول النظام؟ <Link href="/admin/login">دخول الإدارة</Link></p>
+                <p>
+                  مسؤول النظام؟ <Link href="/admin/login">دخول الإدارة</Link>
+                </p>
               </div>
-                        </div>
+            </div>
           )}
 
           {/* Step 2: Basic Information */}
           {step === 2 && (
-  <div className={styles.stepContent}>
-    <h2 className={styles.stepTitle}>المعلومات الأساسية</h2>
-    <p className={styles.subtitle}>أدخل بياناتك الشخصية</p>
+            <div className={styles.stepContent}>
+              <h2 className={styles.stepTitle}>المعلومات الأساسية</h2>
+              <p className={styles.subtitle}>أدخل بياناتك الشخصية</p>
 
-    <form onSubmit={handleBasicInfoSubmit} className={styles.form}>
-      <div className={styles.formRow}>
-        <div className={styles.formGroup}>
-          <label htmlFor="firstName">الاسم الأول</label>
-          <input
-            type="text"
-            id="firstName"
-            {...getFormField('firstName').register}
-            placeholder="أحمد"
-            className={getFormField('firstName').error ? styles.inputError : ''}
-          />
-          {getFormField('firstName').error && (
-            <span className={styles.errorMessage}>
-              {getFormField('firstName').error?.message}
-            </span>
-          )}
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="lastName">اسم العائلة</label>
-          <input
-            type="text"
-            id="lastName"
-            {...getFormField('lastName').register}
-            placeholder="محمد"
-            className={getFormField('lastName').error ? styles.inputError : ''}
-          />
-          {getFormField('lastName').error && (
-            <span className={styles.errorMessage}>
-              {getFormField('lastName').error?.message}
-            </span>
-          )}
-        </div>
-      </div>
+              <form onSubmit={handleBasicInfoSubmit} className={styles.form}>
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="firstName">الاسم الأول</label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      {...getFormField("firstName").register}
+                      placeholder="أحمد"
+                      className={
+                        getFormField("firstName").error ? styles.inputError : ""
+                      }
+                    />
+                    {getFormField("firstName").error && (
+                      <span className={styles.errorMessage}>
+                        {getFormField("firstName").error?.message}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="lastName">اسم العائلة</label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      {...getFormField("lastName").register}
+                      placeholder="محمد"
+                      className={
+                        getFormField("lastName").error ? styles.inputError : ""
+                      }
+                    />
+                    {getFormField("lastName").error && (
+                      <span className={styles.errorMessage}>
+                        {getFormField("lastName").error?.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="email">البريد الإلكتروني</label>
-        <input
-          type="email"
-          id="email"
-          {...getFormField('email').register}
-          placeholder="example@email.com"
-          className={getFormField('email').error ? styles.inputError : ''}
-        />
-        {getFormField('email').error && (
-          <span className={styles.errorMessage}>
-            {getFormField('email').error?.message}
-          </span>
-        )}
-      </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="email">البريد الإلكتروني</label>
+                  <input
+                    type="email"
+                    id="email"
+                    {...getFormField("email").register}
+                    placeholder="example@email.com"
+                    className={
+                      getFormField("email").error ? styles.inputError : ""
+                    }
+                  />
+                  {getFormField("email").error && (
+                    <span className={styles.errorMessage}>
+                      {getFormField("email").error?.message}
+                    </span>
+                  )}
+                </div>
 
-      {/* Student-specific fields remain the same */}
-      {userType === 'student' && (
-        <>
-          <div className={styles.formGroup}>
-            <label htmlFor="phoneNumber">رقم الهاتف</label>
-            <PhoneInput
-              international
-              defaultCountry="EG"
-              value={studentForm.watch('phoneNumber')}
-              onChange={(value) => {
-                studentForm.setValue('phoneNumber', value || '', {
-                  shouldValidate: true
-                });
-              }}
-              className={`${styles.phoneInput} ${studentForm.formState.errors.phoneNumber ? styles.phoneInputError : ''}`}
-              placeholder="أدخل رقم هاتفك"
-              countries={['EG']}
-            />
-            {studentForm.formState.errors.phoneNumber && (
-              <span className={styles.errorMessage}>
-                {studentForm.formState.errors.phoneNumber.message}
-              </span>
-            )}
-          </div>
+                {/* Phone field for all users */}
+                <div className={styles.formGroup}>
+                  <label htmlFor="phone">رقم الهاتف</label>
+                  <PhoneInput
+                    international
+                    defaultCountry="EG"
+                    value={
+                      userType === "student"
+                        ? studentForm.watch("phone")
+                        : baseForm.watch("phone")
+                    }
+                    onChange={(value) => {
+                      if (userType === "student") {
+                        studentForm.setValue("phone", value || "", {
+                          shouldValidate: true,
+                        });
+                      } else {
+                        baseForm.setValue("phone", value || "", {
+                          shouldValidate: true,
+                        });
+                      }
+                    }}
+                    className={`${styles.phoneInput} ${
+                      userType === "student"
+                        ? studentForm.formState.errors.phone
+                          ? styles.phoneInputError
+                          : ""
+                        : baseForm.formState.errors.phone
+                        ? styles.phoneInputError
+                        : ""
+                    }`}
+                    placeholder="أدخل رقم هاتفك"
+                    countries={["EG"]}
+                  />
+                  {userType === "student"
+                    ? studentForm.formState.errors.phone && (
+                        <span className={styles.errorMessage}>
+                          {studentForm.formState.errors.phone.message}
+                        </span>
+                      )
+                    : baseForm.formState.errors.phone && (
+                        <span className={styles.errorMessage}>
+                          {baseForm.formState.errors.phone.message}
+                        </span>
+                      )}
+                </div>
 
-          <div className={styles.formRow}>
-            <div className={styles.formGroup}>
-              <label htmlFor="grade">المرحلة الدراسية</label>
-              <select
-                id="grade"
-                {...studentForm.register('grade')}
-                className={studentForm.formState.errors.grade ? styles.inputError : ''}
-              >
-                <option value="">اختر المرحلة</option>
-                <option value="primary-1">الصف الأول الابتدائي</option>
-                <option value="primary-2">الصف الثاني الابتدائي</option>
-                <option value="primary-3">الصف الثالث الابتدائي</option>
-                <option value="primary-4">الصف الرابع الابتدائي</option>
-                <option value="primary-5">الصف الخامس الابتدائي</option>
-                <option value="primary-6">الصف السادس الابتدائي</option>
-                <option value="prep-1">الصف الأول الإعدادي</option>
-                <option value="prep-2">الصف الثاني الإعدادي</option>
-                <option value="prep-3">الصف الثالث الإعدادي</option>
-                <option value="secondary-1">الصف الأول الثانوي</option>
-                <option value="secondary-2">الصف الثاني الثانوي</option>
-                <option value="secondary-3">الصف الثالث الثانوي</option>
-              </select>
-              {studentForm.formState.errors.grade && (
-                <span className={styles.errorMessage}>
-                  {studentForm.formState.errors.grade.message}
-                </span>
-              )}
+                {/* Student-specific fields */}
+                {userType === "student" && (
+                  <div className={styles.formRow}>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="grade">المرحلة الدراسية</label>
+                      <select
+                        id="grade"
+                        {...studentForm.register("grade")}
+                        className={
+                          studentForm.formState.errors.grade
+                            ? styles.inputError
+                            : ""
+                        }
+                      >
+                        <option value="">اختر المرحلة</option>
+                        <option value="primary-1">الصف الأول الابتدائي</option>
+                        <option value="primary-2">الصف الثاني الابتدائي</option>
+                        <option value="primary-3">الصف الثالث الابتدائي</option>
+                        <option value="primary-4">الصف الرابع الابتدائي</option>
+                        <option value="primary-5">الصف الخامس الابتدائي</option>
+                        <option value="primary-6">الصف السادس الابتدائي</option>
+                        <option value="prep-1">الصف الأول الإعدادي</option>
+                        <option value="prep-2">الصف الثاني الإعدادي</option>
+                        <option value="prep-3">الصف الثالث الإعدادي</option>
+                        <option value="secondary-1">الصف الأول الثانوي</option>
+                        <option value="secondary-2">الصف الثاني الثانوي</option>
+                        <option value="secondary-3">الصف الثالث الثانوي</option>
+                      </select>
+                      {studentForm.formState.errors.grade && (
+                        <span className={styles.errorMessage}>
+                          {studentForm.formState.errors.grade.message}
+                        </span>
+                      )}
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="birthDate">تاريخ الميلاد</label>
+                      <input
+                        type="date"
+                        id="birthDate"
+                        {...studentForm.register("birthDate")}
+                        className={
+                          studentForm.formState.errors.birthDate
+                            ? styles.inputError
+                            : ""
+                        }
+                      />
+                      {studentForm.formState.errors.birthDate && (
+                        <span className={styles.errorMessage}>
+                          {studentForm.formState.errors.birthDate.message}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="password">كلمة المرور</label>
+                    <input
+                      type="password"
+                      id="password"
+                      {...getFormField("password").register}
+                      placeholder="8 أحرف على الأقل"
+                      className={
+                        getFormField("password").error ? styles.inputError : ""
+                      }
+                    />
+                    {getFormField("password").error && (
+                      <span className={styles.errorMessage}>
+                        {getFormField("password").error?.message}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="confirmPassword">تأكيد كلمة المرور</label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      {...getFormField("confirmPassword").register}
+                      placeholder="أعد كتابة كلمة المرور"
+                      className={
+                        getFormField("confirmPassword").error
+                          ? styles.inputError
+                          : ""
+                      }
+                    />
+                    {getFormField("confirmPassword").error && (
+                      <span className={styles.errorMessage}>
+                        {getFormField("confirmPassword").error?.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className={styles.formActions}>
+                  <button
+                    type="button"
+                    className={styles.backButton}
+                    onClick={handleBack}
+                  >
+                    رجوع
+                  </button>
+                  <button type="submit" className={styles.nextButton}>
+                    التالي
+                  </button>
+                </div>
+              </form>
             </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="birthDate">تاريخ الميلاد</label>
-              <input
-                type="date"
-                id="birthDate"
-                {...studentForm.register('birthDate')}
-                className={studentForm.formState.errors.birthDate ? styles.inputError : ''}
-              />
-              {studentForm.formState.errors.birthDate && (
-                <span className={styles.errorMessage}>
-                  {studentForm.formState.errors.birthDate.message}
-                </span>
-              )}
-            </div>
-          </div>
-        </>
-      )}
-
-      <div className={styles.formRow}>
-        <div className={styles.formGroup}>
-          <label htmlFor="password">كلمة المرور</label>
-          <input
-            type="password"
-            id="password"
-            {...getFormField('password').register}
-            placeholder="8 أحرف على الأقل"
-            className={getFormField('password').error ? styles.inputError : ''}
-          />
-          {getFormField('password').error && (
-            <span className={styles.errorMessage}>
-              {getFormField('password').error?.message}
-            </span>
           )}
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="confirmPassword">تأكيد كلمة المرور</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            {...getFormField('confirmPassword').register}
-            placeholder="أعد كتابة كلمة المرور"
-            className={getFormField('confirmPassword').error ? styles.inputError : ''}
-          />
-          {getFormField('confirmPassword').error && (
-            <span className={styles.errorMessage}>
-              {getFormField('confirmPassword').error?.message}
-            </span>
-          )}
-        </div>
-      </div>
-
-      <div className={styles.formActions}>
-        <button
-          type="button"
-          className={styles.backButton}
-          onClick={handleBack}
-        >
-          رجوع
-        </button>
-        <button
-          type="submit"
-          className={styles.nextButton}
-        >
-          التالي
-        </button>
-      </div>
-    </form>
-  </div>
-)}
 
           {/* Step 3: Identity Verification or Additional Info */}
           {step === 3 && (
             <div className={styles.stepContent}>
-              {(userType === 'teacher' || userType === 'parent') ? (
+              {userType === "teacher" || userType === "parent" ? (
                 <>
                   <h2 className={styles.stepTitle}>التحقق من الهوية</h2>
-                  <p className={styles.subtitle}>نحتاج للتحقق من هويتك لضمان أمان المنصة</p>
+                  <p className={styles.subtitle}>
+                    نحتاج للتحقق من هويتك لضمان أمان المنصة
+                  </p>
 
-                  {!personaVerified ? (
+                  {!diditVerified ? (
                     <div className={styles.verificationContainer}>
                       <div className={styles.verificationCard}>
                         <div className={styles.verificationIcon}>🆔</div>
-                        <h3 className={styles.verificationTitle}>التحقق من البطاقة الشخصية</h3>
-                        <p className={styles.verificationDesc}>سنستخدم خدمة آمنة للتحقق من هويتك المصرية</p>
-                        
-                        <div className={styles.verificationSteps}>
-                          <div className={styles.verStep}>
-                            <span className={styles.verStepNumber}>1</span>
-                            <p>التقط صورة للجانب الأمامي من البطاقة</p>
+                        <h3 className={styles.verificationTitle}>
+                          التحقق من البطاقة الشخصية
+                        </h3>
+                        <p className={styles.verificationDesc}>
+                          نحتاج للتحقق من هويتك لضمان أمان المنصة
+                        </p>
+
+                        {verificationStatus === "idle" && (
+                          <>
+                            <div className={styles.verificationSteps}>
+                              <div className={styles.verStep}>
+                                <span className={styles.verStepNumber}>1</span>
+                                <p>التقط صورة للجانب الأمامي من البطاقة</p>
+                              </div>
+                              <div className={styles.verStep}>
+                                <span className={styles.verStepNumber}>2</span>
+                                <p>التقط صورة للجانب الخلفي من البطاقة</p>
+                              </div>
+                              <div className={styles.verStep}>
+                                <span className={styles.verStepNumber}>3</span>
+                                <p>التقط صورة شخصية (سيلفي)</p>
+                              </div>
+                            </div>
+
+                            <button
+                              className={styles.verifyButton}
+                              onClick={startVerification}
+                              disabled={verificationLoading}
+                            >
+                              {verificationLoading
+                                ? "جاري التحويل..."
+                                : "بدء التحقق"}
+                            </button>
+                          </>
+                        )}
+
+                        {(verificationStatus === "checking" ||
+                          verificationStatus === "retry") && (
+                          <div className={styles.verificationStatus}>
+                            <div className={styles.loadingSpinner}></div>
+                            <p className={styles.statusMessage}>
+                              {verificationMessage}
+                            </p>
                           </div>
-                          <div className={styles.verStep}>
-                            <span className={styles.verStepNumber}>2</span>
-                            <p>التقط صورة للجانب الخلفي من البطاقة</p>
+                        )}
+
+                        {verificationStatus === "failed" && (
+                          <div className={styles.verificationStatus}>
+                            <div className={styles.failedIcon}>❌</div>
+                            <p className={styles.statusMessage}>
+                              {verificationMessage}
+                            </p>
+                            <button
+                              className={styles.retryButton}
+                              onClick={() => {
+                                setVerificationStatus("idle");
+                                setVerificationMessage("");
+                              }}
+                            >
+                              حاول مرة أخرى
+                            </button>
                           </div>
-                          <div className={styles.verStep}>
-                            <span className={styles.verStepNumber}>3</span>
-                            <p>التقط صورة شخصية (سيلفي) وحرك رأسك يميناً ويساراً</p>
+                        )}
+
+                        {verificationStatus === "approved" && (
+                          <div className={styles.verificationStatus}>
+                            <div className={styles.successIcon}>✅</div>
+                            <p className={styles.statusMessage}>
+                              {verificationMessage}
+                            </p>
+                            <p className={styles.redirectMessage}>
+                              سيتم توجيهك تلقائياً...
+                            </p>
                           </div>
-                        </div>
-                        
-                        <button 
-                          className={styles.verifyButton}
-                          onClick={startVerification}
-                        >
-                          بدء التحقق
-                        </button>
+                        )}
                       </div>
                     </div>
                   ) : (
@@ -504,15 +821,25 @@ export default function SignupPage() {
                       <p className={styles.verifiedDesc}>هويتك موثقة الآن</p>
 
                       {/* Additional fields after verification */}
-                      <form onSubmit={handleAdditionalInfoSubmit} className={styles.additionalForm}>
-                        {userType === 'teacher' && (
+                      <form
+                        onSubmit={handleAdditionalInfoSubmit}
+                        className={styles.additionalForm}
+                      >
+                        {userType === "teacher" && (
                           <>
                             <div className={styles.formGroup}>
                               <label htmlFor="specialization">التخصص</label>
                               <select
                                 id="specialization"
-                                {...teacherAdditionalForm.register('specialization')}
-                                className={teacherAdditionalForm.formState.errors.specialization ? styles.inputError : ''}
+                                {...teacherAdditionalForm.register(
+                                  "specialization"
+                                )}
+                                className={
+                                  teacherAdditionalForm.formState.errors
+                                    .specialization
+                                    ? styles.inputError
+                                    : ""
+                                }
                               >
                                 <option value="">اختر التخصص</option>
                                 <option value="math">رياضيات</option>
@@ -525,18 +852,31 @@ export default function SignupPage() {
                                 <option value="history">تاريخ</option>
                                 <option value="geography">جغرافيا</option>
                               </select>
-                                                            {teacherAdditionalForm.formState.errors.specialization && (
+                              {teacherAdditionalForm.formState.errors
+                                .specialization && (
                                 <span className={styles.errorMessage}>
-                                  {teacherAdditionalForm.formState.errors.specialization.message}
+                                  {
+                                    teacherAdditionalForm.formState.errors
+                                      .specialization.message
+                                  }
                                 </span>
                               )}
                             </div>
                             <div className={styles.formGroup}>
-                              <label htmlFor="yearsOfExperience">سنوات الخبرة</label>
+                              <label htmlFor="yearsOfExperience">
+                                سنوات الخبرة
+                              </label>
                               <select
                                 id="yearsOfExperience"
-                                {...teacherAdditionalForm.register('yearsOfExperience')}
-                                className={teacherAdditionalForm.formState.errors.yearsOfExperience ? styles.inputError : ''}
+                                {...teacherAdditionalForm.register(
+                                  "yearsOfExperience"
+                                )}
+                                className={
+                                  teacherAdditionalForm.formState.errors
+                                    .yearsOfExperience
+                                    ? styles.inputError
+                                    : ""
+                                }
                               >
                                 <option value="">اختر سنوات الخبرة</option>
                                 <option value="0-2">0-2 سنة</option>
@@ -544,22 +884,33 @@ export default function SignupPage() {
                                 <option value="6-10">6-10 سنوات</option>
                                 <option value="10+">أكثر من 10 سنوات</option>
                               </select>
-                              {teacherAdditionalForm.formState.errors.yearsOfExperience && (
+                              {teacherAdditionalForm.formState.errors
+                                .yearsOfExperience && (
                                 <span className={styles.errorMessage}>
-                                  {teacherAdditionalForm.formState.errors.yearsOfExperience.message}
+                                  {
+                                    teacherAdditionalForm.formState.errors
+                                      .yearsOfExperience.message
+                                  }
                                 </span>
                               )}
                             </div>
                           </>
                         )}
 
-                        {userType === 'parent' && (
+                        {userType === "parent" && (
                           <div className={styles.formGroup}>
                             <label htmlFor="childrenCount">عدد الأبناء</label>
                             <select
                               id="childrenCount"
-                              {...parentAdditionalForm.register('childrenCount')}
-                              className={parentAdditionalForm.formState.errors.childrenCount ? styles.inputError : ''}
+                              {...parentAdditionalForm.register(
+                                "childrenCount"
+                              )}
+                              className={
+                                parentAdditionalForm.formState.errors
+                                  .childrenCount
+                                  ? styles.inputError
+                                  : ""
+                              }
                             >
                               <option value="">اختر عدد الأبناء</option>
                               <option value="1">1</option>
@@ -568,9 +919,13 @@ export default function SignupPage() {
                               <option value="4">4</option>
                               <option value="5+">5 أو أكثر</option>
                             </select>
-                            {parentAdditionalForm.formState.errors.childrenCount && (
+                            {parentAdditionalForm.formState.errors
+                              .childrenCount && (
                               <span className={styles.errorMessage}>
-                                {parentAdditionalForm.formState.errors.childrenCount.message}
+                                {
+                                  parentAdditionalForm.formState.errors
+                                    .childrenCount.message
+                                }
                               </span>
                             )}
                             <p className={styles.childrenNote}>
@@ -587,10 +942,7 @@ export default function SignupPage() {
                           >
                             رجوع
                           </button>
-                          <button
-                            type="submit"
-                            className={styles.nextButton}
-                          >
+                          <button type="submit" className={styles.nextButton}>
                             التالي
                           </button>
                         </div>
@@ -602,13 +954,25 @@ export default function SignupPage() {
                 /* Additional info for students */
                 <>
                   <h2 className={styles.stepTitle}>معلومات إضافية</h2>
-                  <p className={styles.subtitle}>ساعدنا في تخصيص تجربتك التعليمية</p>
-                  
+                  <p className={styles.subtitle}>
+                    ساعدنا في تخصيص تجربتك التعليمية
+                  </p>
+
                   <div className={styles.preferencesCard}>
                     <h3 className={styles.cardTitle}>المواد المفضلة</h3>
-                    <p className={styles.cardDesc}>اختر المواد التي تهتم بدراستها</p>
+                    <p className={styles.cardDesc}>
+                      اختر المواد التي تهتم بدراستها
+                    </p>
                     <div className={styles.subjectsGrid}>
-                      {['رياضيات', 'علوم', 'لغة عربية', 'لغة إنجليزية', 'فيزياء', 'كيمياء', 'أحياء'].map((subject) => (
+                      {[
+                        "رياضيات",
+                        "علوم",
+                        "لغة عربية",
+                        "لغة إنجليزية",
+                        "فيزياء",
+                        "كيمياء",
+                        "أحياء",
+                      ].map((subject) => (
                         <label key={subject} className={styles.checkboxLabel}>
                           <input type="checkbox" />
                           <span>{subject}</span>
@@ -624,7 +988,9 @@ export default function SignupPage() {
                       <option value="improve">تحسين مستواي الدراسي</option>
                       <option value="exam">التحضير للامتحانات</option>
                       <option value="learn">تعلم مهارات جديدة</option>
-                      <option value="help">الحصول على مساعدة في الواجبات</option>
+                      <option value="help">
+                        الحصول على مساعدة في الواجبات
+                      </option>
                     </select>
                   </div>
 
@@ -653,11 +1019,15 @@ export default function SignupPage() {
           {step === 4 && (
             <div className={styles.stepContent}>
               <h2 className={styles.stepTitle}>الشروط والأحكام</h2>
-              <p className={styles.subtitle}>آخر خطوة قبل الانضمام لعائلة EduEgypt</p>
+              <p className={styles.subtitle}>
+                آخر خطوة قبل الانضمام لعائلة EduEgypt
+              </p>
 
               <div className={styles.termsCard}>
                 <div className={styles.termsContent}>
-                  <h3 className={styles.termsTitle}>باستخدامك للمنصة، فأنت توافق على:</h3>
+                  <h3 className={styles.termsTitle}>
+                    باستخدامك للمنصة، فأنت توافق على:
+                  </h3>
                   <ul className={styles.termsList}>
                     <li>استخدام المنصة للأغراض التعليمية فقط</li>
                     <li>احترام جميع المستخدمين والمعلمين</li>
@@ -666,7 +1036,7 @@ export default function SignupPage() {
                     <li>الإبلاغ عن أي سلوك غير لائق</li>
                   </ul>
                 </div>
-                
+
                 <label className={styles.termsCheckbox}>
                   <input
                     type="checkbox"
@@ -679,7 +1049,10 @@ export default function SignupPage() {
                     }}
                     required
                   />
-                  <span>أوافق على <Link href="/terms">الشروط والأحكام</Link> و<Link href="/privacy">سياسة الخصوصية</Link></span>
+                  <span>
+                    أوافق على <Link href="/terms">الشروط والأحكام</Link> و
+                    <Link href="/privacy">سياسة الخصوصية</Link>
+                  </span>
                 </label>
               </div>
 
@@ -702,10 +1075,12 @@ export default function SignupPage() {
                   type="button"
                   className={styles.submitButton}
                   onClick={() => {
-                    const termsCheckbox = document.querySelector('input[name="acceptTerms"]') as HTMLInputElement;
+                    const termsCheckbox = document.querySelector(
+                      'input[name="acceptTerms"]'
+                    ) as HTMLInputElement;
                     if (!termsCheckbox.checked) {
                       termsCheckbox.classList.add(styles.checkboxError);
-                      alert('يجب الموافقة على الشروط والأحكام للمتابعة');
+                      alert("يجب الموافقة على الشروط والأحكام للمتابعة");
                       return;
                     }
                     handleFinalSubmit();
@@ -728,7 +1103,9 @@ export default function SignupPage() {
                   </div>
                 </div>
               </div>
-              <h1 className={styles.successTitle}>مرحباً بك في عائلة EduEgypt!</h1>
+              <h1 className={styles.successTitle}>
+                مرحباً بك في عائلة EduEgypt!
+              </h1>
               <p className={styles.successText}>تم إنشاء حسابك بنجاح</p>
               <p className={styles.successSubtext}>
                 تم إرسال رسالة تأكيد إلى بريدك الإلكتروني

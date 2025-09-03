@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'didit' => [
+        'api_key' => env('TfSaPPnhCCNqEdYHbM2FyiYqd5DW5rvUSVrHyqxkydo'),
+        'webhook_secret' => env('dKDcAwxmxFMAE1cqhSf0PF5d0F_YVyEUsWQ0HJaYzso'),
+        'workflow_id' => env('7b4cea7e-047b-4911-bcb1-6ac385739468'),
+        'base_url' => 'https://api.didit.id/v2',
+    ],
+
 ];
