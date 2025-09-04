@@ -147,16 +147,13 @@ function SignupContent() {
           });
         }
 
-        // IMPORTANT: Check the actual verification status instead of auto-marking as verified
         if (savedSessionId) {
           setDiditSessionId(savedSessionId);
-          // Check the actual status
           checkVerificationStatus(savedSessionId);
         }
 
         // Clean up
         sessionStorage.removeItem("registrationState");
-        // Don't remove diditSessionId yet - we need it for status check
 
         // Clean the URL
         router.push("/signup");
