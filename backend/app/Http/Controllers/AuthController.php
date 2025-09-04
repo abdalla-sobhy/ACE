@@ -12,63 +12,81 @@ class AuthController extends Controller
 {
     // Register new user
     public function register(Request $request)
-{
-    try {
-        // Validate
-        $fields = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+    {
+        try {
+            // Validate
+            $fields = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
 
-        // Create user
-        $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'password' => Hash::make($fields['password'])
-        ]);
+            // Create user
+            $user = User::create([
+                'name' => $fields['name'],
+                'email' => $fields['email'],
+                'password' => Hash::make($fields['password'])
+            ]);
 
-        // Create token
-        $token = $user->createToken('authToken')->plainTextToken;
+            // Create token
+            $token = $user->createToken('authToken')->plainTextToken;
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token
-        ], 201);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => $e->getMessage()
-        ], 500);
+            return response()->json([
+                'user' => $user,
+                'token' => $token
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
 
     // Login user
     public function login(Request $request)
     {
         // Validate the request
-        $fields = $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string'
-        ]);
+        try {
+          
+        $request->validate(
+            [
+                'email' => 'required',
+                'password' => 'required|min:6'
+            ],
+            // Custom error messages
+            [
+                'email.required' => 'The email is required.',
+                'password.required' => 'The password is required.',
+                'password.min' => 'The password must be at least 6 characters.',
+            ]
+        );
+        $user = User::where('email', $request->email)->first();
 
-        // Check email
-        $user = User::where('email', $fields['email'])->first();
-
-        // Check password
-        if (!$user || !Hash::check($fields['password'], $user->password)) {
+ 
+        // Check user
+        if (!$user) {
             return response()->json([
-                'message' => 'Invalid credentials'
+                'message' => 'Invalid email '
             ], 401);
         }
-
+        // Check password 
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Invalid password'
+            ], 401);
+        }
         // Create token
         $token = $user->createToken('authToken')->plainTextToken;
-
+         
         return response()->json([
             'user' => $user,
             'token' => $token
         ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     // Logout user
