@@ -9,9 +9,10 @@ export default async function handler(
   }
 
   try {
-    console.log('Creating Didit session...');
+    const { firstName, lastName, email, userType } = req.body;
     
-    const { firstName, lastName, email } = req.body || {};
+    // Create vendor data identifier
+    const vendorData = `${userType}-${email}-${Date.now()}`;
     
     const response = await fetch('https://verification.didit.me/v2/session/', {
       method: 'POST',
@@ -20,33 +21,33 @@ export default async function handler(
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        workflow_id: process.env.DIDIT_WORKFLOW_ID,
+        workflow_id: process.env.DIDIT_WORKFLOW_ID!,
         callback: `${process.env.NEXT_PUBLIC_APP_URL}/verification-complete`,
-        vendor_data: `user-${Date.now()}`,
+        vendor_data: vendorData,
         metadata: {
           firstName,
           lastName,
           email,
+          userType,
           timestamp: new Date().toISOString()
         },
         contact_details: {
           email: email,
-          email_lang: "ar",
-          // phone: phoneNumber
+          email_lang: "ar", // Arabic for Egypt
         }
       })
     });
 
-    const responseText = await response.text();
-    console.log('Didit response status:', response.status);
-    
     if (!response.ok) {
-      console.error('Didit error:', responseText);
-      throw new Error(`Didit API error: ${response.status} - ${responseText}`);
+      const errorText = await response.text();
+      console.error('Didit API error:', response.status, errorText);
+      throw new Error(`Didit API error: ${response.status}`);
     }
 
-    const session = JSON.parse(responseText);
-    console.log('Session created:', session);
+    const session = await response.json();
+    
+    // Store session info in your database for tracking
+    // await storeSessionInfo(vendorData, session.session_id);
     
     res.status(200).json({
       success: true,
@@ -61,7 +62,7 @@ export default async function handler(
     console.error('Create session error:', error);
     res.status(500).json({ 
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to create verification session' 
+      error: 'Failed to create verification session' 
     });
   }
 }
