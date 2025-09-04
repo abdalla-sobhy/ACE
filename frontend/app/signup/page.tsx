@@ -369,76 +369,73 @@ function SignupContent() {
   };
 
   const checkVerificationStatus = async (sessionId: string) => {
-    try {
-      setVerificationLoading(true);
-      setVerificationStatus("checking");
-      setVerificationMessage("جاري التحقق من حالة التوثيق...");
+  try {
+    setVerificationLoading(true);
+    setVerificationStatus("checking");
+    
+    // Poll for status updates (webhook is the primary method)
+    let attempts = 0;
+    const maxAttempts = 10;
+    const pollInterval = 3000; // 3 seconds
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
+    const checkStatus = async () => {
       const response = await fetch(`/api/didit/session-status/${sessionId}`);
       const data = await response.json();
 
-      console.log("Verification decision response:", data);
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to check status");
+      if (!response.ok && response.status !== 404) {
+        throw new Error(data.error || 'Failed to check status');
       }
 
+      // Handle different statuses according to documentation
       const status = data.status;
-
-      console.log("Status:", status);
-
+      
       if (status === "Approved") {
         setDiditVerified(true);
         setVerificationStatus("approved");
         setVerificationMessage("تم التحقق من هويتك بنجاح! ✅");
         sessionStorage.removeItem("diditSessionId");
-      } else if (
-        status === "Declined" ||
-        status === "Failed" ||
-        status === "Rejected"
-      ) {
+        return true; // Stop polling
+      } else if (["Declined", "Failed", "Rejected"].includes(status)) {
         setDiditVerified(false);
         setVerificationStatus("failed");
         setVerificationMessage("فشل التحقق من الهوية. يرجى المحاولة مرة أخرى.");
-        sessionStorage.removeItem("diditSessionId");
-        setVerificationLoading(false);
-      } else if (
-        status === "Not Started" ||
-        status === "In Progress" ||
-        status === "Pending"
-      ) {
-        setVerificationStatus("retry");
-        setVerificationMessage(
-          "لم يكتمل التحقق بعد. يرجى المحاولة مرة أخرى..."
-        );
+        return true; // Stop polling
       } else if (status === "In Review") {
         setVerificationStatus("checking");
-        setVerificationMessage(
-          "تحتاج هويتك إلى مراجعة يدوية. سيتم إخطارك عند اكتمال المراجعة."
-        );
-        sessionStorage.removeItem("diditSessionId");
-        setVerificationLoading(false);
-      } else {
-        setVerificationStatus("failed");
-        setVerificationMessage("حالة التحقق غير معروفة. يرجى الاتصال بالدعم.");
-        console.warn("Unknown verification status:", status);
-        sessionStorage.removeItem("diditSessionId");
-        setVerificationLoading(false);
+        setVerificationMessage("يتم مراجعة هويتك يدوياً. سنخطرك عند الانتهاء.");
+        return true; // Stop polling - wait for webhook
+      } else if (["Not Started", "In Progress", "Pending"].includes(status)) {
+        // Continue polling
+        return false;
       }
-    } catch (error) {
-      console.error("Status check error:", error);
-      setVerificationStatus("failed");
-      setVerificationMessage(
-        `حدث خطأ في التحقق من الحالة: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
-      setVerificationLoading(false);
-      sessionStorage.removeItem("diditSessionId");
+      
+      return false;
+    };
+
+    // Poll until status is final or max attempts reached
+    while (attempts < maxAttempts) {
+      const isDone = await checkStatus();
+      if (isDone) break;
+      
+      attempts++;
+      if (attempts < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, pollInterval));
+      }
     }
-  };
+
+    if (attempts >= maxAttempts) {
+      setVerificationStatus("retry");
+      setVerificationMessage("التحقق يستغرق وقتاً أطول من المتوقع. يرجى المحاولة لاحقاً.");
+    }
+
+  } catch (error) {
+    console.error('Status check error:', error);
+    setVerificationStatus("failed");
+    setVerificationMessage("حدث خطأ في التحقق من الحالة.");
+  } finally {
+    setVerificationLoading(false);
+  }
+};
 
   return (
     <div className={styles.container}>
