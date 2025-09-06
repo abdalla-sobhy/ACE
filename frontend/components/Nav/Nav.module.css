@@ -41,6 +41,16 @@
   -webkit-text-fill-color: transparent;
 }
 
+.logoDesktop {
+  font-size: 34px !important;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(to right, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
+
 .navLeft a {
   color: #c9d1d9;
   text-decoration: none;
@@ -130,6 +140,10 @@
     display: flex;
   }
 
+  .logoDesktop {
+    display: none;
+  }
+
   .navContent {
     position: fixed;
     top: 65px;
@@ -197,16 +211,8 @@
   }
 }
 
-/* Add logo to desktop view */
+/* Updated media query without the first-child rule */
 @media (min-width: 969px) {
-  .navLeft > :first-child {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0;
-    background: linear-gradient(to right, #58a6ff, #79c0ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
   .nav::before {
     content: '';
     position: fixed;
@@ -226,6 +232,7 @@
     visibility: visible;
   }
 }
+
 .overlay {
   position: fixed;
   top: 0;

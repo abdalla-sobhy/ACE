@@ -67,6 +67,9 @@ export default function Nav() {
         
         <div className={`${styles.navContent} ${isMenuOpen ? styles.open : ''}`}>
           <div className={styles.navLeft}>
+            <Link href="/" className={styles.logoDesktop} onClick={closeMenu}>
+              EduEgypt
+            </Link>
             <Link
               href="/features"
               className={pathname === "/features" ? styles.active : ""}
