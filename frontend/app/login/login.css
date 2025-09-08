@@ -1,0 +1,238 @@
+
+/* nav */
+nav{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(13, 17, 23, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #30363d;
+  z-index: 1000;
+  padding: 16px 0;
+}
+#navContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+#leftNav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+#logo {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(to right, #58a6ff, #79c0ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#leftNav a {
+  color: #c9d1d9;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.2s;
+}
+
+#leftNav a:hover {
+  color: #58a6ff;
+}
+
+#rightNav {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+
+#signIn{
+  background: #238636;
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+#signIn:hover {
+  background: #2ea043;
+}
+
+.navLeft a:hover, .navLeft a.active { color: #58a6ff; }
+
+
+
+
+/* form */
+div#wholePageWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--main-color);
+}
+div#wholePageWrapper div#contentWrapper{
+    padding: var(--space-100);
+    background-color: var(--from-wrapper-color);
+    border: 1px solid var(--borders);
+    border-radius: 1rem;
+    padding: 2rem 5rem;
+}
+/* div#wholePageWrapper div#contentWrapper div#logoImg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-100);
+}
+div#wholePageWrapper div#contentWrapper div#logoImg img{
+    width: 3.5rem;
+} */
+div#wholePageWrapper div#contentWrapper h1{
+    font-size: clamp(1.4rem, 3vw, 2rem);text-align: center;
+    color: var(--main-text-white);
+    padding: var(--space-150);
+}
+div#wholePageWrapper div#contentWrapper form{
+    width: 22rem;
+} 
+div#wholePageWrapper div#contentWrapper form div.formGroup{
+  background-color: var(--form-color);
+  border-radius: 1rem;
+} 
+div#wholePageWrapper div#contentWrapper form div.formGroup label{
+  color: var(--main-text-white);
+} 
+/* div#wholePageWrapper div#contentWrapper form div.formGroup label#emailLabel{
+  color: var(--main-text-white);
+}  */
+div#wholePageWrapper div#contentWrapper form div.formGroup input{
+  background-color: var(--input-color);
+  color: var(--input-text);
+  font-size: 14px;
+  padding: 1.2rem;
+  margin-top: 6px;
+  border: 1px solid var(--borders);
+}
+div#wholePageWrapper div#contentWrapper form div.formGroup input::placeholder{
+  color: var(--input-placeholder);
+}
+div#wholePageWrapper div#contentWrapper form div.formGroup input:focus{
+  border-color: var(--links-color);
+}
+/* div#wholePageWrapper div#contentWrapper form div.formGroup label#passwordLabel{
+
+} 
+div#wholePageWrapper div#contentWrapper form div.formGroup input#password{
+
+}  */
+div#wholePageWrapper div#contentWrapper form p.error{
+    font-size: 14px;
+    color: rgb(224, 101, 101);
+} 
+div#wholePageWrapper div#contentWrapper form button[type="submit"]{
+  background-color: var(--btn);
+  margin: var(--space-100) 0;
+}
+
+div#wholePageWrapper div#contentWrapper div#orWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-100);
+    padding: var(--space-150) 0;
+}
+div#wholePageWrapper div#contentWrapper div#orWrapper div.line{
+    width: 40%;
+    height: 1px;
+    background-color: var(--p-text);
+}
+div#wholePageWrapper div#contentWrapper div#orWrapper p{
+    font-size: 18px;
+    color: var(--main-text-white);
+}
+div#wholePageWrapper div#contentWrapper button#signWithGoogleBtn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-100);
+    background-color: #f6f8fa;
+    color: #1F2328;
+}
+div#wholePageWrapper div#contentWrapper button#signWithGoogleBtn img{
+    width: 2.5rem;
+}
+
+div#wholePageWrapper div#contentWrapper div.switchSignIn-Up{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding-top: var(--space-150);
+} 
+div#wholePageWrapper div#contentWrapper div.switchSignIn-Up p{
+    color: var(--p-text);
+} 
+div#wholePageWrapper div#contentWrapper div.switchSignIn-Up a{
+    color: var(--links-color);
+} 
+
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+  div#wholePageWrapper div#contentWrapper form {
+    width: 20rem;
+  }
+
+  div#wholePageWrapper div#contentWrapper h1 {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+  }
+
+  div#wholePageWrapper div#contentWrapper button#signWithGoogleBtn img {
+    width: 1.5rem;
+  }
+}
+
+/* Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  div#wholePageWrapper {
+    padding: var(--space-200);
+  }
+
+  div#wholePageWrapper div#contentWrapper form {
+    width: 100%; /* take full width on small screens */
+  }
+
+  div#wholePageWrapper div#contentWrapper h1 {
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+    padding-bottom: var(--space-200);
+  }
+
+  div#wholePageWrapper div#contentWrapper div#orWrapper p {
+    font-size: 16px;
+  }
+
+  div#wholePageWrapper div#contentWrapper button#signWithGoogleBtn {
+    font-size: 14px;
+    padding: 0.6rem;
+  }
+
+  div#wholePageWrapper div#contentWrapper button#signWithGoogleBtn img {
+    width: 1.2rem;
+  }
+
+  div#wholePageWrapper div#contentWrapper div.switchSignIn-Up {
+    flex-direction: column;
+    gap: 3px;
+    text-align: center;
+  }
+}
+
+
