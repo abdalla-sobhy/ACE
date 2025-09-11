@@ -34,12 +34,49 @@ interface StudentFormData extends BaseFormData {
 interface TeacherAdditionalData {
   specialization: string;
   yearsOfExperience: string;
+  cv: FileList;
 }
 
 // Parent additional form data
 interface ParentAdditionalData {
   childrenCount: string;
 }
+
+interface DiditVerificationData {
+  sessionId: string;
+  sessionNumber: number;
+  status: string;
+  vendorData: string;
+  metadata?: Record<string, any>;
+  // Personal Information from ID
+  personalInfo?: {
+    firstName?: string;
+    lastName?: string;
+    firstNameNative?: string;
+    lastNameNative?: string;
+    fullName?: string;
+    dateOfBirth?: string;
+    gender?: string;
+    nationality?: string;
+    nationalId?: string;
+    documentNumber?: string;
+    documentType?: string;
+    issuingCountry?: string;
+    issuingState?: string;
+    expiryDate?: string;
+    address?: string;
+    maritalStatus?: string;
+  };
+  // Verification checks results
+  checks?: {
+    documentVerification?: boolean;
+    faceMatch?: boolean;
+    liveness?: boolean;
+    ageVerification?: boolean;
+    amlCheck?: boolean;
+  };
+}
+
 
 // Validation schemas
 const baseSchema = z
@@ -91,6 +128,21 @@ const studentSchema = z
 const teacherAdditionalSchema = z.object({
   specialization: z.string().min(1, "يرجى اختيار التخصص"),
   yearsOfExperience: z.string().min(1, "يرجى اختيار سنوات الخبرة"),
+  cv: z
+    .custom<FileList>()
+    .refine((files) => files?.length > 0, "يرجى رفع السيرة الذاتية")
+    .refine(
+      (files) => files?.[0]?.size <= 5 * 1024 * 1024, // 5MB limit
+      "حجم الملف يجب أن يكون أقل من 5 ميجابايت"
+    )
+    .refine(
+      (files) => {
+        const allowedTypes = ["application/pdf", "application/msword", 
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+        return files?.[0] && allowedTypes.includes(files[0].type);
+      },
+      "الملف يجب أن يكون PDF أو Word"
+    ),
 });
 
 const parentAdditionalSchema = z.object({
@@ -109,23 +161,21 @@ function SignupContent() {
     "idle" | "checking" | "approved" | "failed" | "retry"
   >("idle");
   const [verificationMessage, setVerificationMessage] = useState("");
+  const [diditVerificationData, setDiditVerificationData] = useState<DiditVerificationData | null>(null);
 
   // Didit verification functions
   useEffect(() => {
-    // Check if searchParams exists and if returning from verification
     if (searchParams && searchParams.get("verification") === "complete") {
-      // Restore saved state
       const savedState = sessionStorage.getItem("registrationState");
       const savedSessionId = sessionStorage.getItem("diditSessionId");
+      const savedDiditData = sessionStorage.getItem("diditVerificationData");
 
       if (savedState) {
         const state = JSON.parse(savedState);
 
-        // Restore form state
         setStep(state.step);
         setUserType(state.userType);
 
-        // Restore form data
         if (state.userType === "student" && state.formData) {
           Object.keys(state.formData).forEach((key) => {
             studentForm.setValue(key as any, state.formData[key]);
@@ -136,7 +186,6 @@ function SignupContent() {
           });
         }
 
-        // Restore additional data for teachers/parents
         if (state.userType === "teacher" && state.teacherData) {
           Object.keys(state.teacherData).forEach((key) => {
             teacherAdditionalForm.setValue(key as any, state.teacherData[key]);
@@ -147,15 +196,18 @@ function SignupContent() {
           });
         }
 
+        if (savedDiditData) {
+          setDiditVerificationData(JSON.parse(savedDiditData));
+        }
+
         if (savedSessionId) {
           setDiditSessionId(savedSessionId);
           checkVerificationStatus(savedSessionId);
         }
 
-        // Clean up
         sessionStorage.removeItem("registrationState");
+        sessionStorage.removeItem("diditVerificationData");
 
-        // Clean the URL
         router.push("/signup");
       }
     }
@@ -179,6 +231,7 @@ function SignupContent() {
     resolver: zodResolver(teacherAdditionalSchema),
     mode: "onChange",
   });
+
 
   // Parent additional form
   const parentAdditionalForm = useForm<ParentAdditionalData>({
@@ -271,47 +324,131 @@ function SignupContent() {
     setStep(step - 1);
   };
 
-  const handleFinalSubmit = async () => {
-    let submitData: any = { userType, diditSessionId };
+const handleFinalSubmit = async () => {
+  const formData = new FormData();
+  
+  // Add user type
+  formData.append("userType", userType || "");
 
-    if (userType === "student") {
-      submitData = { ...submitData, ...studentForm.getValues() };
-    } else {
-      submitData = { ...submitData, ...baseForm.getValues() };
-      if (userType === "teacher") {
-        submitData = { ...submitData, ...teacherAdditionalForm.getValues() };
-      } else if (userType === "parent") {
-        submitData = { ...submitData, ...parentAdditionalForm.getValues() };
-      }
-    }
-
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(submitData),
-      });
-
-      await response.json();
-
-      if (response.ok) {
-        setStep(5);
-      } else {
-        // alert(data.message || 'حدث خطأ في التسجيل');
-      }
-    } catch (error) {
-      console.error("Registration error:", error);
-      // alert('حدث خطأ في الاتصال بالخادم');
-    }
+  // Prepare the data object to send
+  const dataToSend: any = {
+    userType: userType || ""
   };
+
+  // Get basic data based on user type
+  if (userType === "student") {
+    const studentData = studentForm.getValues();
+    dataToSend.basicData = studentData;
+    
+    // Add student data to FormData
+    Object.keys(studentData).forEach((key) => {
+      formData.append(`basicData[${key}]`, studentData[key as keyof StudentFormData]);
+    });
+  } else {
+    const baseData = baseForm.getValues();
+    dataToSend.basicData = baseData;
+    
+    // Add basic data to FormData
+    Object.keys(baseData).forEach((key) => {
+      formData.append(`basicData[${key}]`, baseData[key as keyof BaseFormData]);
+    });
+  }
+
+  // Handle teacher-specific data
+  if (userType === "teacher") {
+    const teacherData = teacherAdditionalForm.getValues();
+    
+    // Add teacher data except CV
+    formData.append("teacherData[specialization]", teacherData.specialization);
+    formData.append("teacherData[yearsOfExperience]", teacherData.yearsOfExperience);
+    
+    // Add CV file separately
+    if (teacherData.cv && teacherData.cv[0]) {
+      formData.append("cv", teacherData.cv[0]);
+    }
+    
+    dataToSend.teacherData = {
+      specialization: teacherData.specialization,
+      yearsOfExperience: teacherData.yearsOfExperience
+    };
+  }
+  
+  // Handle parent-specific data
+  if (userType === "parent") {
+    const parentData = parentAdditionalForm.getValues();
+    formData.append("parentData[childrenCount]", parentData.childrenCount);
+    dataToSend.parentData = parentData;
+  }
+
+  // Add Didit verification data for teachers and parents
+  if ((userType === "teacher" || userType === "parent") && diditVerificationData) {
+    // Extract only the needed fields from diditData
+    const diditDataToSend = {
+      sessionId: diditVerificationData.sessionId,
+      sessionNumber: diditVerificationData.sessionNumber,
+      status: diditVerificationData.status
+    };
+    
+    // Add to FormData
+    formData.append("diditData[sessionId]", diditDataToSend.sessionId);
+    formData.append("diditData[sessionNumber]", diditDataToSend.sessionNumber.toString());
+    formData.append("diditData[status]", diditDataToSend.status);
+    
+    dataToSend.diditData = diditDataToSend;
+    
+    // Extract personal info fields
+    if (diditVerificationData.personalInfo) {
+      const personalInfo = {
+        dateOfBirth: diditVerificationData.personalInfo.dateOfBirth || "",
+        gender: diditVerificationData.personalInfo.gender || "",
+        nationalId: diditVerificationData.personalInfo.nationalId || "",
+        documentNumber: diditVerificationData.personalInfo.documentNumber || "",
+        documentType: diditVerificationData.personalInfo.documentType || "",
+        issuingCountry: diditVerificationData.personalInfo.issuingCountry || "",
+        expiryDate: diditVerificationData.personalInfo.expiryDate || "",
+        address: diditVerificationData.personalInfo.address || "",
+        maritalStatus: diditVerificationData.personalInfo.maritalStatus || ""
+      };
+      
+      // Add personal info to FormData
+      Object.keys(personalInfo).forEach((key) => {
+        formData.append(`personalInfo[${key}]`, personalInfo[key as keyof typeof personalInfo]);
+      });
+      
+      dataToSend.personalInfo = personalInfo;
+    }
+  }
+
+  // Log the data being sent
+  console.log("Data being sent to backend:", dataToSend);
+
+  try {
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      if (userType === "teacher") {
+        setStep(6);
+      } else {
+        setStep(5);
+      }
+    } else {
+      alert(data.message || "حدث خطأ في التسجيل");
+    }
+  } catch (error) {
+    console.error("Registration error:", error);
+    alert("حدث خطأ في الاتصال بالخادم");
+  }
+};
 
   const startVerification = async () => {
     try {
       setVerificationLoading(true);
 
-      // Save current form state before leaving the page
       const registrationState = {
         step: step,
         userType: userType,
@@ -330,6 +467,10 @@ function SignupContent() {
         JSON.stringify(registrationState)
       );
 
+      if (diditVerificationData) {
+        sessionStorage.setItem("diditVerificationData", JSON.stringify(diditVerificationData));
+      }
+
       const userData =
         userType === "student" ? studentForm.getValues() : baseForm.getValues();
 
@@ -342,6 +483,14 @@ function SignupContent() {
           firstName: userData.firstName,
           lastName: userData.lastName,
           email: userData.email,
+          phone: userData.phone,
+          userType: userType,
+          vendorData: `${userType}_${userData.email}`,
+          metadata: {
+            userType: userType,
+            registrationDate: new Date().toISOString(),
+            platform: "web"
+          }
         }),
       });
 
@@ -353,7 +502,6 @@ function SignupContent() {
 
       if (data.success && data.verificationUrl) {
         sessionStorage.setItem("diditSessionId", data.sessionId);
-
         window.location.href = data.verificationUrl;
       }
     } catch (error) {
@@ -373,10 +521,9 @@ function SignupContent() {
     setVerificationLoading(true);
     setVerificationStatus("checking");
     
-    // Poll for status updates (webhook is the primary method)
     let attempts = 0;
     const maxAttempts = 10;
-    const pollInterval = 3000; // 3 seconds
+    const pollInterval = 3000;
 
     const checkStatus = async () => {
       const response = await fetch(`/api/didit/session-status/${sessionId}`);
@@ -386,33 +533,91 @@ function SignupContent() {
         throw new Error(data.error || 'Failed to check status');
       }
 
-      // Handle different statuses according to documentation
       const status = data.status;
       
       if (status === "Approved") {
+        // Use the decision data directly from the session-status response
+        if (data.decision) {
+          const verificationData: DiditVerificationData = {
+            sessionId: data.sessionId,
+            sessionNumber: data.decision.session_number,
+            status: data.status,
+            vendorData: data.decision.vendor_data,
+            metadata: data.decision.metadata,
+            personalInfo: {
+              firstName: data.decision.id_verification?.first_name,
+              lastName: data.decision.id_verification?.last_name,
+              fullName: data.decision.id_verification?.full_name,
+              dateOfBirth: data.decision.id_verification?.date_of_birth,
+              gender: data.decision.id_verification?.gender,
+              nationality: data.decision.id_verification?.nationality,
+              nationalId: data.decision.id_verification?.personal_number,
+              documentNumber: data.decision.id_verification?.document_number,
+              documentType: data.decision.id_verification?.document_type,
+              issuingCountry: data.decision.id_verification?.issuing_state,
+              issuingState: data.decision.id_verification?.issuing_state_name,
+              expiryDate: data.decision.id_verification?.expiration_date,
+              address: data.decision.id_verification?.address,
+              maritalStatus: data.decision.id_verification?.marital_status,
+            },
+            checks: {
+              documentVerification: data.decision.id_verification?.status === "Approved",
+              faceMatch: data.decision.face_match?.status === "Approved",
+              liveness: data.decision.liveness?.status === "Approved",
+              ageVerification: data.decision.id_verification?.age >= 18,
+              amlCheck: data.decision.aml?.status === "Approved",
+            }
+          };
+          
+          setDiditVerificationData(verificationData);
+          
+          // Check nationality for teachers
+          if (userType === "teacher") {
+            const isEgyptian = 
+              data.decision.id_verification?.issuing_state === "EGY" ||
+              data.decision.id_verification?.issuing_state_name?.toLowerCase() === "egypt";
+              
+            if (!isEgyptian) {
+              setDiditVerified(false);
+              setVerificationStatus("failed");
+              setVerificationMessage("عذراً، يجب أن تكون مصري الجنسية للتسجيل كمحاضر في المنصة");
+              sessionStorage.removeItem("diditSessionId");
+              return true;
+            }
+          }
+        }
+        
         setDiditVerified(true);
         setVerificationStatus("approved");
         setVerificationMessage("تم التحقق من هويتك بنجاح! ✅");
         sessionStorage.removeItem("diditSessionId");
-        return true; // Stop polling
+        
+        // Auto-proceed after verification for better UX
+        setTimeout(() => {
+          if (userType === "teacher" || userType === "parent") {
+            // Trigger form submit to move to next step
+            handleAdditionalInfoSubmit(new Event('submit') as any);
+          }
+        }, 2000);
+        
+        return true;
       } else if (["Declined", "Failed", "Rejected"].includes(status)) {
         setDiditVerified(false);
         setVerificationStatus("failed");
         setVerificationMessage("فشل التحقق من الهوية. يرجى المحاولة مرة أخرى.");
-        return true; // Stop polling
+        return true;
       } else if (status === "In Review") {
         setVerificationStatus("checking");
         setVerificationMessage("يتم مراجعة هويتك يدوياً. سنخطرك عند الانتهاء.");
-        return true; // Stop polling - wait for webhook
+        localStorage.setItem('pendingVerificationSession', sessionId);
+        return true;
       } else if (["Not Started", "In Progress", "Pending"].includes(status)) {
-        // Continue polling
         return false;
       }
       
       return false;
     };
 
-    // Poll until status is final or max attempts reached
     while (attempts < maxAttempts) {
       const isDone = await checkStatus();
       if (isDone) break;
@@ -435,6 +640,34 @@ function SignupContent() {
   } finally {
     setVerificationLoading(false);
   }
+};
+
+const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
+  if (!data?.personalInfo) return null;
+  
+  return (
+    <div className={styles.verificationSummary}>
+      <h4>بيانات التحقق</h4>
+      <div className={styles.summaryGrid}>
+        <div className={styles.summaryItem}>
+          <span className={styles.summaryLabel}>الاسم:</span>
+          <span>{data.personalInfo.fullName || `${data.personalInfo.firstName} ${data.personalInfo.lastName}`}</span>
+        </div>
+        <div className={styles.summaryItem}>
+          <span className={styles.summaryLabel}>تاريخ الميلاد:</span>
+          <span>{data.personalInfo.dateOfBirth}</span>
+        </div>
+        <div className={styles.summaryItem}>
+          <span className={styles.summaryLabel}>الجنسية:</span>
+          <span>{data.personalInfo.nationality}</span>
+        </div>
+        <div className={styles.summaryItem}>
+          <span className={styles.summaryLabel}>رقم الهوية:</span>
+          <span>{data.personalInfo.nationalId || data.personalInfo.documentNumber}</span>
+        </div>
+      </div>
+    </div>
+  );
 };
 
   return (
@@ -778,22 +1011,27 @@ function SignupContent() {
                         )}
 
                         {verificationStatus === "failed" && (
-                          <div className={styles.verificationStatus}>
-                            <div className={styles.failedIcon}>❌</div>
-                            <p className={styles.statusMessage}>
-                              {verificationMessage}
-                            </p>
-                            <button
-                              className={styles.retryButton}
-                              onClick={() => {
-                                setVerificationStatus("idle");
-                                setVerificationMessage("");
-                              }}
-                            >
-                              حاول مرة أخرى
-                            </button>
-                          </div>
-                        )}
+  <div className={styles.verificationStatus}>
+    <div className={styles.failedIcon}>❌</div>
+    <p className={styles.statusMessage}>
+      {verificationMessage}
+    </p>
+    <button
+      className={styles.retryButton}
+      onClick={() => {
+        // If failed due to nationality, don't allow retry
+        if (verificationMessage.includes("مصري الجنسية")) {
+          router.push("/");
+        } else {
+          setVerificationStatus("idle");
+          setVerificationMessage("");
+        }
+      }}
+    >
+      {verificationMessage.includes("مصري الجنسية") ? "العودة للرئيسية" : "حاول مرة أخرى"}
+    </button>
+  </div>
+)}
 
                         {verificationStatus === "approved" && (
                           <div className={styles.verificationStatus}>
@@ -801,6 +1039,9 @@ function SignupContent() {
                             <p className={styles.statusMessage}>
                               {verificationMessage}
                             </p>
+                            {diditVerificationData && (
+                              <VerificationSummary data={diditVerificationData} />
+                            )}
                             <p className={styles.redirectMessage}>
                               سيتم توجيهك تلقائياً...
                             </p>
@@ -885,6 +1126,38 @@ function SignupContent() {
                                     teacherAdditionalForm.formState.errors
                                       .yearsOfExperience.message
                                   }
+                                </span>
+                              )}
+                            </div>
+
+                            <div className={styles.formGroup}>
+                              <label htmlFor="cv">السيرة الذاتية (CV)</label>
+                              <div className={styles.fileUploadContainer}>
+                                <input
+                                  type="file"
+                                  id="cv"
+                                  {...teacherAdditionalForm.register("cv")}
+                                  accept=".pdf,.doc,.docx"
+                                  className={`${styles.fileInput} ${
+                                    teacherAdditionalForm.formState.errors.cv
+                                      ? styles.inputError
+                                      : ""
+                                  }`}
+                                />
+                                <label htmlFor="cv" className={styles.fileUploadLabel}>
+                                  <span className={styles.uploadIcon}>📄</span>
+                                  <span>اختر ملف السيرة الذاتية</span>
+                                  <small>PDF أو Word (حد أقصى 5 ميجابايت)</small>
+                                </label>
+                                {teacherAdditionalForm.watch("cv")?.[0] && (
+                                  <p className={styles.fileName}>
+                                    {teacherAdditionalForm.watch("cv")?.[0].name}
+                                  </p>
+                                )}
+                              </div>
+                              {teacherAdditionalForm.formState.errors.cv && (
+                                <span className={styles.errorMessage}>
+                                  {teacherAdditionalForm.formState.errors.cv.message}
                                 </span>
                               )}
                             </div>
@@ -1012,6 +1285,39 @@ function SignupContent() {
           {/* Step 4: Terms and Submit */}
           {step === 4 && (
             <div className={styles.stepContent}>
+
+
+              {/* Add this debug section - remove it later */}
+    {process.env.NODE_ENV === 'development' && (
+      <div style={{ 
+        background: '#1a1a1a', 
+        padding: '1rem', 
+        borderRadius: '8px', 
+        marginBottom: '2rem',
+        border: '1px solid #333'
+      }}>
+        <h4 style={{ color: '#58a6ff', marginBottom: '0.5rem' }}>Debug Info:</h4>
+        <pre style={{ 
+          color: '#c9d1d9', 
+          fontSize: '12px', 
+          overflow: 'auto',
+          whiteSpace: 'pre-wrap'
+        }}>
+          {JSON.stringify({
+            userType,
+            basicData: userType === "student" ? studentForm.getValues() : baseForm.getValues(),
+            teacherData: userType === "teacher" ? teacherAdditionalForm.getValues() : null,
+            parentData: userType === "parent" ? parentAdditionalForm.getValues() : null,
+            diditData: diditVerificationData,
+            diditSessionId
+          }, null, 2)}
+        </pre>
+      </div>
+    )}
+
+
+
+
               <h2 className={styles.stepTitle}>الشروط والأحكام</h2>
               <p className={styles.subtitle}>
                 آخر خطوة قبل الانضمام لعائلة EduEgypt
@@ -1109,6 +1415,32 @@ function SignupContent() {
               </Link>
             </div>
           )}
+
+          {step === 6 && (
+            <div className={styles.successContent}>
+              <div className={styles.pendingAnimation}>
+                <div className={styles.pendingIcon}>⏳</div>
+              </div>
+              <h1 className={styles.successTitle}>تم إرسال طلبك بنجاح!</h1>
+              <p className={styles.successText}>
+                سيراجع فريقنا سيرتك الذاتية وسيتم إخطارك عند الموافقة
+              </p>
+              <p className={styles.successSubtext}>
+                يستغرق هذا عادة من 1-2 يوم عمل
+              </p>
+              <div className={styles.pendingInfo}>
+                <h3>ماذا بعد؟</h3>
+                <ul>
+                  <li>سنراجع سيرتك الذاتية ومؤهلاتك</li>
+                  <li>ستتلقى بريد إلكتروني عند الموافقة على حسابك</li>
+                  <li>بعد الموافقة، يمكنك تسجيل الدخول وبدء التدريس</li>
+                </ul>
+              </div>
+              <Link href="/" className={styles.homeButton}>
+                العودة للصفحة الرئيسية
+              </Link>
+            </div>
+)}
         </div>
       </main>
     </div>

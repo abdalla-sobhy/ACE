@@ -2,16 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class StudentProfile extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'user_id',
-        'phone_number',
         'grade',
         'birth_date',
         'preferred_subjects',
@@ -19,8 +15,8 @@ class StudentProfile extends Model
     ];
 
     protected $casts = [
-        'preferred_subjects' => 'array',
         'birth_date' => 'date',
+        'preferred_subjects' => 'array',
     ];
 
     public function user()

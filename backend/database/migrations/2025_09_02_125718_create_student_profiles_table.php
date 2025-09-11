@@ -11,12 +11,13 @@ return new class extends Migration
         Schema::create('student_profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('phone_number');
             $table->string('grade');
             $table->date('birth_date');
             $table->json('preferred_subjects')->nullable();
             $table->string('goal')->nullable();
             $table->timestamps();
+
+            $table->index('user_id');
         });
     }
 

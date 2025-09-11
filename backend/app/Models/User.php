@@ -1,4 +1,5 @@
 <?php
+// app/Models/User.php
 
 namespace App\Models;
 
@@ -15,10 +16,11 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'phone',
         'password',
         'user_type',
-        'didit_session_id',
-        'identity_verified',
+        'status',
+        'is_approved',
     ];
 
     protected $hidden = [
@@ -28,8 +30,8 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'identity_verified' => 'boolean',
-        // 'password' => 'hashed',
+        'is_approved' => 'boolean',
+        'password' => 'hashed',
     ];
 
     public function studentProfile()
@@ -45,5 +47,39 @@ class User extends Authenticatable
     public function parentProfile()
     {
         return $this->hasOne(ParentProfile::class);
+    }
+
+    public function diditVerification()
+    {
+        return $this->hasOne(DiditVerification::class);
+    }
+
+    public function followRequests()
+    {
+        return $this->hasMany(ParentStudentFollowRequest::class, 'parent_id');
+    }
+
+    public function parentRequests()
+    {
+        return $this->hasMany(ParentStudentFollowRequest::class, 'student_id');
+    }
+
+    public function followedStudents()
+    {
+        return $this->belongsToMany(User::class, 'parent_student_follow_requests', 'parent_id', 'student_id')
+                    ->wherePivot('status', 'approved')
+                    ->withTimestamps();
+    }
+
+    public function followingParents()
+    {
+        return $this->belongsToMany(User::class, 'parent_student_follow_requests', 'student_id', 'parent_id')
+                    ->wherePivot('status', 'approved')
+                    ->withTimestamps();
+    }
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 }

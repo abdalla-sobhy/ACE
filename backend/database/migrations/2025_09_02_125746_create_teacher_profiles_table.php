@@ -13,7 +13,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('specialization');
             $table->string('years_of_experience');
+            $table->string('cv_path')->nullable();
+            $table->json('didit_data')->nullable();
             $table->timestamps();
+
+            $table->index('user_id');
         });
     }
 
