@@ -1,0 +1,660 @@
+.container {
+  min-height: 100vh;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+  direction: rtl;
+  position: relative;
+  overflow: hidden;
+}
+
+.animatedBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(88, 166, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88, 166, 255, 0.1) 1px, transparent 1px);
+  background-size: 100px 100px;
+  animation: gridMove 8000ms linear infinite;
+}
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+.glowEffect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(88, 166, 255, 0.05) 0%, transparent 70%);
+  filter: blur(100px);
+  animation: pulse 8s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes slideRight {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+@keyframes slideDiagonal {
+  0% { transform: translate(0, 0) rotate(45deg); }
+  100% { transform: translate(100px, 100px) rotate(45deg); }
+}
+
+@keyframes slideDown {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(50%); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Login Wrapper */
+.loginWrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px 80px;
+}
+
+/* Login Container */
+.loginContainer {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(22, 27, 34, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  padding: 48px;
+  box-shadow: 
+    0 16px 64px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(88, 166, 255, 0.1);
+  animation: fadeInUp 0.6s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.loginContainer::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #58a6ff, #79c0ff, #58a6ff);
+  border-radius: 16px;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.loginContainer:hover::before {
+  opacity: 0.1;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Login Header */
+.loginHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(88, 166, 255, 0.1);
+  border-radius: 50%;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.iconWrapper::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  background: radial-gradient(circle, rgba(88, 166, 255, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+.lockIcon {
+  width: 40px;
+  height: 40px;
+  z-index: 1;
+}
+
+.loginHeader h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.loginHeader p {
+  color: #8b949e;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Error Message */
+.errorMessage {
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid rgba(248, 81, 73, 0.3);
+  color: #f85149;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.errorIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Form Styles */
+.loginForm {
+  margin-bottom: 24px;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+.formGroup label {
+  display: block;
+  color: #f0f6fc;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  right: 16px;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.input {
+  width: 100%;
+  background: #010409;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 12px 48px;
+  font-size: 16px;
+  color: #c9d1d9;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+.input::placeholder {
+  color: #6e7681;
+  opacity: 1;
+}
+
+.passwordToggle {
+  position: absolute;
+  left: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+  z-index: 1;
+}
+
+.passwordToggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.passwordToggle:hover {
+  opacity: 0.7;
+}
+
+/* Form Options */
+.formOptions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.rememberMe {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #8b949e;
+}
+
+.rememberMe input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #58a6ff;
+  cursor: pointer;
+}
+
+.forgotPassword {
+  color: #58a6ff;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.forgotPassword:hover {
+  color: #79c0ff;
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.submitButton {
+  width: 100%;
+  background: #238636;
+  color: white;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.submitButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #2ea043;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(35, 134, 54, 0.3);
+}
+
+.submitButton:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Divider */
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 32px 0;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #30363d;
+}
+
+.divider span {
+  background: rgba(22, 27, 34, 0.9);
+  padding: 0 16px;
+  color: #8b949e;
+  font-size: 14px;
+  position: relative;
+}
+
+/* Social Login */
+.socialLogin {
+  margin-bottom: 32px;
+}
+
+.socialButton {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.socialButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.socialButton:hover {
+  background: #161b22;
+  border-color: #58a6ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+}
+
+/* Signup Prompt */
+.signupPrompt {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.signupPrompt p {
+  color: #8b949e;
+  font-size: 16px;
+  margin: 0;
+}
+
+.signupLink {
+  color: #58a6ff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-right: 8px;
+  transition: all 0.2s;
+}
+
+.signupLink:hover {
+  color: #79c0ff;
+  text-decoration: underline;
+}
+
+/* Features */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #8b949e;
+  font-size: 14px;
+}
+
+.feature svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.feature p {
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .loginWrapper {
+    padding: 100px 16px 60px;
+  }
+
+  .loginContainer {
+    padding: 32px 24px;
+  }
+
+  .loginHeader h1 {
+    font-size: 28px;
+  }
+
+  .iconWrapper {
+    width: 64px;
+    height: 64px;
+  }
+
+  .lockIcon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .formOptions {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .features {
+    display: none;
+  }
+
+  /* Reduce animation complexity on mobile */
+  .gridLayer2,
+  .gridLayer3 {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginContainer {
+    padding: 24px 16px;
+  }
+
+  .loginHeader h1 {
+    font-size: 24px;
+  }
+
+  .input {
+    padding: 12px 40px;
+    font-size: 14px;
+  }
+
+  .inputIcon {
+    right: 12px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .passwordToggle {
+    left: 12px;
+  }
+
+  .passwordToggle svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Focus States for Accessibility */
+.submitButton:focus,
+.socialButton:focus,
+.passwordToggle:focus,
+.forgotPassword:focus,
+.signupLink:focus {
+  outline: 2px solid #58a6ff;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .loginContainer {
+    border-width: 2px;
+  }
+
+  .input {
+    border-width: 2px;
+  }
+
+  .submitButton {
+    border: 2px solid transparent;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .gridLayer1,
+  .gridLayer2,
+  .gridLayer3,
+  .glowEffect,
+  .iconWrapper::after,
+  .submitButton::before {
+    animation: none;
+  }
+
+  .loginContainer,
+  .errorMessage {
+    animation-duration: 0.01ms;
+  }
+
+  .submitButton:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .socialButton:hover {
+    transform: none;
+  }
+}
+
+/* Success Message */
+.successMessage {
+  background: rgba(63, 185, 80, 0.1);
+  border: 1px solid rgba(63, 185, 80, 0.3);
+  color: #3fb950;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.successIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Field Error Styles */
+.inputError {
+  border-color: #f85149 !important;
+}
+
+.fieldError {
+  display: block;
+  color: #f85149;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-right: 8px;
+}
+
+/* Disabled states */
+.input:disabled,
+.passwordToggle:disabled,
+.submitButton:disabled,
+.socialButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Loading spinner animation update */
+@keyframes spin {
+  from { 
+    transform: rotate(0deg);
+    stroke-dashoffset: 0;
+  }
+  to { 
+    transform: rotate(360deg);
+    stroke-dashoffset: -62.83;
+  }
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  animation: spin 1.5s linear infinite;
+}
