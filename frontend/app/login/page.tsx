@@ -40,12 +40,6 @@ interface LoginResponse {
   remember_me?: boolean;
 }
 
-interface AuthData {
-  token: string;
-  expiresAt: string;
-  rememberMe: boolean;
-}
-
 interface ValidationErrors {
   email?: string;
   password?: string;
@@ -183,7 +177,7 @@ export default function LoginPage() {
   };
   localStorage.setItem('authData', JSON.stringify(authData));
   
-  const maxAge = rememberMe ? 60 * 60 * 24 * 90 : 60 * 60 * 24; // 90 days or 1 day
+  const maxAge = rememberMe ? 60 * 60 * 24 * 90 : 60 * 60 * 24;
   document.cookie = `authToken=${data.token}; path=/; max-age=${maxAge}; SameSite=Strict`;
 
 
