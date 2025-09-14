@@ -5,10 +5,12 @@ use App\Http\Controllers\Api\DiditController;
 use App\Http\Controllers\Api\ParentStudentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\StudentController;
 
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+
 
 // Didit verification routes
 Route::post('/didit/create-session', [DiditController::class, 'createSession']);

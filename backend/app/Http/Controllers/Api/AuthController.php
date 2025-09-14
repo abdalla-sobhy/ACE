@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\StudentProfile;
+use App\Models\UniversityStudentProfile;
+
 use App\Models\TeacherProfile;
 use App\Models\ParentProfile;
 use App\Models\DiditVerification;
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
+
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -28,12 +31,13 @@ class AuthController extends Controller
             // Extract and validate user type
             $userType = $request->input('userType');
 
-            if (!in_array($userType, ['student', 'teacher', 'parent'])) {
+            if (!in_array($userType, ['student', 'teacher', 'parent', 'university_student'])) {
                 return response()->json([
                     'success' => false,
                     'message' => 'نوع المستخدم غير صحيح'
                 ], 400);
             }
+
 
             // Prepare basic validation rules
             $basicRules = [
@@ -56,6 +60,18 @@ class AuthController extends Controller
                 $additionalRules = [
                     'basicData.grade' => 'required|string',
                     'basicData.birthDate' => 'required|date|before:-6 years|after:-25 years',
+                ];
+            } else if ($userType === 'university_student') {
+                $additionalRules = [
+                    'universityData.faculty' => 'required|string',
+                    'universityData.level' => 'required|string',
+                    'basicData.birthDate' => 'nullable|date|before:-16 years|after:-30 years',
+                    'basicData.email' => [
+                        'required',
+                        'email',
+                        'unique:users,email',
+                        'regex:/^[\w.+-]+@(cu\.edu\.eg|aus\.edu\.eg|alexu\.edu\.eg|helwan\.edu\.eg|mans\.edu\.eg|tanta\.edu\.eg|asu\.edu\.eg|aswu\.edu\.eg|psu\.edu\.eg|su\.edu\.eg|mu\.edu\.eg|bsu\.edu\.eg|du\.edu\.eg|fu\.edu\.eg|kfs\.edu\.eg|nvu\.edu\.eg)$/'
+                    ],
                 ];
             } elseif ($userType === 'teacher') {
                 $additionalRules = [
@@ -97,12 +113,23 @@ class AuthController extends Controller
                 'is_approved' => $userType !== 'teacher', // Teachers need approval
             ]);
 
-                        // Create type-specific profile
+            // Create type-specific profile
             if ($userType === 'student') {
                 StudentProfile::create([
                     'user_id' => $user->id,
                     'grade' => $basicData['grade'],
                     'birth_date' => $basicData['birthDate'],
+                ]);
+            } elseif ($userType === 'university_student') {
+                $universityData = $request->input('universityData');
+                UniversityStudentProfile::create([
+                    'user_id' => $user->id,
+                    'faculty' => $universityData['faculty'],
+                    'department' => $universityData['department'] ?? null,
+                    'level' => $universityData['level'],
+                    'birth_date' => $basicData['birthDate'] ?? null,
+                    'preferred_subjects' => $universityData['preferredSubjects'] ?? null,
+                    'goal' => $universityData['goal'] ?? null,
                 ]);
             } elseif ($userType === 'teacher') {
                 $cvPath = null;
@@ -189,113 +216,116 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'email' => 'required|email',
-        'password' => 'required',
-        'remember_me' => 'boolean', // Add remember me validation
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+            'remember_me' => 'boolean', // Add remember me validation
+        ]);
 
-    if ($validator->fails()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Add rate limiting check
+        $key = 'login_attempts_' . $request->ip();
+        $attempts = cache()->get($key, 0);
+
+        if ($attempts >= 5) {
+            return response()->json([
+                'success' => false,
+                'message' => 'محاولات كثيرة جداً. حاول مرة أخرى بعد 15 دقيقة.'
+            ], 429);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            // Increment failed attempts
+            cache()->put($key, $attempts + 1, now()->addMinutes(15));
+
+            return response()->json([
+                'success' => false,
+                'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
+            ], 401);
+        }
+
+        // Clear failed attempts on successful login
+        cache()->forget($key);
+
+        if (!$user->is_approved) {
+            return response()->json([
+                'success' => false,
+                'message' => 'حسابك قيد المراجعة. سيتم إخطارك عند الموافقة.'
+            ], 403);
+        }
+
+        if ($user->status === 'suspended') {
+            return response()->json([
+                'success' => false,
+                'message' => 'تم تعليق حسابك. يرجى التواصل مع الدعم.'
+            ], 403);
+        }
+
+        // Update last login
+        $user->update([
+            'last_login_at' => now(),
+            'last_login_ip' => $request->ip(),
+            'last_login_user_agent' => $request->userAgent(),
+        ]);
+
+        // Create token with custom expiration
+        $tokenName = 'auth_token';
+        $abilities = ['*'];
+
+        if ($request->remember_me) {
+            // 3 months expiration
+            $expiration = now()->addDays(90);
+        } else {
+            // 24 hours expiration
+            $expiration = now()->addDay();
+        }
+
+        $token = $user->createToken($tokenName, $abilities, $expiration)->plainTextToken;
+
+        // Load relationships
+        $user->load(['studentProfile', 'teacherProfile', 'parentProfile']);
+
         return response()->json([
-            'success' => false,
-            'errors' => $validator->errors()
-        ], 422);
+            'success' => true,
+            'message' => 'تم تسجيل الدخول بنجاح',
+            'user' => [
+                    'id' => $user->id,
+                    'name' => $user->full_name,
+                    'email' => $user->email,
+                    'type' => $user->user_type,
+                    'profile' => $this->getUserProfile($user),
+                ],
+            'token' => $token,
+            'expires_at' => $expiration->toISOString(),
+            'remember_me' => $request->remember_me ?? false
+        ]);
     }
 
-    // Add rate limiting check
-    $key = 'login_attempts_' . $request->ip();
-    $attempts = cache()->get($key, 0);
+    private function getUserProfile($user)
+    {
+        switch ($user->user_type) {
+            case 'student':
+                return $user->studentProfile;
+            case 'university_student':
+                return $user->universityStudentProfile;
 
-    if ($attempts >= 5) {
-        return response()->json([
-            'success' => false,
-            'message' => 'محاولات كثيرة جداً. حاول مرة أخرى بعد 15 دقيقة.'
-        ], 429);
+            case 'teacher':
+                return $user->teacherProfile;
+            case 'parent':
+                return $user->parentProfile;
+            default:
+                return null;
+        }
     }
-
-    $user = User::where('email', $request->email)->first();
-
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        // Increment failed attempts
-        cache()->put($key, $attempts + 1, now()->addMinutes(15));
-
-        return response()->json([
-            'success' => false,
-            'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
-        ], 401);
-    }
-
-    // Clear failed attempts on successful login
-    cache()->forget($key);
-
-    if (!$user->is_approved) {
-        return response()->json([
-            'success' => false,
-            'message' => 'حسابك قيد المراجعة. سيتم إخطارك عند الموافقة.'
-        ], 403);
-    }
-
-    if ($user->status === 'suspended') {
-        return response()->json([
-            'success' => false,
-            'message' => 'تم تعليق حسابك. يرجى التواصل مع الدعم.'
-        ], 403);
-    }
-
-    // Update last login
-    $user->update([
-        'last_login_at' => now(),
-        'last_login_ip' => $request->ip(),
-        'last_login_user_agent' => $request->userAgent(),
-    ]);
-
-    // Create token with custom expiration
-    $tokenName = 'auth_token';
-    $abilities = ['*'];
-
-    if ($request->remember_me) {
-        // 3 months expiration
-        $expiration = now()->addDays(90);
-    } else {
-        // 24 hours expiration
-        $expiration = now()->addDay();
-    }
-
-    $token = $user->createToken($tokenName, $abilities, $expiration)->plainTextToken;
-
-    // Load relationships
-    $user->load(['studentProfile', 'teacherProfile', 'parentProfile']);
-
-    return response()->json([
-        'success' => true,
-        'message' => 'تم تسجيل الدخول بنجاح',
-        'user' => [
-            'id' => $user->id,
-            'name' => $user->full_name,
-            'email' => $user->email,
-            'type' => $user->user_type,
-            'profile' => $this->getUserProfile($user),
-        ],
-        'token' => $token,
-        'expires_at' => $expiration->toISOString(),
-        'remember_me' => $request->remember_me ?? false
-    ]);
-}
-
-private function getUserProfile($user)
-{
-    switch ($user->user_type) {
-        case 'student':
-            return $user->studentProfile;
-        case 'teacher':
-            return $user->teacherProfile;
-        case 'parent':
-            return $user->parentProfile;
-        default:
-            return null;
-    }
-}
 
     public function logout(Request $request)
     {

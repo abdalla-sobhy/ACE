@@ -48,7 +48,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(ParentProfile::class);
     }
-
+    public function universityStudentProfile()
+    {
+        return $this->hasOne(UniversityStudentProfile::class);
+    }
     public function diditVerification()
     {
         return $this->hasOne(DiditVerification::class);
