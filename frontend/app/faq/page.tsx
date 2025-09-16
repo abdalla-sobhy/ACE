@@ -20,7 +20,6 @@ export default function FAQPage() {
   ];
 
   const faqs = [
-    // عامة
     {
       id: '1',
       category: 'general',
@@ -45,7 +44,6 @@ export default function FAQPage() {
       helpful: 156,
       notHelpful: 5
     },
-    // التسجيل والحساب
     {
       id: '4',
       category: 'registration',
@@ -70,7 +68,6 @@ export default function FAQPage() {
       helpful: 89,
       notHelpful: 3
     },
-    // تقنية
     {
       id: '7',
       category: 'technical',
@@ -87,7 +84,6 @@ export default function FAQPage() {
       helpful: 198,
       notHelpful: 12
     },
-    // تعليمية
     {
       id: '9',
       category: 'educational',
@@ -104,7 +100,6 @@ export default function FAQPage() {
       helpful: 267,
       notHelpful: 14
     },
-    // المزيد من الأسئلة...
     {
       id: '11',
       category: 'general',
@@ -155,7 +150,6 @@ export default function FAQPage() {
     }
   ];
 
-  // Filter FAQs based on search and category
   const filteredFAQs = useMemo(() => {
     return faqs.filter(faq => {
       const matchesSearch = searchQuery === '' || 

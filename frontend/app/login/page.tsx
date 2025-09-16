@@ -5,39 +5,55 @@ import Link from 'next/link';
 import NavigationBar from '@/components/Nav/Nav';
 import { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { setCookie } from '@/lib/cookies';
 
-// Types
 interface StudentProfile {
+  id: number;
+  user_id: number;
   grade: string;
   birth_date: string;
+  preferred_subjects?: string | null;
+  goal?: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 interface TeacherProfile {
+  id: number;
+  user_id: number;
   specialization: string;
   years_of_experience: string;
-  cv_path?: string;
+  cv_path?: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  didit_data?: any;
+  created_at: string;
+  updated_at: string;
 }
 
 interface ParentProfile {
+  id: number;
+  user_id: number;
   children_count: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  didit_data?: any;
+  created_at: string;
+  updated_at: string;
 }
 
 interface User {
   id: number;
-  email: string;
   name: string;
+  email: string;
   type: 'student' | 'teacher' | 'parent' | 'admin';
   profile?: StudentProfile | TeacherProfile | ParentProfile;
 }
 
 interface LoginResponse {
   success: boolean;
-  token?: string;
-  user?: User;
-  message?: string;
-  expires_at?: string;
-  remember_me?: boolean;
+  message: string;
+  user: User;
+  token: string;
+  expires_at: string;
+  remember_me: boolean;
 }
 
 interface ValidationErrors {
@@ -48,19 +64,16 @@ interface ValidationErrors {
 export default function LoginPage() {
   const router = useRouter();
   
-  // Form states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   
-  // Loading and error states
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<ValidationErrors>({});
   const [isSuccess, setIsSuccess] = useState(false);
   
-  // Check for saved credentials on mount
   useEffect(() => {
     const savedEmail = localStorage.getItem('rememberedEmail');
     if (savedEmail) {
@@ -69,18 +82,15 @@ export default function LoginPage() {
     }
   }, []);
 
-  // Validation function
   const validateForm = (): boolean => {
     const errors: ValidationErrors = {};
     
-    // Email validation
     if (!email) {
       errors.email = 'البريد الإلكتروني مطلوب';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       errors.email = 'البريد الإلكتروني غير صالح';
     }
     
-    // Password validation
     if (!password) {
       errors.password = 'كلمة المرور مطلوبة';
     } else if (password.length < 6) {
@@ -91,7 +101,6 @@ export default function LoginPage() {
     return Object.keys(errors).length === 0;
   };
 
-  // Clear field error when user types
   const handleEmailChange = (value: string) => {
     setEmail(value);
     if (fieldErrors.email) {
@@ -108,15 +117,12 @@ export default function LoginPage() {
     if (error) setError('');
   };
 
-  // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
-    // Clear previous errors
     setError('');
     setFieldErrors({});
     
-    // Validate form
     if (!validateForm()) {
       return;
     }
@@ -124,7 +130,6 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Call your Laravel backend directly
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -137,7 +142,6 @@ export default function LoginPage() {
       const data: LoginResponse = await response.json();
 
       if (!response.ok) {
-        // Handle different error status codes
         switch (response.status) {
           case 400:
             setError('البيانات المدخلة غير صحيحة');
@@ -163,49 +167,47 @@ export default function LoginPage() {
         return;
       }
 
-      // Success handling
       if (data.success && data.token) {
-  setIsSuccess(true);
-  
-  localStorage.setItem('user', JSON.stringify(data.user));
-  
-  // Store auth data
-  const authData = {
-    token: data.token,
-    expiresAt: data.expires_at || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-    rememberMe: data.remember_me || false
-  };
-  localStorage.setItem('authData', JSON.stringify(authData));
-  
-  const maxAge = rememberMe ? 60 * 60 * 24 * 90 : 60 * 60 * 24;
-  document.cookie = `authToken=${data.token}; path=/; max-age=${maxAge}; SameSite=Strict`;
-
-
-  if (data.user) {
-    localStorage.setItem('user', JSON.stringify(data.user));
-  }
-  
-  // Save email preference
-  if (rememberMe) {
-    localStorage.setItem('rememberedEmail', email);
-  } else {
-    localStorage.removeItem('rememberedEmail');
-  }
-  
-  // Show success message briefly
-  setTimeout(() => {
-    // Redirect based on user type
-    if (data.user?.type === 'admin') {
-      router.push('/admin/dashboard');
-    } else if (data.user?.type === 'teacher') {
-      router.push('/teacher/dashboard');
-    } else {
-      router.push('/student/dashboard');
-    }
-  }, 1000);
-}
+        setIsSuccess(true);
+        
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        const authData = {
+          token: data.token,
+          expiresAt: data.expires_at,
+          rememberMe: data.remember_me
+        };
+        localStorage.setItem('authData', JSON.stringify(authData));
+        
+        const maxAge = data.remember_me ? 60 * 60 * 24 * 90 : 60 * 60 * 24;
+        document.cookie = `authToken=${data.token}; path=/; max-age=${maxAge}; SameSite=Strict`;
+        
+        if (data.remember_me) {
+          localStorage.setItem('rememberedEmail', email);
+        } else {
+          localStorage.removeItem('rememberedEmail');
+        }
+        
+        setTimeout(() => {
+          switch (data.user.type) {
+            case 'admin':
+              router.push('/admin/dashboard');
+              break;
+            case 'teacher':
+              router.push('/teacher/dashboard');
+              break;
+            case 'student':
+              router.push('/student/dashboard');
+              break;
+            case 'parent':
+              router.push('/parent/dashboard');
+              break;
+            default:
+              router.push('/');
+          }
+        }, 1000);
+      }
     } catch (err) {
-      // Network errors
       if (err instanceof TypeError && err.message === 'Failed to fetch') {
         setError('خطأ في الاتصال. تحقق من اتصالك بالإنترنت');
       } else {
@@ -221,7 +223,6 @@ export default function LoginPage() {
     <div className={styles.container}>
       <NavigationBar />
 
-      {/* Animated Background */}
       <div className={styles.animatedBackground}></div>
 
       {/* Login Form */}
@@ -243,7 +244,6 @@ export default function LoginPage() {
             <p>سجل دخولك للوصول إلى منصتك التعليمية</p>
           </div>
 
-          {/* Success message */}
           {isSuccess && (
             <div className={styles.successMessage}>
               <svg className={styles.successIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -254,7 +254,6 @@ export default function LoginPage() {
           )}
 
           <form className={styles.loginForm} onSubmit={handleSubmit}>
-            {/* Global error message */}
             {error && (
               <div className={styles.errorMessage}>
                 <svg className={styles.errorIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -264,14 +263,13 @@ export default function LoginPage() {
               </div>
             )}
 
-            {/* Email field */}
             <div className={styles.formGroup}>
               <label htmlFor="email">البريد الإلكتروني</label>
               <div className={styles.inputWrapper}>
                 <svg className={styles.inputIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#8b949e"/>
                 </svg>
-                <input
+                                <input
                   type="email"
                   id="email"
                   placeholder="example@email.com"
@@ -288,7 +286,6 @@ export default function LoginPage() {
               )}
             </div>
 
-            {/* Password field */}
             <div className={styles.formGroup}>
               <label htmlFor="password">كلمة المرور</label>
               <div className={styles.inputWrapper}>
@@ -313,7 +310,7 @@ export default function LoginPage() {
                   aria-label={showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
                   disabled={isLoading}
                 >
-                                    {showPassword ? (
+                  {showPassword ? (
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 7C14.76 7 17 9.24 17 12C17 12.65 16.87 13.26 16.64 13.83L19.56 16.75C21.07 15.49 22.26 13.86 23 12C21.27 7.61 17 4.5 12 4.5C10.6 4.5 9.26 4.75 8.01 5.2L10.17 7.36C10.74 7.13 11.35 7 12 7ZM2 4.27L4.28 6.55L4.74 7.01C3.08 8.3 1.78 10.02 1 12C2.73 16.39 7 19.5 12 19.5C13.55 19.5 15.03 19.2 16.38 18.66L16.81 19.08L19.73 22L21 20.73L3.27 3L2 4.27ZM7.53 9.8L9.08 11.35C9.03 11.56 9 11.78 9 12C9 13.66 10.34 15 12 15C12.22 15 12.44 14.97 12.65 14.92L14.2 16.47C13.53 16.8 12.79 17 12 17C9.24 17 7 14.76 7 12C7 11.21 7.2 10.47 7.53 9.8ZM11.84 9.02L14.99 12.17L15.01 12.01C15.01 10.35 13.67 9.01 12.01 9.01L11.84 9.02Z" fill="#8b949e"/>
                     </svg>

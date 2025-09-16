@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\DiditController;
 use App\Http\Controllers\Api\ParentStudentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\TeacherController;
 
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -22,6 +24,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/user', function (Request $request) {
         return $request->user()->load(['studentProfile', 'teacherProfile', 'parentProfile']);
     });
+    Route::get('/courses', [CourseController::class, 'index']);
+
+    Route::prefix('teacher')->group(function () {
+    Route::get('/courses', [TeacherController::class, 'getCourses']);
+    Route::get('/stats', [TeacherController::class, 'getStats']);
+    Route::post('/courses', [TeacherController::class, 'createCourse']);
+    Route::delete('/courses/{id}', [TeacherController::class, 'deleteCourse']);
+});
 
     // Parent-Student relationship routes
     Route::middleware('user-type:parent')->prefix('parent')->group(function () {
