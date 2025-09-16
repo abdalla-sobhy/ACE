@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/Api/AuthController.php
 
 namespace App\Http\Controllers\Api;
 
@@ -25,7 +24,6 @@ class AuthController extends Controller
         DB::beginTransaction();
 
         try {
-            // Extract and validate user type
             $userType = $request->input('userType');
 
             if (!in_array($userType, ['student', 'teacher', 'parent'])) {
@@ -35,7 +33,6 @@ class AuthController extends Controller
                 ], 400);
             }
 
-            // Prepare basic validation rules
             $basicRules = [
                 'basicData.firstName' => 'required|string|min:2',
                 'basicData.lastName' => 'required|string|min:2',
@@ -49,7 +46,6 @@ class AuthController extends Controller
                 ],
             ];
 
-            // Add type-specific validation rules
             $additionalRules = [];
 
             if ($userType === 'student') {
@@ -94,10 +90,9 @@ class AuthController extends Controller
                 'phone' => $basicData['phone'],
                 'password' => Hash::make($basicData['password']),
                 'user_type' => $userType,
-                'is_approved' => $userType !== 'teacher', // Teachers need approval
+                'is_approved' => $userType !== 'teacher',
             ]);
 
-                        // Create type-specific profile
             if ($userType === 'student') {
                 StudentProfile::create([
                     'user_id' => $user->id,
@@ -119,7 +114,6 @@ class AuthController extends Controller
                     'didit_data' => $request->input('diditData'),
                 ]);
 
-                // Save Didit verification data
                 if ($request->has('diditData')) {
                     $this->saveDiditVerification($user->id, $request);
                 }
@@ -131,18 +125,15 @@ class AuthController extends Controller
                     'didit_data' => $request->input('diditData'),
                 ]);
 
-                // Save Didit verification data
                 if ($request->has('diditData')) {
                     $this->saveDiditVerification($user->id, $request);
                 }
             }
 
-            // Send notifications
             $user->notify(new WelcomeNotification());
 
             if ($userType === 'teacher') {
                 // Notify admin about new teacher application
-                // You can implement admin notification here
             }
 
             DB::commit();
@@ -193,7 +184,7 @@ class AuthController extends Controller
     $validator = Validator::make($request->all(), [
         'email' => 'required|email',
         'password' => 'required',
-        'remember_me' => 'boolean', // Add remember me validation
+        'remember_me' => 'boolean',
     ]);
 
     if ($validator->fails()) {
@@ -203,7 +194,6 @@ class AuthController extends Controller
         ], 422);
     }
 
-    // Add rate limiting check
     $key = 'login_attempts_' . $request->ip();
     $attempts = cache()->get($key, 0);
 
@@ -217,7 +207,6 @@ class AuthController extends Controller
     $user = User::where('email', $request->email)->first();
 
     if (!$user || !Hash::check($request->password, $user->password)) {
-        // Increment failed attempts
         cache()->put($key, $attempts + 1, now()->addMinutes(15));
 
         return response()->json([
@@ -226,7 +215,6 @@ class AuthController extends Controller
         ], 401);
     }
 
-    // Clear failed attempts on successful login
     cache()->forget($key);
 
     if (!$user->is_approved) {
@@ -243,14 +231,12 @@ class AuthController extends Controller
         ], 403);
     }
 
-    // Update last login
     $user->update([
         'last_login_at' => now(),
         'last_login_ip' => $request->ip(),
         'last_login_user_agent' => $request->userAgent(),
     ]);
 
-    // Create token with custom expiration
     $tokenName = 'auth_token';
     $abilities = ['*'];
 
@@ -264,7 +250,6 @@ class AuthController extends Controller
 
     $token = $user->createToken($tokenName, $abilities, $expiration)->plainTextToken;
 
-    // Load relationships
     $user->load(['studentProfile', 'teacherProfile', 'parentProfile']);
 
     return response()->json([
