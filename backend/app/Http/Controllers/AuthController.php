@@ -10,25 +10,21 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Register new user
     public function register(Request $request)
 {
     try {
-        // Validate
         $fields = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        // Create user
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
             'password' => Hash::make($fields['password'])
         ]);
 
-        // Create token
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
@@ -43,26 +39,21 @@ class AuthController extends Controller
     }
 }
 
-    // Login user
     public function login(Request $request)
     {
-        // Validate the request
         $fields = $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string'
         ]);
 
-        // Check email
         $user = User::where('email', $fields['email'])->first();
 
-        // Check password
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response()->json([
                 'message' => 'Invalid credentials'
             ], 401);
         }
 
-        // Create token
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
@@ -71,7 +62,6 @@ class AuthController extends Controller
         ], 200);
     }
 
-    // Logout user
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -81,7 +71,6 @@ class AuthController extends Controller
         ], 200);
     }
 
-    // Get current user
     public function user(Request $request)
     {
         return response()->json([

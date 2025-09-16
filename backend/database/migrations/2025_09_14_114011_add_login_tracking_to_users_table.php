@@ -15,12 +15,12 @@ return new class extends Migration
         $table->timestamp('last_login_at')->nullable();
         $table->string('last_login_ip')->nullable();
         $table->text('last_login_user_agent')->nullable();
-        $table->timestamp('email_verified_at')->nullable();
+        // $table->timestamp(column: 'email_verified_at')->nullable();
 
         // Add indexes for performance
-        $table->index('email');
-        $table->index('user_type');
-        $table->index('status');
+        // $table->index('email');
+        // $table->index('user_type');
+        // $table->index('status');
         $table->index('is_approved');
     });
 }

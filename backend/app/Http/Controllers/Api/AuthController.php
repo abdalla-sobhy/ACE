@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/Api/AuthController.php
 
 namespace App\Http\Controllers\Api;
 
@@ -7,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\UniversityStudentProfile;
-
 use App\Models\TeacherProfile;
 use App\Models\ParentProfile;
 use App\Models\DiditVerification;
@@ -20,7 +18,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
-
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -28,7 +25,6 @@ class AuthController extends Controller
         DB::beginTransaction();
 
         try {
-            // Extract and validate user type
             $userType = $request->input('userType');
 
             if (!in_array($userType, ['student', 'teacher', 'parent', 'university_student'])) {
@@ -38,8 +34,6 @@ class AuthController extends Controller
                 ], 400);
             }
 
-
-            // Prepare basic validation rules
             $basicRules = [
                 'basicData.firstName' => 'required|string|min:2',
                 'basicData.lastName' => 'required|string|min:2',
@@ -53,7 +47,6 @@ class AuthController extends Controller
                 ],
             ];
 
-            // Add type-specific validation rules
             $additionalRules = [];
 
             if ($userType === 'student') {
@@ -61,7 +54,7 @@ class AuthController extends Controller
                     'basicData.grade' => 'required|string',
                     'basicData.birthDate' => 'required|date|before:-6 years|after:-25 years',
                 ];
-            } else if ($userType === 'university_student') {
+            } elseif ($userType === 'university_student') {
                 $additionalRules = [
                     'universityData.faculty' => 'required|string',
                     'universityData.level' => 'required|string',
@@ -101,7 +94,6 @@ class AuthController extends Controller
                 ], 422);
             }
 
-            // Create user
             $basicData = $request->input('basicData');
             $user = User::create([
                 'first_name' => $basicData['firstName'],
@@ -110,10 +102,9 @@ class AuthController extends Controller
                 'phone' => $basicData['phone'],
                 'password' => Hash::make($basicData['password']),
                 'user_type' => $userType,
-                'is_approved' => $userType !== 'teacher', // Teachers need approval
+                'is_approved' => $userType !== 'teacher',
             ]);
 
-            // Create type-specific profile
             if ($userType === 'student') {
                 StudentProfile::create([
                     'user_id' => $user->id,
@@ -146,7 +137,6 @@ class AuthController extends Controller
                     'didit_data' => $request->input('diditData'),
                 ]);
 
-                // Save Didit verification data
                 if ($request->has('diditData')) {
                     $this->saveDiditVerification($user->id, $request);
                 }
@@ -158,18 +148,15 @@ class AuthController extends Controller
                     'didit_data' => $request->input('diditData'),
                 ]);
 
-                // Save Didit verification data
                 if ($request->has('diditData')) {
                     $this->saveDiditVerification($user->id, $request);
                 }
             }
 
-            // Send notifications
             $user->notify(new WelcomeNotification());
 
             if ($userType === 'teacher') {
-                // Notify admin about new teacher application
-                // You can implement admin notification here
+                // Optionally notify admin
             }
 
             DB::commit();
@@ -220,7 +207,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
-            'remember_me' => 'boolean', // Add remember me validation
+            'remember_me' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -230,7 +217,6 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // Add rate limiting check
         $key = 'login_attempts_' . $request->ip();
         $attempts = cache()->get($key, 0);
 
@@ -244,7 +230,6 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            // Increment failed attempts
             cache()->put($key, $attempts + 1, now()->addMinutes(15));
 
             return response()->json([
@@ -253,7 +238,6 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // Clear failed attempts on successful login
         cache()->forget($key);
 
         if (!$user->is_approved) {
@@ -270,40 +254,34 @@ class AuthController extends Controller
             ], 403);
         }
 
-        // Update last login
+        // ✅ Update last login
         $user->update([
             'last_login_at' => now(),
             'last_login_ip' => $request->ip(),
             'last_login_user_agent' => $request->userAgent(),
         ]);
 
-        // Create token with custom expiration
         $tokenName = 'auth_token';
         $abilities = ['*'];
 
-        if ($request->remember_me) {
-            // 3 months expiration
-            $expiration = now()->addDays(90);
-        } else {
-            // 24 hours expiration
-            $expiration = now()->addDay();
-        }
+        $expiration = $request->remember_me
+            ? now()->addDays(90)
+            : now()->addDay();
 
         $token = $user->createToken($tokenName, $abilities, $expiration)->plainTextToken;
 
-        // Load relationships
-        $user->load(['studentProfile', 'teacherProfile', 'parentProfile']);
+        $user->load(['studentProfile', 'teacherProfile', 'parentProfile', 'universityStudentProfile']);
 
         return response()->json([
             'success' => true,
             'message' => 'تم تسجيل الدخول بنجاح',
             'user' => [
-                    'id' => $user->id,
-                    'name' => $user->full_name,
-                    'email' => $user->email,
-                    'type' => $user->user_type,
-                    'profile' => $this->getUserProfile($user),
-                ],
+                'id' => $user->id,
+                'name' => $user->full_name,
+                'email' => $user->email,
+                'type' => $user->user_type,
+                'profile' => $this->getUserProfile($user),
+            ],
             'token' => $token,
             'expires_at' => $expiration->toISOString(),
             'remember_me' => $request->remember_me ?? false
@@ -317,7 +295,6 @@ class AuthController extends Controller
                 return $user->studentProfile;
             case 'university_student':
                 return $user->universityStudentProfile;
-
             case 'teacher':
                 return $user->teacherProfile;
             case 'parent':

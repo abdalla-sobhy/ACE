@@ -1,5 +1,4 @@
 <?php
-// app/Models/User.php
 
 namespace App\Models;
 
@@ -85,4 +84,16 @@ class User extends Authenticatable
     {
         return "{$this->first_name} {$this->last_name}";
     }
+
+public function teachingCourses()
+{
+    return $this->hasMany(Course::class, 'teacher_id');
+}
+
+public function enrolledCourses()
+{
+    return $this->belongsToMany(Course::class, 'course_enrollments', 'student_id', 'course_id')
+        ->withPivot('price_paid', 'enrolled_at', 'progress', 'completed_at')
+        ->withTimestamps();
+}
 }
