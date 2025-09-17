@@ -6,13 +6,57 @@ import Link from "next/link";
 import { useEffect, useState, Suspense } from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { FaUser, FaChalkboardTeacher, FaUserFriends } from "react-icons/fa";
+import {
+  FaUser,
+  FaChalkboardTeacher,
+  FaUserFriends,
+  FaUserGraduate,
+} from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams, useRouter } from "next/navigation";
 
-type UserType = "student" | "teacher" | "parent" | null;
+const verifyAcademicEmail = async (email: string) => {
+  try {
+    const res = await fetch("/api/verify-academic-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    console.log(res);
+    
+    if (!res.ok) {
+      // Try to get JSON error, fallback to generic message
+      let errorMsg = "Server error";
+      try {
+        const err = await res.json();
+        errorMsg = err.message || errorMsg;
+      } catch {
+        // Not JSON, probably HTML error page
+      }
+      return {
+        valid: false,
+        isAcademic: false,
+        institutionName: "",
+        message: errorMsg,
+      };
+    }
+    return await res.json();
+  } catch (err) {
+    console.error("Academic email check failed:", err);
+    return {
+      valid: false,
+      isAcademic: false,
+      institutionName: "",
+      message: "Server error",
+    };
+  }
+};
+console.log(verifyAcademicEmail("benny@stanford.edu"));
+
+
+type UserType = "student" | "teacher" | "parent" | "College" | null;
 
 // Base form data type
 interface BaseFormData {
@@ -35,6 +79,10 @@ interface TeacherAdditionalData {
   specialization: string;
   yearsOfExperience: string;
   cv: FileList;
+}
+// College additional form data
+interface CollegeAdditioalData {
+  college: string;
 }
 
 // Parent additional form data
@@ -76,7 +124,6 @@ interface DiditVerificationData {
     amlCheck?: boolean;
   };
 }
-
 
 // Validation schemas
 const baseSchema = z
@@ -135,14 +182,14 @@ const teacherAdditionalSchema = z.object({
       (files) => files?.[0]?.size <= 5 * 1024 * 1024, // 5MB limit
       "حجم الملف يجب أن يكون أقل من 5 ميجابايت"
     )
-    .refine(
-      (files) => {
-        const allowedTypes = ["application/pdf", "application/msword", 
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
-        return files?.[0] && allowedTypes.includes(files[0].type);
-      },
-      "الملف يجب أن يكون PDF أو Word"
-    ),
+    .refine((files) => {
+      const allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
+      return files?.[0] && allowedTypes.includes(files[0].type);
+    }, "الملف يجب أن يكون PDF أو Word"),
 });
 
 const parentAdditionalSchema = z.object({
@@ -161,7 +208,8 @@ function SignupContent() {
     "idle" | "checking" | "approved" | "failed" | "retry"
   >("idle");
   const [verificationMessage, setVerificationMessage] = useState("");
-  const [diditVerificationData, setDiditVerificationData] = useState<DiditVerificationData | null>(null);
+  const [diditVerificationData, setDiditVerificationData] =
+    useState<DiditVerificationData | null>(null);
 
   // Didit verification functions
   useEffect(() => {
@@ -194,6 +242,13 @@ function SignupContent() {
           Object.keys(state.parentData).forEach((key) => {
             parentAdditionalForm.setValue(key as any, state.parentData[key]);
           });
+        } else if (state.userType === "College" && state.CollegeStudentData) {
+          Object.keys(state.CollegeStudentData).forEach((key) => {
+            collegeStudentForm.setValue(
+              key as any,
+              state.CollegeStudentData[key]
+            );
+          });
         }
 
         if (savedDiditData) {
@@ -211,7 +266,7 @@ function SignupContent() {
         router.push("/signup");
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   // Base form for teachers and parents
@@ -232,6 +287,19 @@ function SignupContent() {
     mode: "onChange",
   });
 
+  // College student schema
+  const collegeStudentSchema = z.object({
+    college: z.string().min(2, "اسم المؤسسة مطلوب"),
+  });
+
+  // College student form
+  const collegeStudentForm = useForm<CollegeAdditioalData>({
+    resolver: zodResolver(collegeStudentSchema),
+    mode: "onChange",
+    defaultValues: {
+      college: "",
+    },
+  });
 
   // Parent additional form
   const parentAdditionalForm = useForm<ParentAdditionalData>({
@@ -278,6 +346,13 @@ function SignupContent() {
       description: "تابع تقدم أبنائك وأدائهم الدراسي",
       color: "#f85149",
     },
+    {
+      type: "College" as UserType,
+      icon: <FaUserGraduate />,
+      title: "طالب جامعي",
+      description: "احصل علي افضل الكورسات لتطوير مسارك المهني",
+      color: "#fff",
+    },
   ];
 
   const handleUserTypeSelect = (type: UserType) => {
@@ -300,6 +375,7 @@ function SignupContent() {
     }
   };
 
+  // College additional info submit
   const handleAdditionalInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (userType === "teacher") {
@@ -310,6 +386,11 @@ function SignupContent() {
     } else if (userType === "parent") {
       parentAdditionalForm.handleSubmit((data) => {
         console.log("Parent additional info validated:", data);
+        setStep(4);
+      })();
+    } else if (userType === "College") {
+      collegeStudentForm.handleSubmit((data) => {
+        console.log("College student info validated:", data);
         setStep(4);
       })();
     }
@@ -324,126 +405,156 @@ function SignupContent() {
     setStep(step - 1);
   };
 
-const handleFinalSubmit = async () => {
-  const formData = new FormData();
-  
-  // Add user type
-  formData.append("userType", userType || "");
+  const handleFinalSubmit = async () => {
+    const formData = new FormData();
 
-  // Prepare the data object to send
-  const dataToSend: any = {
-    userType: userType || ""
-  };
+    // Add user type
+    formData.append("userType", userType || "");
 
-  // Get basic data based on user type
-  if (userType === "student") {
-    const studentData = studentForm.getValues();
-    dataToSend.basicData = studentData;
-    
-    // Add student data to FormData
-    Object.keys(studentData).forEach((key) => {
-      formData.append(`basicData[${key}]`, studentData[key as keyof StudentFormData]);
-    });
-  } else {
-    const baseData = baseForm.getValues();
-    dataToSend.basicData = baseData;
-    
-    // Add basic data to FormData
-    Object.keys(baseData).forEach((key) => {
-      formData.append(`basicData[${key}]`, baseData[key as keyof BaseFormData]);
-    });
-  }
-
-  // Handle teacher-specific data
-  if (userType === "teacher") {
-    const teacherData = teacherAdditionalForm.getValues();
-    
-    // Add teacher data except CV
-    formData.append("teacherData[specialization]", teacherData.specialization);
-    formData.append("teacherData[yearsOfExperience]", teacherData.yearsOfExperience);
-    
-    // Add CV file separately
-    if (teacherData.cv && teacherData.cv[0]) {
-      formData.append("cv", teacherData.cv[0]);
-    }
-    
-    dataToSend.teacherData = {
-      specialization: teacherData.specialization,
-      yearsOfExperience: teacherData.yearsOfExperience
+    // Prepare the data object to send
+    const dataToSend: any = {
+      userType: userType || "",
     };
-  }
-  
-  // Handle parent-specific data
-  if (userType === "parent") {
-    const parentData = parentAdditionalForm.getValues();
-    formData.append("parentData[childrenCount]", parentData.childrenCount);
-    dataToSend.parentData = parentData;
-  }
 
-  // Add Didit verification data for teachers and parents
-  if ((userType === "teacher" || userType === "parent") && diditVerificationData) {
-    // Extract only the needed fields from diditData
-    const diditDataToSend = {
-      sessionId: diditVerificationData.sessionId,
-      sessionNumber: diditVerificationData.sessionNumber,
-      status: diditVerificationData.status
-    };
-    
-    // Add to FormData
-    formData.append("diditData[sessionId]", diditDataToSend.sessionId);
-    formData.append("diditData[sessionNumber]", diditDataToSend.sessionNumber.toString());
-    formData.append("diditData[status]", diditDataToSend.status);
-    
-    dataToSend.diditData = diditDataToSend;
-    
-    // Extract personal info fields
-    if (diditVerificationData.personalInfo) {
-      const personalInfo = {
-        dateOfBirth: diditVerificationData.personalInfo.dateOfBirth || "",
-        gender: diditVerificationData.personalInfo.gender || "",
-        nationalId: diditVerificationData.personalInfo.nationalId || "",
-        documentNumber: diditVerificationData.personalInfo.documentNumber || "",
-        documentType: diditVerificationData.personalInfo.documentType || "",
-        issuingCountry: diditVerificationData.personalInfo.issuingCountry || "",
-        expiryDate: diditVerificationData.personalInfo.expiryDate || "",
-        address: diditVerificationData.personalInfo.address || "",
-        maritalStatus: diditVerificationData.personalInfo.maritalStatus || ""
-      };
-      
-      // Add personal info to FormData
-      Object.keys(personalInfo).forEach((key) => {
-        formData.append(`personalInfo[${key}]`, personalInfo[key as keyof typeof personalInfo]);
+    // Get basic data based on user type
+    if (userType === "student") {
+      const studentData = studentForm.getValues();
+      dataToSend.basicData = studentData;
+
+      // Add student data to FormData
+      Object.keys(studentData).forEach((key) => {
+        formData.append(
+          `basicData[${key}]`,
+          studentData[key as keyof StudentFormData]
+        );
       });
-      
-      dataToSend.personalInfo = personalInfo;
-    }
-  }
-
-  // Log the data being sent
-  console.log("Data being sent to backend:", dataToSend);
-
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/api/auth/register`, {
-      method: "POST",
-      body: formData,
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      if (userType === "teacher") {
-        setStep(6);
-      } else {
-        setStep(5);
-      }
     } else {
-      alert(data.message || "حدث خطأ في التسجيل");
+      const baseData = baseForm.getValues();
+      dataToSend.basicData = baseData;
+
+      // Add basic data to FormData
+      Object.keys(baseData).forEach((key) => {
+        formData.append(
+          `basicData[${key}]`,
+          baseData[key as keyof BaseFormData]
+        );
+      });
     }
-  } catch (error) {
-    console.error("Registration error:", error);
-    alert("حدث خطأ في الاتصال بالخادم");
-  }
-};
+
+    // Handle teacher-specific data
+    if (userType === "teacher") {
+      const teacherData = teacherAdditionalForm.getValues();
+      formData.append(
+        "teacherData[specialization]",
+        teacherData.specialization
+      );
+      formData.append(
+        "teacherData[yearsOfExperience]",
+        teacherData.yearsOfExperience
+      );
+      if (teacherData.cv && teacherData.cv[0]) {
+        formData.append("cv", teacherData.cv[0]);
+      }
+      dataToSend.teacherData = {
+        specialization: teacherData.specialization,
+        yearsOfExperience: teacherData.yearsOfExperience,
+      };
+    }
+
+    // Handle parent-specific data
+    if (userType === "parent") {
+      const parentData = parentAdditionalForm.getValues();
+      formData.append("parentData[childrenCount]", parentData.childrenCount);
+      dataToSend.parentData = parentData;
+    }
+
+    // Handle college-specific data
+    if (userType === "College") {
+      const CollegeStudentData = collegeStudentForm.getValues();
+      formData.append("collegeData[college]", CollegeStudentData.college);
+      dataToSend.CollegeStudentData = CollegeStudentData;
+    }
+
+    // Add Didit verification data for teachers and parents
+    if (
+      (userType === "teacher" || userType === "parent") &&
+      diditVerificationData
+    ) {
+      // Extract only the needed fields from diditData
+      const diditDataToSend = {
+        sessionId: diditVerificationData.sessionId,
+        sessionNumber: diditVerificationData.sessionNumber,
+        status: diditVerificationData.status,
+      };
+
+      // Add to FormData
+      formData.append("diditData[sessionId]", diditDataToSend.sessionId);
+      formData.append(
+        "diditData[sessionNumber]",
+        diditDataToSend.sessionNumber.toString()
+      );
+      formData.append("diditData[status]", diditDataToSend.status);
+
+      dataToSend.diditData = diditDataToSend;
+
+      // Extract personal info fields
+      if (diditVerificationData.personalInfo) {
+        const personalInfo = {
+          dateOfBirth: diditVerificationData.personalInfo.dateOfBirth || "",
+          gender: diditVerificationData.personalInfo.gender || "",
+          nationalId: diditVerificationData.personalInfo.nationalId || "",
+          documentNumber:
+            diditVerificationData.personalInfo.documentNumber || "",
+          documentType: diditVerificationData.personalInfo.documentType || "",
+          issuingCountry:
+            diditVerificationData.personalInfo.issuingCountry || "",
+          expiryDate: diditVerificationData.personalInfo.expiryDate || "",
+          address: diditVerificationData.personalInfo.address || "",
+          maritalStatus: diditVerificationData.personalInfo.maritalStatus || "",
+        };
+
+        // Add personal info to FormData
+        Object.keys(personalInfo).forEach((key) => {
+          formData.append(
+            `personalInfo[${key}]`,
+            personalInfo[key as keyof typeof personalInfo]
+          );
+        });
+
+        dataToSend.personalInfo = personalInfo;
+      }
+    }
+
+    // Log the data being sent
+    console.log("Data being sent to backend:", dataToSend);
+
+    try {
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"
+        }/api/auth/register`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (userType === "teacher") {
+          setStep(6);
+        } else {
+          setStep(5);
+        }
+      } else {
+        alert(data.message || "حدث خطأ في التسجيل");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("حدث خطأ في الاتصال بالخادم");
+    }
+  };
 
   const startVerification = async () => {
     try {
@@ -460,6 +571,8 @@ const handleFinalSubmit = async () => {
           userType === "teacher" ? teacherAdditionalForm.getValues() : null,
         parentData:
           userType === "parent" ? parentAdditionalForm.getValues() : null,
+        CollegeStudentData:
+          userType === "College" ? collegeStudentForm.getValues() : null,
       };
 
       sessionStorage.setItem(
@@ -468,7 +581,10 @@ const handleFinalSubmit = async () => {
       );
 
       if (diditVerificationData) {
-        sessionStorage.setItem("diditVerificationData", JSON.stringify(diditVerificationData));
+        sessionStorage.setItem(
+          "diditVerificationData",
+          JSON.stringify(diditVerificationData)
+        );
       }
 
       const userData =
@@ -489,8 +605,8 @@ const handleFinalSubmit = async () => {
           metadata: {
             userType: userType,
             registrationDate: new Date().toISOString(),
-            platform: "web"
-          }
+            platform: "web",
+          },
         }),
       });
 
@@ -517,158 +633,172 @@ const handleFinalSubmit = async () => {
   };
 
   const checkVerificationStatus = async (sessionId: string) => {
-  try {
-    setVerificationLoading(true);
-    setVerificationStatus("checking");
-    
-    let attempts = 0;
-    const maxAttempts = 10;
-    const pollInterval = 3000;
+    try {
+      setVerificationLoading(true);
+      setVerificationStatus("checking");
 
-    const checkStatus = async () => {
-      const response = await fetch(`/api/didit/session-status/${sessionId}`);
-      const data = await response.json();
+      let attempts = 0;
+      const maxAttempts = 10;
+      const pollInterval = 3000;
 
-      if (!response.ok && response.status !== 404) {
-        throw new Error(data.error || 'Failed to check status');
-      }
+      const checkStatus = async () => {
+        const response = await fetch(`/api/didit/session-status/${sessionId}`);
+        const data = await response.json();
 
-      const status = data.status;
-      
-      if (status === "Approved") {
-        // Use the decision data directly from the session-status response
-        if (data.decision) {
-          const verificationData: DiditVerificationData = {
-            sessionId: data.sessionId,
-            sessionNumber: data.decision.session_number,
-            status: data.status,
-            vendorData: data.decision.vendor_data,
-            metadata: data.decision.metadata,
-            personalInfo: {
-              firstName: data.decision.id_verification?.first_name,
-              lastName: data.decision.id_verification?.last_name,
-              fullName: data.decision.id_verification?.full_name,
-              dateOfBirth: data.decision.id_verification?.date_of_birth,
-              gender: data.decision.id_verification?.gender,
-              nationality: data.decision.id_verification?.nationality,
-              nationalId: data.decision.id_verification?.personal_number,
-              documentNumber: data.decision.id_verification?.document_number,
-              documentType: data.decision.id_verification?.document_type,
-              issuingCountry: data.decision.id_verification?.issuing_state,
-              issuingState: data.decision.id_verification?.issuing_state_name,
-              expiryDate: data.decision.id_verification?.expiration_date,
-              address: data.decision.id_verification?.address,
-              maritalStatus: data.decision.id_verification?.marital_status,
-            },
-            checks: {
-              documentVerification: data.decision.id_verification?.status === "Approved",
-              faceMatch: data.decision.face_match?.status === "Approved",
-              liveness: data.decision.liveness?.status === "Approved",
-              ageVerification: data.decision.id_verification?.age >= 18,
-              amlCheck: data.decision.aml?.status === "Approved",
-            }
-          };
-          
-          setDiditVerificationData(verificationData);
-          
-          // Check nationality for teachers
-          if (userType === "teacher") {
-            const isEgyptian = 
-              data.decision.id_verification?.issuing_state === "EGY" ||
-              data.decision.id_verification?.issuing_state_name?.toLowerCase() === "egypt";
-              
-            if (!isEgyptian) {
-              setDiditVerified(false);
-              setVerificationStatus("failed");
-              setVerificationMessage("عذراً، يجب أن تكون مصري الجنسية للتسجيل كمحاضر في المنصة");
-              sessionStorage.removeItem("diditSessionId");
-              return true;
-            }
-          }
+        if (!response.ok && response.status !== 404) {
+          throw new Error(data.error || "Failed to check status");
         }
-        
-        setDiditVerified(true);
-        setVerificationStatus("approved");
-        setVerificationMessage("تم التحقق من هويتك بنجاح! ✅");
-        sessionStorage.removeItem("diditSessionId");
-        
-        // Auto-proceed after verification for better UX
-        setTimeout(() => {
-          if (userType === "teacher" || userType === "parent") {
-            // Trigger form submit to move to next step
-            handleAdditionalInfoSubmit(new Event('submit') as any);
+
+        const status = data.status;
+
+        if (status === "Approved") {
+          // Use the decision data directly from the session-status response
+          if (data.decision) {
+            const verificationData: DiditVerificationData = {
+              sessionId: data.sessionId,
+              sessionNumber: data.decision.session_number,
+              status: data.status,
+              vendorData: data.decision.vendor_data,
+              metadata: data.decision.metadata,
+              personalInfo: {
+                firstName: data.decision.id_verification?.first_name,
+                lastName: data.decision.id_verification?.last_name,
+                fullName: data.decision.id_verification?.full_name,
+                dateOfBirth: data.decision.id_verification?.date_of_birth,
+                gender: data.decision.id_verification?.gender,
+                nationality: data.decision.id_verification?.nationality,
+                nationalId: data.decision.id_verification?.personal_number,
+                documentNumber: data.decision.id_verification?.document_number,
+                documentType: data.decision.id_verification?.document_type,
+                issuingCountry: data.decision.id_verification?.issuing_state,
+                issuingState: data.decision.id_verification?.issuing_state_name,
+                expiryDate: data.decision.id_verification?.expiration_date,
+                address: data.decision.id_verification?.address,
+                maritalStatus: data.decision.id_verification?.marital_status,
+              },
+              checks: {
+                documentVerification:
+                  data.decision.id_verification?.status === "Approved",
+                faceMatch: data.decision.face_match?.status === "Approved",
+                liveness: data.decision.liveness?.status === "Approved",
+                ageVerification: data.decision.id_verification?.age >= 18,
+                amlCheck: data.decision.aml?.status === "Approved",
+              },
+            };
+
+            setDiditVerificationData(verificationData);
+
+            // Check nationality for teachers
+            if (userType === "teacher") {
+              const isEgyptian =
+                data.decision.id_verification?.issuing_state === "EGY" ||
+                data.decision.id_verification?.issuing_state_name?.toLowerCase() ===
+                  "egypt";
+
+              if (!isEgyptian) {
+                setDiditVerified(false);
+                setVerificationStatus("failed");
+                setVerificationMessage(
+                  "عذراً، يجب أن تكون مصري الجنسية للتسجيل كمحاضر في المنصة"
+                );
+                sessionStorage.removeItem("diditSessionId");
+                return true;
+              }
+            }
           }
-        }, 2000);
-        
-        return true;
-      } else if (["Declined", "Failed", "Rejected"].includes(status)) {
-        setDiditVerified(false);
-        setVerificationStatus("failed");
-        setVerificationMessage("فشل التحقق من الهوية. يرجى المحاولة مرة أخرى.");
-        return true;
-      } else if (status === "In Review") {
-        setVerificationStatus("checking");
-        setVerificationMessage("يتم مراجعة هويتك يدوياً. سنخطرك عند الانتهاء.");
-        localStorage.setItem('pendingVerificationSession', sessionId);
-        return true;
-      } else if (["Not Started", "In Progress", "Pending"].includes(status)) {
+
+          setDiditVerified(true);
+          setVerificationStatus("approved");
+          setVerificationMessage("تم التحقق من هويتك بنجاح! ✅");
+          sessionStorage.removeItem("diditSessionId");
+
+          // Auto-proceed after verification for better UX
+          setTimeout(() => {
+            if (userType === "teacher" || userType === "parent") {
+              // Trigger form submit to move to next step
+              handleAdditionalInfoSubmit(new Event("submit") as any);
+            }
+          }, 2000);
+
+          return true;
+        } else if (["Declined", "Failed", "Rejected"].includes(status)) {
+          setDiditVerified(false);
+          setVerificationStatus("failed");
+          setVerificationMessage(
+            "فشل التحقق من الهوية. يرجى المحاولة مرة أخرى."
+          );
+          return true;
+        } else if (status === "In Review") {
+          setVerificationStatus("checking");
+          setVerificationMessage(
+            "يتم مراجعة هويتك يدوياً. سنخطرك عند الانتهاء."
+          );
+          localStorage.setItem("pendingVerificationSession", sessionId);
+          return true;
+        } else if (["Not Started", "In Progress", "Pending"].includes(status)) {
+          return false;
+        }
+
         return false;
+      };
+
+      while (attempts < maxAttempts) {
+        const isDone = await checkStatus();
+        if (isDone) break;
+
+        attempts++;
+        if (attempts < maxAttempts) {
+          await new Promise((resolve) => setTimeout(resolve, pollInterval));
+        }
       }
-      
-      return false;
-    };
 
-    while (attempts < maxAttempts) {
-      const isDone = await checkStatus();
-      if (isDone) break;
-      
-      attempts++;
-      if (attempts < maxAttempts) {
-        await new Promise(resolve => setTimeout(resolve, pollInterval));
+      if (attempts >= maxAttempts) {
+        setVerificationStatus("retry");
+        setVerificationMessage(
+          "التحقق يستغرق وقتاً أطول من المتوقع. يرجى المحاولة لاحقاً."
+        );
       }
+    } catch (error) {
+      console.error("Status check error:", error);
+      setVerificationStatus("failed");
+      setVerificationMessage("حدث خطأ في التحقق من الحالة.");
+    } finally {
+      setVerificationLoading(false);
     }
+  };
 
-    if (attempts >= maxAttempts) {
-      setVerificationStatus("retry");
-      setVerificationMessage("التحقق يستغرق وقتاً أطول من المتوقع. يرجى المحاولة لاحقاً.");
-    }
+  const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
+    if (!data?.personalInfo) return null;
 
-  } catch (error) {
-    console.error('Status check error:', error);
-    setVerificationStatus("failed");
-    setVerificationMessage("حدث خطأ في التحقق من الحالة.");
-  } finally {
-    setVerificationLoading(false);
-  }
-};
-
-const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
-  if (!data?.personalInfo) return null;
-  
-  return (
-    <div className={styles.verificationSummary}>
-      <h4>بيانات التحقق</h4>
-      <div className={styles.summaryGrid}>
-        <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>الاسم:</span>
-          <span>{data.personalInfo.fullName || `${data.personalInfo.firstName} ${data.personalInfo.lastName}`}</span>
-        </div>
-        <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>تاريخ الميلاد:</span>
-          <span>{data.personalInfo.dateOfBirth}</span>
-        </div>
-        <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>الجنسية:</span>
-          <span>{data.personalInfo.nationality}</span>
-        </div>
-        <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>رقم الهوية:</span>
-          <span>{data.personalInfo.nationalId || data.personalInfo.documentNumber}</span>
+    return (
+      <div className={styles.verificationSummary}>
+        <h4>بيانات التحقق</h4>
+        <div className={styles.summaryGrid}>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>الاسم:</span>
+            <span>
+              {data.personalInfo.fullName ||
+                `${data.personalInfo.firstName} ${data.personalInfo.lastName}`}
+            </span>
+          </div>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>تاريخ الميلاد:</span>
+            <span>{data.personalInfo.dateOfBirth}</span>
+          </div>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>الجنسية:</span>
+            <span>{data.personalInfo.nationality}</span>
+          </div>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>رقم الهوية:</span>
+            <span>
+              {data.personalInfo.nationalId || data.personalInfo.documentNumber}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
   return (
     <div className={styles.container}>
@@ -776,16 +906,54 @@ const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label htmlFor="email">البريد الإلكتروني</label>
+                  <label htmlFor="email">
+                    {userType === "College" ? (
+                      <>البريد الالكتروني الاكاديمي</>
+                    ) : (
+                      <>البريد الإلكتروني</>
+                    )}
+                  </label>
                   <input
                     type="email"
                     id="email"
                     {...getFormField("email").register}
-                    placeholder="example@email.com"
+                    placeholder={
+                      userType === "College"
+                        ? "example@college.edu"
+                        : "example@email.com"
+                    }
                     className={
                       getFormField("email").error ? styles.inputError : ""
                     }
+                    onBlur={async (e) => {
+                      const email = e.target.value;
+                      if (userType === "College" && email) {
+                        try {
+                          const result = await verifyAcademicEmail(email);
+                          if (result.valid && result.isAcademic) {
+                            collegeStudentForm.setValue(
+                              "college",
+                              result.institutionName,
+                              { shouldValidate: true }
+                            );
+                          } else {
+                            baseForm.setError("email", {
+                              type: "manual",
+                              message: result.message || "يجب استخدام بريد إلكتروني جامعي صالح",
+                            });
+                            collegeStudentForm.setValue("college", "", { shouldValidate: true });
+                          }
+                        } catch (err) {
+                          console.error("Email verification failed:", err);
+                          baseForm.setError("email", {
+                            type: "manual",
+                            message: "حدث خطأ في التحقق من البريد الإلكتروني",
+                          });
+                        }
+                      }
+                    }}
                   />
+
                   {getFormField("email").error && (
                     <span className={styles.errorMessage}>
                       {getFormField("email").error?.message}
@@ -894,6 +1062,19 @@ const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
                     </div>
                   </div>
                 )}
+                {/* College-specific fields */}
+              {userType==="College" && (
+                <div className={styles.formGroup}>
+                  <label htmlFor="college">اسم الكليه</label>
+                  <input
+                    type="text"
+                    id="college"
+                    {...collegeStudentForm.register("college")}
+                    value={collegeStudentForm.watch("college")}
+                    readOnly
+                  />
+                </div>
+              )}
 
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
@@ -1011,27 +1192,31 @@ const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
                         )}
 
                         {verificationStatus === "failed" && (
-  <div className={styles.verificationStatus}>
-    <div className={styles.failedIcon}>❌</div>
-    <p className={styles.statusMessage}>
-      {verificationMessage}
-    </p>
-    <button
-      className={styles.retryButton}
-      onClick={() => {
-        // If failed due to nationality, don't allow retry
-        if (verificationMessage.includes("مصري الجنسية")) {
-          router.push("/");
-        } else {
-          setVerificationStatus("idle");
-          setVerificationMessage("");
-        }
-      }}
-    >
-      {verificationMessage.includes("مصري الجنسية") ? "العودة للرئيسية" : "حاول مرة أخرى"}
-    </button>
-  </div>
-)}
+                          <div className={styles.verificationStatus}>
+                            <div className={styles.failedIcon}>❌</div>
+                            <p className={styles.statusMessage}>
+                              {verificationMessage}
+                            </p>
+                            <button
+                              className={styles.retryButton}
+                              onClick={() => {
+                                // If failed due to nationality, don't allow retry
+                                if (
+                                  verificationMessage.includes("مصري الجنسية")
+                                ) {
+                                  router.push("/");
+                                } else {
+                                  setVerificationStatus("idle");
+                                  setVerificationMessage("");
+                                }
+                              }}
+                            >
+                              {verificationMessage.includes("مصري الجنسية")
+                                ? "العودة للرئيسية"
+                                : "حاول مرة أخرى"}
+                            </button>
+                          </div>
+                        )}
 
                         {verificationStatus === "approved" && (
                           <div className={styles.verificationStatus}>
@@ -1040,7 +1225,9 @@ const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
                               {verificationMessage}
                             </p>
                             {diditVerificationData && (
-                              <VerificationSummary data={diditVerificationData} />
+                              <VerificationSummary
+                                data={diditVerificationData}
+                              />
                             )}
                             <p className={styles.redirectMessage}>
                               سيتم توجيهك تلقائياً...
@@ -1144,20 +1331,31 @@ const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
                                       : ""
                                   }`}
                                 />
-                                <label htmlFor="cv" className={styles.fileUploadLabel}>
+                                <label
+                                  htmlFor="cv"
+                                  className={styles.fileUploadLabel}
+                                >
                                   <span className={styles.uploadIcon}>📄</span>
                                   <span>اختر ملف السيرة الذاتية</span>
-                                  <small>PDF أو Word (حد أقصى 5 ميجابايت)</small>
+                                  <small>
+                                    PDF أو Word (حد أقصى 5 ميجابايت)
+                                  </small>
                                 </label>
                                 {teacherAdditionalForm.watch("cv")?.[0] && (
                                   <p className={styles.fileName}>
-                                    {teacherAdditionalForm.watch("cv")?.[0].name}
+                                    {
+                                      teacherAdditionalForm.watch("cv")?.[0]
+                                        .name
+                                    }
                                   </p>
                                 )}
                               </div>
                               {teacherAdditionalForm.formState.errors.cv && (
                                 <span className={styles.errorMessage}>
-                                  {teacherAdditionalForm.formState.errors.cv.message}
+                                  {
+                                    teacherAdditionalForm.formState.errors.cv
+                                      .message
+                                  }
                                 </span>
                               )}
                             </div>
@@ -1285,38 +1483,57 @@ const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
           {/* Step 4: Terms and Submit */}
           {step === 4 && (
             <div className={styles.stepContent}>
-
-
               {/* Add this debug section - remove it later */}
-    {process.env.NODE_ENV === 'development' && (
-      <div style={{ 
-        background: '#1a1a1a', 
-        padding: '1rem', 
-        borderRadius: '8px', 
-        marginBottom: '2rem',
-        border: '1px solid #333'
-      }}>
-        <h4 style={{ color: '#58a6ff', marginBottom: '0.5rem' }}>Debug Info:</h4>
-        <pre style={{ 
-          color: '#c9d1d9', 
-          fontSize: '12px', 
-          overflow: 'auto',
-          whiteSpace: 'pre-wrap'
-        }}>
-          {JSON.stringify({
-            userType,
-            basicData: userType === "student" ? studentForm.getValues() : baseForm.getValues(),
-            teacherData: userType === "teacher" ? teacherAdditionalForm.getValues() : null,
-            parentData: userType === "parent" ? parentAdditionalForm.getValues() : null,
-            diditData: diditVerificationData,
-            diditSessionId
-          }, null, 2)}
-        </pre>
-      </div>
-    )}
+              {process.env.NODE_ENV === "development" && (
+                <div
+                  style={{
+                    background: "#1a1a1a",
+                    padding: "1rem",
+                    borderRadius: "8px",
+                    marginBottom: "2rem",
+                    border: "1px solid #333",
+                  }}
+                >
+                  <h4 style={{ color: "#58a6ff", marginBottom: "0.5rem" }}>
+                    Debug Info:
+                  </h4>
+                  <pre
+                    style={{
+                      color: "#c9d1d9",
+                      fontSize: "12px",
+                      overflow: "auto",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {JSON.stringify(
+                      {
+                        userType,
+                        basicData:
+                          userType === "student"
+                            ? studentForm.getValues()
+                            : baseForm.getValues(),
+                        teacherData:
+                          userType === "teacher"
+                            ? teacherAdditionalForm.getValues()
+                            : null,
 
-
-
+                        parentData:
+                          userType === "parent"
+                            ? parentAdditionalForm.getValues()
+                            : null,
+                        CollegeStudentData:
+                          userType === "College"
+                            ? collegeStudentForm.getValues()
+                            : null,
+                        diditData: diditVerificationData,
+                        diditSessionId,
+                      },
+                      null,
+                      2
+                    )}
+                  </pre>
+                </div>
+              )}
 
               <h2 className={styles.stepTitle}>الشروط والأحكام</h2>
               <p className={styles.subtitle}>
@@ -1440,7 +1657,7 @@ const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
                 العودة للصفحة الرئيسية
               </Link>
             </div>
-)}
+          )}
         </div>
       </main>
     </div>
@@ -1449,16 +1666,20 @@ const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
 
 export default function SignupPage() {
   return (
-    <Suspense fallback={
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh' 
-      }}>
-        <div>Loading...</div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <div>Loading...</div>
+        </div>
+      }
+    >
       <SignupContent />
     </Suspense>
   );
