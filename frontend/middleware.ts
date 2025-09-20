@@ -1,3 +1,4 @@
+// middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -12,6 +13,11 @@ export function middleware(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
   const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
 
+  // Allow access to OTP verification page without token
+  if (pathname === '/verifyEmail') {
+    return NextResponse.next();
+  }
+
   // Redirect to login if accessing protected route without token
   if (isProtectedRoute && !token) {
     const loginUrl = new URL('/login', request.url);
@@ -21,8 +27,6 @@ export function middleware(request: NextRequest) {
 
   // Redirect to appropriate dashboard based on user type if accessing auth routes with token
   if (isAuthRoute && token) {
-    // Since we can't access localStorage in middleware, redirect to a general dashboard
-    // The dashboard component will then redirect based on user type
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
@@ -37,6 +41,7 @@ export const config = {
     '/admin/:path*',
     '/login',
     '/signup',
-    '/forgot-password'
+    '/forgot-password',
+    '/verifyEmail'
   ]
 };
