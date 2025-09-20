@@ -1,31 +1,32 @@
-'use client';
-
+'use client'
 import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './verifyEmail.module.css';
 
-export default function VerifyEmailPage() {
-  const searchParams = useSearchParams();
+export default function VerifyEmailPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const router = useRouter();
-  
+
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [resendTimer, setResendTimer] = useState(0);
   const [message, setMessage] = useState('');
-  
-  const email = searchParams?.get('email') || '';
-  const institutionName = searchParams?.get('institution') || '';
-  const userType = searchParams?.get('userType') || '';
-  
-  const formData = searchParams?.get('formData') || '';
-  
+
+  const email = (searchParams.email as string) || '';
+  const institutionName = (searchParams.institution as string) || '';
+  const userType = (searchParams.userType as string) || '';
+  const formData = (searchParams.formData as string) || '';
+
   useEffect(() => {
-    if (!email || !searchParams) {
+    if (!email) {
       router.push('/signup');
     }
-  }, [email, router, searchParams]);
+  }, [email, router]);
   
   useEffect(() => {
     if (resendTimer > 0) {
