@@ -14,11 +14,7 @@ return new class extends Migration
     Schema::create('university_student_profiles', function (Blueprint $table) {
         $table->id();
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->string('faculty'); 
-        $table->string('department')->nullable(); 
-        $table->string('level'); 
-        $table->date('birth_date')->nullable();
-        $table->json('preferred_subjects')->nullable();
+        $table->string('faculty');
         $table->string('goal')->nullable();
         $table->timestamps();
     });

@@ -8,16 +8,7 @@ class UniversityStudentProfile extends Model
     protected $fillable = [
         'user_id',
         'faculty',
-        'department',
-        'level',
-        'birth_date',
-        'preferred_subjects',
         'goal',
-    ];
-
-    protected $casts = [
-        'birth_date' => 'date',
-        'preferred_subjects' => 'array',
     ];
 
     public function user()

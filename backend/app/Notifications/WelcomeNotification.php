@@ -27,7 +27,7 @@ class WelcomeNotification extends Notification
                     ->line('يستغرق هذا عادة من 1-2 يوم عمل.');
         } else {
             $message->line('يمكنك الآن تسجيل الدخول والبدء في استخدام المنصة.')
-                    ->action('تسجيل الدخول', url('/login'));
+                    ->action('تسجيل الدخول', url('http://localhost:3000/login'));
         }
 
         return $message->line('شكراً لاختيارك EduEgypt!');

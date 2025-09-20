@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('phone');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('user_type', ['student', 'teacher', 'parent', 'admin']);
+            $table->enum('user_type', ['university_student', 'student', 'teacher', 'parent', 'admin']);
             $table->enum('status', ['pending', 'active', 'suspended'])->default('active');
             $table->boolean('is_approved')->default(true); // false for teachers until approved
             $table->rememberToken();

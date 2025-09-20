@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/send-otp', [AuthController::class, 'sendOtp']);
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 
 // Didit verification routes
 Route::post('/didit/create-session', [DiditController::class, 'createSession']);
@@ -30,7 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
         ]);
     });
 
-    // Courses
     Route::get('/courses', [CourseController::class, 'index']);
 
     // Teacher routes

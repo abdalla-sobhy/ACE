@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -57,8 +58,6 @@ class AuthController extends Controller
             } elseif ($userType === 'university_student') {
                 $additionalRules = [
                     'universityData.faculty' => 'required|string',
-                    'universityData.level' => 'required|string',
-                    'basicData.birthDate' => 'nullable|date|before:-16 years|after:-30 years',
                     'basicData.email' => [
                         'required',
                         'email',
@@ -116,10 +115,6 @@ class AuthController extends Controller
                 UniversityStudentProfile::create([
                     'user_id' => $user->id,
                     'faculty' => $universityData['faculty'],
-                    'department' => $universityData['department'] ?? null,
-                    'level' => $universityData['level'],
-                    'birth_date' => $basicData['birthDate'] ?? null,
-                    'preferred_subjects' => $universityData['preferredSubjects'] ?? null,
                     'goal' => $universityData['goal'] ?? null,
                 ]);
             } elseif ($userType === 'teacher') {
@@ -156,7 +151,7 @@ class AuthController extends Controller
             $user->notify(new WelcomeNotification());
 
             if ($userType === 'teacher') {
-                // Optionally notify admin
+                // I should notify admin here, I think
             }
 
             DB::commit();
@@ -254,7 +249,6 @@ class AuthController extends Controller
             ], 403);
         }
 
-        // ✅ Update last login
         $user->update([
             'last_login_at' => now(),
             'last_login_ip' => $request->ip(),
@@ -313,4 +307,115 @@ class AuthController extends Controller
             'message' => 'تم تسجيل الخروج بنجاح'
         ]);
     }
+
+    public function sendOtp(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+        'institution_name' => 'required|string',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'البيانات غير صحيحة',
+            'errors' => $validator->errors()
+        ], 422);
+    }
+
+    $existingUser = User::where('email', $request->email)->first();
+    if ($existingUser) {
+        return response()->json([
+            'success' => false,
+            'message' => 'البريد الإلكتروني مسجل بالفعل'
+        ], 400);
+    }
+
+    $otp = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+    $cacheKey = 'otp_' . md5($request->email);
+    cache()->put($cacheKey, [
+        'otp' => $otp,
+        'email' => $request->email,
+        'institution_name' => $request->institution_name,
+        'attempts' => 0
+    ], now()->addMinutes(10));
+
+    try {
+        Mail::send('emails.otp', [
+            'otp' => $otp,
+            'institution_name' => $request->institution_name
+        ], function ($message) use ($request) {
+            $message->to($request->email)
+                    ->subject('رمز التحقق من EduEgypt');
+        });
+
+        Log::info('OTP sent', ['email' => $request->email, 'otp' => $otp]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم إرسال رمز التحقق إلى بريدك الإلكتروني'
+        ]);
+
+    } catch (\Exception $e) {
+        Log::error('Failed to send OTP email: ' . $e->getMessage());
+
+        return response()->json([
+            'success' => false,
+            'message' => 'فشل في إرسال رمز التحقق. حاول مرة أخرى.'
+        ], 500);
+    }
+}
+
+public function verifyOtp(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+        'otp' => 'required|string|size:6',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'البيانات غير صحيحة',
+            'errors' => $validator->errors()
+        ], 422);
+    }
+
+    $cacheKey = 'otp_' . md5($request->email);
+    $otpData = cache()->get($cacheKey);
+
+    if (!$otpData) {
+        return response()->json([
+            'success' => false,
+            'message' => 'رمز التحقق منتهي الصلاحية أو غير موجود'
+        ], 400);
+    }
+
+    $otpData['attempts']++;
+    cache()->put($cacheKey, $otpData, now()->addMinutes(10));
+
+    if ($otpData['attempts'] > 3) {
+        cache()->forget($cacheKey);
+        return response()->json([
+            'success' => false,
+            'message' => 'تجاوزت عدد المحاولات المسموح. حاول مرة أخرى.'
+        ], 429);
+    }
+
+    if ($otpData['otp'] !== $request->otp) {
+        return response()->json([
+            'success' => false,
+            'message' => 'رمز التحقق غير صحيح'
+        ], 400);
+    }
+
+    cache()->forget($cacheKey);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'تم التحقق بنجاح',
+        'institution_name' => $otpData['institution_name']
+    ]);
+}
 }
