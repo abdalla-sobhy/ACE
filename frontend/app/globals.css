@@ -29,29 +29,37 @@
 /* Light theme */
 :root.light {
   --main-color: #ffffff;
-  --links-color: #0366d6;
+  --main-color-transparent: #ffffffdd;
+  --blue: #0969da;
+  --blue-darker: #054da3;
   --form-color: #f6f8fa;
   --borders: #d0d7de;
-  --main-text-white: #24292e;
-  --p-text: #57606a;
+  --main-text-white: #24292f;
+  --main-text-white-lighter: #57606a; 
+  --p-text: #6e7781;
   --btn: #2ea043;
   --from-wrapper-color: #f6f8fa;
   --input-color: #ffffff;
-  --input-text: #57606a;
+  --input-border-color: #d0d7de;
+  --input-text: #24292f;
   --input-placeholder: #6e778180;
 }
 
 /* Dark theme */
 :root.dark {
   --main-color: #0d1117;
-  --links-color: #70b9ff;
+  --main-color-transparent: #0d1117dd;
+  --blue: #70b9ff;
+  --blue-darker: #70b9ff;
   --form-color: #161b22;
-  --borders: #323037bb;
+  --borders: #30363d;
   --main-text-white: #c9d1d9;
-  --p-text: #c9d1d990;
+  --main-text-white-lighter: #f0f6fc;
+  --p-text: #8b949e;
   --btn: #2EA043;
   --from-wrapper-color: #161B22;
   --input-color: #0D1117;
+  --input-border-color: #30363d;
   --input-text: #6E7681;
   --input-placeholder: #6E768180;
 }

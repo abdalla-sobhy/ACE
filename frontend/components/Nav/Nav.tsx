@@ -79,6 +79,9 @@ export default function Nav() {
           >
             تواصل معنا
           </Link>
+          <div id="themeIcon">
+            <ThemeToggle />
+          </div>
         </div>
         <div className={styles.navRight}>
           <Link
