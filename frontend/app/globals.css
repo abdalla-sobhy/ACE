@@ -28,6 +28,7 @@
 
 /* Light theme */
 :root.light {
+  --black-trans: #f6f8fa90;
   --main-color: #ffffff;
   --main-color-transparent: #ffffffdd;
   --blue: #0969da;
@@ -47,6 +48,7 @@
 
 /* Dark theme */
 :root.dark {
+  --black-trans: #00000090;
   --main-color: #0d1117;
   --main-color-transparent: #0d1117dd;
   --blue: #70b9ff;

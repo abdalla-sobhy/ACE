@@ -16,8 +16,8 @@
 
 /* icon size */
 .icon {
-  width: 1.25rem;  /* w-5 */
-  height: 1.25rem; /* h-5 */
+  width: 1.60rem; 
+  height: 1.60rem;
   transition: transform 0.3s ease;
   animation: 1s flip;
 }

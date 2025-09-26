@@ -2,9 +2,9 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(13, 17, 23, 0.9);
+  background: var(--main-color-transparent);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--borders);
   z-index: 1000;
   padding: 16px 0;
 }
@@ -52,7 +52,7 @@
 }
 
 .navLeft a {
-  color: #c9d1d9;
+  color: var(--main-text-white);
   text-decoration: none;
   font-size: 16px;
   transition: color 0.2s;
@@ -69,7 +69,7 @@
 }
 
 .signIn, .signInActive {
-  color: #c9d1d9;
+  color: var(--main-text-white);
   text-decoration: none;
   padding: 8px 16px;
   transition: color 0.2s;
@@ -118,7 +118,7 @@
 .hamburger span {
   width: 25px;
   height: 3px;
-  background-color: #c9d1d9;
+  background-color: var(--main-text-white);
   margin: 3px 0;
   transition: 0.3s;
   border-radius: 2px;
@@ -149,13 +149,13 @@
     top: 65px;
     left: 0;
     right: 0;
-    background: rgba(13, 17, 23, 0.98);
+    background: var(--main-color-transparent);
     backdrop-filter: blur(10px);
     flex-direction: column;
     padding: 20px 24px;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-    border-bottom: 1px solid #30363d;
+    border-bottom: 1px solid var(--borders);
     max-height: calc(100vh - 65px);
     overflow-y: auto;
   }
@@ -173,13 +173,13 @@
 
   .navLeft a {
     padding: 15px 0;
-    border-bottom: 1px solid #30363d;
+    border-bottom: 1px solid var(--borders);
     width: 100%;
     text-align: right;
   }
 
   .navLeft a:first-child {
-    border-top: 1px solid #30363d;
+    border-top: 1px solid var(--borders);
   }
 
   .navRight {
@@ -220,7 +220,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--black-trans);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -239,7 +239,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--black-trans);
   z-index: -1;
   display: none;
 }
