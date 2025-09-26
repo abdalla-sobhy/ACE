@@ -1,27 +1,59 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DiditController;
+use App\Http\Controllers\Api\ParentStudentController;
+use App\Http\Controllers\Api\StudentController;   // from studentRegister
+use App\Http\Controllers\Api\CourseController;    // from main
+use App\Http\Controllers\Api\TeacherController;   // from main
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Http\Request;
 
-// Public routes (no authentication needed)
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/verify-email/{token}', [AuthController::class, 'verifyEmail']);
-// didit route
-Route::prefix('auth')->group(function () {
-    Route::post('/register', [RegisterController::class, 'register']);
-});
+// Public routes
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/send-otp', [AuthController::class, 'sendOtp']);
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 
+// Didit verification routes
+Route::post('/didit/create-session', [DiditController::class, 'createSession']);
+Route::get('/didit/session-status/{sessionId}', [DiditController::class, 'getSessionStatus']);
+Route::post('/didit/webhook', [DiditController::class, 'webhook']);
 
-// Protected routes (need authentication)
+// Protected routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
-});
+    // Auth routes
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/auth/user', function (Request $request) {
+        return $request->user()->load([
+            'studentProfile',
+            'teacherProfile',
+            'parentProfile'
+        ]);
+    });
 
-// Test route, No one delete this I will delete it myself. Remind me if I forgot.
-Route::get('/test', function () {
-    return response()->json(['message' => 'API is working!']);
+    Route::get('/courses', [CourseController::class, 'index']);
+
+    // Teacher routes
+    Route::prefix('teacher')->group(function () {
+        Route::get('/courses', [TeacherController::class, 'getCourses']);
+        Route::get('/stats', [TeacherController::class, 'getStats']);
+        Route::post('/courses', [TeacherController::class, 'createCourse']);
+        Route::delete('/courses/{id}', [TeacherController::class, 'deleteCourse']);
+    });
+
+    // Parent routes
+    Route::middleware('user-type:parent')->prefix('parent')->group(function () {
+        Route::post('/search-student', [ParentStudentController::class, 'searchStudent']);
+        Route::post('/follow-request', [ParentStudentController::class, 'sendFollowRequest']);
+        Route::get('/followed-students', [ParentStudentController::class, 'getFollowedStudents']);
+        Route::get('/student/{id}', [ParentStudentController::class, 'getStudentDetails']);
+        Route::delete('/unfollow/{id}', [ParentStudentController::class, 'unfollowStudent']);
+    });
+
+    // Student routes
+    Route::middleware('user-type:student')->prefix('student')->group(function () {
+        Route::get('/follow-requests', [ParentStudentController::class, 'getFollowRequests']);
+        Route::post('/follow-request/{id}', [ParentStudentController::class, 'handleFollowRequest']);
+    });
 });

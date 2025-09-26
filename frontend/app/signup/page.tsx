@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */ /* This needs to be changed */
 "use client";
 
 import styles from "./Signup.module.css";
@@ -6,13 +5,56 @@ import Link from "next/link";
 import { useEffect, useState, Suspense } from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { FaUser, FaChalkboardTeacher, FaUserFriends } from "react-icons/fa";
+import {
+  FaUser,
+  FaChalkboardTeacher,
+  FaUserFriends,
+  FaUserGraduate,
+} from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams, useRouter } from "next/navigation";
 
-type UserType = "student" | "teacher" | "parent" | null;
+const verifyAcademicEmail = async (email: string) => {
+  try {
+    const res = await fetch("/api/verify-academic-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    
+    if (!res.ok) {
+      let errorMsg = "Server error";
+      try {
+        const err = await res.json();
+        errorMsg = err.message || errorMsg;
+      } catch {
+      }
+      return {
+        valid: false,
+        isAcademic: false,
+        isEgyptian: false,
+        institutionName: "",
+        requiresOtp: false,
+        message: errorMsg,
+      };
+    }
+    return await res.json();
+  } catch (err) {
+    console.error("Academic email check failed:", err);
+    return {
+      valid: false,
+      isAcademic: false,
+      isEgyptian: false,
+      institutionName: "",
+      requiresOtp: false,
+      message: "Server error",
+    };
+  }
+};
+
+type UserType = "student" | "teacher" | "parent" | "university_student" | null;
 
 // Base form data type
 interface BaseFormData {
@@ -34,11 +76,92 @@ interface StudentFormData extends BaseFormData {
 interface TeacherAdditionalData {
   specialization: string;
   yearsOfExperience: string;
+  cv: FileList;
+}
+
+interface UniversityStudentData {
+  faculty: string;
+  department?: string;
+  major?: string;
+  skills?: string[];
+  preferredSubjects?: string[]
+  goal?: string;
 }
 
 // Parent additional form data
 interface ParentAdditionalData {
   childrenCount: string;
+}
+
+interface DiditVerificationData {
+  sessionId: string;
+  sessionNumber: number;
+  status: string;
+  vendorData: string;
+  metadata?: Record<string, unknown>;
+  personalInfo?: {
+    firstName?: string;
+    lastName?: string;
+    firstNameNative?: string;
+    lastNameNative?: string;
+    fullName?: string;
+    dateOfBirth?: string;
+    gender?: string;
+    nationality?: string;
+    nationalId?: string;
+    documentNumber?: string;
+    documentType?: string;
+    issuingCountry?: string;
+    issuingState?: string;
+    expiryDate?: string;
+    address?: string;
+    maritalStatus?: string;
+  };
+  checks?: {
+    documentVerification?: boolean;
+    faceMatch?: boolean;
+    liveness?: boolean;
+    ageVerification?: boolean;
+    amlCheck?: boolean;
+  };
+}
+
+// Type for registration state
+interface RegistrationState {
+  step: number;
+  userType: UserType;
+  formData: BaseFormData | StudentFormData;
+  teacherData?: TeacherAdditionalData | null;
+  parentData?: ParentAdditionalData | null;
+  universityStudentData?: UniversityStudentData | null;
+}
+
+// Type for data being sent to backend
+interface RegistrationPayload {
+  userType: string;
+  basicData?: BaseFormData | StudentFormData;
+  teacherData?: {
+    specialization: string;
+    yearsOfExperience: string;
+  };
+  parentData?: ParentAdditionalData;
+  universityData?: UniversityStudentData;
+  diditData?: {
+    sessionId: string;
+    sessionNumber: number;
+    status: string;
+  };
+  personalInfo?: {
+    dateOfBirth: string;
+    gender: string;
+    nationalId: string;
+    documentNumber: string;
+    documentType: string;
+    issuingCountry: string;
+    expiryDate: string;
+    address: string;
+    maritalStatus: string;
+  };
 }
 
 // Validation schemas
@@ -62,7 +185,6 @@ const baseSchema = z
     path: ["confirmPassword"],
   });
 
-// Update student schema to use phone instead of phoneNumber
 const studentSchema = z
   .object({
     firstName: z.string().min(2, "الاسم يجب أن يكون حرفين على الأقل"),
@@ -91,79 +213,50 @@ const studentSchema = z
 const teacherAdditionalSchema = z.object({
   specialization: z.string().min(1, "يرجى اختيار التخصص"),
   yearsOfExperience: z.string().min(1, "يرجى اختيار سنوات الخبرة"),
+  cv: z
+    .custom<FileList>()
+    .refine((files) => files?.length > 0, "يرجى رفع السيرة الذاتية")
+    .refine(
+      (files) => files?.[0]?.size <= 5 * 1024 * 1024, // 5MB limit
+      "حجم الملف يجب أن يكون أقل من 5 ميجابايت"
+    )
+    .refine((files) => {
+      const allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
+      return files?.[0] && allowedTypes.includes(files[0].type);
+    }, "الملف يجب أن يكون PDF أو Word"),
 });
 
 const parentAdditionalSchema = z.object({
   childrenCount: z.string().min(1, "يرجى اختيار عدد الأبناء"),
 });
 
+// university_student student schema
+const universityStudentSchema = z.object({
+  faculty: z.string().min(2, "اسم الكلية مطلوب"),
+  department: z.string().optional(),
+  major: z.string().optional(),
+  skills: z.array(z.string()).optional(),
+});
+
 function SignupContent() {
   const [step, setStep] = useState(1);
   const [userType, setUserType] = useState<UserType>(null);
   const [diditVerified, setDiditVerified] = useState(false);
-  const [diditSessionId, setDiditSessionId] = useState<string | null>(null);
+  const [, setDiditSessionId] = useState<string | null>(null);
   const [verificationLoading, setVerificationLoading] = useState(false);
+  const [emailVerificationLoading, setEmailVerificationLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const [verificationStatus, setVerificationStatus] = useState<
     "idle" | "checking" | "approved" | "failed" | "retry"
   >("idle");
   const [verificationMessage, setVerificationMessage] = useState("");
-
-  // Didit verification functions
-  useEffect(() => {
-    // Check if searchParams exists and if returning from verification
-    if (searchParams && searchParams.get("verification") === "complete") {
-      // Restore saved state
-      const savedState = sessionStorage.getItem("registrationState");
-      const savedSessionId = sessionStorage.getItem("diditSessionId");
-
-      if (savedState) {
-        const state = JSON.parse(savedState);
-
-        // Restore form state
-        setStep(state.step);
-        setUserType(state.userType);
-
-        // Restore form data
-        if (state.userType === "student" && state.formData) {
-          Object.keys(state.formData).forEach((key) => {
-            studentForm.setValue(key as any, state.formData[key]);
-          });
-        } else if (state.formData) {
-          Object.keys(state.formData).forEach((key) => {
-            baseForm.setValue(key as any, state.formData[key]);
-          });
-        }
-
-        // Restore additional data for teachers/parents
-        if (state.userType === "teacher" && state.teacherData) {
-          Object.keys(state.teacherData).forEach((key) => {
-            teacherAdditionalForm.setValue(key as any, state.teacherData[key]);
-          });
-        } else if (state.userType === "parent" && state.parentData) {
-          Object.keys(state.parentData).forEach((key) => {
-            parentAdditionalForm.setValue(key as any, state.parentData[key]);
-          });
-        }
-
-        // IMPORTANT: Check the actual verification status instead of auto-marking as verified
-        if (savedSessionId) {
-          setDiditSessionId(savedSessionId);
-          // Check the actual status
-          checkVerificationStatus(savedSessionId);
-        }
-
-        // Clean up
-        sessionStorage.removeItem("registrationState");
-        // Don't remove diditSessionId yet - we need it for status check
-
-        // Clean the URL
-        router.push("/signup");
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  const [diditVerificationData, setDiditVerificationData] =
+    useState<DiditVerificationData | null>(null);
 
   // Base form for teachers and parents
   const baseForm = useForm<BaseFormData>({
@@ -183,11 +276,127 @@ function SignupContent() {
     mode: "onChange",
   });
 
+  // university_student student form
+  const universityStudentForm = useForm<UniversityStudentData>({
+  resolver: zodResolver(universityStudentSchema),
+  mode: "onChange",
+  defaultValues: {
+    faculty: "",
+    department: "",
+    major: "",
+    skills: [],
+  },
+});
+
   // Parent additional form
   const parentAdditionalForm = useForm<ParentAdditionalData>({
     resolver: zodResolver(parentAdditionalSchema),
     mode: "onChange",
   });
+
+  // Check if returning from OTP verification
+  useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const verified = urlParams.get('verified');
+  const savedEmail = urlParams.get('email');
+  const savedInstitution = urlParams.get('institution');
+  const stepParam = urlParams.get('step');
+  
+  if (verified === 'true' && savedEmail && stepParam === '2') {
+    const emailVerified = sessionStorage.getItem('emailVerified');
+    const verifiedEmail = sessionStorage.getItem('verifiedEmail');
+    const institutionName = sessionStorage.getItem('institutionName');
+    
+    if (emailVerified === 'true' && verifiedEmail === savedEmail) {
+      const savedFormData = sessionStorage.getItem('signupFormData');
+      
+      if (savedFormData) {
+        const formData = JSON.parse(savedFormData);
+        
+        setUserType(formData.userType as UserType);
+        
+        if (formData.userType === "university_student") {
+          Object.keys(formData).forEach((key) => {
+            if (key !== 'userType' && key !== 'step' && key !== 'skipStep3') {
+              baseForm.setValue(key as keyof BaseFormData, formData[key]);
+            }
+          });
+          
+          universityStudentForm.setValue("faculty", institutionName || savedInstitution || '');
+          baseForm.clearErrors("email");
+          
+          // Skip directly to step 4 (terms)
+          setStep(4);
+        }
+        
+        sessionStorage.removeItem('signupFormData');
+        sessionStorage.removeItem('emailVerified');
+        sessionStorage.removeItem('verifiedEmail');
+        sessionStorage.removeItem('institutionName');
+      }
+      
+      router.replace('/signup');
+    }
+  }
+}, [baseForm, universityStudentForm, studentForm, router]);
+
+  // Didit verification functions
+  useEffect(() => {
+    if (searchParams && searchParams.get("verification") === "complete") {
+      const savedState = sessionStorage.getItem("registrationState");
+      const savedSessionId = sessionStorage.getItem("diditSessionId");
+      const savedDiditData = sessionStorage.getItem("diditVerificationData");
+
+      if (savedState) {
+        const state = JSON.parse(savedState) as RegistrationState;
+
+        setStep(state.step);
+        setUserType(state.userType);
+
+        if (state.userType === "student" && state.formData) {
+          Object.keys(state.formData).forEach((key) => {
+            studentForm.setValue(key as keyof StudentFormData, (state.formData as StudentFormData)[key as keyof StudentFormData]);
+          });
+        } else if (state.formData) {
+          Object.keys(state.formData).forEach((key) => {
+            baseForm.setValue(key as keyof BaseFormData, (state.formData as BaseFormData)[key as keyof BaseFormData]);
+          });
+        }
+
+        if (state.userType === "teacher" && state.teacherData) {
+          Object.keys(state.teacherData).forEach((key) => {
+            teacherAdditionalForm.setValue(key as keyof TeacherAdditionalData, (state.teacherData as TeacherAdditionalData)[key as keyof TeacherAdditionalData]);
+          });
+        } else if (state.userType === "parent" && state.parentData) {
+          Object.keys(state.parentData).forEach((key) => {
+            parentAdditionalForm.setValue(key as keyof ParentAdditionalData, (state.parentData as ParentAdditionalData)[key as keyof ParentAdditionalData]);
+          });
+        } else if (state.userType === "university_student" && state.universityStudentData) {
+          Object.keys(state.universityStudentData).forEach((key) => {
+            universityStudentForm.setValue(
+              key as keyof UniversityStudentData,
+              (state.universityStudentData as UniversityStudentData)[key as keyof UniversityStudentData]
+            );
+          });
+        }
+
+        if (savedDiditData) {
+          setDiditVerificationData(JSON.parse(savedDiditData));
+        }
+
+        if (savedSessionId) {
+          setDiditSessionId(savedSessionId);
+          checkVerificationStatus(savedSessionId);
+        }
+
+        sessionStorage.removeItem("registrationState");
+        sessionStorage.removeItem("diditVerificationData");
+
+        router.push("/signup");
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   // Helper function to get form field properties
   const getFormField = (fieldName: keyof BaseFormData) => {
@@ -228,6 +437,13 @@ function SignupContent() {
       description: "تابع تقدم أبنائك وأدائهم الدراسي",
       color: "#f85149",
     },
+    {
+      type: "university_student" as UserType,
+      icon: <FaUserGraduate />,
+      title: "طالب جامعي",
+      description: "احصل علي افضل الكورسات لتطوير مسارك المهني",
+      color: "#fff",
+    },
   ];
 
   const handleUserTypeSelect = (type: UserType) => {
@@ -235,35 +451,95 @@ function SignupContent() {
     setStep(2);
   };
 
-  const handleBasicInfoSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (userType === "student") {
-      studentForm.handleSubmit((data) => {
-        console.log("Student info validated:", data);
-        setStep(3);
-      })();
-    } else {
-      baseForm.handleSubmit((data) => {
-        console.log("Basic info validated:", data);
-        setStep(3);
-      })();
+  const handleBasicInfoSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  const activeForm = userType === "student" ? studentForm : baseForm;
+  
+  const isValid = await activeForm.trigger();
+  if (!isValid) return;
+  
+  if (userType === "university_student") {
+    const email = baseForm.getValues("email");
+    setEmailVerificationLoading(true);
+    
+    try {
+      const result = await verifyAcademicEmail(email);
+      
+      if (result.valid && result.isAcademic && result.requiresOtp) {
+        const formData = {
+          ...baseForm.getValues(),
+          userType,
+          step: 2,
+          skipStep3: true
+        };
+        sessionStorage.setItem('signupFormData', JSON.stringify(formData));
+        
+        // Redirect to OTP verification
+        const params = new URLSearchParams({
+          email: email,
+          institution: result.institutionName,
+          userType: 'university_student'
+        });
+        
+        router.push(`/verifyEmail?${params.toString()}`);
+        return;
+      } else if (result.valid && result.isAcademic) {
+        universityStudentForm.setValue("faculty", result.institutionName);
+        setStep(4);
+      } else {
+        baseForm.setError("email", {
+          type: "manual",
+          message: result.message || "يجب استخدام بريد إلكتروني جامعي مصري صالح",
+        });
+      }
+    } catch (error) {
+      console.error("Email verification failed:", error);
+      baseForm.setError("email", {
+        type: "manual",
+        message: "حدث خطأ في التحقق من البريد الإلكتروني",
+      });
+    } finally {
+      setEmailVerificationLoading(false);
     }
-  };
+  } else {
+    setStep(3);
+  }
+};
 
-  const handleAdditionalInfoSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (userType === "teacher") {
-      teacherAdditionalForm.handleSubmit((data) => {
-        console.log("Teacher additional info validated:", data);
+
+  // university_student additional info submit
+  const handleAdditionalInfoSubmit = (e?: React.FormEvent) => {
+  e?.preventDefault();
+  
+  console.log("Form submitted, userType:", userType);
+  
+  if (userType === "teacher") {
+    teacherAdditionalForm.handleSubmit((data) => {
+      console.log("Teacher additional info validated:", data);
+      setStep(4);
+    })();
+  } else if (userType === "parent") {
+    parentAdditionalForm.handleSubmit((data) => {
+      console.log("Parent additional info validated:", data);
+      setStep(4);
+    })();
+  } else if (userType === "university_student") {
+    console.log("University student form state:", universityStudentForm.formState);
+    console.log("Form errors:", universityStudentForm.formState.errors);
+    console.log("Form values:", universityStudentForm.getValues());
+    
+    universityStudentForm.handleSubmit(
+      (data) => {
+        console.log("University student info validated:", data);
         setStep(4);
-      })();
-    } else if (userType === "parent") {
-      parentAdditionalForm.handleSubmit((data) => {
-        console.log("Parent additional info validated:", data);
-        setStep(4);
-      })();
-    }
-  };
+      },
+      (errors) => {
+        console.log("Validation errors:", errors);
+      }
+    )();
+  }
+};
 
   const handleBack = () => {
     if (step === 2) {
@@ -275,47 +551,164 @@ function SignupContent() {
   };
 
   const handleFinalSubmit = async () => {
-    let submitData: any = { userType, diditSessionId };
+  const formData = new FormData();
+  formData.append("userType", userType || "");
 
-    if (userType === "student") {
-      submitData = { ...submitData, ...studentForm.getValues() };
-    } else {
-      submitData = { ...submitData, ...baseForm.getValues() };
-      if (userType === "teacher") {
-        submitData = { ...submitData, ...teacherAdditionalForm.getValues() };
-      } else if (userType === "parent") {
-        submitData = { ...submitData, ...parentAdditionalForm.getValues() };
+  const dataToSend: RegistrationPayload = {
+    userType: userType || "",
+  };
+
+  if (userType === "student") {
+    const studentData = studentForm.getValues();
+    dataToSend.basicData = studentData;
+    Object.keys(studentData).forEach((key) => {
+      formData.append(`basicData[${key}]`, studentData[key as keyof StudentFormData]);
+    });
+  } else {
+    const baseData = baseForm.getValues();
+    dataToSend.basicData = baseData;
+    Object.keys(baseData).forEach((key) => {
+      formData.append(`basicData[${key}]`, baseData[key as keyof BaseFormData]);
+    });
+  }
+
+  if (userType === "university_student") {
+    const faculty = universityStudentForm.getValues("faculty") || sessionStorage.getItem('institutionName') || '';
+    
+    formData.append("universityData[faculty]", faculty);
+    formData.append("universityData[goal]", "");
+    
+    dataToSend.universityData = {
+      faculty: faculty,
+      goal: ""
+    };
+  }
+
+    // Handle teacher-specific data
+    if (userType === "teacher") {
+      const teacherData = teacherAdditionalForm.getValues();
+      formData.append(
+        "teacherData[specialization]",
+        teacherData.specialization
+      );
+      formData.append(
+        "teacherData[yearsOfExperience]",
+        teacherData.yearsOfExperience
+      );
+      if (teacherData.cv && teacherData.cv[0]) {
+        formData.append("cv", teacherData.cv[0]);
+      }
+      dataToSend.teacherData = {
+        specialization: teacherData.specialization,
+        yearsOfExperience: teacherData.yearsOfExperience,
+      };
+    }
+
+    // Handle parent-specific data
+    if (userType === "parent") {
+      const parentData = parentAdditionalForm.getValues();
+      formData.append("parentData[childrenCount]", parentData.childrenCount);
+      dataToSend.parentData = parentData;
+    }
+
+    // Handle university_student-specific data
+    if (userType === "university_student") {
+  const universityData = universityStudentForm.getValues();
+  
+  // Append each field separately as the backend expects
+  formData.append("universityData[faculty]", universityData.faculty);
+  
+  if (universityData.goal) {
+    formData.append("universityData[goal]", universityData.goal);
+  }
+  
+  // Update dataToSend to match
+  dataToSend.universityData = universityData;
+}
+
+    // Add Didit verification data for teachers and parents
+    if (
+      (userType === "teacher" || userType === "parent") &&
+      diditVerificationData
+    ) {
+      const diditDataToSend = {
+        sessionId: diditVerificationData.sessionId,
+        sessionNumber: diditVerificationData.sessionNumber,
+        status: diditVerificationData.status,
+      };
+
+      formData.append("diditData[sessionId]", diditDataToSend.sessionId);
+      formData.append(
+        "diditData[sessionNumber]",
+        diditDataToSend.sessionNumber.toString()
+      );
+      formData.append("diditData[status]", diditDataToSend.status);
+
+      dataToSend.diditData = diditDataToSend;
+
+      // Extract personal info fields
+      if (diditVerificationData.personalInfo) {
+        const personalInfo = {
+          dateOfBirth: diditVerificationData.personalInfo.dateOfBirth || "",
+          gender: diditVerificationData.personalInfo.gender || "",
+          nationalId: diditVerificationData.personalInfo.nationalId || "",
+          documentNumber:
+            diditVerificationData.personalInfo.documentNumber || "",
+          documentType: diditVerificationData.personalInfo.documentType || "",
+          issuingCountry:
+            diditVerificationData.personalInfo.issuingCountry || "",
+          expiryDate: diditVerificationData.personalInfo.expiryDate || "",
+          address: diditVerificationData.personalInfo.address || "",
+          maritalStatus: diditVerificationData.personalInfo.maritalStatus || "",
+        };
+
+        Object.keys(personalInfo).forEach((key) => {
+          formData.append(
+            `personalInfo[${key}]`,
+            personalInfo[key as keyof typeof personalInfo]
+          );
+        });
+
+        dataToSend.personalInfo = personalInfo;
       }
     }
 
     try {
-      const response = await fetch("/api/auth/register", {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"}/api/auth/register`,
+      {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(submitData),
-      });
-
-      await response.json();
-
-      if (response.ok) {
-        setStep(5);
-      } else {
-        // alert(data.message || 'حدث خطأ في التسجيل');
+        body: formData,
       }
-    } catch (error) {
-      console.error("Registration error:", error);
-      // alert('حدث خطأ في الاتصال بالخادم');
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      // Clear any remaining session data
+      sessionStorage.clear();
+      
+      if (userType === "university_student") {
+        router.push('/login');
+      } else if (userType === "teacher") {
+        setStep(6);
+      } else {
+        setStep(5);
+      }
+    } else {
+      alert(data.message || "حدث خطأ في التسجيل");
     }
-  };
+  } catch (error) {
+    console.error("Registration error:", error);
+    alert("حدث خطأ في الاتصال بالخادم");
+  }
+};
 
   const startVerification = async () => {
     try {
       setVerificationLoading(true);
 
-      // Save current form state before leaving the page
-      const registrationState = {
+      const registrationState: RegistrationState = {
         step: step,
         userType: userType,
         formData:
@@ -326,12 +719,21 @@ function SignupContent() {
           userType === "teacher" ? teacherAdditionalForm.getValues() : null,
         parentData:
           userType === "parent" ? parentAdditionalForm.getValues() : null,
+        universityStudentData:
+          userType === "university_student" ? universityStudentForm.getValues() : null,
       };
 
       sessionStorage.setItem(
         "registrationState",
         JSON.stringify(registrationState)
       );
+
+      if (diditVerificationData) {
+        sessionStorage.setItem(
+          "diditVerificationData",
+          JSON.stringify(diditVerificationData)
+        );
+      }
 
       const userData =
         userType === "student" ? studentForm.getValues() : baseForm.getValues();
@@ -345,6 +747,14 @@ function SignupContent() {
           firstName: userData.firstName,
           lastName: userData.lastName,
           email: userData.email,
+          phone: userData.phone,
+          userType: userType,
+          vendorData: `${userType}_${userData.email}`,
+          metadata: {
+            userType: userType,
+            registrationDate: new Date().toISOString(),
+            platform: "web",
+          },
         }),
       });
 
@@ -356,7 +766,6 @@ function SignupContent() {
 
       if (data.success && data.verificationUrl) {
         sessionStorage.setItem("diditSessionId", data.sessionId);
-
         window.location.href = data.verificationUrl;
       }
     } catch (error) {
@@ -375,72 +784,166 @@ function SignupContent() {
     try {
       setVerificationLoading(true);
       setVerificationStatus("checking");
-      setVerificationMessage("جاري التحقق من حالة التوثيق...");
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      let attempts = 0;
+      const maxAttempts = 10;
+      const pollInterval = 3000;
 
-      const response = await fetch(`/api/didit/session-status/${sessionId}`);
-      const data = await response.json();
+      const checkStatus = async () => {
+        const response = await fetch(`/api/didit/session-status/${sessionId}`);
+        const data = await response.json();
 
-      console.log("Verification decision response:", data);
+        if (!response.ok && response.status !== 404) {
+          throw new Error(data.error || "Failed to check status");
+        }
 
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to check status");
+        const status = data.status;
+
+        if (status === "Approved") {
+          if (data.decision) {
+            const verificationData: DiditVerificationData = {
+              sessionId: data.sessionId,
+              sessionNumber: data.decision.session_number,
+              status: data.status,
+              vendorData: data.decision.vendor_data,
+              metadata: data.decision.metadata,
+              personalInfo: {
+                firstName: data.decision.id_verification?.first_name,
+                lastName: data.decision.id_verification?.last_name,
+                fullName: data.decision.id_verification?.full_name,
+                dateOfBirth: data.decision.id_verification?.date_of_birth,
+                gender: data.decision.id_verification?.gender,
+                nationality: data.decision.id_verification?.nationality,
+                nationalId: data.decision.id_verification?.personal_number,
+                documentNumber: data.decision.id_verification?.document_number,
+                documentType: data.decision.id_verification?.document_type,
+                issuingCountry: data.decision.id_verification?.issuing_state,
+                issuingState: data.decision.id_verification?.issuing_state_name,
+                expiryDate: data.decision.id_verification?.expiration_date,
+                address: data.decision.id_verification?.address,
+                maritalStatus: data.decision.id_verification?.marital_status,
+              },
+              checks: {
+                documentVerification:
+                  data.decision.id_verification?.status === "Approved",
+                faceMatch: data.decision.face_match?.status === "Approved",
+                liveness: data.decision.liveness?.status === "Approved",
+                ageVerification: data.decision.id_verification?.age >= 18,
+                amlCheck: data.decision.aml?.status === "Approved",
+              },
+            };
+
+            setDiditVerificationData(verificationData);
+
+            // Check nationality for teachers
+            if (userType === "teacher") {
+              const isEgyptian =
+                data.decision.id_verification?.issuing_state === "EGY" ||
+                data.decision.id_verification?.issuing_state_name?.toLowerCase() ===
+                  "egypt";
+
+              if (!isEgyptian) {
+                setDiditVerified(false);
+                setVerificationStatus("failed");
+                setVerificationMessage(
+                  "عذراً، يجب أن تكون مصري الجنسية للتسجيل كمحاضر في المنصة"
+                );
+                sessionStorage.removeItem("diditSessionId");
+                return true;
+              }
+            }
+          }
+
+          setDiditVerified(true);
+          setVerificationStatus("approved");
+          setVerificationMessage("تم التحقق من هويتك بنجاح! ✅");
+          sessionStorage.removeItem("diditSessionId");
+
+          // Auto-proceed after verification
+          setTimeout(() => {
+            if (userType === "teacher" || userType === "parent") {
+              handleAdditionalInfoSubmit();
+            }
+          }, 2000);
+
+          return true;
+        } else if (["Declined", "Failed", "Rejected"].includes(status)) {
+          setDiditVerified(false);
+          setVerificationStatus("failed");
+          setVerificationMessage(
+            "فشل التحقق من الهوية. يرجى المحاولة مرة أخرى."
+          );
+          return true;
+        } else if (status === "In Review") {
+          setVerificationStatus("checking");
+          setVerificationMessage(
+            "يتم مراجعة هويتك يدوياً. سنخطرك عند الانتهاء."
+          );
+          localStorage.setItem("pendingVerificationSession", sessionId);
+          return true;
+        } else if (["Not Started", "In Progress", "Pending"].includes(status)) {
+          return false;
+        }
+
+        return false;
+      };
+
+      while (attempts < maxAttempts) {
+        const isDone = await checkStatus();
+        if (isDone) break;
+
+        attempts++;
+        if (attempts < maxAttempts) {
+          await new Promise((resolve) => setTimeout(resolve, pollInterval));
+        }
       }
 
-      const status = data.status;
-
-      console.log("Status:", status);
-
-      if (status === "Approved") {
-        setDiditVerified(true);
-        setVerificationStatus("approved");
-        setVerificationMessage("تم التحقق من هويتك بنجاح! ✅");
-        sessionStorage.removeItem("diditSessionId");
-      } else if (
-        status === "Declined" ||
-        status === "Failed" ||
-        status === "Rejected"
-      ) {
-        setDiditVerified(false);
-        setVerificationStatus("failed");
-        setVerificationMessage("فشل التحقق من الهوية. يرجى المحاولة مرة أخرى.");
-        sessionStorage.removeItem("diditSessionId");
-        setVerificationLoading(false);
-      } else if (
-        status === "Not Started" ||
-        status === "In Progress" ||
-        status === "Pending"
-      ) {
+      if (attempts >= maxAttempts) {
         setVerificationStatus("retry");
         setVerificationMessage(
-          "لم يكتمل التحقق بعد. يرجى المحاولة مرة أخرى..."
+          "التحقق يستغرق وقتاً أطول من المتوقع. يرجى المحاولة لاحقاً."
         );
-      } else if (status === "In Review") {
-        setVerificationStatus("checking");
-        setVerificationMessage(
-          "تحتاج هويتك إلى مراجعة يدوية. سيتم إخطارك عند اكتمال المراجعة."
-        );
-        sessionStorage.removeItem("diditSessionId");
-        setVerificationLoading(false);
-      } else {
-        setVerificationStatus("failed");
-        setVerificationMessage("حالة التحقق غير معروفة. يرجى الاتصال بالدعم.");
-        console.warn("Unknown verification status:", status);
-        sessionStorage.removeItem("diditSessionId");
-        setVerificationLoading(false);
       }
     } catch (error) {
       console.error("Status check error:", error);
       setVerificationStatus("failed");
-      setVerificationMessage(
-        `حدث خطأ في التحقق من الحالة: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
+      setVerificationMessage("حدث خطأ في التحقق من الحالة.");
+    } finally {
       setVerificationLoading(false);
-      sessionStorage.removeItem("diditSessionId");
     }
+  };
+
+  const VerificationSummary = ({ data }: { data: DiditVerificationData }) => {
+    if (!data?.personalInfo) return null;
+
+    return (
+      <div className={styles.verificationSummary}>
+        <h4>بيانات التحقق</h4>
+        <div className={styles.summaryGrid}>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>الاسم:</span>
+            <span>
+              {data.personalInfo.fullName ||
+                `${data.personalInfo.firstName} ${data.personalInfo.lastName}`}
+            </span>
+          </div>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>تاريخ الميلاد:</span>
+            <span>{data.personalInfo.dateOfBirth}</span>
+          </div>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>الجنسية:</span>
+            <span>{data.personalInfo.nationality}</span>
+          </div>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>رقم الهوية:</span>
+            <span>
+              {data.personalInfo.nationalId || data.personalInfo.documentNumber}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -549,16 +1052,32 @@ function SignupContent() {
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label htmlFor="email">البريد الإلكتروني</label>
-                  <input
-                    type="email"
-                    id="email"
-                    {...getFormField("email").register}
-                    placeholder="example@email.com"
-                    className={
-                      getFormField("email").error ? styles.inputError : ""
-                    }
-                  />
+                  <label htmlFor="email">
+                    {userType === "university_student" ? (
+                      <>البريد الالكتروني الاكاديمي</>
+                    ) : (
+                      <>البريد الإلكتروني</>
+                    )}
+                  </label>
+                  <div className={styles.emailInputWrapper}>
+                    <input
+                      type="email"
+                      id="email"
+                      {...getFormField("email").register}
+                      placeholder={
+                        userType === "university_student"
+                          ? "example@university.edu.eg"
+                          : "example@email.com"
+                      }
+                      className={
+                        getFormField("email").error ? styles.inputError : ""
+                      }
+                    />
+                    {emailVerificationLoading && userType === "university_student" && (
+                      <div className={styles.emailLoadingSpinner}></div>
+                    )}
+                  </div>
+
                   {getFormField("email").error && (
                     <span className={styles.errorMessage}>
                       {getFormField("email").error?.message}
@@ -715,8 +1234,8 @@ function SignupContent() {
                   >
                     رجوع
                   </button>
-                  <button type="submit" className={styles.nextButton}>
-                    التالي
+                  <button type="submit" className={styles.nextButton} disabled={emailVerificationLoading}>
+                    {emailVerificationLoading ? "جاري التحقق..." : "التالي"}
                   </button>
                 </div>
               </form>
@@ -730,7 +1249,7 @@ function SignupContent() {
                 <>
                   <h2 className={styles.stepTitle}>التحقق من الهوية</h2>
                   <p className={styles.subtitle}>
-                    نحتاج للتحقق من هويتك لضمان أمان المنصة
+                                    نحتاج للتحقق من هويتك لضمان أمان المنصة
                   </p>
 
                   {!diditVerified ? (
@@ -792,11 +1311,20 @@ function SignupContent() {
                             <button
                               className={styles.retryButton}
                               onClick={() => {
-                                setVerificationStatus("idle");
-                                setVerificationMessage("");
+                                // If failed due to nationality, don't allow retry
+                                if (
+                                  verificationMessage.includes("مصري الجنسية")
+                                ) {
+                                  router.push("/");
+                                } else {
+                                  setVerificationStatus("idle");
+                                  setVerificationMessage("");
+                                }
                               }}
                             >
-                              حاول مرة أخرى
+                              {verificationMessage.includes("مصري الجنسية")
+                                ? "العودة للرئيسية"
+                                : "حاول مرة أخرى"}
                             </button>
                           </div>
                         )}
@@ -807,6 +1335,11 @@ function SignupContent() {
                             <p className={styles.statusMessage}>
                               {verificationMessage}
                             </p>
+                            {diditVerificationData && (
+                              <VerificationSummary
+                                data={diditVerificationData}
+                              />
+                            )}
                             <p className={styles.redirectMessage}>
                               سيتم توجيهك تلقائياً...
                             </p>
@@ -894,6 +1427,49 @@ function SignupContent() {
                                 </span>
                               )}
                             </div>
+
+                            <div className={styles.formGroup}>
+                              <label htmlFor="cv">السيرة الذاتية (CV)</label>
+                              <div className={styles.fileUploadContainer}>
+                                <input
+                                  type="file"
+                                  id="cv"
+                                  {...teacherAdditionalForm.register("cv")}
+                                  accept=".pdf,.doc,.docx"
+                                  className={`${styles.fileInput} ${
+                                    teacherAdditionalForm.formState.errors.cv
+                                      ? styles.inputError
+                                      : ""
+                                  }`}
+                                />
+                                <label
+                                  htmlFor="cv"
+                                  className={styles.fileUploadLabel}
+                                >
+                                  <span className={styles.uploadIcon}>📄</span>
+                                  <span>اختر ملف السيرة الذاتية</span>
+                                  <small>
+                                    PDF أو Word (حد أقصى 5 ميجابايت)
+                                  </small>
+                                </label>
+                                {teacherAdditionalForm.watch("cv")?.[0] && (
+                                  <p className={styles.fileName}>
+                                    {
+                                      teacherAdditionalForm.watch("cv")?.[0]
+                                        .name
+                                    }
+                                  </p>
+                                )}
+                              </div>
+                              {teacherAdditionalForm.formState.errors.cv && (
+                                <span className={styles.errorMessage}>
+                                  {
+                                    teacherAdditionalForm.formState.errors.cv
+                                      .message
+                                  }
+                                </span>
+                              )}
+                            </div>
                           </>
                         )}
 
@@ -950,7 +1526,72 @@ function SignupContent() {
                     </div>
                   )}
                 </>
-              ) : (
+              ) : userType === "university_student" ? (
+  <>
+    <h2 className={styles.stepTitle}>معلومات إضافية</h2>
+    <p className={styles.subtitle}>
+      ساعدنا في تخصيص تجربتك التعليمية
+    </p>
+
+    <form onSubmit={handleAdditionalInfoSubmit} className={styles.form}>
+      <div className={styles.preferencesCard}>
+        <h3 className={styles.cardTitle}>التخصص الأكاديمي</h3>
+        <select 
+          className={styles.majorSelect}
+          {...universityStudentForm.register("major")}
+        >
+          <option value="">اختر تخصصك</option>
+          <option value="engineering">الهندسة</option>
+          <option value="medicine">الطب</option>
+          <option value="science">العلوم</option>
+          <option value="arts">الآداب</option>
+          <option value="business">إدارة الأعمال</option>
+          <option value="law">الحقوق</option>
+          <option value="education">التربية</option>
+          <option value="computer-science">علوم الحاسب</option>
+        </select>
+      </div>
+
+      <div className={styles.goalsCard}>
+        <h3 className={styles.cardTitle}>المهارات المطلوبة</h3>
+        <div className={styles.skillsGrid}>
+          {[
+            "البرمجة",
+            "تحليل البيانات",
+            "التصميم الجرافيكي",
+            "اللغات",
+            "المحاسبة",
+            "التسويق الرقمي",
+            "إدارة المشاريع",
+            "البحث العلمي"
+          ].map((skill) => (
+            <label key={skill} className={styles.checkboxLabel}>
+              <input 
+                type="checkbox" 
+                value={skill}
+                {...universityStudentForm.register("skills")}
+              />
+              <span>{skill}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.formActions}>
+        <button
+          type="button"
+          className={styles.backButton}
+          onClick={handleBack}
+        >
+          رجوع
+        </button>
+        <button type="submit" className={styles.nextButton}>
+          التالي
+        </button>
+      </div>
+    </form>
+  </>
+) : (
                 /* Additional info for students */
                 <>
                   <h2 className={styles.stepTitle}>معلومات إضافية</h2>
@@ -1115,6 +1756,32 @@ function SignupContent() {
               </Link>
             </div>
           )}
+
+          {step === 6 && (
+            <div className={styles.successContent}>
+              <div className={styles.pendingAnimation}>
+                <div className={styles.pendingIcon}>⏳</div>
+              </div>
+              <h1 className={styles.successTitle}>تم إرسال طلبك بنجاح!</h1>
+              <p className={styles.successText}>
+                سيراجع فريقنا سيرتك الذاتية وسيتم إخطارك عند الموافقة
+              </p>
+              <p className={styles.successSubtext}>
+                يستغرق هذا عادة من 1-2 يوم عمل
+              </p>
+              <div className={styles.pendingInfo}>
+                <h3>ماذا بعد؟</h3>
+                <ul>
+                  <li>سنراجع سيرتك الذاتية ومؤهلاتك</li>
+                  <li>ستتلقى بريد إلكتروني عند الموافقة على حسابك</li>
+                  <li>بعد الموافقة، يمكنك تسجيل الدخول وبدء التدريس</li>
+                </ul>
+              </div>
+              <Link href="/" className={styles.homeButton}>
+                العودة للصفحة الرئيسية
+              </Link>
+            </div>
+          )}
         </div>
       </main>
     </div>
@@ -1123,16 +1790,20 @@ function SignupContent() {
 
 export default function SignupPage() {
   return (
-    <Suspense fallback={
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh' 
-      }}>
-        <div>Loading...</div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <div>Loading...</div>
+        </div>
+      }
+    >
       <SignupContent />
     </Suspense>
   );

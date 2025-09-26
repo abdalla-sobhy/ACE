@@ -8,13 +8,22 @@
   z-index: 1000;
   padding: 16px 0;
 }
+
 .navContainer {
   max-width: 1280px;
   margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Desktop styles */
+.navHeader {
+  display: none;
+}
+
+.navContent {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
 }
 
 .navLeft {
@@ -30,6 +39,16 @@
   background: linear-gradient(to right, #58a6ff, #79c0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.logoDesktop {
+  font-size: 34px !important;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(to right, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
 }
 
 .navLeft a {
@@ -49,14 +68,22 @@
   align-items: center;
 }
 
-.signIn {
+.signIn, .signInActive {
   color: #c9d1d9;
   text-decoration: none;
   padding: 8px 16px;
   transition: color 0.2s;
 }
 
-.signUp {
+.signIn:hover {
+  color: #58a6ff;
+}
+
+.signInActive {
+  color: #58a6ff;
+}
+
+.signUp, .signUpActive {
   background: #238636;
   color: white;
   text-decoration: none;
@@ -69,4 +96,156 @@
   background: #2ea043;
 }
 
-.navLeft a:hover, .navLeft a.active { color: #58a6ff; }
+.signUpActive {
+  background: #2ea043;
+}
+
+.navLeft a.active {
+  color: #58a6ff;
+}
+
+/* Hamburger button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: #c9d1d9;
+  margin: 3px 0;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+/* Mobile styles */
+@media (max-width: 968px) {
+  .navContainer {
+    display: block;
+  }
+
+  .navHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .logoDesktop {
+    display: none;
+  }
+
+  .navContent {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    right: 0;
+    background: rgba(13, 17, 23, 0.98);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 20px 24px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    border-bottom: 1px solid #30363d;
+    max-height: calc(100vh - 65px);
+    overflow-y: auto;
+  }
+
+  .navContent.open {
+    transform: translateX(0);
+  }
+
+  .navLeft {
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+    margin-bottom: 20px;
+  }
+
+  .navLeft a {
+    padding: 15px 0;
+    border-bottom: 1px solid #30363d;
+    width: 100%;
+    text-align: right;
+  }
+
+  .navLeft a:first-child {
+    border-top: 1px solid #30363d;
+  }
+
+  .navRight {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .signIn, .signInActive,
+  .signUp, .signUpActive {
+    width: 100%;
+    text-align: center;
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 20px;
+  }
+  
+  .navLeft a {
+    font-size: 15px;
+  }
+
+  .hamburger span {
+    width: 22px;
+    height: 2.5px;
+  }
+}
+
+/* Updated media query without the first-child rule */
+@media (min-width: 969px) {
+  .nav::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: -1;
+  }
+
+  .nav:has(.navContent.open)::before {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  display: none;
+}
+
+@media (max-width: 968px) {
+  .overlay {
+    display: block;
+  }
+}

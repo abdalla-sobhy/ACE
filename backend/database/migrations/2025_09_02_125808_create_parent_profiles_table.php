@@ -12,7 +12,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('children_count');
+            $table->json('didit_data')->nullable();
             $table->timestamps();
+
+            $table->index('user_id');
         });
     }
 

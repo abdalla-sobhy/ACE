@@ -36,10 +36,10 @@ return [
     ],
 
     'didit' => [
-        'api_key' => env('TfSaPPnhCCNqEdYHbM2FyiYqd5DW5rvUSVrHyqxkydo'),
-        'webhook_secret' => env('dKDcAwxmxFMAE1cqhSf0PF5d0F_YVyEUsWQ0HJaYzso'),
-        'workflow_id' => env('7b4cea7e-047b-4911-bcb1-6ac385739468'),
-        'base_url' => 'https://api.didit.id/v2',
-    ],
+    'api_url' => env('DIDIT_API_URL', 'https://api.didit.me'),
+    'api_key' => env('DIDIT_API_KEY'),
+    'api_secret' => env('DIDIT_API_SECRET'),
+    'callback_url' => env('DIDIT_CALLBACK_URL', env('APP_URL') . '/signup?verification=complete'),
+],
 
 ];
