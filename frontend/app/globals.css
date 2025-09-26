@@ -60,7 +60,7 @@
   --blue: #70b9ff;
   --blue-darker: #70b9ff;
   --form-color: #161b22;
-  --borders: #30363d;
+  --borders: #30363d; /*duplicated but will fix later*/
   --main-text-white: #c9d1d9;
   --main-text-white-lighter: #f0f6fc;
   --p-text: #8b949e;

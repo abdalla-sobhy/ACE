@@ -1,8 +1,8 @@
 /* Container */
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--input-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
   direction: rtl;
   display: flex;
@@ -11,9 +11,9 @@
 
 /* Navigation */
 .nav {
-  background: rgba(13, 17, 23, 0.9);
+  background: var(--main-color-transparent);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--input-border-color);
   padding: 16px 0;
 }
 
@@ -29,7 +29,7 @@
 .logo {
   font-size: 24px;
   font-weight: 700;
-  color: #c9d1d9;
+  color: var(--main-color-transparent);
   text-decoration: none;
   background: linear-gradient(to right, #58a6ff, #79c0ff);
   -webkit-background-clip: text;
@@ -43,7 +43,7 @@
 }
 
 .navText {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 14px;
 }
 
@@ -60,7 +60,7 @@
 
 /* Progress Bar */
 .progressBar {
-  background: #010409;
+  background: var(--sections-color);
   padding: 24px 0;
 }
 
@@ -68,7 +68,7 @@
   max-width: 600px;
   margin: 0 auto;
   height: 4px;
-  background: #30363d;
+  background: var(--input-border-color);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -95,8 +95,8 @@
 }
 
 .stepContent {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 48px;
   animation: fadeIn 0.3s ease-out;
@@ -128,7 +128,7 @@
 }
 
 .subtitle {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
   margin: 0 0 32px;
   text-align: center;
@@ -143,8 +143,8 @@
 }
 
 .userTypeCard {
-  background: #0d1117;
-  border: 2px solid #30363d;
+  background: var(--input-color);
+  border: 2px solid var(--input-border-color);
   border-radius: 12px;
   padding: 32px 24px;
   text-align: center;
@@ -171,11 +171,11 @@
   font-size: 20px;
   font-weight: 600;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .userTypeDesc {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 14px;
   margin: 0;
   line-height: 1.5;
@@ -187,7 +187,7 @@
 }
 
 .adminLink p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 14px;
   margin: 0;
 }
@@ -222,18 +222,18 @@
   display: block;
   font-size: 14px;
   font-weight: 500;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   margin-bottom: 8px;
 }
 
 .formGroup input,
 .formGroup select {
   width: 100%;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 6px;
   padding: 12px 16px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 16px;
   transition: all 0.2s;
 }
@@ -246,7 +246,7 @@
 }
 
 .formGroup input::placeholder {
-  color: #6e7681;
+  color: var(--input-text);
 }
 
 /* Input Error State */
@@ -268,11 +268,11 @@
 
 .phoneInput input {
   width: 100%;
-  background: #0d1117 !important;
-  border: 1px solid #30363d !important;
+  background: var(--input-color) !important;
+  border: 1px solid var(--input-border-color) !important;
   border-radius: 6px !important;
   padding: 12px 16px 12px 50px !important;
-  color: #c9d1d9 !important;
+  color: var(--main-color-transparent) !important;
   font-size: 16px !important;
 }
 
@@ -302,13 +302,13 @@
 
 .backButton {
   background: transparent;
-  color: #8b949e;
-  border: 1px solid #30363d;
+  color: var(--p-text);
+  border: 1px solid var(--input-border-color);
 }
 
 .backButton:hover {
-  border-color: #8b949e;
-  color: #c9d1d9;
+  border-color: var(--p-text);
+  color: var(--main-text-white-lighter);
 }
 
 .nextButton,
@@ -332,8 +332,8 @@
 
 .verificationCard,
 .verifiedCard {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 32px;
   text-align: center;
@@ -349,18 +349,18 @@
   font-size: 24px;
   font-weight: 600;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .verificationDesc,
 .verifiedDesc {
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0 0 24px;
 }
 
 /* Verification Steps */
 .verificationSteps {
-  background: #161b22;
+  background: var(--from-wrapper-color);
   border-radius: 8px;
   padding: 24px;
   margin: 32px 0;
@@ -393,7 +393,7 @@
 
 .verStep p {
   margin: 0;
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .verifyButton {
@@ -426,14 +426,14 @@
 .additionalForm {
   margin-top: 32px;
   padding-top: 32px;
-  border-top: 1px solid #30363d;
+  border-top: 1px solid var(--input-border-color);
 }
 
 /* Preferences Card */
 .preferencesCard,
 .goalsCard {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 24px;
@@ -443,11 +443,11 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .cardDesc {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 14px;
   margin: 0 0 20px;
 }
@@ -463,7 +463,7 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   padding: 8px;
   border-radius: 6px;
   transition: background 0.2s;
@@ -480,11 +480,11 @@
 
 .goalSelect {
   width: 100%;
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 6px;
   padding: 12px 16px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 16px;
   margin-top: 16px;
 }
@@ -503,8 +503,8 @@
 
 /* Terms Section */
 .termsCard {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 32px;
   margin-bottom: 24px;
@@ -518,7 +518,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 16px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .termsList {
@@ -528,7 +528,7 @@
 }
 
 .termsList li {
-  color: #8b949e;
+  color: var(--p-text);
   margin-bottom: 12px;
   line-height: 1.5;
   position: relative;
@@ -548,7 +548,7 @@
   align-items: flex-start;
   gap: 12px;
   cursor: pointer;
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .termsCheckbox input[type="checkbox"] {
@@ -572,8 +572,8 @@
 }
 
 .newsletterCard {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 32px;
@@ -584,7 +584,7 @@
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .newsletterCheckbox input[type="checkbox"] {
@@ -596,8 +596,8 @@
 .successContent {
   text-align: center;
   padding: 64px 48px;
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   animation: fadeIn 0.3s ease-out;
 }
@@ -675,11 +675,11 @@
   font-size: 32px;
   font-weight: 700;
   margin: 0 0 16px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .successText {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
   margin: 0 0 8px;
 }
@@ -687,7 +687,7 @@
 .successSubtext {
   font-size: 16px;
   margin: 0 0 32px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .loginButton {
@@ -865,7 +865,7 @@
 .strengthBar {
   flex: 1;
   height: 4px;
-  background: #30363d;
+  background: var(--input-border-color);
   border-radius: 2px;
   transition: background 0.3s;
 }
@@ -918,7 +918,7 @@
 
 .smallText {
   font-size: 14px;
-  color: #666;
+  color: var(--black-trans);
   margin-top: 10px;
 }
 
@@ -930,7 +930,7 @@
 .loadingSpinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #f3f3f3;
+  border: 4px solid var(--main-text-white-lighter);
   border-top: 4px solid #3498db;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -944,13 +944,13 @@
 
 .statusMessage {
   font-size: 1.1rem;
-  color: #333;
+  color: var(--borders);
   margin-bottom: 1rem;
 }
 
 .redirectMessage {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--black-trans);
   font-style: italic;
 }
 
@@ -998,9 +998,9 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  border: 2px dashed #30363d;
+  border: 2px dashed var(--input-border-color);
   border-radius: 8px;
-  background-color: #0d1117;
+  background-color: var(--input-color);
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
@@ -1026,22 +1026,22 @@
   display: block;
   margin-bottom: 0.25rem;
   font-weight: 500;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .fileUploadLabel small {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 0.875rem;
 }
 
 .fileName {
   margin-top: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #161b22;
-  border: 1px solid #30363d;
+  background-color: var(--from-wrapper-color);
+  border: 1px solid var(--borders);
   border-radius: 4px;
   font-size: 0.875rem;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   word-break: break-all;
 }
 
@@ -1049,14 +1049,14 @@
 .verificationSummary {
   margin-top: 1.5rem;
   padding: 1.5rem;
-  background-color: #0d1117;
+  background-color: var(--input-color);
   border-radius: 8px;
-  border: 1px solid #30363d;
+  border: 1px solid var(--input-color);
 }
 
 .verificationSummary h4 {
   margin-bottom: 1rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-size: 1rem;
   font-weight: 600;
 }
@@ -1075,12 +1075,12 @@
 
 .summaryLabel {
   font-size: 0.875rem;
-  color: #8b949e;
+  color: var(--p-text);
   font-weight: 500;
 }
 
 .summaryItem > span:last-child {
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-weight: 500;
 }
 
@@ -1120,12 +1120,12 @@
 }
 
 .pendingInfo {
-  background-color: #161b22;
+  background-color: var(--from-wrapper-color);
   padding: 1.5rem;
   border-radius: 8px;
   margin: 2rem 0;
   text-align: right;
-  border: 1px solid #30363d;
+  border: 1px solid var(--input-border-color);
 }
 
 .pendingInfo h3 {
@@ -1145,7 +1145,7 @@
   padding: 0.5rem 0;
   padding-right: 1.75rem;
   position: relative;
-  color: #8b949e;
+  color: var(--p-text);
   line-height: 1.5;
 }
 
@@ -1160,18 +1160,18 @@
 .homeButton {
   display: inline-block;
   padding: 0.875rem 2rem;
-  background-color: #161b22;
-  color: #c9d1d9;
+  background-color: var(--from-wrapper-color);
+  color: var(--main-text-white);
   text-decoration: none;
-  border: 1px solid #30363d;
+  border: 1px solid var(--input-border-color);
   border-radius: 6px;
   font-weight: 500;
   transition: all 0.3s ease;
 }
 
 .homeButton:hover {
-  background-color: #0d1117;
-  border-color: #8b949e;
+  background-color: var(--input-color);
+  border-color: var(--p-text);
 }
 
 /* Enhanced Verification Status - Update existing styles */
@@ -1182,14 +1182,14 @@
 
 .statusMessage {
   font-size: 1rem;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   margin: 1rem 0;
   line-height: 1.5;
 }
 
 .redirectMessage {
   font-size: 0.875rem;
-  color: #8b949e;
+  color: var(--p-text);
   margin-top: 0.5rem;
   font-style: italic;
 }
@@ -1248,7 +1248,7 @@
 .loadingSpinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #30363d;
+  border: 4px solid var(--borders);
   border-top: 4px solid #58a6ff;
   border-radius: 50%;
   animation: spin 1s linear infinite;

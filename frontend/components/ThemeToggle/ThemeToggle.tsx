@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext } from "react";
-import { ThemeContext } from "@/app/context/ThemeContext";
+import { ThemeContext } from "@/context/ThemeContext";
 import { Sun, Moon } from "lucide-react";
 import styles from "./ThemeToggle.module.css";
 
