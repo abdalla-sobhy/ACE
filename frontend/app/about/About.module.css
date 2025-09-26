@@ -1,8 +1,8 @@
 /* Container */
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--input-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
   direction: rtl;
 }
@@ -44,15 +44,15 @@
 
 .hero p {
   font-size: 24px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0;
 }
 
 /* Mission Section */
 .mission {
   padding: 80px 24px;
-  background: #010409;
-  border-top: 1px solid #30363d;
+  background: var(--sections-color);
+  border-top: 1px solid var(--input-border-color);
 }
 
 .missionContainer {
@@ -73,7 +73,7 @@
 .missionContent > p {
   font-size: 18px;
   line-height: 1.6;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0 0 48px;
 }
 
@@ -101,15 +101,15 @@
 }
 
 .point p {
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0;
   line-height: 1.5;
 }
 
 /* Mission Visual */
 .statsCard {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 48px;
   text-align: center;
@@ -135,14 +135,14 @@
 }
 
 .statLabel {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
 }
 
 /* Story Section */
 .story {
   padding: 80px 24px;
-  background: #0d1117;
+  background: var(--input-color);
 }
 
 .storyContainer {
@@ -172,7 +172,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #30363d;
+  background: var(--input-border-color);
 }
 
 .timelineItem {
@@ -192,7 +192,7 @@
   height: 14px;
   background: #58a6ff;
   border-radius: 50%;
-  box-shadow: 0 0 0 4px #0d1117;
+  box-shadow: 0 0 0 4px var(--input-color);
 }
 
 .timelineContent {
@@ -206,7 +206,7 @@
 }
 
 .timelineContent p {
-  color: #8b949e;
+  color: var(--p-text);
   line-height: 1.5;
   margin: 0;
 }
@@ -214,8 +214,8 @@
 /* Team Section */
 .team {
   padding: 80px 24px;
-  background: #010409;
-  border-top: 1px solid #30363d;
+  background: var(--sections-color);
+  border-top: 1px solid var(--input-border-color);
 }
 
 .teamContainer {
@@ -235,7 +235,7 @@
 
 .teamSubtitle {
   text-align: center;
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
   margin: 0 0 64px;
 }
@@ -247,8 +247,8 @@
 }
 
 .teamCard {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 24px;
   text-align: center;
@@ -267,7 +267,7 @@
   margin: 0 auto 24px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #30363d;
+  border: 2px solid var(--input-border-color);
 }
 .cardImageTL{
   position: relative;
@@ -276,7 +276,7 @@
   margin: 0 auto 24px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #30363d;
+  border: 2px solid var(--input-border-color);
 }
 
 .cardImage img {
@@ -291,7 +291,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(13, 17, 23, 0.9);
+  background: var(--main-color-transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -305,7 +305,7 @@
 }
 
 .cardOverlay a {
-  color: #c9d1d9;
+  color: var(--main-text-white);
   transition: color 0.2s;
 }
 
@@ -316,7 +316,7 @@
 .teamCard h3 {
   font-size: 20px;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .role {
@@ -328,7 +328,7 @@
 }
 
 .bio {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 14px;
   line-height: 1.5;
   margin: 0;
@@ -337,7 +337,7 @@
 /* Values Section */
 .values {
   padding: 80px 24px;
-  background: #0d1117;
+  background: var(--input-color);
 }
 
 .valuesContainer {
@@ -374,21 +374,21 @@
 .value h3 {
   font-size: 20px;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .value p {
-  color: #8b949e;
+  color: var(--p-text);
   line-height: 1.5;
   margin: 0;
 }
 
 /* Contact CTA */
 .contactCta {
-  background: #161b22;
+  background: var(--from-wrapper-color);
   padding: 80px 24px;
   text-align: center;
-  border-top: 1px solid #30363d;
+  border-top: 1px solid var(--input-border-color);
 }
 
 .contactContainer {
@@ -403,7 +403,7 @@
 }
 
 .contactCta p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 20px;
   margin: 0 0 48px;
 }
@@ -449,10 +449,10 @@
 
 .tertiaryButton {
   background: transparent;
-  color: #8b949e;
+  color: var(--p-text);
   padding: 16px 32px;
   text-decoration: none;
-  border: 1px solid #30363d;
+  border: 1px solid var(--input-border-color);
   border-radius: 6px;
   font-size: 18px;
   font-weight: 500;
@@ -460,8 +460,8 @@
 }
 
 .tertiaryButton:hover {
-  color: #c9d1d9;
-  border-color: #8b949e;
+  color: var(--main-text-white);
+  border-color: var(--p-text);
 }
 
 /* Animations */

@@ -13,16 +13,25 @@
 
 /* default theme*/
 :root{
-  --main-color: #ffffff;
-  --links-color: #0366d6;
-  --form-color: #f6f8fa;
+  --black: #fff;
+  --white: #000;
+  --black-trans: #ffffff90;
+  --main-color: #f6f8fa;
+  --main-color-transparent: #f6f8fadd;
+  --sections-color: #ffffff;
+  --blue: #0969da;
+  --blue-darker: #0550ae;
+  --form-color: #ffffff;
   --borders: #d0d7de;
-  --main-text-white: #24292e;
+  --main-text-white: #24292f;
+  --main-text-white-lighter: #1f2328;
   --p-text: #57606a;
   --btn: #2ea043;
   --from-wrapper-color: #f6f8fa;
   --input-color: #ffffff;
-  --input-text: #57606a;
+  --input-border-color: #d0d7de;
+  --input-border-color-lighter: #c6cbd1;
+  --input-text: #bbbbbb;
   --input-placeholder: #6e778180;
 }
 
