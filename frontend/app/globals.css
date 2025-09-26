@@ -10,3 +10,48 @@
 [dir="rtl"] select {
   background-position: left 12px center;
 }
+
+/* default theme*/
+:root{
+  --main-color: #ffffff;
+  --links-color: #0366d6;
+  --form-color: #f6f8fa;
+  --borders: #d0d7de;
+  --main-text-white: #24292e;
+  --p-text: #57606a;
+  --btn: #2ea043;
+  --from-wrapper-color: #f6f8fa;
+  --input-color: #ffffff;
+  --input-text: #57606a;
+  --input-placeholder: #6e778180;
+}
+
+/* Light theme */
+:root.light {
+  --main-color: #ffffff;
+  --links-color: #0366d6;
+  --form-color: #f6f8fa;
+  --borders: #d0d7de;
+  --main-text-white: #24292e;
+  --p-text: #57606a;
+  --btn: #2ea043;
+  --from-wrapper-color: #f6f8fa;
+  --input-color: #ffffff;
+  --input-text: #57606a;
+  --input-placeholder: #6e778180;
+}
+
+/* Dark theme */
+:root.dark {
+  --main-color: #0d1117;
+  --links-color: #70b9ff;
+  --form-color: #161b22;
+  --borders: #323037bb;
+  --main-text-white: #c9d1d9;
+  --p-text: #c9d1d990;
+  --btn: #2EA043;
+  --from-wrapper-color: #161B22;
+  --input-color: #0D1117;
+  --input-text: #6E7681;
+  --input-placeholder: #6E768180;
+}

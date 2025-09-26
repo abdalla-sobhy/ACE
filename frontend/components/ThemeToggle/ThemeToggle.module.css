@@ -1,0 +1,39 @@
+.button {
+  padding: 0.5rem;              /* p-2 */
+  border-radius: 9999px;        /* rounded-full */
+  transition: background-color 0.3s ease; 
+}
+
+/* hover light theme */
+.button:hover {
+  background-color: #e5e7eb; /* gray-200 */
+}
+
+/* hover dark theme */
+:global(.dark) .button:hover {
+  background-color: #374151; /* gray-700 */
+}
+
+/* icon size */
+.icon {
+  width: 1.25rem;  /* w-5 */
+  height: 1.25rem; /* h-5 */
+  transition: transform 0.3s ease;
+  animation: 1s flip;
+}
+
+/* sun color */
+.sun {
+  color: #facc15; /* yellow-500 */
+}
+
+/* moon color */
+.moon {
+  color: #60a5fa; /* blue-400 */
+}
+
+@keyframes flip {
+  100% {
+    transform: rotateY(360deg);
+  }
+}

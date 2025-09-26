@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Nav.module.css";
+import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
 
 export default function Nav() {
   const pathname = usePathname();
+
 
   return (
     <nav className={styles.nav}>
@@ -38,6 +40,9 @@ export default function Nav() {
           >
             تواصل معنا
           </Link>
+          <div id="themeIcon">
+            <ThemeToggle />
+          </div>
         </div>
         <div className={styles.navRight}>
           <Link
