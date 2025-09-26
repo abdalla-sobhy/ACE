@@ -1,8 +1,8 @@
 /* Container */
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--main-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
   direction: rtl;
 }
@@ -53,7 +53,7 @@
 
 .hero p {
   font-size: 20px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0 0 48px;
 }
 
@@ -77,15 +77,15 @@
 }
 
 .statLabel {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 14px;
 }
 
 /* Contact Categories */
 .categories {
   padding: 80px 24px;
-  background: #010409;
-  border-top: 1px solid #30363d;
+  background: var(--from-wrapper-color);
+  border-top: 1px solid var(--borders);
 }
 
 .categoriesContainer {
@@ -107,8 +107,8 @@
 }
 
 .categoryCard {
-  background: #0d1117;
-  border: 2px solid #30363d;
+  background: var(--input-color);
+  border: 2px solid var(--borders);
   border-radius: 12px;
   padding: 32px;
   text-align: center;
@@ -136,7 +136,7 @@
 .categoryCard h3 {
   font-size: 18px;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .responseTime {
@@ -144,7 +144,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 14px;
 }
 
@@ -155,7 +155,7 @@
 /* Main Contact Section */
 .mainContact {
   padding: 80px 24px;
-  background: #0d1117;
+  background: var(--input-color);
 }
 
 .contactContainer {
@@ -177,8 +177,8 @@
 }
 
 .contactForm {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 32px;
 }
@@ -198,15 +198,15 @@
 .formGroup label {
   font-size: 14px;
   font-weight: 500;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   margin-bottom: 8px;
 }
 
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 6px;
   padding: 12px 16px;
   color: #c9d1d9;
@@ -225,7 +225,7 @@
 
 .formGroup input::placeholder,
 .formGroup textarea::placeholder {
-  color: #6e7681;
+  color: var(--input-text);
 }
 
 .formGroup textarea {
@@ -271,8 +271,8 @@
 .infoCard,
 .socialCard,
 .quickResponse {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 24px;
 }
@@ -282,7 +282,7 @@
 .quickResponse h3 {
   font-size: 20px;
   margin: 0 0 24px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .infoItem {
@@ -298,7 +298,7 @@
 
 .infoIcon {
   font-size: 32px;
-  background: #0d1117;
+  background: var(--main-color);
   padding: 12px;
   border-radius: 8px;
   display: flex;
@@ -308,13 +308,13 @@
 
 .infoItem h4 {
   font-size: 14px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0 0 4px;
 }
 
 .infoItem p {
   font-size: 16px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   margin: 0;
 }
 
@@ -330,10 +330,10 @@
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: #0d1117;
+  background: var(--input-color);
   border-radius: 8px;
   text-decoration: none;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   transition: all 0.2s;
 }
 
@@ -349,7 +349,7 @@
 
 /* Quick Response */
 .quickResponse p {
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0 0 20px;
   line-height: 1.6;
 }
@@ -380,8 +380,8 @@
 /* FAQ Section */
 .faq {
   padding: 80px 24px;
-  background: #010409;
-  border-top: 1px solid #30363d;
+  background: var(--sections-color);
+  border-top: 1px solid var(--input-border-color);
 }
 
 .faqContainer {
@@ -398,7 +398,7 @@
 
 .faqSubtitle {
   text-align: center;
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
   margin: 0 0 48px;
 }
@@ -410,8 +410,8 @@
 }
 
 .faqItem {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 8px;
   overflow: hidden;
   transition: all 0.3s;
@@ -429,7 +429,7 @@
   align-items: center;
   font-size: 16px;
   font-weight: 500;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   transition: all 0.2s;
 }
 
@@ -463,7 +463,7 @@
 }
 
 .faqAnswer p {
-  color: #8b949e;
+  color: var(--p-text);
   line-height: 1.6;
   margin: 0;
 }
@@ -473,7 +473,7 @@
 }
 
 .faqFooter p {
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0 0 12px;
 }
 
@@ -491,7 +491,7 @@
 /* Emergency Section */
 .emergency {
   padding: 80px 24px;
-  background: #0d1117;
+  background: var(--input-color);
   position: relative;
   overflow: hidden;
 }
@@ -511,8 +511,8 @@
   margin: 0 auto;
   text-align: center;
   position: relative;
-  background: #161b22;
-  border: 2px solid #30363d;
+  background: var(--from-wrapper-color);
+  border: 2px solid var(--input-border-color);
   border-radius: 12px;
   padding: 48px;
 }
@@ -531,11 +531,11 @@
 .emergency h3 {
   font-size: 32px;
   margin: 0 0 16px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .emergency p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
   margin: 0 0 32px;
 }
@@ -585,8 +585,8 @@
 /* Map Section */
 .map {
   padding: 80px 24px;
-  background: #010409;
-  border-top: 1px solid #30363d;
+  background: var(--sections-color);
+  border-top: 1px solid var(--input-border-color);
 }
 
 .mapContainer {
@@ -605,14 +605,14 @@
 }
 
 .mapContent p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
   margin: 0 0 48px;
 }
 
 .mapPlaceholder {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   height: 400px;
   position: relative;
@@ -625,7 +625,7 @@
 .mapOverlay {
   text-align: center;
   padding: 48px;
-  background: rgba(22, 27, 34, 0.9);
+  background: var(--main-color-transparent);
   border-radius: 8px;
 }
 
@@ -638,11 +638,11 @@
 .mapOverlay h3 {
   font-size: 24px;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .mapOverlay p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 16px;
   margin: 0;
 }
@@ -694,7 +694,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(13, 17, 23, 0.8);
+  background: var(--black-trans);
   border-radius: 12px;
   display: none;
   align-items: center;
@@ -871,7 +871,7 @@
 @media (prefers-color-scheme: light) {
   .container {
     background: #ffffff;
-    color: #24292f;
+    color: var(--input-border-color-lighter);
   }
   
   .nav {
@@ -881,8 +881,8 @@
   .formGroup input,
   .formGroup select,
   .formGroup textarea {
-    background: #f6f8fa;
-    color: #24292f;
+    background: var(--main-text-white-lighter);
+    color: var(--input-border-color-lighter);
   }
   
   /* Add more light mode styles as needed */
@@ -897,12 +897,12 @@
   }
   
   .container {
-    background: white;
-    color: black;
+    background: var(--white);
+    color: var(--black);
   }
   
   .contactForm {
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-placeholder);
   }
 }
 
@@ -924,16 +924,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #161b22;
+  background: var(--from-wrapper-color);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #30363d;
+  background: var(--input-border-color);
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #484f58;
+  background: var(--black-trans);
 }
 
 ::selection {
