@@ -42,6 +42,7 @@
   --from-wrapper-color: #f6f8fa;
   --input-color: #ffffff;
   --input-border-color: #d0d7de;
+  --input-border-color-lighter: #d0d7de; 
   --input-text: #24292f;
   --input-placeholder: #6e778180;
 }
@@ -62,6 +63,7 @@
   --from-wrapper-color: #161B22;
   --input-color: #0D1117;
   --input-border-color: #30363d;
+  --input-border-color-lighter: #21262d;
   --input-text: #6E7681;
   --input-placeholder: #6E768180;
 }
