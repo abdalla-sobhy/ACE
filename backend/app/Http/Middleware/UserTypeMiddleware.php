@@ -11,8 +11,12 @@ class UserTypeMiddleware
     public function handle(Request $request, Closure $next, ...$types)
     {
         if (!Auth::check()) {
-            return response()->json(['message' => 'Unauthenticated'], 401);
-        }
+    return response()->json([
+        'success' => false,
+        'message' => 'Unauthenticated'
+    ], 401);
+}
+
 
         if (!in_array(Auth::user()->user_type, $types)) {
             return response()->json([

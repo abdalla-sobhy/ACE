@@ -13,16 +13,17 @@ class CourseEnrollment extends Model
         'student_id',
         'course_id',
         'price_paid',
+        'status',
         'enrolled_at',
-        'progress',
-        'completed_at'
+        'completed_at',
+        'progress'
     ];
 
     protected $casts = [
-        'price_paid' => 'decimal:2',
-        'progress' => 'decimal:2',
         'enrolled_at' => 'datetime',
-        'completed_at' => 'datetime'
+        'completed_at' => 'datetime',
+        'price_paid' => 'decimal:2',
+        'progress' => 'decimal:2'
     ];
 
     public function student()

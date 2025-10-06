@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./StudentDashboard.module.css";
-import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaShoppingCart, FaTimes, FaVideo, FaCalendarAlt } from "react-icons/fa";
+import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaShoppingCart, FaTimes, FaVideo, FaCalendarAlt, FaBroadcastTower } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -168,13 +168,162 @@ export default function StudentDashboard() {
     fetchCourses("", courseTypeFilter);
   };
 
-  const handleEnrollCourse = async (courseId: number, isFull: boolean = false) => {
-    if (isFull) {
-      alert("عذراً، هذا الكورس مكتمل العدد");
-      return;
+  const handleCourseAction = async (course: Course) => {
+  if (course.is_full && !course.is_enrolled) {
+    alert("عذراً، هذا الكورس مكتمل العدد");
+    return;
+  }
+
+  if (course.is_enrolled && course.course_type === 'live') {
+    try {
+      const authData = JSON.parse(localStorage.getItem("authData") || "{}");
+      
+      if (!authData.token) {
+        alert("لم يتم العثور على رمز المصادقة. يرجى تسجيل الدخول مرة أخرى.");
+        router.push("/login");
+        return;
+      }
+
+      console.log(course)
+
+      if (!course.schedule || course.schedule.length === 0) {
+        alert("لا توجد جلسات مجدولة لهذا الكورس");
+        return;
+      }
+
+      const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/live/course/${course.id}/next-session`;
+      
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authData.token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+      });
+
+      if (response.status === 401) {
+        alert("انتهت صلاحية جلسة الدخول. يرجى تسجيل الدخول مرة أخرى.");
+        localStorage.removeItem("authData");
+        localStorage.removeItem("user");
+        router.push("/login");
+        return;
+      }
+
+      if (response.status === 404) {
+        const nextSession = findNextSessionFromSchedule(course.schedule, course.start_date, course.end_date);
+        
+        if (nextSession) {
+          router.push(`/student/live-class/course/${course.id}`);
+        } else {
+          alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
+        }
+        return;
+      }
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("API Error:", errorText);
+        
+        router.push(`/student/courses/${course.id}`);
+        return;
+      }
+
+      const data = await response.json();
+      
+      if (!data || typeof data.success === 'undefined') {
+        console.error("Invalid API response structure:", data);
+        router.push(`/student/courses/${course.id}`);
+        return;
+      }
+      
+      if (data.success && data.session) {
+        if (data.session.can_join) {
+          router.push(`/student/live-class/${data.session.id}`);
+        } else if (data.session.minutes_until_start > 15) {
+          const totalMinutes = Math.round(data.session.minutes_until_start);
+          const hoursUntil = Math.floor(totalMinutes / 60);
+          const minutesUntil = totalMinutes % 60;
+          alert(`الجلسة ستبدأ بعد ${hoursUntil} ساعة و ${minutesUntil} دقيقة\n\nيمكنك الانضمام قبل 15 دقيقة من موعد البدء`);
+        } else if (data.session.minutes_until_start < -120) {
+          alert("انتهت الجلسة المباشرة");
+        } else {
+          alert("لا يمكن الانضمام للجلسة حالياً");
+        }
+      } else {
+        alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
+        router.push(`/student/courses/${course.id}`);
+      }
+    } catch (error) {
+      console.error("Error in handleCourseAction:", error);
+      
+      alert("حدث خطأ. سيتم توجيهك لصفحة الكورس");
+      router.push(`/student/courses/${course.id}`);
     }
-    router.push(`/student/courses/${courseId}`);
+  } else if (course.is_enrolled) {
+    router.push(`/student/courses/${course.id}`);
+  } else {
+    router.push(`/student/courses/${course.id}`);
+  }
+};
+
+const findNextSessionFromSchedule = (
+  schedule: Array<{
+    day: string;
+    day_arabic: string;
+    start_time: string;
+    end_time: string;
+    duration: string;
+  }>,
+  startDate?: string,
+  endDate?: string
+) => {
+  if (!schedule || schedule.length === 0) return null;
+  
+  const now = new Date();
+  const courseStart = startDate ? new Date(startDate) : now;
+  const courseEnd = endDate ? new Date(endDate) : new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
+  
+  if (courseStart > now) {
+    return {
+      isUpcoming: true,
+      startsAt: courseStart,
+      minutesUntilStart: Math.floor((courseStart.getTime() - now.getTime()) / (1000 * 60))
+    };
+  }
+  
+  if (courseEnd < now) {
+    return null;
+  }
+  
+  const dayMap: { [key: string]: number } = {
+    'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3,
+    'Thursday': 4, 'Friday': 5, 'Saturday': 6
   };
+  
+  for (let i = 0; i < 7; i++) {
+    const checkDate = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
+    const dayOfWeek = checkDate.getDay();
+    
+    for (const session of schedule) {
+      if (dayMap[session.day] === dayOfWeek) {
+        const [hours, minutes] = session.start_time.split(':').map(Number);
+        const sessionTime = new Date(checkDate);
+        sessionTime.setHours(hours, minutes, 0, 0);
+        
+        if (sessionTime.getTime() > now.getTime() - 15 * 60 * 1000) {
+          return {
+            isUpcoming: true,
+            startsAt: sessionTime,
+            minutesUntilStart: Math.floor((sessionTime.getTime() - now.getTime()) / (1000 * 60))
+          };
+        }
+      }
+    }
+  }
+  
+  return null;
+};
 
   const getGradeLabel = (grade: string) => {
     const gradeLabels: { [key: string]: string } = {
@@ -358,18 +507,28 @@ export default function StudentDashboard() {
               <p>جرب البحث باسم مدرس آخر أو تغيير كلمات البحث</p>
             </div>
           ) : (
-                        <div className={styles.coursesGrid}>
+            <div className={styles.coursesGrid}>
               {filteredCourses.map((course) => {
                 const category = getCategoryLabel(course.category);
                 return (
                   <div key={course.id} className={styles.courseCard}>
-                    <div className={styles.courseThumbnail}>
-                      <Image
-                        src={course.thumbnail || ""}
-                        alt={course.title}
-                        width={320}
-                        height={180}
-                      />
+                    <div 
+                      onClick={() => handleCourseAction(course)} 
+                      className={`${styles.courseThumbnail} cursor-pointer`}
+                    >
+                      {course.thumbnail ? (
+                        <Image
+                          src={course.thumbnail}
+                          alt={course.title}
+                          width={320}
+                          height={180}
+                          style={{ objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div className={styles.placeholderImage}>
+                          <span>{category.icon}</span>
+                        </div>
+                      )}
                       <div className={styles.courseCategory}>
                         {category.icon} {category.label}
                       </div>
@@ -403,7 +562,7 @@ export default function StudentDashboard() {
                       <p className={styles.courseDescription}>{course.description}</p>
                       
                       {/* Schedule for live courses */}
-                      {course.course_type === 'live' && course.schedule && (
+                      {course.course_type === 'live' && course.schedule && course.schedule.length > 0 && (
                         <div className={styles.scheduleInfo}>
                           <div className={styles.scheduleHeader}>
                             <FaCalendarAlt />
@@ -454,11 +613,19 @@ export default function StudentDashboard() {
                           <span className={styles.currentPrice}>{course.price} جنيه</span>
                         </div>
                         <button
-                          className={`${styles.enrollButton} ${course.is_enrolled ? styles.enrolled : ''} ${course.is_full ? styles.disabled : ''}`}
-                          onClick={() => handleEnrollCourse(course.id, course.is_full)}
+                          className={`${styles.enrollButton} ${course.is_enrolled ? styles.enrolled : ''} ${course.is_full && !course.is_enrolled ? styles.disabled : ''}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCourseAction(course);
+                          }}
                           disabled={course.is_full && !course.is_enrolled}
                         >
-                          {course.is_enrolled ? (
+                          {course.is_enrolled && course.course_type === 'live' ? (
+                            <>
+                              <FaBroadcastTower />
+                              <span>دخول البث المباشر</span>
+                            </>
+                          ) : course.is_enrolled ? (
                             <>
                               <FaBook />
                               <span>متابعة الدراسة</span>

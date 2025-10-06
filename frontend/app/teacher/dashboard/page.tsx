@@ -48,7 +48,6 @@ interface Course {
     start_time: string;
     end_time: string;
   }>;
-  // Teacher specific
   total_revenue?: number;
   completion_rate?: number;
 }
@@ -121,7 +120,6 @@ export default function TeacherDashboard() {
       setLoading(true);
       const authData = JSON.parse(localStorage.getItem("authData") || "{}");
       
-      // Fetch teacher courses
       const coursesResponse = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/api/teacher/courses`,
         {
@@ -132,7 +130,6 @@ export default function TeacherDashboard() {
         }
       );
 
-      // Fetch teacher stats
       const statsResponse = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/api/teacher/stats`,
         {

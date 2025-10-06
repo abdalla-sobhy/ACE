@@ -64,7 +64,7 @@ class Course extends Model
 
     public function sessions()
     {
-        return $this->hasMany(CourseSession::class);
+        return $this->hasMany(LiveSession::class, 'course_id', 'id');
     }
 
     public function getSeatsLeftAttribute()
@@ -84,25 +84,22 @@ class Course extends Model
     }
 
     public function getScheduleSummaryAttribute()
-    {
-        if ($this->course_type === 'recorded') {
-            return null;
-        }
-
-        $sessions = $this->sessions()->orderByRaw("
-            FIELD(day_of_week, 'saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday')
-        ")->get();
-
-        return $sessions->map(function ($session) {
-            return [
-                'day' => $session->day_of_week,
-                'day_arabic' => $session->day_arabic,
-                'start_time' => $session->start_time->format('h:i A'),
-                'end_time' => $session->end_time->format('h:i A'),
-                'duration' => $session->duration_minutes . ' دقيقة'
-            ];
-        });
+{
+    if ($this->course_type === 'recorded') {
+        return null;
     }
+
+    $sessions = $this->sessions()->orderBy('session_date')->get();
+
+    return $sessions->map(function ($session) {
+        return [
+            'date' => $session->session_date,
+            'start_time' => $session->start_time->toIso8601String(),
+            'end_time' => $session->end_time->toIso8601String(),
+            'status' => $session->status,
+        ];
+    });
+}
 
     public function scopeLive($query)
     {
@@ -137,4 +134,14 @@ class Course extends Model
                         ->where('start_date', '<=', now())
                         ->where('end_date', '>=', now());
     }
+
+    public function lessons()
+{
+    return $this->hasMany(CourseLesson::class)->orderBy('order_index');
+}
+
+public function getLessonsCountAttribute()
+{
+    return $this->lessons()->count();
+}
 }

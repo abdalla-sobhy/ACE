@@ -1,0 +1,777 @@
+/* app/university_student/dashboard/UniversityDashboard.module.css */
+
+.container {
+  min-height: 100vh;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans Arabic",
+    sans-serif;
+  direction: rtl;
+}
+
+.main {
+  padding-top: 70px;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 70px);
+  gap: 24px;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #30363d;
+  border-top-color: #58a6ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Profile Alert */
+.profileAlert {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 193, 7, 0.1) 0%,
+    rgba(255, 152, 0, 0.05) 100%
+  );
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  margin: 24px;
+  border-radius: 12px;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alertContent {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.alertIcon {
+  font-size: 48px;
+  color: #ffc107;
+}
+
+.alertText {
+  flex: 1;
+}
+
+.alertText h3 {
+  margin: 0 0 8px;
+  color: #f0f6fc;
+  font-size: 18px;
+}
+
+.alertText p {
+  margin: 0;
+  color: #8b949e;
+}
+
+.alertButton {
+  background: #ffc107;
+  color: #0d1117;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.alertButton:hover {
+  background: #ffb300;
+  transform: translateY(-2px);
+}
+
+.alertClose {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: none;
+  border: none;
+  color: #8b949e;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.alertClose:hover {
+  color: #c9d1d9;
+}
+
+/* Welcome Section */
+.welcomeSection {
+  padding: 48px 24px;
+  background: linear-gradient(
+    135deg,
+    rgba(88, 166, 255, 0.1) 0%,
+    rgba(121, 192, 255, 0.05) 100%
+  );
+  border-bottom: 1px solid #30363d;
+}
+
+.welcomeGrid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: center;
+}
+
+.welcomeContent h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcomeSubtitle {
+  font-size: 18px;
+  color: #8b949e;
+  margin: 0 0 24px;
+}
+
+.profileProgress {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #8b949e;
+}
+
+.progressBar {
+  height: 8px;
+  background: #21262d;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #58a6ff, #79c0ff);
+  transition: width 0.5s ease;
+  border-radius: 4px;
+}
+
+.quickActions {
+  display: flex;
+  gap: 16px;
+}
+
+.primaryButton,
+.secondaryButton {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  border: none;
+}
+
+.primaryButton {
+  background: #238636;
+  color: white;
+}
+
+.primaryButton:hover {
+  background: #2ea043;
+  transform: translateY(-2px);
+}
+
+.secondaryButton {
+  background: transparent;
+  color: #58a6ff;
+  border: 1px solid #30363d;
+}
+
+.secondaryButton:hover {
+  border-color: #58a6ff;
+  background: rgba(88, 166, 255, 0.1);
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.3s;
+}
+
+.statCard:hover {
+  border-color: #58a6ff;
+  transform: translateY(-2px);
+}
+
+.statIcon {
+  width: 48px;
+  height: 48px;
+  background: rgba(88, 166, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #58a6ff;
+}
+
+.statContent h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: #f0f6fc;
+}
+
+.statContent p {
+  font-size: 12px;
+  color: #8b949e;
+  margin: 0;
+}
+
+/* Career Goal Section */
+.careerGoalSection {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.goalCard {
+  background: linear-gradient(135deg, #161b22 0%, #21262d 100%);
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.goalIcon {
+  font-size: 48px;
+  color: #58a6ff;
+}
+
+.goalContent {
+  flex: 1;
+}
+
+.goalContent h3 {
+  margin: 0 0 8px;
+  color: #f0f6fc;
+}
+
+.goalContent p {
+  margin: 0;
+  color: #8b949e;
+  line-height: 1.6;
+}
+
+.lookingBadge {
+  background: #3fb950;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Search Section */
+.searchSection {
+  padding: 32px 24px;
+  background: #010409;
+  border-bottom: 1px solid #30363d;
+}
+
+.searchHeader {
+  max-width: 1400px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+
+.searchHeader h2 {
+  font-size: 28px;
+  margin: 0 0 8px;
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.searchHeader p {
+  color: #8b949e;
+  margin: 0;
+}
+
+.searchControls {
+  max-width: 800px;
+  margin: 0 auto 24px;
+}
+
+.searchBox {
+  position: relative;
+  background: #161b22;
+  border: 2px solid #30363d;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  transition: all 0.3s;
+}
+
+.searchBox:focus-within {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+.searchIcon {
+  font-size: 20px;
+  color: #6e7681;
+  margin-left: 12px;
+}
+
+.searchInput {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 16px 12px;
+  font-size: 16px;
+  color: #c9d1d9;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: #6e7681;
+}
+
+.clearButton {
+  background: none;
+  border: none;
+  color: #6e7681;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s;
+}
+
+.clearButton:hover {
+  color: #c9d1d9;
+}
+
+/* Category Filter */
+.categoryFilter {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.categoryButton {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 20px;
+  padding: 8px 16px;
+  color: #c9d1d9;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.categoryButton:hover {
+  border-color: #58a6ff;
+  background: rgba(88, 166, 255, 0.05);
+}
+
+.categoryButton.active {
+  background: rgba(88, 166, 255, 0.1);
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.categoryIcon {
+  font-size: 18px;
+}
+
+/* Courses Section */
+.coursesSection {
+  padding: 48px 24px;
+  background: #0d1117;
+}
+
+.coursesHeader {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coursesHeader h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.coursesHeader p {
+  color: #8b949e;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Courses Grid */
+.coursesGrid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.courseCard {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.courseCard:hover {
+  border-color: #58a6ff;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
+}
+
+.courseThumbnail {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #21262d;
+}
+
+.courseThumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.courseCard:hover .courseThumbnail img {
+  transform: scale(1.05);
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: #30363d;
+  background: linear-gradient(135deg, #161b22 0%, #21262d 100%);
+}
+
+.enrolledBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #3fb950;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.courseContent {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.courseContent h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #f0f6fc;
+  line-height: 1.4;
+}
+
+.courseInstructor {
+  font-size: 14px;
+  color: #58a6ff;
+  margin: 0 0 12px;
+}
+
+.courseDescription {
+  font-size: 14px;
+  color: #8b949e;
+  line-height: 1.6;
+  margin: 0 0 16px;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.courseStats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #8b949e;
+}
+
+.courseStats span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.courseFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #30363d;
+}
+
+.coursePrice {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.originalPrice {
+  font-size: 14px;
+  color: #6e7681;
+  text-decoration: line-through;
+}
+
+.currentPrice {
+  font-size: 20px;
+  font-weight: 700;
+  color: #3fb950;
+}
+
+.enrollButton {
+  background: #238636;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.enrollButton:hover {
+  background: #2ea043;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+}
+
+.enrollButton.enrolled {
+  background: #1f6feb;
+}
+
+.enrollButton.enrolled:hover {
+  background: #388bfd;
+}
+
+/* No Results */
+.noResults {
+  text-align: center;
+  padding: 80px 24px;
+  grid-column: 1 / -1;
+}
+
+.noResultsIcon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 24px;
+  opacity: 0.5;
+}
+
+.noResults h3 {
+  font-size: 24px;
+  margin: 0 0 12px;
+  color: #f0f6fc;
+}
+
+.noResults p {
+  color: #8b949e;
+  font-size: 18px;
+  margin: 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.statCard {
+  animation: fadeIn 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.statCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.statCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.statCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.statCard:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .welcomeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .coursesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .welcomeContent h1 {
+    font-size: 28px;
+  }
+
+  .quickActions {
+    flex-direction: column;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .categoryFilter {
+    justify-content: flex-start;
+  }
+
+  .coursesHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .coursesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .goalCard {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcomeSection {
+    padding: 32px 16px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .welcomeContent h1 {
+    font-size: 24px;
+  }
+
+  .alertContent {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .categoryButton {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .courseStats {
+    font-size: 12px;
+  }
+}

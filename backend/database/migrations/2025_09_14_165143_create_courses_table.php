@@ -21,8 +21,12 @@ return new class extends Migration
             $table->decimal('rating', 2, 1)->default(0);
             $table->string('thumbnail')->nullable();
             $table->string('category');
-            $table->string('grade');
+            $table->string('grade')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->string('stream_url')->nullable();
+            $table->string('stream_key')->nullable();
+            $table->enum('stream_provider', ['agora', 'jitsi', 'daily', 'custom'])->default('agora');
+            $table->boolean('recording_enabled')->default(true);
             $table->timestamps();
         });
     }

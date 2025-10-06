@@ -14,7 +14,6 @@ class CourseController extends Controller
         try {
             $user = Auth::user();
 
-            // Get student's grade from profile
             $studentGrade = $user->studentProfile->grade ?? null;
 
             if (!$studentGrade) {
@@ -28,12 +27,10 @@ class CourseController extends Controller
                 ->where('is_active', true)
                 ->where('grade', $studentGrade);
 
-            // Filter by course type if provided
             if ($request->has('course_type') && in_array($request->course_type, ['live', 'recorded'])) {
                 $query->where('course_type', $request->course_type);
             }
 
-            // Search by teacher name if provided
             if ($request->has('teacher_name') && !empty($request->teacher_name)) {
                 $searchTerms = explode(' ', trim($request->teacher_name));
 
@@ -47,7 +44,6 @@ class CourseController extends Controller
                 });
             }
 
-            // Filter live courses with available seats
             if ($request->has('available_only') && $request->available_only) {
                 $query->available();
             }
@@ -73,7 +69,6 @@ class CourseController extends Controller
                     'is_enrolled' => $course->students->contains($user->id)
                 ];
 
-                // Add live course specific data
                 if ($course->course_type === 'live') {
                     $courseData['max_seats'] = $course->max_seats;
                     $courseData['enrolled_seats'] = $course->enrolled_seats;

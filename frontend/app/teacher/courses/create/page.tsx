@@ -121,7 +121,7 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
   accept: {
     'image/*': ['.jpeg', '.jpg', '.png', '.gif']
   },
-  maxSize: 5242880, // 5MB
+  maxSize: 5242880,
   multiple: false
 });
 
@@ -175,7 +175,7 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
         setErrors(prev => ({ ...prev, thumbnail: 'حجم الملف يجب أن يكون أقل من 5 ميجابايت' }));
         return;
       }
@@ -217,14 +217,14 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
     const newErrors: Record<string, string> = {};
 
     switch (step) {
-      case 1: // Basic Info
+      case 1:
         if (!formData.title.trim()) newErrors.title = 'عنوان الكورس مطلوب';
         if (!formData.description.trim()) newErrors.description = 'وصف الكورس مطلوب';
         if (!formData.category) newErrors.category = 'يرجى اختيار المادة';
         if (!formData.grade) newErrors.grade = 'يرجى اختيار المرحلة الدراسية';
         break;
         
-      case 2: // Course Details
+      case 2:
         if (!formData.price || parseFloat(formData.price) <= 0) {
           newErrors.price = 'السعر يجب أن يكون أكبر من صفر';
         }

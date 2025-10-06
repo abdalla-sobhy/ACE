@@ -69,7 +69,7 @@ export default function StudentNav() {
 
   const navItems = [
     { href: "/student/dashboard", label: "الرئيسية", icon: <FaHome /> },
-    { href: "/student/courses", label: "كورساتي", icon: <FaBook /> },
+    { href: "/student/my-courses", label: "كورساتي", icon: <FaBook /> },
     { href: "/student/exams", label: "الامتحانات", icon: <FaGraduationCap /> },
     { href: "/student/progress", label: "التقدم", icon: <FaChartLine /> },
   ];

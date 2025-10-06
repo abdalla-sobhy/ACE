@@ -40,6 +40,32 @@ return [
     'api_key' => env('DIDIT_API_KEY'),
     'api_secret' => env('DIDIT_API_SECRET'),
     'callback_url' => env('DIDIT_CALLBACK_URL', env('APP_URL') . '/signup?verification=complete'),
-],
+    ],
+
+'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+        'webhook' => [
+            'secret' => env('STRIPE_WEBHOOK_SECRET'),
+            'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
+        ],
+    ],
+
+    'paypal' => [
+        'mode' => env('PAYPAL_MODE', 'sandbox'),
+        'sandbox' => [
+            'client_id' => env('PAYPAL_SANDBOX_CLIENT_ID'),
+            'secret' => env('PAYPAL_SANDBOX_SECRET'),
+        ],
+        'live' => [
+            'client_id' => env('PAYPAL_LIVE_CLIENT_ID'),
+            'secret' => env('PAYPAL_LIVE_SECRET'),
+        ],
+    ],
+
+    'agora' => [
+        'app_id' => env('AGORA_APP_ID'),
+        'app_certificate' => env('AGORA_APP_CERTIFICATE'),
+    ],
 
 ];

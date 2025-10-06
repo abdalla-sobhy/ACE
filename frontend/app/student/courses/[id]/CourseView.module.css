@@ -1,0 +1,487 @@
+/* app/student/courses/[id]/CourseView.module.css */
+
+.container {
+  min-height: 100vh;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+  direction: rtl;
+}
+
+.main {
+  padding: 80px 24px 48px; /* Fixed padding-top for navbar clearance */
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.header button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #c9d1d9;
+}
+
+.header button:hover {
+  background: rgba(88, 166, 255, 0.05);
+  border-color: #58a6ff;
+}
+
+.header h1 {
+  flex: 1;
+  color: #f0f6fc;
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* Enrollment Banner */
+.enrollmentBanner {
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(121, 192, 255, 0.05) 100%);
+  border: 1px solid rgba(88, 166, 255, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.bannerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bannerInfo {
+  color: #c9d1d9;
+}
+
+.bannerInfo h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #f0f6fc;
+}
+
+.bannerInfo p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  color: #8b949e;
+}
+
+.fullNotice {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(248, 81, 73, 0.2);
+  border: 1px solid rgba(248, 81, 73, 0.4);
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: 600;
+  color: #f85149;
+}
+
+.seatsNotice {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 193, 7, 0.2);
+  border: 1px solid rgba(255, 193, 7, 0.4);
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: 600;
+  color: #ffc107;
+}
+
+.bannerActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.priceInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #c9d1d9;
+}
+
+.originalPrice {
+  text-decoration: line-through;
+  opacity: 0.7;
+  font-size: 1.2rem;
+  color: #6e7681;
+}
+
+.currentPrice {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3fb950;
+}
+
+.enrollButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2.5rem;
+  background: #238636;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(35, 134, 54, 0.3);
+}
+
+.enrollButton:hover:not(:disabled) {
+  background: #2ea043;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(35, 134, 54, 0.4);
+}
+
+.enrollButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #6e7681;
+}
+
+/* Content Section */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+}
+
+.videoSection {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.videoPlayer {
+  width: 100%;
+  height: 450px;
+  border: none;
+  background: #000;
+}
+
+.videoSection h2 {
+  padding: 1.5rem;
+  margin: 0;
+  color: #f0f6fc;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #30363d;
+}
+
+.videoSection p {
+  padding: 0 1.5rem 1.5rem;
+  color: #8b949e;
+  line-height: 1.6;
+}
+
+.locked {
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+  color: #8b949e;
+}
+
+.locked svg {
+  font-size: 4rem;
+  color: #6e7681;
+  margin-bottom: 1rem;
+}
+
+.locked h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #f0f6fc;
+}
+
+.locked p {
+  margin-bottom: 1.5rem;
+  color: #8b949e;
+}
+
+.unlockButton {
+  padding: 1rem 2rem;
+  background: #238636;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.unlockButton:hover:not(:disabled) {
+  background: #2ea043;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(35, 134, 54, 0.4);
+}
+
+.unlockButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #6e7681;
+}
+
+/* Lessons List */
+.lessonsList {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  height: fit-content;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for lessons list */
+.lessonsList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.lessonsList::-webkit-scrollbar-track {
+  background: #0d1117;
+  border-radius: 4px;
+}
+
+.lessonsList::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 4px;
+}
+
+.lessonsList::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
+
+.lessonsList h3 {
+  margin-bottom: 1.5rem;
+  color: #f0f6fc;
+  font-size: 1.3rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #30363d;
+}
+
+.lessonItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  background: #0d1117;
+}
+
+.lessonItem:hover {
+  background: rgba(88, 166, 255, 0.05);
+  border-color: rgba(88, 166, 255, 0.2);
+}
+
+.lessonItem.active {
+  background: rgba(88, 166, 255, 0.1);
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.lessonItem.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lessonItem.locked:hover {
+  background: #0d1117;
+  border-color: transparent;
+}
+
+.lessonNumber {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid rgba(88, 166, 255, 0.3);
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #58a6ff;
+}
+
+.lessonItem.active .lessonNumber {
+  background: #58a6ff;
+  color: white;
+  border-color: #58a6ff;
+}
+
+.lessonItem.locked .lessonNumber {
+  background: rgba(110, 118, 129, 0.1);
+  border-color: rgba(110, 118, 129, 0.3);
+  color: #6e7681;
+}
+
+.lessonInfo {
+  flex: 1;
+}
+
+.lessonInfo h4 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1rem;
+  color: #f0f6fc;
+}
+
+.lessonItem.active .lessonInfo h4 {
+  color: #58a6ff;
+}
+
+.lessonMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  color: #8b949e;
+}
+
+.lessonMeta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.previewBadge {
+  padding: 0.2rem 0.5rem;
+  background: rgba(63, 185, 80, 0.2);
+  color: #3fb950;
+  border: 1px solid rgba(63, 185, 80, 0.3);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.lessonItem svg {
+  color: #6e7681;
+  font-size: 1rem;
+}
+
+.lessonItem.active svg {
+  color: #58a6ff;
+}
+
+/* Loader */
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  font-size: 1.2rem;
+  color: #8b949e;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+  
+  .lessonsList {
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 70px 16px 32px;
+  }
+  
+  .bannerContent {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  
+  .bannerActions {
+    align-items: center;
+    width: 100%;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .videoPlayer {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 65px 12px 24px;
+  }
+  
+  .enrollmentBanner {
+    padding: 1.5rem;
+  }
+  
+  .lessonsList {
+    padding: 1rem;
+  }
+}
+.secureVideoContainer {
+  position: relative;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 50px);
+  z-index: 1;
+  pointer-events: none;
+  background: transparent;
+}
+
+.videoWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+video::-webkit-media-controls-download-button {
+  display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+  overflow: hidden;
+}

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use App\Models\CourseSession;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class TeacherController extends Controller
@@ -52,8 +52,8 @@ class TeacherController extends Controller
                         'enrolled_seats' => $course->enrolled_seats,
                         'seats_left' => $course->seats_left,
                         'is_full' => $course->is_full,
-                        'start_date' => $course->start_date ? $course->start_date->format('Y-m-d') : null,
-                        'end_date' => $course->end_date ? $course->end_date->format('Y-m-d') : null,
+                        'start_date' => $course->start_date ? Carbon::parse($course->start_date)->format('Y-m-d') : null,
+                        'end_date' => $course->end_date ? Carbon::parse($course->end_date)->format('Y-m-d') : null,
                         'sessions_per_week' => $course->sessions_per_week,
                         'schedule' => $course->schedule_summary,
                         'total_revenue' => $totalRevenue,
@@ -118,255 +118,143 @@ class TeacherController extends Controller
     }
 
     public function createCourse(Request $request)
-{
-    try {
-        $teacher = Auth::user();
-
-        if ($teacher->user_type !== 'teacher') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Unauthorized. Teachers only.'
-            ], 403);
-        }
-
-        // Check if it's a multipart request
-        $contentType = $request->header('Content-Type');
-        Log::info('Request Content-Type: ' . $contentType);
-
-        // Log all incoming data
-        Log::info('Incoming request data:', [
-            'all_data' => $request->all(),
-            'has_files' => count($request->allFiles()) > 0,
-            'files_list' => array_keys($request->allFiles()),
-        ]);
-
-        // Check file upload before validation
-        if ($request->hasFile('thumbnail')) {
-            $file = $request->file('thumbnail');
-
-            Log::info('File upload details:', [
-                'original_name' => $file->getClientOriginalName(),
-                'size' => $file->getSize(),
-                'mime' => $file->getMimeType(),
-                'is_valid' => $file->isValid(),
-                'error' => $file->getError(),
-                'error_message' => $file->getErrorMessage(),
-                'max_upload_size' => ini_get('upload_max_filesize'),
-                'max_post_size' => ini_get('post_max_size'),
-            ]);
-
-            // Check if file is valid before validation
-            if (!$file->isValid()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'File upload failed',
-                    'error' => 'Invalid file: ' . $file->getErrorMessage(),
-                    'php_error_code' => $file->getError()
-                ], 422);
-            }
-        }
-
-        // Validation rules
-        $rules = [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category' => 'required|string',
-            'grade' => 'required|string',
-            'course_type' => 'required|in:recorded,live',
-            'price' => 'required|numeric|min:0',
-            'original_price' => 'nullable|numeric|min:0',
-            'duration' => 'required|string',
-            'lessons_count' => 'required|integer|min:1',
-            'is_active' => 'nullable|boolean',
-        ];
-
-        // Only add thumbnail validation if file is present
-        if ($request->hasFile('thumbnail')) {
-            $rules['thumbnail'] = 'image|mimes:jpeg,jpg,png,gif|max:5120';
-        }
-
-        // Additional validation for live courses
-        if ($request->course_type === 'live') {
-            $rules['max_seats'] = 'required|integer|min:1';
-            $rules['start_date'] = 'required|date|after_or_equal:today';
-            $rules['end_date'] = 'required|date|after:start_date';
-            $rules['sessions'] = 'required|array|min:1';
-            $rules['sessions.*.day_of_week'] = 'required|in:saturday,sunday,monday,tuesday,wednesday,thursday,friday';
-            $rules['sessions.*.start_time'] = 'required|date_format:H:i';
-            $rules['sessions.*.end_time'] = 'required|date_format:H:i|after:sessions.*.start_time';
-        }
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            Log::error('Validation errors:', $validator->errors()->toArray());
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        DB::beginTransaction();
-
-        try {
-            // Create course
-            $courseData = [
-                'title' => $request->title,
-                'description' => $request->description,
-                'teacher_id' => $teacher->id,
-                'category' => $request->category,
-                'grade' => $request->grade,
-                'course_type' => $request->course_type,
-                'price' => $request->price,
-                'original_price' => $request->original_price,
-                'duration' => $request->duration,
-                'lessons_count' => $request->lessons_count,
-                'students_count' => 0,
-                'rating' => 0,
-                'is_active' => $request->is_active ?? true,
-            ];
-
-            // Add live course specific fields
-            if ($request->course_type === 'live') {
-                $courseData['max_seats'] = $request->max_seats;
-                $courseData['enrolled_seats'] = 0;
-                $courseData['start_date'] = $request->start_date;
-                $courseData['end_date'] = $request->end_date;
-                $courseData['sessions_per_week'] = count($request->sessions);
-            }
-
-            // Handle thumbnail upload
-            if ($request->hasFile('thumbnail') && $request->file('thumbnail')->isValid()) {
-                try {
-                    $file = $request->file('thumbnail');
-
-                    // Generate a unique filename
-                    $filename = 'course_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-                    // Store the file
-                    $path = $file->storeAs('courses', $filename, 'public');
-
-                    // Verify the file was stored
-                    $fullPath = storage_path('app/public/' . $path);
-                    if (!file_exists($fullPath)) {
-                        throw new \Exception('File was not saved to disk');
-                    }
-
-                    $courseData['thumbnail'] = $path;
-
-                    Log::info('File uploaded successfully:', [
-                        'path' => $path,
-                        'full_path' => $fullPath,
-                        'exists' => file_exists($fullPath)
-                    ]);
-
-                } catch (\Exception $e) {
-                    Log::error('File upload error:', [
-                        'message' => $e->getMessage(),
-                        'trace' => $e->getTraceAsString()
-                    ]);
-
-                    DB::rollback();
-
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Failed to save thumbnail',
-                        'error' => $e->getMessage()
-                    ], 500);
-                }
-            }
-
-            $course = Course::create($courseData);
-
-            // Create sessions for live courses
-            if ($request->course_type === 'live' && $request->has('sessions')) {
-                foreach ($request->sessions as $session) {
-                    CourseSession::create([
-                        'course_id' => $course->id,
-                        'day_of_week' => $session['day_of_week'],
-                        'start_time' => $session['start_time'],
-                        'end_time' => $session['end_time']
-                    ]);
-                }
-            }
-
-            DB::commit();
-
-            // Load relationships
-            $course->load('sessions');
-
-            // Format response
-            $responseData = $course->toArray();
-            if ($course->thumbnail) {
-                $responseData['thumbnail_url'] = asset('storage/' . $course->thumbnail);
-            }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Course created successfully',
-                'course' => $responseData
-            ], 201);
-
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
-
-    } catch (\Exception $e) {
-        Log::error('Course creation error:', [
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString()
-        ]);
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Error creating course',
-            'error' => $e->getMessage()
-        ], 500);
-    }
-}
-
-    public function deleteCourse($id)
     {
         try {
             $teacher = Auth::user();
 
-            $course = Course::where('teacher_id', $teacher->id)
-                ->where('id', $id)
-                ->first();
+            $validator = Validator::make($request->all(), [
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'category' => 'required|string',
+                'grade' => 'required|string',
+                'course_type' => 'required|in:recorded,live',
+                'price' => 'required|numeric|min:0',
+                'duration' => 'required|string',
+                'lessons_count' => 'required|integer|min:1',
+                'thumbnail' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5120',
 
-            if (!$course) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Course not found'
-                ], 404);
-            }
-
-            // Check if course has enrollments
-            if ($course->enrollments()->count() > 0) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Cannot delete course with enrolled students'
-                ], 400);
-            }
-
-            $course->delete();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Course deleted successfully'
+                'max_seats' => 'required_if:course_type,live|nullable|integer|min:1',
+                'start_date' => 'required_if:course_type,live|nullable|date|after_or_equal:today',
+                'end_date' => 'required_if:course_type,live|nullable|date|after:start_date',
+                'sessions' => 'required_if:course_type,live|nullable|array|min:1',
+                'sessions.*.day_of_week' => 'required|string',
+                'sessions.*.start_time' => 'required|date_format:H:i',
+                'sessions.*.end_time' => 'required|date_format:H:i',
             ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            DB::beginTransaction();
+
+            try {
+                $courseData = [
+                    'teacher_id' => $teacher->id,
+                    'title' => $request->title,
+                    'description' => $request->description,
+                    'category' => $request->category,
+                    'grade' => $request->grade,
+                    'course_type' => $request->course_type,
+                    'price' => $request->price,
+                    'original_price' => $request->original_price,
+                    'duration' => $request->duration,
+                    'lessons_count' => $request->lessons_count,
+                    'is_active' => $request->is_active ?? true,
+                ];
+
+                if ($request->course_type === 'live') {
+                    $courseData['max_seats'] = $request->max_seats;
+                    $courseData['start_date'] = $request->start_date;
+                    $courseData['end_date'] = $request->end_date;
+                    $courseData['sessions_per_week'] = count($request->sessions);
+                }
+
+                if ($request->hasFile('thumbnail')) {
+                    $file = $request->file('thumbnail');
+                    $filename = 'course_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('courses/thumbnails', $filename, 'public');
+                    $courseData['thumbnail'] = $path;
+                }
+
+                $course = Course::create($courseData);
+
+                if ($request->course_type === 'live') {
+                    $this->createLiveSessions($course, $request->sessions, $request->start_date, $request->end_date);
+                }
+
+                DB::commit();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Course created successfully',
+                    'course' => $course
+                ], 201);
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                throw $e;
+            }
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error deleting course',
+                'message' => 'Error creating course',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+
+    private function createLiveSessions($course, $sessions, $startDate, $endDate)
+{
+    $start = Carbon::parse($startDate);
+    $end = Carbon::parse($endDate);
+
+    $dayMapping = [
+        'saturday' => Carbon::SATURDAY,
+        'sunday' => Carbon::SUNDAY,
+        'monday' => Carbon::MONDAY,
+        'tuesday' => Carbon::TUESDAY,
+        'wednesday' => Carbon::WEDNESDAY,
+        'thursday' => Carbon::THURSDAY,
+        'friday' => Carbon::FRIDAY,
+    ];
+
+    $sessionsCreated = 0;
+
+    foreach ($sessions as $session) {
+        $dayOfWeek = $dayMapping[$session['day_of_week']] ?? null;
+
+        if (!$dayOfWeek) {
+            continue;
+        }
+
+        $currentDate = $start->copy();
+
+        while ($currentDate->dayOfWeek !== $dayOfWeek && $currentDate->lte($end)) {
+            $currentDate->addDay();
+        }
+
+        while ($currentDate->lte($end)) {
+            \App\Models\LiveSession::create([
+                'course_id' => $course->id,
+                'session_date' => $currentDate->toDateString(),
+                'start_time' => $session['start_time'],
+                'end_time' => $session['end_time'],
+                'status' => 'scheduled',
+                'attendees_count' => 0,
+            ]);
+
+            $sessionsCreated++;
+
+            $currentDate->addWeek();
+        }
+    }
+
+    Log::info("Created {$sessionsCreated} live sessions for course {$course->id}");
+}
 }

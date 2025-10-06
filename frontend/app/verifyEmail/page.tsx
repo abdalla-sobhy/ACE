@@ -37,13 +37,12 @@ export default function VerifyEmailPage({
   
   const handleOtpChange = (index: number, value: string) => {
     if (value.length > 1) return;
-    if (!/^\d*$/.test(value)) return; // Only digits
+    if (!/^\d*$/.test(value)) return;
     
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
     
-    // Auto-focus next input
     if (value && index < 5) {
       const nextInput = document.getElementById(`otp-${index + 1}`);
       nextInput?.focus();
@@ -95,7 +94,6 @@ export default function VerifyEmailPage({
         sessionStorage.setItem('verifiedEmail', email);
         sessionStorage.setItem('institutionName', institutionName);
         
-        // Redirect back to signup with verified flag
         const params = new URLSearchParams({
           step: '2',
           verified: 'true',

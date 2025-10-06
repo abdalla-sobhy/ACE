@@ -1,47 +1,112 @@
-// middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('authToken')?.value;
+  const token = request.cookies.get("authToken")?.value;
+  const userType = request.cookies.get("userType")?.value;
   const pathname = request.nextUrl.pathname;
 
-  // Protected routes
-  const protectedRoutes = ['/dashboard', '/student', '/teacher', '/admin'];
-  const authRoutes = ['/login', '/signup', '/forgot-password'];
+  const protectedRoutes = {
+    student: ["/student"],
+    university_student: ["/university_student", "/university_student"], // Support both URL formats
+    teacher: ["/teacher"],
+    parent: ["/parent"],
+    admin: ["/admin"],
+  };
 
-  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
-  const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
+  const authRoutes = ["/login", "/signup", "/forgot-password"];
 
-  // Allow access to OTP verification page without token
-  if (pathname === '/verifyEmail') {
+  const isDashboard = pathname === "/dashboard";
+
+  const isProtectedRoute = Object.values(protectedRoutes).some((routes) =>
+    routes.some((route) => pathname.startsWith(route))
+  );
+
+  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
+
+  if (pathname === "/verifyEmail") {
     return NextResponse.next();
   }
 
-  // Redirect to login if accessing protected route without token
-  if (isProtectedRoute && !token) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
+  if ((isProtectedRoute || isDashboard) && !token) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // Redirect to appropriate dashboard based on user type if accessing auth routes with token
-  if (isAuthRoute && token) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+  if (isDashboard && token && userType) {
+    let redirectPath = "/";
+
+    switch (userType) {
+      case "student":
+        redirectPath = "/student/dashboard";
+        break;
+      case "university_student":
+        redirectPath = "/university_student/dashboard";
+        break;
+      case "teacher":
+        redirectPath = "/teacher/dashboard";
+        break;
+      case "parent":
+        redirectPath = "/parent/dashboard";
+        break;
+      case "admin":
+        redirectPath = "/admin/dashboard";
+        break;
+    }
+
+    return NextResponse.redirect(new URL(redirectPath, request.url));
+  }
+
+  if (isProtectedRoute && token && userType) {
+    for (const [type, routes] of Object.entries(protectedRoutes)) {
+      if (routes.some((route) => pathname.startsWith(route))) {
+        if (userType !== type) {
+          return NextResponse.redirect(
+            new URL(getDashboardPath(userType), request.url)
+          );
+        }
+      }
+    }
+  }
+
+  if (isAuthRoute && token && userType) {
+    return NextResponse.redirect(
+      new URL(getDashboardPath(userType), request.url)
+    );
   }
 
   return NextResponse.next();
 }
 
+function getDashboardPath(userType: string): string {
+  switch (userType) {
+    case "student":
+      return "/student/dashboard";
+    case "university_student":
+      return "/university_student/dashboard";
+    case "teacher":
+      return "/teacher/dashboard";
+    case "parent":
+      return "/parent/dashboard";
+    case "admin":
+      return "/admin/dashboard";
+    default:
+      return "/";
+  }
+}
+
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/student/:path*',
-    '/teacher/:path*',
-    '/admin/:path*',
-    '/login',
-    '/signup',
-    '/forgot-password',
-    '/verifyEmail'
-  ]
+    "/dashboard",
+    "/student/:path*",
+    "/university_student/:path*",
+    "/teacher/:path*",
+    "/parent/:path*",
+    "/admin/:path*",
+    "/login",
+    "/signup",
+    "/forgot-password",
+    "/verifyEmail",
+  ],
 };
