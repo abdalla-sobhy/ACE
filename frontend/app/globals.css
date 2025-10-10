@@ -10,3 +10,76 @@
 [dir="rtl"] select {
   background-position: left 12px center;
 }
+
+/* default theme*/
+:root{
+  --black: #fff;
+  --white: #000;
+  --black-trans: #ffffff90;
+  --main-color: #f6f8fa;
+  --main-color-transparent: #f6f8fadd;
+  --sections-color: #ffffff;
+  --blue: #0969da;
+  --blue-darker: #0550ae;
+  --form-color: #ffffff;
+  --borders: #d0d7de;
+  --main-text-white: #24292f;
+  --main-text-white-lighter: #1f2328;
+  --p-text: #57606a;
+  --btn: #2ea043;
+  --from-wrapper-color: #f6f8fa;
+  --input-color: #ffffff;
+  --input-border-color: #d0d7de;
+  --input-border-color-lighter: #c6cbd1;
+  --input-text: #bbbbbb;
+  --input-placeholder: #6e778180;
+}
+
+/* Light theme */
+:root.light {
+  --black: #fff;
+  --white: #000;
+  --black-trans: #ffffff90;
+  --main-color: #f6f8fa;
+  --main-color-transparent: #f6f8fadd;
+  --sections-color: #ffffff;
+  --blue: #0969da;
+  --blue-darker: #0550ae;
+  --form-color: #ffffff;
+  --borders: #d0d7de;
+  --main-text-white: #24292f;
+  --main-text-white-lighter: #1f2328;
+  --p-text: #57606a;
+  --btn: #2ea043;
+  --from-wrapper-color: #f6f8fa;
+  --input-color: #ffffff;
+  --input-border-color: #d0d7de;
+  --input-border-color-lighter: #c6cbd1;
+  --input-text: #bbbbbb;
+  --input-placeholder: #6e778180;
+}
+
+
+/* Dark theme */
+:root.dark {
+  --black: #000;
+  --white: #fff;
+  --black-trans: #00000090;
+  --main-color: #0d1117;
+  --main-color-transparent: #0d1117dd;
+  --sections-color: #010409;
+  --blue: #70b9ff;
+  --blue-darker: #70b9ff;
+  --form-color: #161b22;
+  --borders: #30363d; /*duplicated but will fix later*/
+  --main-text-white: #c9d1d9;
+  --main-text-white-lighter: #f0f6fc;
+  --p-text: #8b949e;
+  --btn: #2EA043;
+  --from-wrapper-color: #161B22;
+  --input-color: #0D1117;
+  --input-border-color: #30363d;
+  --input-border-color-lighter: #21262d;
+  --input-text: #6E7681;
+  --input-placeholder: #6E768180;
+}

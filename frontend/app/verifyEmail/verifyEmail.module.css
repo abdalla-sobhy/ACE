@@ -58,18 +58,18 @@
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #202124;
+  color: var(--input-border-color-lighter);
   margin-bottom: 0.5rem;
 }
 
 .subtitle {
-  color: #5f6368;
+  color: var(--black-trans);
   margin-bottom: 0.5rem;
 }
 
 .email {
   font-weight: 600;
-  color: #202124;
+  color: var(--input-border-color-lighter);
   margin-bottom: 0.25rem;
 }
 
@@ -85,7 +85,7 @@
 
 .otpLabel {
   display: block;
-  color: #5f6368;
+  color: var(--black-trans);
   margin-bottom: 1rem;
   font-size: 0.875rem;
 }
@@ -100,7 +100,7 @@
 .otpInput {
   width: 50px;
   height: 56px;
-  border: 2px solid #dadce0;
+  border: 2px solid var(--main-text-white);
   border-radius: 8px;
   text-align: center;
   font-size: 1.5rem;
@@ -115,7 +115,7 @@
 }
 
 .otpInput:disabled {
-  background-color: #f8f9fa;
+  background-color: var(--main-text-white-lighter);
   cursor: not-allowed;
 }
 
@@ -165,7 +165,7 @@
 }
 
 .verifyButton:disabled {
-  background: #dadce0;
+  background: var(--main-text-white);
   cursor: not-allowed;
   transform: none;
 }
@@ -173,7 +173,7 @@
 .loadingSpinner {
   width: 20px;
   height: 20px;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--white);
   border-radius: 50%;
   border-top-color: transparent;
   animation: spin 0.8s linear infinite;
@@ -188,12 +188,12 @@
 }
 
 .resendText {
-  color: #5f6368;
+  color: var(--p-text);
   font-size: 0.875rem;
 }
 
 .timer {
-  color: #202124;
+  color: var(--input-border-color-lighter);
   font-weight: 500;
 }
 
@@ -212,20 +212,20 @@
 }
 
 .resendButton:disabled {
-  color: #dadce0;
+  color: var(--main-text-white);
   cursor: not-allowed;
 }
 
 .backLink {
   display: inline-block;
   margin-top: 1rem;
-  color: #5f6368;
+  color: var(--black-trans);
   text-decoration: none;
   font-size: 0.875rem;
 }
 
 .backLink:hover {
-  color: #202124;
+  color: var(--input-border-color-lighter);
 }
 
 /* Responsive */

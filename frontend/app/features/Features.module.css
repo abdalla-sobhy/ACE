@@ -1,8 +1,8 @@
 /* Container */
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--input-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
   direction: rtl;
 }
@@ -66,15 +66,15 @@
 
 .hero p {
   font-size: 24px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0;
 }
 
 /* Main Features Section */
 .mainFeatures {
   padding: 80px 24px;
-  background: #010409;
-  border-top: 1px solid #30363d;
+  background: var(--sections-color);
+  border-top: 1px solid var(--input-border-color);
 }
 
 .featuresContainer {
@@ -94,7 +94,7 @@
 }
 
 .sectionHeader p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
   margin: 0;
 }
@@ -106,8 +106,8 @@
 }
 
 .featureCard {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   padding: 32px;
   transition: all 0.3s ease;
@@ -134,11 +134,11 @@
 .featureCard h3 {
   font-size: 24px;
   margin: 0;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .featureDescription {
-  color: #8b949e;
+  color: var(--p-text);
   line-height: 1.6;
   margin: 0 0 24px;
 }
@@ -154,7 +154,7 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .checkIcon {
@@ -166,7 +166,7 @@
 /* Feature Showcase */
 .showcase {
   padding: 80px 24px;
-  background: #0d1117;
+  background: var(--input-color);
 }
 
 .showcaseContainer {
@@ -197,7 +197,7 @@
 }
 
 .showcaseContent p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
   line-height: 1.6;
   margin: 0 0 48px;
@@ -217,7 +217,7 @@
 
 .showcaseIcon {
   font-size: 32px;
-  background: #161b22;
+  background: var(--from-wrapper-color);
   padding: 12px;
   border-radius: 8px;
   display: flex;
@@ -230,31 +230,31 @@
 .showcaseFeature h4 {
   font-size: 18px;
   margin: 0 0 4px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .showcaseFeature p {
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0;
   font-size: 14px;
 }
 
 /* Browser Window Visual */
 .browserWindow {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .browserHeader {
-  background: #21262d;
+  background: var(--input-border-color-lighter);
   padding: 12px 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--input-border-color);
 }
 
 .browserDots {
@@ -274,7 +274,7 @@
 .browserDots span:nth-child(3) { background: #27c93f; }
 
 .browserTitle {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 14px;
 }
 
@@ -287,7 +287,7 @@
 
 .videoPlayer {
   flex: 1;
-  background: #010409;
+  background: var(--sections-color);
   border-radius: 8px;
   position: relative;
   display: flex;
@@ -330,7 +330,7 @@
 
 .chatPanel {
   width: 280px;
-  background: #010409;
+  background: var(--sections-color);
   border-radius: 8px;
   padding: 16px;
   display: flex;
@@ -339,7 +339,7 @@
 }
 
 .chatMessage {
-  background: #0d1117;
+  background: var(--input-color);
   padding: 12px;
   border-radius: 6px;
   font-size: 14px;
@@ -355,8 +355,8 @@
 /* Additional Features */
 .additionalFeatures {
   padding: 80px 24px;
-  background: #010409;
-  border-top: 1px solid #30363d;
+  background: var(--sections-color);
+  border-top: 1px solid var(--input-border-color);
 }
 
 .additionalContainer {
@@ -380,8 +380,8 @@
 .additionalCard {
   text-align: center;
   padding: 32px;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   transition: all 0.3s ease;
 }
@@ -400,11 +400,11 @@
 .additionalCard h4 {
   font-size: 18px;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .additionalCard p {
-  color: #8b949e;
+  color: var(--p-text);
   line-height: 1.5;
   margin: 0;
   font-size: 14px;
@@ -413,7 +413,7 @@
 /* Comparison Section */
 .comparison {
   padding: 80px 24px;
-  background: #0d1117;
+  background: var(--input-color);
 }
 
 .comparisonContainer {
@@ -433,14 +433,14 @@
 
 .comparisonSubtitle {
   text-align: center;
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 18px;
   margin: 0 0 48px;
 }
 
 .comparisonTable {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -448,8 +448,8 @@
 .comparisonHeader {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  background: #21262d;
-  border-bottom: 2px solid #30363d;
+  background: var(--input-border-color-lighter);
+  border-bottom: 2px solid var(--input-border-color);
 }
 
 .comparisonCell {
@@ -466,7 +466,7 @@
 .comparisonRow {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--input-border-color);
 }
 
 .comparisonRow:last-child {
@@ -476,7 +476,7 @@
 .comparisonFeature {
   padding: 20px;
   font-weight: 500;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   background: rgba(88, 166, 255, 0.05);
   display: flex;
   align-items: center;
@@ -505,8 +505,8 @@
 /* Stats Section */
 .stats {
   padding: 80px 24px;
-  background: #010409;
-  border-top: 1px solid #30363d;
+  background: var(--sections-color);
+  border-top: 1px solid var(--input-border-color);
 }
 
 .statsContainer {
@@ -530,8 +530,8 @@
 .statCard {
   text-align: center;
   padding: 48px 24px;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--input-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 12px;
   position: relative;
   overflow: hidden;
@@ -571,7 +571,7 @@
 }
 
 .statCard p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 16px;
   margin: 0;
   position: relative;
@@ -580,7 +580,7 @@
 /* CTA Section */
 .cta {
   padding: 100px 24px;
-  background: #161b22;
+  background: var(--from-wrapper-color);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -609,7 +609,7 @@
 }
 
 .cta p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 20px;
   margin: 0 0 48px;
 }
@@ -674,7 +674,7 @@
 }
 
 .ctaNote {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 16px;
   display: flex;
   align-items: center;

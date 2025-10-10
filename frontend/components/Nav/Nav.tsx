@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import styles from "./Nav.module.css";
+import ThemeToggle from '@/components/ThemeToggle/ThemeToggle';
 
 export default function Nav() {
   const pathname = usePathname();
@@ -98,6 +99,9 @@ export default function Nav() {
             >
               تواصل معنا
             </Link>
+            <div id="themeIcon">
+              <ThemeToggle />
+            </div>
           </div>
           <div className={styles.navRight}>
             <Link
