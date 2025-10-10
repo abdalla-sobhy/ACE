@@ -8,9 +8,10 @@ export function middleware(request: NextRequest) {
 
   const protectedRoutes = {
     student: ["/student"],
-    university_student: ["/university_student", "/university_student"], // Support both URL formats
+    university_student: ["/university_student"],
     teacher: ["/teacher"],
     parent: ["/parent"],
+    company: ["/company"],
     admin: ["/admin"],
   };
 
@@ -49,6 +50,9 @@ export function middleware(request: NextRequest) {
         break;
       case "parent":
         redirectPath = "/parent/dashboard";
+        break;
+      case "company":
+        redirectPath = "/company/dashboard";
         break;
       case "admin":
         redirectPath = "/admin/dashboard";
@@ -89,6 +93,8 @@ function getDashboardPath(userType: string): string {
       return "/teacher/dashboard";
     case "parent":
       return "/parent/dashboard";
+    case "company":
+      return "/company/dashboard";
     case "admin":
       return "/admin/dashboard";
     default:
@@ -101,6 +107,7 @@ export const config = {
     "/dashboard",
     "/student/:path*",
     "/university_student/:path*",
+    "/company/:path*",
     "/teacher/:path*",
     "/parent/:path*",
     "/admin/:path*",

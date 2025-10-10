@@ -43,7 +43,7 @@ interface User {
   id: number;
   name: string;
   email: string;
-  type: "student" | "university_student" | "teacher" | "parent" | "admin";
+  type: "student" | "university_student" | "teacher" | "parent" | 'company' | "admin";
   profile?: StudentProfile | TeacherProfile | ParentProfile;
 }
 
@@ -210,6 +210,9 @@ export default function LoginPage() {
               break;
             case "parent":
               router.push("/parent/dashboard");
+              break;
+            case "company":
+              router.push("/company/dashboard");
               break;
             default:
               router.push("/");

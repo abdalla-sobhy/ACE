@@ -15,6 +15,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\StripeWebhookController;
 use App\Http\Controllers\Api\VideoStreamController;
 use App\Http\Controllers\Api\LiveStreamController;
+use App\Http\Controllers\Api\CompanyAuthController;
+use App\Http\Controllers\Api\CompanyJobController;
+use App\Http\Controllers\Api\UniversityJobController;
 
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -22,6 +25,9 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/send-otp', [AuthController::class, 'sendOtp']);
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
+
+// Company registration (PUBLIC - moved outside of auth:sanctum)
+Route::post('/company/register', [CompanyAuthController::class, 'register']);
 
 // Didit verification routes
 Route::post('/didit/create-session', [DiditController::class, 'createSession']);
@@ -40,11 +46,29 @@ Route::middleware('auth:sanctum')->group(function () {
             'studentProfile',
             'teacherProfile',
             'parentProfile',
-            'universityStudentProfile'
+            'universityStudentProfile',
+            'company'
         ]);
     });
 
-    Route::get('/courses', [CourseController::class, 'index']);
+        Route::get('/courses', [CourseController::class, 'index']);
+
+        Route::prefix('company')->middleware(\App\Http\Middleware\UserTypeMiddleware::class . ':company')->group(function () {
+        // Dashboard
+        Route::get('/dashboard/stats', [CompanyJobController::class, 'getDashboardStats']);
+
+        // Job postings management
+        Route::get('/jobs', [CompanyJobController::class, 'getJobPostings']);
+        Route::post('/jobs', [CompanyJobController::class, 'createJobPosting']);
+        Route::put('/jobs/{id}', [CompanyJobController::class, 'updateJobPosting']);
+        Route::delete('/jobs/{id}', [CompanyJobController::class, 'deleteJobPosting']);
+
+        // Applications management
+        Route::get('/jobs/{jobId}/applications', [CompanyJobController::class, 'getJobApplications']);
+        Route::put('/applications/{id}/status', [CompanyJobController::class, 'updateApplicationStatus']);
+        Route::post('/applications/{id}/favorite', [CompanyJobController::class, 'toggleApplicationFavorite']);
+        Route::get('/students/{studentId}/cv', [CompanyJobController::class, 'downloadStudentCV']);
+    });
 
     // University Student routes
     Route::prefix('university')->middleware(\App\Http\Middleware\UserTypeMiddleware::class . ':university_student')->group(function () {
@@ -67,6 +91,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/courses/{id}/enroll', [StudentCourseController::class, 'enrollInCourse']);
         Route::post('/lessons/{id}/progress', [StudentCourseController::class, 'updateLessonProgress']);
         Route::get('/my-courses', [StudentCourseController::class, 'myEnrolledCourses']);
+
+        // Job board
+        Route::get('/jobs', [UniversityJobController::class, 'getJobPostings']);
+        Route::get('/jobs/{id}', [UniversityJobController::class, 'getJobPosting']);
+        Route::post('/jobs/{id}/apply', [UniversityJobController::class, 'applyForJob']);
+
+        // Applications
+        Route::get('/applications', [UniversityJobController::class, 'getMyApplications']);
+        Route::delete('/applications/{id}', [UniversityJobController::class, 'withdrawApplication']);
     });
 
     // Teacher routes
@@ -85,7 +118,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // Parent routes
-    Route::middleware('user.type:parent')->prefix('parent')->group(function () {
+    Route::prefix('parent')->group(function () {
         Route::post('/search-student', [ParentStudentController::class, 'searchStudent']);
         Route::post('/follow-request', [ParentStudentController::class, 'sendFollowRequest']);
         Route::get('/followed-students', [ParentStudentController::class, 'getFollowedStudents']);

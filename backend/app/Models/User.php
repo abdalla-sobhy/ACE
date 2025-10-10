@@ -85,15 +85,25 @@ class User extends Authenticatable
         return "{$this->first_name} {$this->last_name}";
     }
 
-public function teachingCourses()
-{
-    return $this->hasMany(Course::class, 'teacher_id');
-}
+    public function teachingCourses()
+    {
+        return $this->hasMany(Course::class, 'teacher_id');
+    }
 
-public function enrolledCourses()
-{
-    return $this->belongsToMany(Course::class, 'course_enrollments', 'student_id', 'course_id')
-        ->withPivot('price_paid', 'enrolled_at', 'progress', 'completed_at')
-        ->withTimestamps();
-}
+    public function enrolledCourses()
+    {
+        return $this->belongsToMany(Course::class, 'course_enrollments', 'student_id', 'course_id')
+            ->withPivot('price_paid', 'enrolled_at', 'progress', 'completed_at')
+            ->withTimestamps();
+    }
+
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
+
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class, 'student_id');
+    }
 }

@@ -293,6 +293,8 @@ class AuthController extends Controller
                 return $user->teacherProfile;
             case 'parent':
                 return $user->parentProfile;
+            case 'company':
+                return $user->company;
             default:
                 return null;
         }

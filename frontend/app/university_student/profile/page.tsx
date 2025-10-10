@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import StudentNav from "@/components/StudentNav/StudentNav";
+import UniversityStudentNav from "@/components/UniversityStudentNav/UniversityStudentNav";
 import styles from "./UniversityProfile.module.css";
 import {
   FaUser,
@@ -20,16 +20,13 @@ import {
   FaBriefcase,
   FaTrophy,
   FaLanguage,
-  FaCheckCircle,
   FaEye,
   FaEyeSlash,
-  FaDownload,
   FaBuilding,
   FaMapMarkerAlt,
   FaPhone,
   FaEnvelope,
 } from "react-icons/fa";
-import Image from "next/image";
 
 interface UniversityProfile {
   faculty: string;
@@ -360,7 +357,7 @@ export default function UniversityStudentProfile() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <StudentNav />
+        <UniversityStudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
           <p>جاري تحميل الملف الشخصي...</p>
@@ -371,7 +368,7 @@ export default function UniversityStudentProfile() {
 
   return (
     <div className={styles.container}>
-      <StudentNav />
+      <UniversityStudentNav />
 
       <main className={styles.main}>
         {/* Profile Header */}

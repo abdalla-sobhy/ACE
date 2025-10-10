@@ -1,0 +1,425 @@
+.container {
+  min-height: 100vh;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background decoration */
+.container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 20% 30%, rgba(88, 166, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(121, 192, 255, 0.1) 0%, transparent 50%);
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, -20px) scale(1.1); }
+}
+
+.registerCard {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(22, 27, 34, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  padding: 48px;
+  box-shadow: 
+    0 16px 64px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(88, 166, 255, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.headerIcon {
+  font-size: 56px;
+  color: #58a6ff;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header p {
+  color: #8b949e;
+  font-size: 18px;
+  margin: 0;
+}
+
+/* Error Message */
+.error {
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid rgba(248, 81, 73, 0.3);
+  color: #f85149;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.error p {
+  margin: 0;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #f0f6fc;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #30363d;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formGroup label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #c9d1d9;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  right: 16px;
+  font-size: 18px;
+  color: #6e7681;
+  pointer-events: none;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  width: 100%;
+  background: #010409;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 12px 48px;
+  font-size: 16px;
+  color: #c9d1d9;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.formGroup textarea {
+  padding: 16px;
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: #6e7681;
+}
+
+/* Select styling */
+.formGroup select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2714%27%20height%3D%278%27%20viewBox%3D%270%200%2014%208%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%3E%3Cpath%20d%3D%27M1%201l6%206%206-6%27%20stroke%3D%27%236e7681%27%20stroke-width%3D%272%27%20fill%3D%27none%27%20fill-rule%3D%27evenodd%27%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: left 16px center;
+  background-size: 14px;
+}
+
+/* Submit Button */
+.submitButton {
+  background: #238636;
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  margin-top: 24px;
+}
+
+.submitButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #2ea043;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(35, 134, 54, 0.3);
+}
+
+.submitButton:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Login Prompt */
+.loginPrompt {
+  text-align: center;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid #30363d;
+}
+
+.loginPrompt p {
+  color: #8b949e;
+  font-size: 16px;
+  margin: 0;
+}
+
+.loginPrompt a {
+  color: #58a6ff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-right: 8px;
+  transition: all 0.2s;
+}
+
+.loginPrompt a:hover {
+  color: #79c0ff;
+  text-decoration: underline;
+}
+
+/* Validation feedback */
+.formGroup input:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: #f85149;
+}
+
+.formGroup input:valid:not(:focus):not(:placeholder-shown) {
+  border-color: #3fb950;
+}
+
+/* Loading state */
+.submitButton.loading {
+  pointer-events: none;
+  position: relative;
+}
+
+.submitButton.loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  border-top: 3px solid white;
+  animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registerCard {
+    padding: 32px 24px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .header p {
+    font-size: 16px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .section h2 {
+    font-size: 18px;
+  }
+
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    font-size: 14px;
+    padding: 10px 40px;
+  }
+
+  .submitButton {
+    font-size: 16px;
+    padding: 14px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 16px;
+  }
+
+  .registerCard {
+    padding: 24px 16px;
+  }
+
+  .headerIcon {
+    font-size: 48px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .formGroup label {
+    font-size: 13px;
+  }
+
+  .inputIcon {
+    font-size: 16px;
+    right: 12px;
+  }
+}
+
+/* Success page styles (if needed) */
+.successContainer {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.successIcon {
+  font-size: 80px;
+  color: #3fb950;
+  margin-bottom: 32px;
+  animation: successPop 0.5s ease-out;
+}
+
+@keyframes successPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.successContainer h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: #f0f6fc;
+}
+
+.successContainer p {
+  font-size: 18px;
+  color: #8b949e;
+  margin: 0 0 32px;
+  line-height: 1.6;
+}
+
+.successActions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.successButton {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.primarySuccessButton {
+  background: #238636;
+  color: white;
+}
+
+.primarySuccessButton:hover {
+  background: #2ea043;
+  transform: translateY(-2px);
+}
+
+.secondarySuccessButton {
+  background: transparent;
+  color: #58a6ff;
+  border: 1px solid #30363d;
+}
+
+.secondarySuccessButton:hover {
+  border-color: #58a6ff;
+  background: rgba(88, 166, 255, 0.1);
+}

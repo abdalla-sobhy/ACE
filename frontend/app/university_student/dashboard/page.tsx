@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import StudentNav from "@/components/StudentNav/StudentNav";
+import UniversityStudentNav from "@/components/UniversityStudentNav/UniversityStudentNav";
 import styles from "./UniversityDashboard.module.css";
 import {
   FaSearch,
@@ -241,7 +241,7 @@ export default function UniversityStudentDashboard() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <StudentNav />
+        <UniversityStudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
           <p>جاري تحميل البيانات...</p>
@@ -252,7 +252,7 @@ export default function UniversityStudentDashboard() {
 
   return (
     <div className={styles.container}>
-      <StudentNav />
+      <UniversityStudentNav />
 
       <main className={styles.main}>
         {/* Profile Alert */}

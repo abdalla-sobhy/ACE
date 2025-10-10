@@ -20,6 +20,9 @@ export default function DashboardRedirect() {
       case 'student':
         router.push('/student/dashboard');
         break;
+      case 'university_student':
+        router.push('/university_student/dashboard');
+        break;
       case 'teacher':
         router.push('/teacher/dashboard');
         break;

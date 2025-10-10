@@ -9,6 +9,8 @@ use App\Models\StudentProfile;
 use App\Models\TeacherProfile;
 use App\Models\ParentProfile;
 use App\Models\UniversityStudentProfile;
+use App\Models\JobPosting;
+use App\Models\Company;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,6 +18,112 @@ class TestDataSeeder extends Seeder
 {
     public function run()
     {
+
+        // Create test companies
+$companies = [
+    [
+        'user' => [
+            'first_name' => 'أحمد',
+            'last_name' => 'السيد',
+            'email' => 'company1@test.com',
+            'phone' => '+201234567890',
+            'password' => Hash::make('password123'),
+            'user_type' => 'company',
+            'is_approved' => true,
+        ],
+        'company' => [
+            'company_name' => 'شركة التقنية المتقدمة',
+            'industry' => 'تكنولوجيا المعلومات',
+            'company_size' => '51-200',
+            'location' => 'القاهرة، مصر',
+            'website' => 'https://example.com',
+            'description' => 'شركة رائدة في مجال تطوير البرمجيات والحلول التقنية',
+            'is_verified' => true,
+        ]
+    ],
+    [
+        'user' => [
+            'first_name' => 'سارة',
+            'last_name' => 'محمد',
+            'email' => 'company2@test.com',
+            'phone' => '+201234567891',
+            'password' => Hash::make('password123'),
+            'user_type' => 'company',
+            'is_approved' => true,
+        ],
+        'company' => [
+            'company_name' => 'مجموعة النيل للاستثمار',
+            'industry' => 'الخدمات المالية',
+            'company_size' => '201-500',
+            'location' => 'الجيزة، مصر',
+            'description' => 'مجموعة استثمارية رائدة في مجال الخدمات المالية',
+            'is_verified' => true,
+        ]
+    ]
+];
+
+foreach ($companies as $companyData) {
+    $user = User::create($companyData['user']);
+    Company::create(array_merge(
+        ['user_id' => $user->id],
+        $companyData['company']
+    ));
+}
+
+// Create job postings
+$jobPostings = [
+        [
+        'company_id' => 1,
+        'title' => 'متدرب تطوير تطبيقات الموبايل',
+        'description' => 'فرصة تدريب ممتازة في تطوير تطبيقات الموبايل باستخدام React Native',
+        'requirements' => ['طالب في كلية حاسبات أو هندسة', 'معرفة أساسية بـ JavaScript', 'شغف بتطوير التطبيقات'],
+        'responsibilities' => ['المساعدة في تطوير التطبيقات', 'التعلم من الفريق', 'المشاركة في الاجتماعات'],
+        'skills_required' => ['JavaScript', 'React basics', 'Problem Solving'],
+        'skills_preferred' => ['React Native', 'Mobile Development', 'UI/UX'],
+        'job_type' => 'internship',
+        'work_location' => 'onsite',
+        'location' => 'القاهرة الجديدة',
+        'salary_range' => '3,000 - 5,000 جنيه',
+        'experience_level' => 'entry',
+        'education_requirement' => 'طالب جامعي في السنة الثالثة أو الرابعة',
+        'faculties_preferred' => ['كلية الحاسبات والمعلومات', 'كلية الهندسة - قسم حاسبات'],
+        'positions_available' => 3,
+        'application_deadline' => now()->addDays(30),
+    ],
+    [
+        'company_id' => 2,
+        'title' => 'محلل مالي Junior',
+        'description' => 'نبحث عن محلل مالي مبتدئ للانضمام لفريق التحليل المالي',
+        'requirements' => ['بكالوريوس تجارة أو اقتصاد', 'إجادة Excel', 'مهارات تحليلية قوية'],
+        'responsibilities' => ['إعداد التقارير المالية', 'تحليل البيانات', 'دعم الفريق المالي'],
+        'skills_required' => ['Excel', 'Financial Analysis', 'Data Analysis'],
+        'skills_preferred' => ['PowerBI', 'SQL', 'Python'],
+        'job_type' => 'full_time',
+        'work_location' => 'onsite',
+        'location' => 'الجيزة',
+        'salary_range' => '8,000 - 12,000 جنيه',
+        'experience_level' => 'entry',
+        'education_requirement' => 'بكالوريوس تجارة - قسم المحاسبة أو المالية',
+        'faculties_preferred' => ['كلية التجارة', 'كلية الاقتصاد والعلوم السياسية'],
+        'positions_available' => 1,
+        'application_deadline' => now()->addDays(45),
+    ],
+];
+
+foreach ($jobPostings as $job) {
+    JobPosting::create(array_merge($job, [
+        'is_active' => true,
+        'views_count' => rand(50, 300),
+        'applications_count' => rand(5, 50),
+    ]));
+}
+
+$this->command->info('');
+$this->command->info('🏢 Companies created:');
+$this->command->info('   - company1@test.com (شركة التقنية المتقدمة)');
+$this->command->info('   - company2@test.com (مجموعة النيل للاستثمار)');
+$this->command->info('');
+$this->command->info('💼 Job postings created with various opportunities for university students');
         // Create teachers
         $teacher1 = User::create([
             'first_name' => 'أحمد',

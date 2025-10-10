@@ -16,7 +16,7 @@ export interface User {
   id: number;
   email: string;
   name: string;
-  type: 'student' | 'teacher' | 'parent';
+  type: 'student' | 'university_student' | 'teacher' | 'parent' | 'company';
   profile?: UserProfile;
 }
 

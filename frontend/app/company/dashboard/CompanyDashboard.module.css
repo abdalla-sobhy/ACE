@@ -1,0 +1,255 @@
+.container {
+  min-height: 100vh;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+  direction: rtl;
+}
+
+.main {
+  padding: 90px 24px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
+}
+
+.header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.newJobButton {
+  background: #238636;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.newJobButton:hover {
+  background: #2ea043;
+  transform: translateY(-2px);
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.statCard {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s;
+}
+
+.statCard:hover {
+  border-color: #58a6ff;
+  transform: translateY(-2px);
+}
+
+.statIcon {
+  width: 60px;
+  height: 60px;
+  background: rgba(88, 166, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #58a6ff;
+}
+
+.statContent h3 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  color: #f0f6fc;
+}
+
+.statContent p {
+  font-size: 14px;
+  color: #8b949e;
+  margin: 4px 0 0;
+}
+
+/* Recent Applications Section */
+.recentSection {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.sectionHeader h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.viewAllLink {
+  color: #58a6ff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.viewAllLink:hover {
+  color: #79c0ff;
+}
+
+.applicationsTable {
+  overflow-x: auto;
+}
+
+.applicationsTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.applicationsTable th {
+  text-align: right;
+  padding: 12px;
+  border-bottom: 1px solid #30363d;
+  color: #8b949e;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.applicationsTable td {
+  padding: 16px 12px;
+  border-bottom: 1px solid #21262d;
+}
+
+.applicationsTable tr:hover {
+  background: rgba(88, 166, 255, 0.05);
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  background: currentColor;
+  opacity: 0.1;
+}
+
+.viewButton {
+  background: rgba(88, 166, 255, 0.1);
+  color: #58a6ff;
+  border: 1px solid #30363d;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.viewButton:hover {
+  background: rgba(88, 166, 255, 0.2);
+  border-color: #58a6ff;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 24px;
+  color: #8b949e;
+}
+
+.emptyState p {
+  font-size: 18px;
+  margin: 0;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 70px);
+  gap: 24px;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #30363d;
+  border-top-color: #58a6ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .newJobButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .applicationsTable {
+    font-size: 14px;
+  }
+
+  .applicationsTable th,
+  .applicationsTable td {
+    padding: 8px;
+  }
+}
