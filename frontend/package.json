@@ -16,6 +16,7 @@
     "@stripe/stripe-js": "^7.9.0",
     "agora-rtc-sdk-ng": "^4.24.0",
     "axios": "^1.11.0",
+    "lucide-react": "^0.545.0",
     "next": "15.5.2",
     "onfido-sdk-ui": "^14.53.1",
     "persona-react": "^6.2.1",
