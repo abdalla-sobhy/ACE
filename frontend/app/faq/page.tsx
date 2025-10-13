@@ -4,6 +4,7 @@ import styles from './Faq.module.css';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import NavigationBar from '@/components/Nav/Nav';
+import { motion } from 'framer-motion';
 
 export default function FAQPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -184,7 +185,11 @@ export default function FAQPage() {
         <div className={styles.heroBackground}>
           <div className={styles.heroPattern}></div>
         </div>
-        <div className={styles.heroContent}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35},y:{delay:0.1}}}
+        className={styles.heroContent}>
           <h1>مركز المساعدة</h1>
           <p>إجابات شاملة لجميع أسئلتك</p>
           
@@ -214,12 +219,16 @@ export default function FAQPage() {
               </p>
             )}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Categories */}
       <section className={styles.categories}>
-        <div className={styles.categoriesContainer}>
+        <motion.div
+        initial={{opacity:0}}
+        whileInView={{opacity:1}}
+        transition={{duration:0.5,delay:0.3}}
+        className={styles.categoriesContainer}>
           {faqCategories.map((category) => (
             <button
               key={category.id}
@@ -231,7 +240,7 @@ export default function FAQPage() {
               <span className={styles.categoryCount}>{category.count}</span>
             </button>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* FAQ List */}
@@ -301,7 +310,11 @@ export default function FAQPage() {
 
       {/* Still Need Help */}
       <section className={styles.needHelp}>
-        <div className={styles.needHelpContainer}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35},y:{delay:0.1}}}
+        className={styles.needHelpContainer}>
           <h2>لم تجد ما تبحث عنه؟</h2>
           <p>فريق الدعم جاهز لمساعدتك</p>
           <div className={styles.helpOptions}>
@@ -326,12 +339,16 @@ export default function FAQPage() {
               <button className={styles.helpButton}>15555</button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Popular Topics */}
       <section className={styles.popularTopics}>
-        <div className={styles.topicsContainer}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35},y:{delay:0.1}}}
+        className={styles.topicsContainer}>
           <h2>المواضيع الأكثر بحثاً</h2>
           <div className={styles.topicsGrid}>
             <Link href="#" className={styles.topicTag}>كيفية التسجيل</Link>
@@ -343,7 +360,7 @@ export default function FAQPage() {
             <Link href="#" className={styles.topicTag}>شهادات الإتمام</Link>
             <Link href="#" className={styles.topicTag}>متطلبات النظام</Link>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

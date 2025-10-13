@@ -437,7 +437,7 @@
 }
 
 /* Animation for hero section */
-@keyframes fadeIn {
+/* @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -461,7 +461,7 @@
   animation: fadeIn 0.8s ease-out forwards;
   animation-delay: 0.5s;
   opacity: 0;
-}
+} */
 
 /* Hover effects */
 .feature,

@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 import { Sun, Moon } from "lucide-react";
+
 import styles from "./ThemeToggle.module.css";
 
 export default function ThemeToggle() {

@@ -1,7 +1,8 @@
+"use client"
 import styles from './Features.module.css';
 import Link from 'next/link';
 import NavigationBar from '@/components/Nav/Nav';
-
+import {motion} from 'framer-motion';
 export default function FeaturesPage() {
   const mainFeatures = [
     {
@@ -89,12 +90,23 @@ export default function FeaturesPage() {
 
       {/* Hero Section */}
       <section className={styles.hero}>
-        <div className={styles.heroGrid}></div>
-        <div className={styles.heroContent}>
+        <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8}}
+        className={styles.heroGrid}></motion.div>
+        <motion.div 
+        className={styles.heroContent}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+      
+        transition={{ duration: 0.1,ease:"easeIn",opacity:{delay:0.35},y:{delay:0.1}}}
+        
+        >
           <span className={styles.badge}>المنصة الأولى في مصر</span>
           <h1>مميزات تجعل التعلم <span className={styles.gradient}>أسهل وأمتع</span></h1>
           <p>منصة متكاملة مصممة خصيصاً لتلبية احتياجات الطالب المصري</p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Main Features */}
@@ -107,7 +119,12 @@ export default function FeaturesPage() {
           
           <div className={styles.featuresGrid}>
             {mainFeatures.map((feature, index) => (
-              <div key={index} className={styles.featureCard}>
+              <motion.div key={index}
+              initial={{ opacity: 0,y:50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5,ease:"easeIn",opacity:{delay:0.35},y:{delay:0.1}}}
+              
+              className={styles.featureCard}>
                 <div className={styles.featureHeader}>
                   <span className={styles.featureIcon}>{feature.icon}</span>
                   <h3>{feature.title}</h3>
@@ -121,7 +138,7 @@ export default function FeaturesPage() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -130,7 +147,11 @@ export default function FeaturesPage() {
       {/* Feature Showcase */}
       <section className={styles.showcase}>
         <div className={styles.showcaseContainer}>
-          <div className={styles.showcaseContent}>
+          <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5,ease:"easeIn",opacity:{delay:0.35},x:{delay:0.1}}}
+          className={styles.showcaseContent}>
             <span className={styles.showcaseBadge}>الأكثر طلباً</span>
             <h2>نظام البث المباشر المتطور</h2>
             <p>
@@ -160,9 +181,13 @@ export default function FeaturesPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
           <div className={styles.showcaseVisual}>
-            <div className={styles.browserWindow}>
+            <motion.div
+            initial={{ opacity: 0}}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8,ease:"easeIn",opacity:{delay:0.35}}}
+            className={styles.browserWindow}>
               <div className={styles.browserHeader}>
                 <div className={styles.browserDots}>
                   <span></span><span></span><span></span>
@@ -188,7 +213,7 @@ export default function FeaturesPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
               </section>
@@ -199,11 +224,15 @@ export default function FeaturesPage() {
           <h2>مميزات إضافية تثري تجربتك</h2>
           <div className={styles.additionalGrid}>
             {additionalFeatures.map((feature, index) => (
-              <div key={index} className={styles.additionalCard}>
+              <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5,ease:"easeIn",opacity:{delay:0.35},y:{delay:0.1}}}
+              key={index} className={styles.additionalCard}>
                 <span className={styles.additionalIcon}>{feature.icon}</span>
                 <h4>{feature.title}</h4>
                 <p>{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -274,7 +303,11 @@ export default function FeaturesPage() {
 
       {/* Stats Section */}
       <section className={styles.stats}>
-        <div className={styles.statsContainer}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:0.5,ease:"easeIn",opacity:{delay:0.35},y:{delay:0.1}}}
+         className={styles.statsContainer}>
           <h2>أرقام تتحدث عن النجاح</h2>
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
@@ -288,6 +321,7 @@ export default function FeaturesPage() {
               <p>دعم فني متواصل</p>
             </div>
             <div className={styles.statCard}>
+
               <span className={styles.statIcon}>🎯</span>
               <h3>95%</h3>
               <p>نسبة رضا الطلاب</p>
@@ -298,7 +332,7 @@ export default function FeaturesPage() {
               <p>زمن تأخير البث</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* CTA Section */}

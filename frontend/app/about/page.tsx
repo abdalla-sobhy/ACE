@@ -1,7 +1,10 @@
+"use client";
 import styles from './About.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import NavigationBar from '@/components/Nav/Nav';
+import { motion } from 'framer-motion';
+
 
 export default function AboutPage() {
   const developers = [
@@ -30,7 +33,7 @@ export default function AboutPage() {
       image: ""
     },
     {
-      name: "محمود محمد",
+      name: "محمد محمود",
       role: "full stack Designer",
       bio: "مطورة فلستاك بخبرة في Laravel و React لبناء تطبيقات ويب متكاملة",
       github: "https://github.com",
@@ -46,16 +49,24 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroPattern}></div>
-        <div className={styles.heroContent}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35},y:{delay:0.1}}}
+        className={styles.heroContent}>
           <h1>نبني مستقبل التعليم في مصر</h1>
           <p>فريق من الشباب المصري المتحمس لجعل التعليم متاحاً ومجانياً للجميع</p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Mission Section */}
       <section className={styles.mission}>
         <div className={styles.missionContainer}>
-          <div className={styles.missionContent}>
+          <motion.div
+          initial={{opacity:0,x:-30}}
+          whileInView={{opacity:1,x:0}}
+          transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35},x:{delay:0.1}}}
+          className={styles.missionContent}>
             <h2>مهمتنا</h2>
             <p>
               نؤمن أن التعليم حق أساسي لكل طالب مصري. نعمل على كسر الحواجز المالية 
@@ -84,8 +95,12 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-          </div>
-          <div className={styles.missionVisual}>
+          </motion.div>
+          <motion.div
+          initial={{opacity:0}}
+          whileInView={{opacity:1}}
+          transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35}}}
+          className={styles.missionVisual}>
             <div className={styles.statsCard}>
               <div className={styles.statItem}>
                 <span className={styles.statNumber}>50K+</span>
@@ -100,7 +115,7 @@ export default function AboutPage() {
                 <span className={styles.statLabel}>محافظة</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -143,7 +158,11 @@ export default function AboutPage() {
 
       {/* Team Section */}
       <section className={styles.team}>
-        <div className={styles.teamContainer}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35},y:{delay:0.1}}}
+        className={styles.teamContainer}>
           <h2>فريق العمل</h2>
           <p className={styles.teamSubtitle}>
             مجموعة من الشباب المصري المتحمس لإحداث تغيير حقيقي في التعليم
@@ -172,12 +191,16 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Values Section */}
       <section className={styles.values}>
-        <div className={styles.valuesContainer}>
+        <motion.div
+        initial={{opacity:0}}
+        whileInView={{opacity:1}}
+        transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35}}}
+        className={styles.valuesContainer}>
           <h2>قيمنا</h2>
           <div className={styles.valuesGrid}>
             <div className={styles.value}>
@@ -201,7 +224,7 @@ export default function AboutPage() {
               <p>نعمل بشغف وحب لمساعدة الطلاب على تحقيق أحلامهم</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Contact CTA */}

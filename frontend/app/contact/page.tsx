@@ -4,6 +4,7 @@ import styles from './Contact.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
 import NavigationBar from '@/components/Nav/Nav';
+import { motion } from 'framer-motion';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -73,7 +74,11 @@ export default function ContactPage() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroPattern}></div>
-        <div className={styles.heroContent}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:1,ease:"easeOut",opacity:{delay:0.35},y:{delay:0.1}}}
+        className={styles.heroContent}>
           <h1>نحن هنا <span className={styles.gradient}>لمساعدتك</span></h1>
           <p>فريق الدعم متواجد على مدار الساعة للإجابة على استفساراتك</p>
           <div className={styles.heroStats}>
@@ -90,12 +95,16 @@ export default function ContactPage() {
               <span className={styles.statLabel}>دعم متواصل</span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Contact Categories */}
       <section className={styles.categories}>
-        <div className={styles.categoriesContainer}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:1,ease:"easeOut",opacity:{delay:0.35},y:{delay:0.1}}}
+        className={styles.categoriesContainer}>
           <h2>اختر نوع الاستفسار</h2>
           <div className={styles.categoriesGrid}>
             {contactCategories.map((category) => (
@@ -113,7 +122,7 @@ export default function ContactPage() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Main Contact Section */}
@@ -121,7 +130,11 @@ export default function ContactPage() {
         <div className={styles.contactContainer}>
           <div className={styles.contactGrid}>
             {/* Contact Form */}
-            <div className={styles.formSection}>
+            <motion.div
+            initial={{opacity:0,x:-30}}
+            whileInView={{opacity:1,x:0}}
+            transition={{duration:1,ease:"easeOut",opacity:{delay:0.35},x:{delay:0.1}}}
+            className={styles.formSection}>
               <h2>أرسل رسالتك</h2>
               <form onSubmit={handleSubmit} className={styles.contactForm}>
                 <div className={styles.formRow}>
@@ -198,11 +211,15 @@ export default function ContactPage() {
                   <span className={styles.sendIcon}>📤</span>
                 </button>
               </form>
-            </div>
+            </motion.div>
 
                         {/* Contact Info */}
             <div className={styles.infoSection}>
-              <div className={styles.infoCard}>
+              <motion.div
+              initial={{opacity:0}}
+              whileInView={{opacity:1}}
+              transition={{duration:0.5,delay:0.3}}
+              className={styles.infoCard}>
                 <h3>معلومات التواصل</h3>
                 <div className={styles.infoItem}>
                   <span className={styles.infoIcon}>📧</span>
@@ -232,7 +249,7 @@ export default function ContactPage() {
                     <p>24/7 دعم متواصل</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Social Media */}
               <div className={styles.socialCard}>
@@ -269,7 +286,11 @@ export default function ContactPage() {
 
       {/* FAQ Section */}
       <section className={styles.faq}>
-        <div className={styles.faqContainer}>
+        <motion.div
+        initial={{opacity:0,x:-30}}
+        whileInView={{opacity:1,x:0}}
+        transition={{duration:0.5,opacity:{delay:0.3},x:{delay:0.1}}}
+        className={styles.faqContainer}>
           <h2>الأسئلة الشائعة</h2>
           <p className={styles.faqSubtitle}>إجابات سريعة للأسئلة الأكثر شيوعاً</p>
           <div className={styles.faqGrid}>
@@ -291,12 +312,16 @@ export default function ContactPage() {
               عرض جميع الأسئلة الشائعة ←
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Emergency Contact */}
       <section className={styles.emergency}>
-        <div className={styles.emergencyContainer}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:0.5,ease:'easeOut',opacity:{delay:0.35},y:{delay:0.1}}}
+        className={styles.emergencyContainer}>
           <div className={styles.emergencyIcon}>🚨</div>
           <h3>للحالات الطارئة</h3>
           <p>إذا كنت تواجه مشكلة تقنية عاجلة أثناء محاضرة مباشرة</p>
@@ -310,7 +335,7 @@ export default function ContactPage() {
               <span>دردشة طارئة</span>
             </button>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Map Section */}

@@ -1,6 +1,9 @@
+"use client"
+
 import styles from './Landing.module.css';
 import Link from 'next/link';
 import NavigationBar from '@/components/Nav/Nav';
+import { motion } from 'framer-motion';
 
 export default function LandingPage() {
   return (
@@ -9,7 +12,11 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className={styles.hero}>
-        <div className={styles.heroContent}>
+        <motion.div
+        initial={{opacity:0,y:20}}
+        whileInView={{opacity:1,y:0}}
+        transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35},y:{delay:0.1}}}
+        className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             التعليم المجاني<br />
             <span className={styles.heroGradient}>لكل طالب مصري</span>
@@ -43,9 +50,13 @@ export default function LandingPage() {
               <span>أولياء أمور</span>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className={styles.heroVisual}>
+        <motion.div
+        initial={{opacity:0}}
+        whileInView={{opacity:1}}
+        transition={{duration:0.5,delay:0.35}}
+        className={styles.heroVisual}>
           <div className={styles.codeEditor}>
             <div className={styles.codeHeader}>
               <div className={styles.dots}>
@@ -71,14 +82,18 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Features Section */}
       <section className={styles.features}>
         <div className={styles.featuresContainer}>
           <h2>لماذا EduEgypt؟</h2>
-          <div className={styles.featuresGrid}>
+          <motion.div
+          initial={{opacity:0,y:20}}
+          whileInView={{opacity:1,y:0}}
+          transition={{duration:0.5,ease:"easeOut",opacity:{delay:0.35},y:{delay:0.1}}}
+          className={styles.featuresGrid}>
             <div className={styles.feature}>
               <div className={styles.featureIcon}>📚</div>
               <h3>دروس مباشرة تفاعلية</h3>
@@ -99,13 +114,17 @@ export default function LandingPage() {
               <h3>مجاني 100%</h3>
               <p>لا رسوم خفية، التعليم حق للجميع</p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Stats Section */}
       <section className={styles.stats}>
-        <div className={styles.statsContainer}>
+        <motion.div
+        initial={{opacity:0}}
+        whileInView={{opacity:1}}
+        transition={{duration:0.5,delay:0.35}}
+        className={styles.statsContainer}>
           <div className={styles.stat}>
             <h3>50,000+</h3>
             <p>طالب مسجل</p>
@@ -122,7 +141,7 @@ export default function LandingPage() {
             <h3>27</h3>
             <p>محافظة</p>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* CTA Section */}

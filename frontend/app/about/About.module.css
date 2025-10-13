@@ -465,7 +465,7 @@
 }
 
 /* Animations */
-@keyframes fadeIn {
+/* @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -500,7 +500,7 @@
 .value:nth-child(1) { animation-delay: 0.3s; }
 .value:nth-child(2) { animation-delay: 0.4s; }
 .value:nth-child(3) { animation-delay: 0.5s; }
-.value:nth-child(4) { animation-delay: 0.6s; }
+.value:nth-child(4) { animation-delay: 0.6s; } */
 
 /* Responsive Design */
 @media (max-width: 1024px) {
