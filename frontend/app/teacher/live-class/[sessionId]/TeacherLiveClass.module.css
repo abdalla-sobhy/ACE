@@ -25,12 +25,46 @@
   font-weight: 600;
   color: #58a6ff;
   margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.liveIndicator {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid rgba(248, 81, 73, 0.3);
+  border-radius: 8px;
+  color: #f85149;
+  font-weight: 600;
 }
 
-.leaveButton {
+.liveDot {
+  width: 10px;
+  height: 10px;
+  background: #f85149;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+}
+
+.endButton {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -46,17 +80,13 @@
   box-shadow: 0 2px 8px rgba(248, 81, 73, 0.3);
 }
 
-.leaveButton:hover {
+.endButton:hover {
   background: #da3633;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(248, 81, 73, 0.4);
 }
 
-.leaveButton:active {
-  transform: translateY(0);
-}
-
-.leaveButton svg {
+.endButton svg {
   width: 20px;
   height: 20px;
 }
@@ -69,14 +99,12 @@
   overflow: hidden;
 }
 
-/* Ensure Jitsi iframe takes full space */
 .videoContainer iframe {
   border: none;
   width: 100% !important;
   height: 100% !important;
 }
 
-/* Loading state */
 .loading {
   flex: 1;
   display: flex;
@@ -107,7 +135,6 @@
   margin: 0;
 }
 
-/* Error state */
 .error {
   flex: 1;
   display: flex;
@@ -157,7 +184,6 @@
   box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .header {
     padding: 1rem 1.5rem;
@@ -167,70 +193,55 @@
     font-size: 1.2rem;
   }
   
-  .leaveButton {
+  .headerActions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .endButton {
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }
-  
-  .leaveButton span {
-    display: none;
-  }
-  
-  .spinner {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .loading p {
-    font-size: 1rem;
-  }
-  
-  .error h2 {
-    font-size: 1.5rem;
-  }
-  
-  .error p {
-    font-size: 1rem;
-  }
+}
+.videoGrid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem;
+  padding: 1rem;
+  height: calc(100vh - 80px);
 }
 
-@media (max-width: 480px) {
-  .header {
-    padding: 0.75rem 1rem;
-  }
-  
-  .header h1 {
-    font-size: 1rem;
-  }
-  
-  .leaveButton {
-    padding: 0.5rem 0.75rem;
-  }
-  
-  .leaveButton svg {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .errorIcon {
-    font-size: 3rem;
-  }
-  
-  .error h2 {
-    font-size: 1.3rem;
-  }
+.localPlayer {
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-/* Accessibility */
-button:focus {
-  outline: 2px solid #58a6ff;
-  outline-offset: 2px;
+.remotePlayers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  overflow-y: auto;
 }
 
-/* Prevent text selection in the entire component */
-.container * {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+.remotePlayer {
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+}
+
+.controlButton {
+  padding: 0.75rem 1rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.controlButton:hover {
+  background: #21262d;
+  border-color: #58a6ff;
 }

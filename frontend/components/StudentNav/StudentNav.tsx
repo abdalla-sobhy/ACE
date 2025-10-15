@@ -4,7 +4,16 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import styles from "./StudentNav.module.css";
-import { FaHome, FaBook, FaGraduationCap, FaChartLine, FaUser, FaBell, FaSignOutAlt, FaBars } from "react-icons/fa";
+import {
+  FaHome,
+  FaBook,
+  FaGraduationCap,
+  FaChartLine,
+  FaUser,
+  FaBell,
+  FaSignOutAlt,
+  FaBars,
+} from "react-icons/fa";
 
 interface User {
   name: string;
@@ -51,7 +60,10 @@ export default function StudentNav() {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         closeMenu();
       }
-      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target as Node)
+      ) {
         setIsProfileOpen(false);
       }
     };
@@ -78,8 +90,12 @@ export default function StudentNav() {
     <nav className={styles.nav} ref={navRef}>
       <div className={styles.navContainer}>
         <div className={styles.navHeader}>
-          <Link href="/student/dashboard" className={styles.logo} onClick={closeMenu}>
-            EduEgypt
+          <Link
+            href="/student/dashboard"
+            className={styles.logo}
+            onClick={closeMenu}
+          >
+            Edvance
           </Link>
           <button
             className={styles.hamburger}
@@ -90,10 +106,12 @@ export default function StudentNav() {
           </button>
         </div>
 
-        <div className={`${styles.navContent} ${isMenuOpen ? styles.open : ""}`}>
+        <div
+          className={`${styles.navContent} ${isMenuOpen ? styles.open : ""}`}
+        >
           <div className={styles.navLeft}>
             <Link href="/student/dashboard" className={styles.logoDesktop}>
-              EduEgypt
+              Edvance
             </Link>
             {navItems.map((item) => (
               <Link
@@ -117,23 +135,25 @@ export default function StudentNav() {
             <div className={styles.profileDropdown} ref={profileRef}>
               <button className={styles.profileButton} onClick={toggleProfile}>
                 <div className={styles.avatar}>
-                  {user?.name?.split(' ').map(n => n[0]).join('')}
+                  {user?.name
+                    ?.split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </div>
-                <span className={styles.userName}>
-                  {user?.name}
-                </span>
+                <span className={styles.userName}>{user?.name}</span>
               </button>
 
               {isProfileOpen && (
                 <div className={styles.dropdownMenu}>
                   <div className={styles.dropdownHeader}>
                     <div className={styles.dropdownAvatar}>
-                      {user?.name?.split(' ').map(n => n[0]).join('')}
+                      {user?.name
+                        ?.split(" ")
+                        .map((n) => n[0])
+                        .join("")}
                     </div>
                     <div className={styles.dropdownInfo}>
-                      <p className={styles.dropdownName}>
-                        {user?.name}
-                      </p>
+                      <p className={styles.dropdownName}>{user?.name}</p>
                       <p className={styles.dropdownEmail}>{user?.email}</p>
                     </div>
                   </div>
@@ -142,7 +162,10 @@ export default function StudentNav() {
                     <FaUser />
                     <span>الملف الشخصي</span>
                   </Link>
-                  <button className={styles.dropdownItem} onClick={handleLogout}>
+                  <button
+                    className={styles.dropdownItem}
+                    onClick={handleLogout}
+                  >
                     <FaSignOutAlt />
                     <span>تسجيل الخروج</span>
                   </button>

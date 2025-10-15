@@ -1,68 +1,81 @@
 "use client";
 
-import styles from './Contact.module.css';
-import Link from 'next/link';
-import { useState } from 'react';
-import NavigationBar from '@/components/Nav/Nav';
+import styles from "./Contact.module.css";
+import Link from "next/link";
+import { useState } from "react";
+import NavigationBar from "@/components/Nav/Nav";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    userType: 'student',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    userType: "student",
+    subject: "",
+    message: "",
   });
 
-  const [activeCategory, setActiveCategory] = useState('general');
+  const [activeCategory, setActiveCategory] = useState("general");
 
   const contactCategories = [
-    { id: 'general', icon: '💬', title: 'استفسارات عامة', response: '24 ساعة' },
-    { id: 'technical', icon: '🛠️', title: 'دعم فني', response: '2-4 ساعات' },
-    { id: 'educational', icon: '📚', title: 'أسئلة تعليمية', response: '12 ساعة' },
-    { id: 'partnership', icon: '🤝', title: 'شراكات', response: '48 ساعة' }
+    { id: "general", icon: "💬", title: "استفسارات عامة", response: "24 ساعة" },
+    { id: "technical", icon: "🛠️", title: "دعم فني", response: "2-4 ساعات" },
+    {
+      id: "educational",
+      icon: "📚",
+      title: "أسئلة تعليمية",
+      response: "12 ساعة",
+    },
+    { id: "partnership", icon: "🤝", title: "شراكات", response: "48 ساعة" },
   ];
 
   const faqs = [
     {
-      question: 'هل المنصة مجانية بالفعل؟',
-      answer: 'نعم، المنصة مجانية 100% ولا توجد أي رسوم خفية أو اشتراكات مدفوعة.'
+      question: "هل المنصة مجانية بالفعل؟",
+      answer:
+        "نعم، المنصة مجانية 100% ولا توجد أي رسوم خفية أو اشتراكات مدفوعة.",
     },
     {
-      question: 'كيف يمكنني التسجيل كمعلم؟',
-      answer: 'يمكنك التسجيل كمعلم من خلال صفحة التسجيل واختيار "معلم" ثم إرفاق المستندات المطلوبة.'
+      question: "كيف يمكنني التسجيل كمعلم؟",
+      answer:
+        'يمكنك التسجيل كمعلم من خلال صفحة التسجيل واختيار "معلم" ثم إرفاق المستندات المطلوبة.',
     },
     {
-      question: 'هل يمكن لأولياء الأمور متابعة أداء أبنائهم؟',
-      answer: 'نعم، لدينا لوحة تحكم خاصة لأولياء الأمور لمتابعة حضور وأداء أبنائهم بشكل مفصل.'
+      question: "هل يمكن لأولياء الأمور متابعة أداء أبنائهم؟",
+      answer:
+        "نعم، لدينا لوحة تحكم خاصة لأولياء الأمور لمتابعة حضور وأداء أبنائهم بشكل مفصل.",
     },
     {
-      question: 'ما هي متطلبات الإنترنت للبث المباشر؟',
-      answer: 'تحتاج إلى سرعة إنترنت لا تقل عن 2 ميجابت للمشاهدة بجودة عالية.'
+      question: "ما هي متطلبات الإنترنت للبث المباشر؟",
+      answer: "تحتاج إلى سرعة إنترنت لا تقل عن 2 ميجابت للمشاهدة بجودة عالية.",
     },
     {
-      question: 'كيف يعمل نظام النقاط؟',
-      answer: 'تحصل على نقاط عند الحضور والمشاركة والإنجازات، ويمكن استبدالها بمزايا إضافية.'
-    }
+      question: "كيف يعمل نظام النقاط؟",
+      answer:
+        "تحصل على نقاط عند الحضور والمشاركة والإنجازات، ويمكن استبدالها بمزايا إضافية.",
+    },
   ];
 
   const socialLinks = [
-    { icon: '📘', name: 'Facebook', url: '#' },
-    { icon: '🐦', name: 'Twitter', url: '#' },
-    { icon: '📷', name: 'Instagram', url: '#' },
-    { icon: '📺', name: 'YouTube', url: '#' },
-    { icon: '💼', name: 'LinkedIn', url: '#' }
+    { icon: "📘", name: "Facebook", url: "#" },
+    { icon: "🐦", name: "Twitter", url: "#" },
+    { icon: "📷", name: "Instagram", url: "#" },
+    { icon: "📺", name: "YouTube", url: "#" },
+    { icon: "💼", name: "LinkedIn", url: "#" },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -74,7 +87,9 @@ export default function ContactPage() {
       <section className={styles.hero}>
         <div className={styles.heroPattern}></div>
         <div className={styles.heroContent}>
-          <h1>نحن هنا <span className={styles.gradient}>لمساعدتك</span></h1>
+          <h1>
+            نحن هنا <span className={styles.gradient}>لمساعدتك</span>
+          </h1>
           <p>فريق الدعم متواجد على مدار الساعة للإجابة على استفساراتك</p>
           <div className={styles.heroStats}>
             <div className={styles.heroStat}>
@@ -101,7 +116,9 @@ export default function ContactPage() {
             {contactCategories.map((category) => (
               <div
                 key={category.id}
-                className={`${styles.categoryCard} ${activeCategory === category.id ? styles.active : ''}`}
+                className={`${styles.categoryCard} ${
+                  activeCategory === category.id ? styles.active : ""
+                }`}
                 onClick={() => setActiveCategory(category.id)}
               >
                 <span className={styles.categoryIcon}>{category.icon}</span>
@@ -150,7 +167,7 @@ export default function ContactPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
                     <label htmlFor="userType">نوع المستخدم</label>
@@ -179,7 +196,7 @@ export default function ContactPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div className={styles.formGroup}>
                   <label htmlFor="message">الرسالة</label>
                   <textarea
@@ -192,7 +209,7 @@ export default function ContactPage() {
                     rows={6}
                   />
                 </div>
-                
+
                 <button type="submit" className={styles.submitButton}>
                   <span>إرسال الرسالة</span>
                   <span className={styles.sendIcon}>📤</span>
@@ -200,7 +217,7 @@ export default function ContactPage() {
               </form>
             </div>
 
-                        {/* Contact Info */}
+            {/* Contact Info */}
             <div className={styles.infoSection}>
               <div className={styles.infoCard}>
                 <h3>معلومات التواصل</h3>
@@ -208,7 +225,7 @@ export default function ContactPage() {
                   <span className={styles.infoIcon}>📧</span>
                   <div>
                     <h4>البريد الإلكتروني</h4>
-                    <p>support@eduegypt.com</p>
+                    <p>support@Edvance.com</p>
                   </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -256,7 +273,9 @@ export default function ContactPage() {
               {/* Quick Response */}
               <div className={styles.quickResponse}>
                 <h3>للرد السريع</h3>
-                <p>استخدم الدردشة المباشرة في أسفل الصفحة للحصول على إجابة فورية</p>
+                <p>
+                  استخدم الدردشة المباشرة في أسفل الصفحة للحصول على إجابة فورية
+                </p>
                 <button className={styles.chatButton}>
                   <span>💬</span>
                   <span>ابدأ محادثة</span>
@@ -271,7 +290,9 @@ export default function ContactPage() {
       <section className={styles.faq}>
         <div className={styles.faqContainer}>
           <h2>الأسئلة الشائعة</h2>
-          <p className={styles.faqSubtitle}>إجابات سريعة للأسئلة الأكثر شيوعاً</p>
+          <p className={styles.faqSubtitle}>
+            إجابات سريعة للأسئلة الأكثر شيوعاً
+          </p>
           <div className={styles.faqGrid}>
             {faqs.map((faq, index) => (
               <details key={index} className={styles.faqItem}>

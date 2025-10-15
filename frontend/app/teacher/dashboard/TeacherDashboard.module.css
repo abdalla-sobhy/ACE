@@ -713,3 +713,31 @@ button:focus {
 ::-webkit-scrollbar-thumb:hover {
   background: #484f58;
 }
+.joinLiveButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #f85149 0%, #da3633 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 1rem 1rem 1rem;
+  box-shadow: 0 2px 8px rgba(248, 81, 73, 0.3);
+}
+
+.joinLiveButton:hover {
+  background: linear-gradient(135deg, #da3633 0%, #c62828 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(248, 81, 73, 0.4);
+}
+
+.joinLiveButton svg {
+  font-size: 1.1rem;
+}

@@ -4,17 +4,17 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import styles from "./TeacherNav.module.css";
-import { 
-  FaHome, 
-  FaBook, 
-  FaUsers, 
-  FaChartBar, 
-  FaCalendarAlt, 
-  FaUser, 
-  FaBell, 
-  FaSignOutAlt, 
+import {
+  FaHome,
+  FaBook,
+  FaUsers,
+  FaChartBar,
+  FaCalendarAlt,
+  FaUser,
+  FaBell,
+  FaSignOutAlt,
   FaBars,
-  FaMoneyBillWave 
+  FaMoneyBillWave,
 } from "react-icons/fa";
 
 interface User {
@@ -62,7 +62,10 @@ export default function TeacherNav() {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         closeMenu();
       }
-      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target as Node)
+      ) {
         setIsProfileOpen(false);
       }
     };
@@ -91,8 +94,12 @@ export default function TeacherNav() {
     <nav className={styles.nav} ref={navRef}>
       <div className={styles.navContainer}>
         <div className={styles.navHeader}>
-          <Link href="/teacher/dashboard" className={styles.logo} onClick={closeMenu}>
-            EduEgypt <span className={styles.teacherBadge}>محاضر</span>
+          <Link
+            href="/teacher/dashboard"
+            className={styles.logo}
+            onClick={closeMenu}
+          >
+            Edvance <span className={styles.teacherBadge}>محاضر</span>
           </Link>
           <button
             className={styles.hamburger}
@@ -103,10 +110,12 @@ export default function TeacherNav() {
           </button>
         </div>
 
-        <div className={`${styles.navContent} ${isMenuOpen ? styles.open : ""}`}>
+        <div
+          className={`${styles.navContent} ${isMenuOpen ? styles.open : ""}`}
+        >
           <div className={styles.navLeft}>
             <Link href="/teacher/dashboard" className={styles.logoDesktop}>
-              EduEgypt <span className={styles.teacherBadge}>محاضر</span>
+              Edvance <span className={styles.teacherBadge}>محاضر</span>
             </Link>
             {navItems.map((item) => (
               <Link
@@ -130,23 +139,25 @@ export default function TeacherNav() {
             <div className={styles.profileDropdown} ref={profileRef}>
               <button className={styles.profileButton} onClick={toggleProfile}>
                 <div className={styles.avatar}>
-                  {user?.name?.split(' ').map(n => n[0]).join('')}
+                  {user?.name
+                    ?.split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </div>
-                <span className={styles.userName}>
-                  {user?.name}
-                </span>
+                <span className={styles.userName}>{user?.name}</span>
               </button>
 
               {isProfileOpen && (
                 <div className={styles.dropdownMenu}>
                   <div className={styles.dropdownHeader}>
                     <div className={styles.dropdownAvatar}>
-                      {user?.name?.split(' ').map(n => n[0]).join('')}
+                      {user?.name
+                        ?.split(" ")
+                        .map((n) => n[0])
+                        .join("")}
                     </div>
                     <div className={styles.dropdownInfo}>
-                      <p className={styles.dropdownName}>
-                        {user?.name}
-                      </p>
+                      <p className={styles.dropdownName}>{user?.name}</p>
                       <p className={styles.dropdownEmail}>{user?.email}</p>
                     </div>
                   </div>
@@ -155,7 +166,10 @@ export default function TeacherNav() {
                     <FaUser />
                     <span>الملف الشخصي</span>
                   </Link>
-                  <button className={styles.dropdownItem} onClick={handleLogout}>
+                  <button
+                    className={styles.dropdownItem}
+                    onClick={handleLogout}
+                  >
                     <FaSignOutAlt />
                     <span>تسجيل الخروج</span>
                   </button>

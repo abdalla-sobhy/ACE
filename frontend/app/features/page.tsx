@@ -1,86 +1,89 @@
-import styles from './Features.module.css';
-import Link from 'next/link';
-import NavigationBar from '@/components/Nav/Nav';
+import styles from "./Features.module.css";
+import Link from "next/link";
+import NavigationBar from "@/components/Nav/Nav";
 
 export default function FeaturesPage() {
   const mainFeatures = [
     {
-      icon: '📺',
-      title: 'بث مباشر تفاعلي',
-      description: 'احضر المحاضرات بث مباشر بجودة عالية مع إمكانية التفاعل المباشر مع المحاضر',
+      icon: "📺",
+      title: "بث مباشر تفاعلي",
+      description:
+        "احضر المحاضرات بث مباشر بجودة عالية مع إمكانية التفاعل المباشر مع المحاضر",
       details: [
-        'جودة فيديو HD',
-        'تفاعل مباشر بالصوت والصورة',
-        'مشاركة الشاشة والملفات',
-        'تسجيل المحاضرات للمراجعة'
-      ]
+        "جودة فيديو HD",
+        "تفاعل مباشر بالصوت والصورة",
+        "مشاركة الشاشة والملفات",
+        "تسجيل المحاضرات للمراجعة",
+      ],
     },
     {
-      icon: '🪑',
-      title: 'نظام حجز المقاعد',
-      description: 'احجز مقعدك في المحاضرة مسبقاً لضمان حضورك وتنظيم أفضل للفصول',
+      icon: "🪑",
+      title: "نظام حجز المقاعد",
+      description:
+        "احجز مقعدك في المحاضرة مسبقاً لضمان حضورك وتنظيم أفضل للفصول",
       details: [
-        'حجز مسبق للمحاضرات',
-        'إشعارات تذكيرية',
-        'قائمة انتظار ذكية',
-        'إلغاء مرن للحجز'
-      ]
+        "حجز مسبق للمحاضرات",
+        "إشعارات تذكيرية",
+        "قائمة انتظار ذكية",
+        "إلغاء مرن للحجز",
+      ],
     },
     {
-      icon: '🏆',
-      title: 'نظام النقاط والمكافآت',
-      description: 'اكسب نقاط مع كل حضور ومشاركة واستبدلها بمزايا إضافية',
+      icon: "🏆",
+      title: "نظام النقاط والمكافآت",
+      description: "اكسب نقاط مع كل حضور ومشاركة واستبدلها بمزايا إضافية",
       details: [
-        'نقاط للحضور المنتظم',
-        'مكافآت للمشاركة الفعالة',
-        'شارات الإنجاز',
-        'لوحة المتصدرين'
-      ]
+        "نقاط للحضور المنتظم",
+        "مكافآت للمشاركة الفعالة",
+        "شارات الإنجاز",
+        "لوحة المتصدرين",
+      ],
     },
     {
-      icon: '📝',
-      title: 'امتحانات شاملة',
-      description: 'اختبر معلوماتك بامتحانات معتمدة مع تقييم فوري وتقارير مفصلة',
+      icon: "📝",
+      title: "امتحانات شاملة",
+      description:
+        "اختبر معلوماتك بامتحانات معتمدة مع تقييم فوري وتقارير مفصلة",
       details: [
-        'امتحانات تجريبية',
-        'تصحيح فوري',
-        'تقارير الأداء المفصلة',
-        'شهادات معتمدة'
-      ]
-    }
+        "امتحانات تجريبية",
+        "تصحيح فوري",
+        "تقارير الأداء المفصلة",
+        "شهادات معتمدة",
+      ],
+    },
   ];
 
   const additionalFeatures = [
     {
-      icon: '👨‍👩‍👧',
-      title: 'لوحة تحكم أولياء الأمور',
-      description: 'متابعة دقيقة لتقدم الأبناء وحضورهم'
+      icon: "👨‍👩‍👧",
+      title: "لوحة تحكم أولياء الأمور",
+      description: "متابعة دقيقة لتقدم الأبناء وحضورهم",
     },
     {
-      icon: '📊',
-      title: 'تقارير تفصيلية',
-      description: 'احصائيات شاملة عن الأداء والتقدم الدراسي'
+      icon: "📊",
+      title: "تقارير تفصيلية",
+      description: "احصائيات شاملة عن الأداء والتقدم الدراسي",
     },
     {
-      icon: '💬',
-      title: 'منتدى نقاش',
-      description: 'تواصل مع زملائك والمعلمين خارج وقت المحاضرة'
+      icon: "💬",
+      title: "منتدى نقاش",
+      description: "تواصل مع زملائك والمعلمين خارج وقت المحاضرة",
     },
     {
-      icon: '📚',
-      title: 'مكتبة رقمية',
-      description: 'مصادر تعليمية وملخصات وكتب رقمية'
+      icon: "📚",
+      title: "مكتبة رقمية",
+      description: "مصادر تعليمية وملخصات وكتب رقمية",
     },
     {
-      icon: '📱',
-      title: 'تطبيق موبايل',
-      description: 'تعلم في أي وقت ومن أي مكان'
+      icon: "📱",
+      title: "تطبيق موبايل",
+      description: "تعلم في أي وقت ومن أي مكان",
     },
     {
-      icon: '🔔',
-      title: 'إشعارات ذكية',
-      description: 'لا تفوت أي محاضرة أو موعد مهم'
-    }
+      icon: "🔔",
+      title: "إشعارات ذكية",
+      description: "لا تفوت أي محاضرة أو موعد مهم",
+    },
   ];
 
   return (
@@ -92,7 +95,10 @@ export default function FeaturesPage() {
         <div className={styles.heroGrid}></div>
         <div className={styles.heroContent}>
           <span className={styles.badge}>المنصة الأولى في مصر</span>
-          <h1>مميزات تجعل التعلم <span className={styles.gradient}>أسهل وأمتع</span></h1>
+          <h1>
+            مميزات تجعل التعلم{" "}
+            <span className={styles.gradient}>أسهل وأمتع</span>
+          </h1>
           <p>منصة متكاملة مصممة خصيصاً لتلبية احتياجات الطالب المصري</p>
         </div>
       </section>
@@ -104,7 +110,7 @@ export default function FeaturesPage() {
             <h2>المميزات الأساسية</h2>
             <p>كل ما تحتاجه للتفوق الدراسي في مكان واحد</p>
           </div>
-          
+
           <div className={styles.featuresGrid}>
             {mainFeatures.map((feature, index) => (
               <div key={index} className={styles.featureCard}>
@@ -112,7 +118,9 @@ export default function FeaturesPage() {
                   <span className={styles.featureIcon}>{feature.icon}</span>
                   <h3>{feature.title}</h3>
                 </div>
-                <p className={styles.featureDescription}>{feature.description}</p>
+                <p className={styles.featureDescription}>
+                  {feature.description}
+                </p>
                 <ul className={styles.featureDetails}>
                   {feature.details.map((detail, idx) => (
                     <li key={idx}>
@@ -134,8 +142,8 @@ export default function FeaturesPage() {
             <span className={styles.showcaseBadge}>الأكثر طلباً</span>
             <h2>نظام البث المباشر المتطور</h2>
             <p>
-              تقنية بث عالية الجودة تضمن تجربة تعليمية سلسة ومتواصلة
-              مع إمكانيات تفاعل متقدمة تجعلك تشعر وكأنك في فصل دراسي حقيقي
+              تقنية بث عالية الجودة تضمن تجربة تعليمية سلسة ومتواصلة مع إمكانيات
+              تفاعل متقدمة تجعلك تشعر وكأنك في فصل دراسي حقيقي
             </p>
             <div className={styles.showcaseFeatures}>
               <div className={styles.showcaseFeature}>
@@ -165,9 +173,13 @@ export default function FeaturesPage() {
             <div className={styles.browserWindow}>
               <div className={styles.browserHeader}>
                 <div className={styles.browserDots}>
-                  <span></span><span></span><span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
                 </div>
-                <span className={styles.browserTitle}>محاضرة الفيزياء - بث مباشر</span>
+                <span className={styles.browserTitle}>
+                  محاضرة الفيزياء - بث مباشر
+                </span>
               </div>
               <div className={styles.browserContent}>
                 <div className={styles.videoPlayer}>
@@ -184,14 +196,14 @@ export default function FeaturesPage() {
                     <strong>المعلم:</strong> بالتأكيد! دعني أوضح أكثر
                   </div>
                   <div className={styles.chatMessage}>
-                    <strong>سارة:</strong> شكراً، واضح الآن! 
+                    <strong>سارة:</strong> شكراً، واضح الآن!
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-              </section>
+      </section>
 
       {/* Additional Features */}
       <section className={styles.additionalFeatures}>
@@ -212,13 +224,13 @@ export default function FeaturesPage() {
       {/* Comparison Section */}
       <section className={styles.comparison}>
         <div className={styles.comparisonContainer}>
-          <h2>لماذا EduEgypt؟</h2>
+          <h2>لماذا Edvance؟</h2>
           <p className={styles.comparisonSubtitle}>مقارنة سريعة توضح الفرق</p>
           <div className={styles.comparisonTable}>
             <div className={styles.comparisonHeader}>
               <div className={styles.comparisonCell}></div>
               <div className={styles.comparisonCell}>
-                <h3>EduEgypt</h3>
+                <h3>Edvance</h3>
               </div>
               <div className={styles.comparisonCell}>
                 <h3>المنصات الأخرى</h3>
@@ -258,7 +270,9 @@ export default function FeaturesPage() {
               </div>
             </div>
             <div className={styles.comparisonRow}>
-              <div className={styles.comparisonFeature}>متابعة أولياء الأمور</div>
+              <div className={styles.comparisonFeature}>
+                متابعة أولياء الأمور
+              </div>
               <div className={styles.comparisonValue}>
                 <span className={styles.checkMark}>✓</span>
                 <span>لوحة تحكم مخصصة</span>

@@ -52,7 +52,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>EduEgypt</h1>
+            <h1>Edvance</h1>
             <h2>رمز التحقق من البريد الإلكتروني</h2>
         </div>
         <div class="content">
@@ -64,7 +64,7 @@
             <p>إذا لم تطلب هذا الرمز، يرجى تجاهل هذه الرسالة.</p>
         </div>
         <div class="footer">
-            <p>&copy; 2024 EduEgypt. جميع الحقوق محفوظة.</p>
+            <p>&copy; 2024 Edvance. جميع الحقوق محفوظة.</p>
         </div>
     </div>
 </body>

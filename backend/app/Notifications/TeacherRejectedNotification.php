@@ -30,7 +30,7 @@ class TeacherRejectedNotification extends Notification
             ->line('نأسف لإبلاغك أنه تم رفض طلبك للتسجيل كمحاضر.')
             ->line('السبب: ' . $this->reason)
             ->line('يمكنك التواصل معنا للحصول على مزيد من المعلومات.')
-            ->line('شكراً لاهتمامك بالانضمام إلى منصة EduEgypt.');
+            ->line('شكراً لاهتمامك بالانضمام إلى منصة Edvance.');
     }
 
     public function toDatabase($notifiable)

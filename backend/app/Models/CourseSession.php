@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class CourseSession extends Model
 {
@@ -13,12 +14,15 @@ class CourseSession extends Model
         'course_id',
         'day_of_week',
         'start_time',
-        'end_time'
+        'end_time',
+        'session_date',
+        'duration_minutes'
     ];
 
+    // Don't cast start_time and end_time as datetime since they're TIME columns
     protected $casts = [
-        'start_time' => 'datetime:H:i',
-        'end_time' => 'datetime:H:i'
+        'session_date' => 'date',
+        'duration_minutes' => 'integer'
     ];
 
     protected $appends = ['day_arabic', 'time_range'];
@@ -40,15 +44,42 @@ class CourseSession extends Model
             'friday' => 'الجمعة'
         ];
 
-        return $days[$this->day_of_week] ?? $this->day_of_week;
+        return $days[strtolower($this->day_of_week)] ?? $this->day_of_week;
     }
 
     public function getTimeRangeAttribute()
     {
-        return sprintf(
-            '%s - %s',
-            $this->start_time->format('h:i A'),
-            $this->end_time->format('h:i A')
-        );
+        try {
+            $startTime = Carbon::createFromFormat('H:i:s', $this->start_time);
+            $endTime = Carbon::createFromFormat('H:i:s', $this->end_time);
+
+            return sprintf(
+                '%s - %s',
+                $startTime->format('h:i A'),
+                $endTime->format('h:i A')
+            );
+        } catch (\Exception $e) {
+            return $this->start_time . ' - ' . $this->end_time;
+        }
+    }
+
+    // Helper method to get formatted start time
+    public function getFormattedStartTime()
+    {
+        try {
+            return Carbon::createFromFormat('H:i:s', $this->start_time)->format('h:i A');
+        } catch (\Exception $e) {
+            return $this->start_time;
+        }
+    }
+
+    // Helper method to get formatted end time
+    public function getFormattedEndTime()
+    {
+        try {
+            return Carbon::createFromFormat('H:i:s', $this->end_time)->format('h:i A');
+        } catch (\Exception $e) {
+            return $this->end_time;
+        }
     }
 }

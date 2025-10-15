@@ -28,7 +28,7 @@ export default function CompanyNav() {
   };
 
   const isActive = (path: string) => {
-    return pathname? pathname.startsWith(path):null;
+    return pathname ? pathname.startsWith(path) : null;
   };
 
   return (
@@ -37,29 +37,35 @@ export default function CompanyNav() {
         <div className={styles.navLeft}>
           <Link href="/company/dashboard" className={styles.logo}>
             <FaBuilding />
-            <span>EduEgypt Business</span>
+            <span>Edvance Business</span>
           </Link>
-          
+
           <div className={styles.navLinks}>
-            <Link 
-              href="/company/dashboard" 
-              className={`${styles.navLink} ${isActive('/company/dashboard') ? styles.active : ''}`}
+            <Link
+              href="/company/dashboard"
+              className={`${styles.navLink} ${
+                isActive("/company/dashboard") ? styles.active : ""
+              }`}
             >
               <FaTachometerAlt />
               <span>لوحة التحكم</span>
             </Link>
-            
-            <Link 
-              href="/company/jobs" 
-              className={`${styles.navLink} ${isActive('/company/jobs') ? styles.active : ''}`}
+
+            <Link
+              href="/company/jobs"
+              className={`${styles.navLink} ${
+                isActive("/company/jobs") ? styles.active : ""
+              }`}
             >
               <FaBriefcase />
               <span>الوظائف</span>
             </Link>
-            
-            <Link 
-              href="/company/applications" 
-              className={`${styles.navLink} ${isActive('/company/applications') ? styles.active : ''}`}
+
+            <Link
+              href="/company/applications"
+              className={`${styles.navLink} ${
+                isActive("/company/applications") ? styles.active : ""
+              }`}
             >
               <FaUsers />
               <span>الطلبات</span>

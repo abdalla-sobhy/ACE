@@ -13,6 +13,12 @@ return [
     |
     */
 
+    'timezone' => 'Africa/Cairo',
+
+    'locale' => 'ar',
+
+    'fallback_locale' => 'en',
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*

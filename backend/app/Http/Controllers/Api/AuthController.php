@@ -349,7 +349,7 @@ class AuthController extends Controller
             'institution_name' => $request->institution_name
         ], function ($message) use ($request) {
             $message->to($request->email)
-                    ->subject('رمز التحقق من EduEgypt');
+                    ->subject('رمز التحقق من Edvance');
         });
 
         Log::info('OTP sent', ['email' => $request->email, 'otp' => $otp]);

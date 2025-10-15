@@ -145,44 +145,37 @@ class StudentCourseController extends Controller
 
         // Add live course specific data
         if ($course->course_type === 'live') {
-            $courseData['max_seats'] = $course->max_seats;
-            $courseData['enrolled_seats'] = $course->enrolled_seats;
-            $courseData['seats_left'] = max(0, ($course->max_seats ?? 0) - ($course->enrolled_seats ?? 0));
-            $courseData['is_full'] = ($course->enrolled_seats ?? 0) >= ($course->max_seats ?? 1);
-            $courseData['start_date'] = $course->start_date ? $course->start_date->format('Y-m-d') : null;
-            $courseData['end_date'] = $course->end_date ? $course->end_date->format('Y-m-d') : null;
-            $courseData['sessions_per_week'] = $course->sessions_per_week;
+    $courseData['max_seats'] = $course->max_seats;
+    $courseData['enrolled_seats'] = $course->enrolled_seats;
+    $courseData['seats_left'] = max(0, ($course->max_seats ?? 0) - ($course->enrolled_seats ?? 0));
+    $courseData['is_full'] = ($course->enrolled_seats ?? 0) >= ($course->max_seats ?? 1);
+    $courseData['start_date'] = $course->start_date ? $course->start_date->format('Y-m-d') : null;
+    $courseData['end_date'] = $course->end_date ? $course->end_date->format('Y-m-d') : null;
+    $courseData['sessions_per_week'] = $course->sessions_per_week;
 
-            // Format schedule if sessions exist
-            if ($course->sessions && $course->sessions->count() > 0) {
-    $courseData['schedule'] = $course->sessions->map(function ($session) {
-        return [
-            'id' => $session->id,
-            'day' => $session->day_of_week,
-            'day_arabic' => $this->getDayInArabic($session->day_of_week),
-            // Convert to Cairo timezone before formatting
-            'start_time' => $session->start_time
-                ? \Carbon\Carbon::parse($session->start_time)
-                    ->setTimezone('Africa/Cairo')
-                    ->format('h:i A')
-                : null,
-            'end_time' => $session->end_time
-                ? \Carbon\Carbon::parse($session->end_time)
-                    ->setTimezone('Africa/Cairo')
-                    ->format('h:i A')
-                : null,
-            'duration' => $session->duration_minutes ?? null,
-            'session_date' => $session->session_date
-                ? \Carbon\Carbon::parse($session->session_date)
-                    ->setTimezone('Africa/Cairo')
-                    ->toDateString()
-                : null,
-        ];
-    })->toArray();
-            } else {
-                $courseData['schedule'] = [];
-            }
-        }
+    // Format schedule if sessions exist
+    if ($course->sessions && $course->sessions->count() > 0) {
+        $courseData['schedule'] = $course->sessions->map(function ($session) {
+            // Parse times as simple time strings (no timezone conversion needed for display)
+            $startTime = \Carbon\Carbon::createFromFormat('H:i:s', $session->start_time);
+            $endTime = \Carbon\Carbon::createFromFormat('H:i:s', $session->end_time);
+
+            return [
+                'id' => $session->id,
+                'day' => $session->day_of_week,
+                'day_arabic' => $this->getDayInArabic($session->day_of_week),
+                'start_time' => $startTime->format('h:i A'), // Format: 08:28 PM
+                'end_time' => $endTime->format('h:i A'),     // Format: 11:59 PM
+                'duration' => $session->duration_minutes ?? null,
+                'session_date' => $session->session_date
+                    ? \Carbon\Carbon::parse($session->session_date)->toDateString()
+                    : null,
+            ];
+        })->toArray();
+    } else {
+        $courseData['schedule'] = [];
+    }
+}
 
         // Log the final response for debugging
         Log::info('Course view response', [

@@ -238,22 +238,34 @@ export default function StudentDashboard() {
       }
       
       if (data.success && data.session) {
-        if (data.session.can_join) {
-          router.push(`/student/live-class/${data.session.id}`);
-        } else if (data.session.minutes_until_start > 15) {
-          const totalMinutes = Math.round(data.session.minutes_until_start);
-          const hoursUntil = Math.floor(totalMinutes / 60);
-          const minutesUntil = totalMinutes % 60;
-          alert(`الجلسة ستبدأ بعد ${hoursUntil} ساعة و ${minutesUntil} دقيقة\n\nيمكنك الانضمام قبل 15 دقيقة من موعد البدء`);
-        } else if (data.session.minutes_until_start < -120) {
-          alert("انتهت الجلسة المباشرة");
-        } else {
-          alert("لا يمكن الانضمام للجلسة حالياً");
-        }
-      } else {
-        alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
-        router.push(`/student/courses/${course.id}`);
+  if (data.session.can_join) {
+    router.push(`/student/live-class/${data.session.id}`);
+  } else if (data.session.minutes_until_start > 15) {
+    const totalMinutes = Math.round(data.session.minutes_until_start);
+    const hoursUntil = Math.floor(totalMinutes / 60);
+    const minutesUntil = totalMinutes % 60;
+    
+    let message = 'الجلسة ستبدأ بعد ';
+    if (hoursUntil > 0) {
+      message += `${hoursUntil} ساعة`;
+      if (minutesUntil > 0) {
+        message += ` و ${minutesUntil} دقيقة`;
       }
+    } else {
+      message += `${minutesUntil} دقيقة`;
+    }
+    message += '\n\nيمكنك الانضمام قبل 15 دقيقة من موعد البدء';
+    
+    alert(message);
+  } else if (data.session.minutes_until_start < -120) {
+    alert("انتهت الجلسة المباشرة");
+  } else {
+    alert("لا يمكن الانضمام للجلسة حالياً");
+  }
+} else {
+  alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
+  router.push(`/student/courses/${course.id}`);
+}
     } catch (error) {
       console.error("Error in handleCourseAction:", error);
       
@@ -534,22 +546,33 @@ const findNextSessionFromSchedule = (
                       </div>
                       
                       {/* Live course badges */}
-                      {course.course_type === 'live' && (
-                        <>
-                          <div className={styles.liveBadge}>
-                            <span>🔴</span> بث مباشر
-                          </div>
-                          <div className={styles.seatsInfo}>
-                            {course.is_full ? (
-                              <span className={styles.fullBadge}>مكتمل العدد</span>
-                            ) : (
-                              <span className={styles.seatsLeft}>
-                                {course.seats_left} مقعد متبقي من {course.max_seats}
-                              </span>
-                            )}
-                          </div>
-                        </>
-                      )}
+                      {course.course_type === 'live' && course.schedule && course.schedule.length > 0 && (
+  <div className={styles.scheduleInfo}>
+    <div className={styles.scheduleHeader}>
+      <FaCalendarAlt />
+      <span>جدول المحاضرات</span>
+    </div>
+    <div className={styles.sessionsList}>
+      {course.schedule.map((session, index) => (
+        <div key={index} className={styles.sessionTime}>
+          <span className={styles.dayName}>{session.day_arabic}</span>
+          <span className={styles.timeRange}>
+            {session.start_time} - {session.end_time}
+          </span>
+        </div>
+      ))}
+    </div>
+    {course.start_date && (
+      <p className={styles.startDate}>
+        تبدأ في: {new Date(course.start_date + 'T00:00:00').toLocaleDateString('ar-EG', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}
+      </p>
+    )}
+  </div>
+)}
                       
                       {course.is_enrolled && (
                         <div className={styles.enrolledBadge}>مسجل</div>

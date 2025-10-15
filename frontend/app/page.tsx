@@ -1,6 +1,6 @@
-import styles from './Landing.module.css';
-import Link from 'next/link';
-import NavigationBar from '@/components/Nav/Nav';
+import styles from "./Landing.module.css";
+import Link from "next/link";
+import NavigationBar from "@/components/Nav/Nav";
 
 export default function LandingPage() {
   return (
@@ -11,12 +11,14 @@ export default function LandingPage() {
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            التعليم المجاني<br />
+            التعليم المجاني
+            <br />
             <span className={styles.heroGradient}>لكل طالب مصري</span>
           </h1>
           <p className={styles.heroDescription}>
             منصة تعليمية مجانية تماماً تربط الطلاب بأفضل المحاضرين
-            <br />احجز مقعدك في البث المباشر واحصل على تعليم متميز
+            <br />
+            احجز مقعدك في البث المباشر واحصل على تعليم متميز
           </p>
 
           <div className={styles.heroButtons}>
@@ -49,7 +51,9 @@ export default function LandingPage() {
           <div className={styles.codeEditor}>
             <div className={styles.codeHeader}>
               <div className={styles.dots}>
-                <span></span><span></span><span></span>
+                <span></span>
+                <span></span>
+                <span></span>
               </div>
               <span>جدول المحاضرات</span>
             </div>
@@ -77,7 +81,7 @@ export default function LandingPage() {
       {/* Features Section */}
       <section className={styles.features}>
         <div className={styles.featuresContainer}>
-          <h2>لماذا EduEgypt؟</h2>
+          <h2>لماذا Edvance؟</h2>
           <div className={styles.featuresGrid}>
             <div className={styles.feature}>
               <div className={styles.featureIcon}>📚</div>
@@ -138,7 +142,7 @@ export default function LandingPage() {
       <footer className={styles.footer}>
         <div className={styles.footerContainer}>
           <div className={styles.footerSection}>
-            <h4>EduEgypt</h4>
+            <h4>Edvance</h4>
             <p>منصة تعليمية مجانية لكل طالب مصري</p>
           </div>
           <div className={styles.footerSection}>
@@ -159,7 +163,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className={styles.footerBottom}>
-          <p>© 2024 EduEgypt. صنع بـ ❤️ من أجل مصر</p>
+          <p>© 2024 Edvance. صنع بـ ❤️ من أجل مصر</p>
         </div>
       </footer>
     </div>

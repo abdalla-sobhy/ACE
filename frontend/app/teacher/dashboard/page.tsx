@@ -15,10 +15,10 @@ import {
   FaTrash,
   FaEye,
   FaClock,
-  FaChartLine
+  FaChartLine,
+  FaBroadcastTower
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 interface Course {
   id: number;
@@ -81,7 +81,6 @@ export default function TeacherDashboard() {
   const [stats, setStats] = useState<TeacherStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'all' | 'live' | 'recorded'>('all');
-  const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -153,6 +152,41 @@ export default function TeacherDashboard() {
       console.error("Error fetching teacher data:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleJoinLiveSession = async (course: Course) => {
+    try {
+      const authData = JSON.parse(localStorage.getItem("authData") || "{}");
+      
+      // Check if there's a next session for this course
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/live/course/${course.id}/next-session`,
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${authData.token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        alert("لا توجد جلسات مجدولة حالياً");
+        return;
+      }
+
+      const data = await response.json();
+      
+      if (data.success && data.session) {
+        // Teachers can join anytime (no 15-minute restriction)
+        router.push(`/teacher/live-class/${data.session.id}`);
+      } else {
+        alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
+      }
+    } catch (error) {
+      console.error("Error joining live session:", error);
+      alert("حدث خطأ أثناء الانضمام للجلسة");
     }
   };
 
@@ -367,70 +401,70 @@ export default function TeacherDashboard() {
             <div className={styles.coursesGrid}>
               {getFilteredCourses().map((course) => (
                 <div key={course.id} className={styles.courseCard}>
-    <div 
-      className={styles.courseHeader}
-      style={{
-        backgroundImage: course.thumbnail ? `url(${course.thumbnail})` : 'none',
-        backgroundColor: course.thumbnail ? 'transparent' : '#161b22'
-      }}
-    >
-      <div className={styles.courseHeaderOverlay}>
-        <div className={styles.courseInfo}>
-          <h3>{course.title}</h3>
-          <div className={styles.courseMeta}>
-            <span className={styles.category}>{getCategoryLabel(course.category)}</span>
-            <span className={styles.grade}>{getGradeLabel(course.grade)}</span>
-          </div>
-        </div>
-        <div className={styles.courseActions}>
-          <button 
-            className={styles.actionButton} 
-            onClick={() => handleViewCourse(course.id)}
-            title="عرض"
-          >
-            <FaEye />
-          </button>
-          <button 
-            className={styles.actionButton} 
-            onClick={() => handleEditCourse(course.id)}
-            title="تعديل"
-          >
-            <FaEdit />
-          </button>
-          <button 
-            className={styles.actionButton} 
-            onClick={() => handleDeleteCourse(course.id)}
-            title="حذف"
-          >
-            <FaTrash />
-          </button>
-        </div>
-        {course.course_type === 'live' && (
-          <div className={styles.liveBadge}>
-            <span>🔴</span> مباشر
-          </div>
-        )}
-      </div>
-    </div>
+                  <div 
+                    className={styles.courseHeader}
+                    style={{
+                      backgroundImage: `url(${course.thumbnail || '/default-course-thumbnail.png'})`,
+                      backgroundColor: course.thumbnail ? 'transparent' : '#161b22'
+                    }}
+                  >
+                    <div className={styles.courseHeaderOverlay}>
+                      <div className={styles.courseInfo}>
+                        <h3>{course.title}</h3>
+                        <div className={styles.courseMeta}>
+                          <span className={styles.category}>{getCategoryLabel(course.category)}</span>
+                          {course.grade && <span className={styles.grade}>{getGradeLabel(course.grade)}</span>}
+                        </div>
+                      </div>
+                      <div className={styles.courseActions}>
+                        <button 
+                          className={styles.actionButton} 
+                          onClick={() => handleViewCourse(course.id)}
+                          title="عرض"
+                        >
+                          <FaEye />
+                        </button>
+                        <button 
+                          className={styles.actionButton} 
+                          onClick={() => handleEditCourse(course.id)}
+                          title="تعديل"
+                        >
+                          <FaEdit />
+                        </button>
+                        <button 
+                          className={styles.actionButton} 
+                          onClick={() => handleDeleteCourse(course.id)}
+                          title="حذف"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                      {course.course_type === 'live' && (
+                        <div className={styles.liveBadge}>
+                          <span>🔴</span> مباشر
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
-    <div className={styles.courseStats}>
-      <div className={styles.courseStat}>
-        <FaUsers />
-        <span>{course.students_count} طالب</span>
-      </div>
-      <div className={styles.courseStat}>
-        <FaBook />
-        <span>{course.lessons_count} درس</span>
-      </div>
-      <div className={styles.courseStat}>
-        <FaClock />
-        <span>{course.duration}</span>
-      </div>
-      <div className={styles.courseStat}>
-        <FaStar />
-        <span>{course.rating}</span>
-      </div>
-    </div>
+                  <div className={styles.courseStats}>
+                    <div className={styles.courseStat}>
+                      <FaUsers />
+                      <span>{course.students_count} طالب</span>
+                    </div>
+                    <div className={styles.courseStat}>
+                      <FaBook />
+                      <span>{course.lessons_count} درس</span>
+                    </div>
+                    <div className={styles.courseStat}>
+                      <FaClock />
+                      <span>{course.duration}</span>
+                    </div>
+                    <div className={styles.courseStat}>
+                      <FaStar />
+                      <span>{course.rating}</span>
+                    </div>
+                  </div>
 
                   {course.course_type === 'live' && course.schedule && (
                     <div className={styles.schedulePreview}>
@@ -469,21 +503,32 @@ export default function TeacherDashboard() {
                     </div>
                   </div>
 
+                  {/* Live Session Join Button for Teachers */}
                   {course.course_type === 'live' && (
-                    <div className={styles.seatsBar}>
-                      <div className={styles.seatsInfo}>
-                        <span>{course.enrolled_seats || 0} / {course.max_seats || 0} مقعد</span>
+                    <>
+                      <button 
+                        className={styles.joinLiveButton}
+                        onClick={() => handleJoinLiveSession(course)}
+                      >
+                        <FaBroadcastTower />
+                        <span>الدخول للبث المباشر</span>
+                      </button>
+                      
+                      <div className={styles.seatsBar}>
+                        <div className={styles.seatsInfo}>
+                          <span>{course.enrolled_seats || 0} / {course.max_seats || 0} مقعد</span>
+                        </div>
+                        <div className={styles.seatsProgress}>
+                          <div 
+                            className={styles.seatsProgressFill} 
+                            style={{ 
+                              width: `${((course.enrolled_seats || 0) / (course.max_seats || 1)) * 100}%`,
+                              backgroundColor: course.is_full ? '#f85149' : '#3fb950'
+                            }}
+                          />
+                        </div>
                       </div>
-                      <div className={styles.seatsProgress}>
-                        <div 
-                          className={styles.seatsProgressFill} 
-                          style={{ 
-                            width: `${((course.enrolled_seats || 0) / (course.max_seats || 1)) * 100}%`,
-                            backgroundColor: course.is_full ? '#f85149' : '#3fb950'
-                          }}
-                        />
-                      </div>
-                    </div>
+                    </>
                   )}
 
                   {!course.is_active && (

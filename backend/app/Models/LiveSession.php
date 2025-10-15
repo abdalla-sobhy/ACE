@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class LiveSession extends Model
 {
@@ -22,8 +23,7 @@ class LiveSession extends Model
 
     protected $casts = [
         'session_date' => 'date',
-        'start_time' => 'datetime:H:i',
-        'end_time' => 'datetime:H:i',
+        // Don't cast start_time and end_time as datetime since they're TIME columns
     ];
 
     public function course()
@@ -59,75 +59,15 @@ class LiveSession extends Model
             ->where('status', 'active')
             ->exists();
     }
-}
 
-// ===================================
-// app/Models/SessionAttendance.php
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class SessionAttendance extends Model
-{
-    use HasFactory;
-
-    protected $table = 'session_attendance';
-
-    protected $fillable = [
-        'session_id',
-        'student_id',
-        'joined_at',
-        'left_at',
-        'duration_minutes'
-    ];
-
-    protected $casts = [
-        'joined_at' => 'datetime',
-        'left_at' => 'datetime',
-        'duration_minutes' => 'integer'
-    ];
-
-    public function session()
+    // Helper to get full datetime in Cairo timezone
+    public function getSessionStartDateTime()
     {
-        return $this->belongsTo(LiveSession::class, 'session_id');
+        return Carbon::parse($this->session_date->format('Y-m-d') . ' ' . $this->start_time, 'Africa/Cairo');
     }
 
-    public function student()
+    public function getSessionEndDateTime()
     {
-        return $this->belongsTo(User::class, 'student_id');
-    }
-}
-
-// ===================================
-// app/Models/ChatMessage.php
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class ChatMessage extends Model
-{
-    use HasFactory;
-
-    protected $fillable = [
-        'session_id',
-        'user_id',
-        'message',
-        'is_announcement'
-    ];
-
-    protected $casts = [
-        'is_announcement' => 'boolean'
-    ];
-
-    public function session()
-    {
-        return $this->belongsTo(LiveSession::class, 'session_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+        return Carbon::parse($this->session_date->format('Y-m-d') . ' ' . $this->end_time, 'Africa/Cairo');
     }
 }

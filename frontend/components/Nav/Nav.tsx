@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import styles from "./Nav.module.css";
-import ThemeToggle from '@/components/ThemeToggle/ThemeToggle';
+import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -53,9 +53,9 @@ export default function Nav() {
       <div className={styles.navContainer}>
         <div className={styles.navHeader}>
           <Link href="/" className={styles.logo} onClick={closeMenu}>
-            EduEgypt
+            Edvance
           </Link>
-          <button 
+          <button
             className={styles.hamburger}
             onClick={toggleMenu}
             aria-label="Toggle menu"
@@ -65,11 +65,13 @@ export default function Nav() {
             <span></span>
           </button>
         </div>
-        
-        <div className={`${styles.navContent} ${isMenuOpen ? styles.open : ''}`}>
+
+        <div
+          className={`${styles.navContent} ${isMenuOpen ? styles.open : ""}`}
+        >
           <div className={styles.navLeft}>
             <Link href="/" className={styles.logoDesktop} onClick={closeMenu}>
-              EduEgypt
+              Edvance
             </Link>
             <Link
               href="/features"
@@ -106,14 +108,18 @@ export default function Nav() {
           <div className={styles.navRight}>
             <Link
               href="/login"
-              className={pathname === "/login" ? styles.signInActive : styles.signIn}
+              className={
+                pathname === "/login" ? styles.signInActive : styles.signIn
+              }
               onClick={closeMenu}
             >
               تسجيل الدخول
             </Link>
             <Link
               href="/signup"
-              className={pathname === "/signup" ? styles.signUpActive : styles.signUp}
+              className={
+                pathname === "/signup" ? styles.signUpActive : styles.signUp
+              }
               onClick={closeMenu}
             >
               انضم مجاناً
