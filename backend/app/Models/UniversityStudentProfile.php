@@ -39,6 +39,13 @@ class UniversityStudentProfile extends Model
     protected $casts = [
         'year_of_study' => 'integer',
         'gpa' => 'decimal:2',
+        'skills' => 'array',
+        'achievements' => 'array',
+        'languages' => 'array',
+        'experience' => 'array',
+        'projects' => 'array',
+        'certifications' => 'array',
+        'preferred_job_types' => 'array',
         'is_public' => 'boolean',
         'looking_for_opportunities' => 'boolean',
         'available_from' => 'date',
