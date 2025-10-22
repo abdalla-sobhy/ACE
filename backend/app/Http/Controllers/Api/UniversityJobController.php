@@ -53,32 +53,79 @@ class UniversityJobController extends Controller
                 });
             }
 
-            // Match student skills
-            if ($request->get('match_skills') && $profile && $profile->skills) {
-                $skills = json_decode($profile->skills, true) ?? [];
-                if (!empty($skills)) {
-                    $query->matchingSkills($skills);
-                }
+            // Get student skills for matching
+            $studentSkills = [];
+            if ($profile && $profile->skills) {
+                $studentSkills = json_decode($profile->skills, true) ?? [];
             }
 
-            // Sort
+            // Match student skills
+            if ($request->get('match_skills') && !empty($studentSkills)) {
+                $query->matchingSkills($studentSkills);
+            }
+
+            // Get all jobs first for relevance calculation
             $sortBy = $request->get('sort', 'created_at');
-            if ($sortBy === 'relevance' && $profile && $profile->skills) {
-                // Complex relevance sorting would go here
-                $query->orderBy('created_at', 'desc');
+            if ($sortBy === 'relevance' && !empty($studentSkills)) {
+                // Get all matching jobs
+                $jobs = $query->get();
+
+                // Calculate relevance score for each job
+                $jobs = $jobs->map(function ($job) use ($studentSkills) {
+                    $relevanceScore = 0;
+                    $jobSkillsRequired = $job->skills_required ?? [];
+                    $jobSkillsPreferred = $job->skills_preferred ?? [];
+
+                    // Score based on required skills match
+                    foreach ($studentSkills as $skill) {
+                        if (in_array($skill, $jobSkillsRequired)) {
+                            $relevanceScore += 3; // Required skills are more important
+                        } elseif (in_array($skill, $jobSkillsPreferred)) {
+                            $relevanceScore += 1; // Preferred skills add some value
+                        }
+                    }
+
+                    $job->relevance_score = $relevanceScore;
+                    return $job;
+                });
+
+                // Sort by relevance score
+                $jobs = $jobs->sortByDesc('relevance_score')->values();
+
+                // Manually paginate
+                $perPage = 12;
+                $currentPage = $request->get('page', 1);
+                $offset = ($currentPage - 1) * $perPage;
+
+                $paginatedJobs = $jobs->slice($offset, $perPage)->values();
+                $total = $jobs->count();
+
+                $jobPostings = new \Illuminate\Pagination\LengthAwarePaginator(
+                    $paginatedJobs,
+                    $total,
+                    $perPage,
+                    $currentPage,
+                    ['path' => $request->url(), 'query' => $request->query()]
+                );
             } else {
                 $query->orderBy($sortBy, 'desc');
+                $jobPostings = $query->paginate(12);
             }
 
-            $jobPostings = $query->paginate(12);
-
             // Transform the data
-            $jobPostings->getCollection()->transform(function ($job) use ($user) {
+            $jobPostings->getCollection()->transform(function ($job) use ($user, $studentSkills) {
                 // Check if user has applied
                 $hasApplied = $job->applications()->where('student_id', $user->id)->exists();
                 $application = $hasApplied ? $job->applications()->where('student_id', $user->id)->first() : null;
 
-                return [
+                // Calculate skill match percentage
+                $skillMatchPercentage = 0;
+                if (!empty($studentSkills) && !empty($job->skills_required)) {
+                    $matchedSkills = array_intersect($studentSkills, $job->skills_required);
+                    $skillMatchPercentage = (count($matchedSkills) / count($job->skills_required)) * 100;
+                }
+
+                $jobData = [
                     'id' => $job->id,
                     'title' => $job->title,
                     'company' => [
@@ -106,7 +153,15 @@ class UniversityJobController extends Controller
                     'has_applied' => $hasApplied,
                     'application_status' => $application ? $application->status : null,
                     'is_expired' => $job->is_expired,
+                    'skill_match_percentage' => round($skillMatchPercentage, 0),
                 ];
+
+                // Add relevance score if it was calculated
+                if (isset($job->relevance_score)) {
+                    $jobData['relevance_score'] = $job->relevance_score;
+                }
+
+                return $jobData;
             });
 
             return response()->json([
