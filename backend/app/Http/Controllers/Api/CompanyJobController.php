@@ -278,6 +278,95 @@ class CompanyJobController extends Controller
     }
 
     /**
+     * Get single application details by ID
+     */
+    public function getApplicationDetails($applicationId)
+    {
+        try {
+            $application = JobApplication::with([
+                'student.universityStudentProfile',
+                'jobPosting'
+            ])->findOrFail($applicationId);
+
+            // Verify the application belongs to the company
+            if ($application->jobPosting->company_id !== Auth::user()->company->id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized'
+                ], 403);
+            }
+
+            // Mark as viewed
+            $application->markAsViewed();
+
+            $student = $application->student;
+            $profile = $student->universityStudentProfile;
+            $jobPosting = $application->jobPosting;
+
+            return response()->json([
+                'success' => true,
+                'application' => [
+                    'id' => $application->id,
+                    'cover_letter' => $application->cover_letter,
+                    'status' => $application->status,
+                    'status_color' => $application->status_color,
+                    'status_history' => json_decode($application->status_history ?? '[]', true),
+                    'company_notes' => $application->company_notes,
+                    'viewed_at' => $application->viewed_at,
+                    'is_favorite' => $application->is_favorite,
+                    'interview_date' => $application->interview_date,
+                    'interview_location' => $application->interview_location,
+                    'interview_notes' => $application->interview_notes,
+                    'created_at' => $application->created_at,
+                    'updated_at' => $application->updated_at,
+                    'student' => [
+                        'id' => $student->id,
+                        'name' => $student->first_name . ' ' . $student->last_name,
+                        'email' => $student->email,
+                        'phone' => $student->phone,
+                        'faculty' => $profile->faculty ?? null,
+                        'university' => $profile->university ?? null,
+                        'year_of_study' => $profile->year_of_study ?? null,
+                        'gpa' => $profile->gpa ?? null,
+                        'bio' => $profile->bio ?? null,
+                        'skills' => json_decode($profile->skills ?? '[]', true),
+                        'languages' => json_decode($profile->languages ?? '[]', true),
+                        'experience' => json_decode($profile->experience ?? '[]', true),
+                        'projects' => json_decode($profile->projects ?? '[]', true),
+                        'certifications' => json_decode($profile->certifications ?? '[]', true),
+                        'achievements' => json_decode($profile->achievements ?? '[]', true),
+                        'cv_available' => !empty($profile->cv_path),
+                        'linkedin_url' => $profile->linkedin_url ?? null,
+                        'github_url' => $profile->github_url ?? null,
+                        'portfolio_url' => $profile->portfolio_url ?? null,
+                    ],
+                    'job' => [
+                        'id' => $jobPosting->id,
+                        'title' => $jobPosting->title,
+                        'description' => $jobPosting->description,
+                        'job_type' => $jobPosting->job_type,
+                        'work_location' => $jobPosting->work_location,
+                        'location' => $jobPosting->location,
+                        'salary_range' => $jobPosting->salary_range,
+                        'experience_level' => $jobPosting->experience_level,
+                    ],
+                ],
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching application details', [
+                'application_id' => $applicationId,
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching application details'
+            ], 500);
+        }
+    }
+
+    /**
      * Update application status
      */
     public function updateApplicationStatus(Request $request, $applicationId)
