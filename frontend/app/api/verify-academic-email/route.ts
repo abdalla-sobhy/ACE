@@ -121,7 +121,7 @@ export async function POST(request: Request) {
         let data;
         try {
           data = JSON.parse(responseText);
-        } catch (e) {
+        } catch {
           console.error('Failed to parse Laravel response as JSON:', responseText);
           return NextResponse.json({
             valid: false,

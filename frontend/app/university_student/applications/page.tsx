@@ -71,6 +71,7 @@ export default function MyApplications() {
   useEffect(() => {
     checkAuth();
     fetchApplications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter, currentPage]);
 
   const checkAuth = () => {

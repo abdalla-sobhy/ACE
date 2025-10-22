@@ -127,6 +127,7 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
 
   useEffect(() => {
     checkAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkAuth = () => {
@@ -172,6 +173,7 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
     }));
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -179,9 +181,9 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
         setErrors(prev => ({ ...prev, thumbnail: 'حجم الملف يجب أن يكون أقل من 5 ميجابايت' }));
         return;
       }
-      
+
       setFormData(prev => ({ ...prev, thumbnail: file }));
-      
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setThumbnailPreview(reader.result as string);

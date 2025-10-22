@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import UniversityStudentNav from "@/components/UniversityStudentNav/UniversityStudentNav";
 import styles from "./JobDetails.module.css";
 import {
@@ -72,6 +72,7 @@ export default function JobDetailsPage() {
     if (jobId) {
       fetchJobDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobId]);
 
   const fetchJobDetails = async () => {

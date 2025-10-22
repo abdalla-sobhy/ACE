@@ -104,7 +104,7 @@ export default function CompanyRegister() {
       } else {
         setError(data.message || "حدث خطأ في التسجيل");
       }
-    } catch (err) {
+    } catch {
       setError("حدث خطأ في الاتصال بالخادم");
     } finally {
       setLoading(false);

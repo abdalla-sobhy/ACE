@@ -43,7 +43,6 @@ export default function StudentCourseView() {
   const [enrolling, setEnrolling] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const fetchCourseData = useCallback(async () => {
     if (!courseId) return;
@@ -115,8 +114,9 @@ export default function StudentCourseView() {
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
-      if (videoRef.current) {
-        videoRef.current.removeEventListener('contextmenu', handleContextMenu);
+      const currentVideo = videoRef.current;
+      if (currentVideo) {
+        currentVideo.removeEventListener('contextmenu', handleContextMenu);
       }
     };
   }, [currentLesson]);

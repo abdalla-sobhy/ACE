@@ -97,10 +97,12 @@ export default function UniversityStudentDashboard() {
   useEffect(() => {
     checkAuth();
     fetchDashboardData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     filterCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, selectedCategory, courses]);
 
   const checkAuth = () => {

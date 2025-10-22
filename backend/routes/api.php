@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Applications management
         Route::get('/jobs/{jobId}/applications', [CompanyJobController::class, 'getJobApplications']);
+        Route::get('/applications/{id}', [CompanyJobController::class, 'getApplicationDetails']);
         Route::put('/applications/{id}/status', [CompanyJobController::class, 'updateApplicationStatus']);
         Route::post('/applications/{id}/favorite', [CompanyJobController::class, 'toggleApplicationFavorite']);
         Route::get('/students/{studentId}/cv', [CompanyJobController::class, 'downloadStudentCV']);

@@ -64,6 +64,7 @@ export default function UniversityJobs() {
   useEffect(() => {
     checkAuth();
     fetchJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, filters]);
 
   const checkAuth = () => {

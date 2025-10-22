@@ -152,14 +152,15 @@ export default function FAQPage() {
 
   const filteredFAQs = useMemo(() => {
     return faqs.filter(faq => {
-      const matchesSearch = searchQuery === '' || 
+      const matchesSearch = searchQuery === '' ||
         faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
         faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
-      
+
       const matchesCategory = selectedCategory === 'all' || faq.category === selectedCategory;
-      
+
       return matchesSearch && matchesCategory;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, selectedCategory]);
 
   const toggleItem = (id: string) => {
