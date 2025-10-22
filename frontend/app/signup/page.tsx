@@ -239,6 +239,8 @@ const universityStudentSchema = z.object({
   department: z.string().optional(),
   major: z.string().optional(),
   skills: z.array(z.string()).optional(),
+  preferredSubjects: z.array(z.string()).optional(),
+  goal: z.string().optional(),
 });
 
 function SignupContent() {
