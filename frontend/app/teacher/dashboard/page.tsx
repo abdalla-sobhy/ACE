@@ -85,6 +85,7 @@ export default function TeacherDashboard() {
   useEffect(() => {
     checkAuth();
     fetchTeacherData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkAuth = () => {

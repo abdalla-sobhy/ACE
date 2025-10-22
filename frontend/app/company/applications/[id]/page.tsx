@@ -21,10 +21,6 @@ import {
   FaRegStar,
   FaCalendarAlt,
   FaCheckCircle,
-  FaTimesCircle,
-  FaEye,
-  FaUserCheck,
-  FaUserTimes,
 } from "react-icons/fa";
 import Link from "next/link";
 
@@ -106,6 +102,7 @@ export default function ApplicationDetailsPage() {
     if (applicationId) {
       fetchApplicationDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applicationId]);
 
   const checkAuth = () => {
@@ -160,7 +157,13 @@ export default function ApplicationDetailsPage() {
       setUpdating(true);
       const authData = JSON.parse(localStorage.getItem("authData") || "{}");
 
-      const payload: any = {
+      const payload: {
+        status: string;
+        notes?: string;
+        interview_date?: string;
+        interview_location?: string;
+        interview_notes?: string;
+      } = {
         status: selectedStatus,
         notes: statusNotes || undefined,
       };

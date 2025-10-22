@@ -107,6 +107,7 @@ export default function UniversityStudentProfile() {
   useEffect(() => {
     checkAuth();
     fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkAuth = () => {

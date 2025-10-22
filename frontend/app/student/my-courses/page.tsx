@@ -65,10 +65,12 @@ export default function MyCourses() {
   useEffect(() => {
     checkAuth();
     fetchMyCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     filterCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, courses]);
 
   const checkAuth = () => {

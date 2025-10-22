@@ -18,6 +18,7 @@ export default function CompanyNav() {
   const router = useRouter();
   const pathname = usePathname();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [notifications, setNotifications] = useState(3); // not now
 
   const handleLogout = () => {
