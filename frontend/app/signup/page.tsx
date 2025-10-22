@@ -236,6 +236,7 @@ const parentAdditionalSchema = z.object({
 // university_student student schema
 const universityStudentSchema = z.object({
   faculty: z.string().min(2, "اسم الكلية مطلوب"),
+  goal: z.string().min(1, "يرجى اختيار هدفك المهني"),
   department: z.string().optional(),
   major: z.string().optional(),
   skills: z.array(z.string()).optional(),
@@ -282,6 +283,7 @@ function SignupContent() {
     mode: "onChange",
     defaultValues: {
       faculty: "",
+      goal: "",
       department: "",
       major: "",
       skills: [],
@@ -328,8 +330,8 @@ function SignupContent() {
             );
             baseForm.clearErrors("email");
 
-            // Skip directly to step 4 (terms)
-            setStep(4);
+            // Go to step 3 to collect goals and other info
+            setStep(3);
           }
 
           sessionStorage.removeItem("signupFormData");
@@ -610,13 +612,14 @@ function SignupContent() {
         universityStudentForm.getValues("faculty") ||
         sessionStorage.getItem("institutionName") ||
         "";
+      const goal = universityStudentForm.getValues("goal") || "";
 
       formData.append("universityData[faculty]", faculty);
-      formData.append("universityData[goal]", "");
+      formData.append("universityData[goal]", goal);
 
       dataToSend.universityData = {
         faculty: faculty,
-        goal: "",
+        goal: goal,
       };
     }
 
@@ -1582,8 +1585,39 @@ function SignupContent() {
                     onSubmit={handleAdditionalInfoSubmit}
                     className={styles.form}
                   >
+                    <div className={styles.goalsCard}>
+                      <h3 className={styles.cardTitle}>ما هو هدفك المهني؟</h3>
+                      <p className={styles.cardDesc}>
+                        اختر المجال الذي تريد تطوير مهاراتك فيه
+                      </p>
+                      <select
+                        className={styles.goalSelect}
+                        {...universityStudentForm.register("goal")}
+                      >
+                        <option value="">اختر هدفك</option>
+                        <option value="web-development">تطوير الويب</option>
+                        <option value="mobile-development">تطوير تطبيقات الموبايل</option>
+                        <option value="data-science">علم البيانات والذكاء الاصطناعي</option>
+                        <option value="ui-ux-design">تصميم واجهات المستخدم وتجربة المستخدم</option>
+                        <option value="graphic-design">التصميم الجرافيكي</option>
+                        <option value="digital-marketing">التسويق الرقمي</option>
+                        <option value="business-management">إدارة الأعمال والمشاريع</option>
+                        <option value="content-creation">صناعة المحتوى</option>
+                        <option value="cyber-security">الأمن السيبراني</option>
+                        <option value="cloud-computing">الحوسبة السحابية</option>
+                        <option value="game-development">تطوير الألعاب</option>
+                        <option value="languages">تعلم اللغات</option>
+                        <option value="finance-accounting">المالية والمحاسبة</option>
+                      </select>
+                      {universityStudentForm.formState.errors.goal && (
+                        <span className={styles.errorMessage}>
+                          {universityStudentForm.formState.errors.goal.message}
+                        </span>
+                      )}
+                    </div>
+
                     <div className={styles.preferencesCard}>
-                      <h3 className={styles.cardTitle}>التخصص الأكاديمي</h3>
+                      <h3 className={styles.cardTitle}>التخصص الأكاديمي (اختياري)</h3>
                       <select
                         className={styles.majorSelect}
                         {...universityStudentForm.register("major")}
@@ -1601,7 +1635,7 @@ function SignupContent() {
                     </div>
 
                     <div className={styles.goalsCard}>
-                      <h3 className={styles.cardTitle}>المهارات المطلوبة</h3>
+                      <h3 className={styles.cardTitle}>المهارات المطلوبة (اختياري)</h3>
                       <div className={styles.skillsGrid}>
                         {[
                           "البرمجة",

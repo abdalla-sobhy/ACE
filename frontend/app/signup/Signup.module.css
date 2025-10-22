@@ -272,7 +272,7 @@
   border: 1px solid var(--input-border-color) !important;
   border-radius: 6px !important;
   padding: 12px 16px 12px 50px !important;
-  color: var(--main-color-transparent) !important;
+  color: var(--main-text-white) !important;
   font-size: 16px !important;
 }
 
@@ -452,7 +452,8 @@
   margin: 0 0 20px;
 }
 
-.subjectsGrid {
+.subjectsGrid,
+.skillsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
@@ -478,7 +479,8 @@
   margin: 0;
 }
 
-.goalSelect {
+.goalSelect,
+.majorSelect {
   width: 100%;
   background: var(--from-wrapper-color);
   border: 1px solid var(--input-border-color);
@@ -487,6 +489,11 @@
   color: var(--main-text-white);
   font-size: 16px;
   margin-top: 16px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b949e' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 12px center;
+  padding-left: 32px;
 }
 
 /* Children Note */

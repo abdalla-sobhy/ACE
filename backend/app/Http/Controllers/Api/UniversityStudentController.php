@@ -32,6 +32,10 @@ class UniversityStudentController extends Controller
                 ], 403);
             }
 
+            // Get user's profile to access their goal
+            $profile = UniversityStudentProfile::where('user_id', $user->id)->first();
+            $userGoal = $profile ? $profile->goal : null;
+
             $query = Course::with(['teacher:id,first_name,last_name,email'])
                 ->where('is_active', true);
 
@@ -53,13 +57,43 @@ class UniversityStudentController extends Controller
                 });
             }
 
-            // Sort by relevance for professional development
-            $query->orderByRaw('CASE
-                WHEN category IN ("programming", "business", "marketing", "data", "design", "soft_skills", "languages") THEN 0
-                ELSE 1
-            END')
-            ->orderBy('rating', 'desc')
-            ->orderBy('students_count', 'desc');
+            // Goal-based course category mapping
+            $goalCategoryMap = [
+                'web-development' => ['programming', 'design'],
+                'mobile-development' => ['programming'],
+                'data-science' => ['data', 'programming'],
+                'ui-ux-design' => ['design'],
+                'graphic-design' => ['design'],
+                'digital-marketing' => ['marketing', 'business'],
+                'business-management' => ['business', 'soft_skills'],
+                'content-creation' => ['marketing', 'design'],
+                'cyber-security' => ['programming'],
+                'cloud-computing' => ['programming'],
+                'game-development' => ['programming', 'design'],
+                'languages' => ['languages'],
+                'finance-accounting' => ['business'],
+            ];
+
+            // Sort by relevance based on user's goal
+            if ($userGoal && isset($goalCategoryMap[$userGoal])) {
+                $relevantCategories = $goalCategoryMap[$userGoal];
+                $categoriesString = implode('","', $relevantCategories);
+
+                $query->orderByRaw("CASE
+                    WHEN category IN (\"{$categoriesString}\") THEN 0
+                    WHEN category IN (\"programming\", \"business\", \"marketing\", \"data\", \"design\", \"soft_skills\", \"languages\") THEN 1
+                    ELSE 2
+                END");
+            } else {
+                // Default sorting if no goal is set
+                $query->orderByRaw('CASE
+                    WHEN category IN ("programming", "business", "marketing", "data", "design", "soft_skills", "languages") THEN 0
+                    ELSE 1
+                END');
+            }
+
+            $query->orderBy('rating', 'desc')
+                  ->orderBy('students_count', 'desc');
 
             $courses = $query->get()->map(function ($course) use ($user) {
                 $courseData = [
