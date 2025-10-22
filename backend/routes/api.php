@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/jobs/{id}', [CompanyJobController::class, 'deleteJobPosting']);
 
         // Applications management
+        Route::get('/applications', [CompanyJobController::class, 'getAllApplications']);
         Route::get('/jobs/{jobId}/applications', [CompanyJobController::class, 'getJobApplications']);
         Route::get('/applications/{id}', [CompanyJobController::class, 'getApplicationDetails']);
         Route::put('/applications/{id}/status', [CompanyJobController::class, 'updateApplicationStatus']);

@@ -212,6 +212,98 @@ class CompanyJobController extends Controller
     }
 
     /**
+     * Get all applications across all jobs for the company
+     */
+    public function getAllApplications(Request $request)
+    {
+        try {
+            $company = Auth::user()->company;
+
+            if (!$company) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Company profile not found'
+                ], 404);
+            }
+
+            $query = JobApplication::whereHas('jobPosting', function ($q) use ($company) {
+                $q->where('company_id', $company->id);
+            })->with(['student.universityStudentProfile', 'jobPosting']);
+
+            // Filter by status
+            if ($request->has('status') && $request->status !== 'all') {
+                $query->where('status', $request->status);
+            }
+
+            // Filter by job
+            if ($request->has('job_id')) {
+                $query->where('job_posting_id', $request->job_id);
+            }
+
+            // Filter by favorite
+            if ($request->has('favorite') && $request->favorite == 'true') {
+                $query->where('is_favorite', true);
+            }
+
+            // Sort
+            $sortBy = $request->get('sort', 'created_at');
+            $sortOrder = $request->get('order', 'desc');
+            $query->orderBy($sortBy, $sortOrder);
+
+            $applications = $query->get()->map(function ($application) {
+                $student = $application->student;
+                $profile = $student->universityStudentProfile;
+
+                return [
+                    'id' => $application->id,
+                    'student' => [
+                        'id' => $student->id,
+                        'name' => $student->first_name . ' ' . $student->last_name,
+                        'email' => $student->email,
+                        'phone' => $student->phone,
+                        'faculty' => $profile->faculty ?? null,
+                        'university' => $profile->university ?? null,
+                        'year_of_study' => $profile->year_of_study ?? null,
+                        'gpa' => $profile->gpa ?? null,
+                        'skills' => $profile->skills ?? [],
+                        'cv_available' => !empty($profile->cv_path),
+                        'linkedin_url' => $profile->linkedin_url ?? null,
+                        'github_url' => $profile->github_url ?? null,
+                        'portfolio_url' => $profile->portfolio_url ?? null,
+                    ],
+                    'job' => [
+                        'id' => $application->jobPosting->id,
+                        'title' => $application->jobPosting->title,
+                    ],
+                    'cover_letter' => $application->cover_letter,
+                    'status' => $application->status,
+                    'status_color' => $application->status_color,
+                    'viewed_at' => $application->viewed_at,
+                    'is_favorite' => $application->is_favorite,
+                    'created_at' => $application->created_at,
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'applications' => $applications,
+                'total' => $applications->count(),
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching all applications', [
+                'company_id' => Auth::user()->company->id ?? null,
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching applications'
+            ], 500);
+        }
+    }
+
+    /**
      * Get applications for a specific job
      */
     public function getJobApplications($jobId)

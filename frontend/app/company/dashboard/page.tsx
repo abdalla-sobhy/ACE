@@ -233,7 +233,10 @@ export default function CompanyDashboard() {
                       <td>
                         <span
                           className={styles.statusBadge}
-                          style={{ color: getStatusColor(application.status) }}
+                          style={{
+                            color: getStatusColor(application.status),
+                            backgroundColor: `${getStatusColor(application.status)}20`
+                          }}
                         >
                           {getStatusLabel(application.status)}
                         </span>
