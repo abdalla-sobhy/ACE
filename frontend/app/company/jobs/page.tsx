@@ -144,16 +144,6 @@ export default function CompanyJobsPage() {
     return labels[location] || location;
   };
 
-  const getExperienceLevelLabel = (level: string) => {
-    const labels: { [key: string]: string } = {
-      entry: "مبتدئ",
-      junior: "متوسط",
-      mid: "متقدم",
-      senior: "خبير",
-    };
-    return labels[level] || level;
-  };
-
   const filteredJobs = jobs.filter((job) => {
     const matchesSearch =
       job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

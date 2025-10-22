@@ -11,7 +11,6 @@ import {
   FaEye,
   FaStar,
   FaRegStar,
-  FaFilter,
   FaClock,
   FaCheckCircle,
   FaTimesCircle,
@@ -155,7 +154,7 @@ export default function CompanyApplicationsPage() {
     }
   };
 
-  let filteredApplications = applications.filter((app) => {
+  const filteredApplications = applications.filter((app) => {
     const matchesSearch =
       app.student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       app.job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

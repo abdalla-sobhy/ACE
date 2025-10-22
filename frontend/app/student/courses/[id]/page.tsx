@@ -105,16 +105,16 @@ export default function StudentCourseView() {
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown);
 
-    if (videoRef.current) {
-      videoRef.current.setAttribute('controlsList', 'nodownload');
-      videoRef.current.disablePictureInPicture = true;
-      videoRef.current.addEventListener('contextmenu', handleContextMenu);
+    const currentVideo = videoRef.current;
+    if (currentVideo) {
+      currentVideo.setAttribute('controlsList', 'nodownload');
+      currentVideo.disablePictureInPicture = true;
+      currentVideo.addEventListener('contextmenu', handleContextMenu);
     }
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
-      const currentVideo = videoRef.current;
       if (currentVideo) {
         currentVideo.removeEventListener('contextmenu', handleContextMenu);
       }
