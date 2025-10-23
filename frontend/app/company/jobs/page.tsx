@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CompanyNav from "@/components/CompanyNav/CompanyNav";
-import styles from "./Jobs.module.css";
 import {
   FaBriefcase,
   FaMapMarkerAlt,
@@ -28,7 +27,7 @@ interface Job {
   location: string | null;
   salary_range: string | null;
   experience_level: string;
-  skills: string[];
+  skills_required: string[];
   is_active: boolean;
   applications_count: number;
   created_at: string;
@@ -117,7 +116,8 @@ export default function CompanyJobsPage() {
       if (response.ok) {
         fetchJobs();
       } else {
-        alert("فشل في حذف الوظيفة");
+        const data = await response.json();
+        alert(data.message || "فشل في حذف الوظيفة");
       }
     } catch (error) {
       console.error("Error deleting job:", error);
@@ -168,218 +168,242 @@ export default function CompanyJobsPage() {
 
   if (loading) {
     return (
-      <div className={styles.container}>
+      <div className="min-h-screen bg-[var(--main-color)] text-[var(--main-text-white)]" dir="rtl">
         <CompanyNav />
-        <div className={styles.loadingContainer}>
-          <div className={styles.loader}></div>
-          <p>جاري تحميل البيانات...</p>
+        <div className="flex flex-col justify-center items-center min-h-[50vh] gap-4">
+          <div className="w-12 h-12 border-4 border-[var(--borders)] border-t-[#58a6ff] rounded-full animate-spin"></div>
+          <p className="text-[var(--p-text)]">جاري تحميل البيانات...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <div className="min-h-screen bg-[var(--main-color)] text-[var(--main-text-white)]" dir="rtl">
       <CompanyNav />
 
-      <main className={styles.main}>
+      <main className="max-w-7xl mx-auto px-6 pt-24 pb-12">
         {/* Header Section */}
-        <div className={styles.header}>
-          <div className={styles.headerContent}>
-            <h1 className={styles.title}>
-              <FaBriefcase /> الوظائف المعلن عنها
+        <div className="flex justify-between items-start mb-8 gap-5 flex-wrap">
+          <div className="flex-1 min-w-[250px]">
+            <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
+              <FaBriefcase className="text-[#58a6ff]" />
+              <span className="bg-gradient-to-l from-[#58a6ff] to-[#79c0ff] bg-clip-text text-transparent">
+                الوظائف المعلن عنها
+              </span>
             </h1>
-            <p className={styles.subtitle}>
+            <p className="text-[var(--p-text)]">
               إدارة جميع الوظائف والفرص المتاحة في شركتك
             </p>
           </div>
-          <Link href="/company/jobs/new" className={styles.createButton}>
+          <Link
+            href="/company/jobs/new"
+            className="flex items-center gap-2 px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-500/30"
+          >
             <FaPlus /> إضافة وظيفة جديدة
           </Link>
         </div>
 
         {/* Stats Cards */}
-        <div className={styles.statsGrid}>
-          <div className={styles.statCard}>
-            <div className={styles.statIcon}>
-              <FaBriefcase />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+          <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-5 flex items-center gap-4 hover:border-[#58a6ff] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/10 transition-all">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#79c0ff] flex items-center justify-center flex-shrink-0">
+              <FaBriefcase className="text-white text-xl" />
             </div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>{stats.total}</div>
-              <div className={styles.statLabel}>إجمالي الوظائف</div>
-            </div>
-          </div>
-
-          <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#3fb950" }}>
-              <FaCheckCircle />
-            </div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>{stats.active}</div>
-              <div className={styles.statLabel}>وظائف نشطة</div>
+            <div>
+              <div className="text-3xl font-bold">{stats.total}</div>
+              <div className="text-sm text-[var(--p-text)]">إجمالي الوظائف</div>
             </div>
           </div>
 
-          <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#f85149" }}>
-              <FaTimesCircle />
+          <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-5 flex items-center gap-4 hover:border-green-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-500/10 transition-all">
+            <div className="w-12 h-12 rounded-xl bg-[#3fb950] flex items-center justify-center flex-shrink-0">
+              <FaCheckCircle className="text-white text-xl" />
             </div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>{stats.inactive}</div>
-              <div className={styles.statLabel}>وظائف غير نشطة</div>
+            <div>
+              <div className="text-3xl font-bold">{stats.active}</div>
+              <div className="text-sm text-[var(--p-text)]">وظائف نشطة</div>
             </div>
           </div>
 
-          <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#a371f7" }}>
-              <FaUsers />
+          <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-5 flex items-center gap-4 hover:border-red-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-500/10 transition-all">
+            <div className="w-12 h-12 rounded-xl bg-[#f85149] flex items-center justify-center flex-shrink-0">
+              <FaTimesCircle className="text-white text-xl" />
             </div>
-            <div className={styles.statContent}>
-              <div className={styles.statValue}>{stats.totalApplications}</div>
-              <div className={styles.statLabel}>إجمالي المتقدمين</div>
+            <div>
+              <div className="text-3xl font-bold">{stats.inactive}</div>
+              <div className="text-sm text-[var(--p-text)]">وظائف غير نشطة</div>
+            </div>
+          </div>
+
+          <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-5 flex items-center gap-4 hover:border-purple-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/10 transition-all">
+            <div className="w-12 h-12 rounded-xl bg-[#a371f7] flex items-center justify-center flex-shrink-0">
+              <FaUsers className="text-white text-xl" />
+            </div>
+            <div>
+              <div className="text-3xl font-bold">{stats.totalApplications}</div>
+              <div className="text-sm text-[var(--p-text)]">إجمالي المتقدمين</div>
             </div>
           </div>
         </div>
 
         {/* Search and Filter Section */}
-        <div className={styles.searchSection}>
-          <div className={styles.searchBox}>
-            <FaSearch />
-            <input
-              type="text"
-              placeholder="ابحث عن وظيفة..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={styles.searchInput}
-            />
-          </div>
+        <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-5 mb-8">
+          <div className="flex flex-col lg:flex-row gap-4 items-center">
+            <div className="flex-1 w-full relative">
+              <div className="flex items-center gap-3 px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg focus-within:border-[#58a6ff] focus-within:ring-2 focus-within:ring-[#58a6ff]/20 transition-all">
+                <FaSearch className="text-[var(--p-text)]" />
+                <input
+                  type="text"
+                  placeholder="ابحث عن وظيفة..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="flex-1 bg-transparent border-none outline-none text-[var(--main-text-white)] placeholder:text-[var(--p-text)]"
+                />
+              </div>
+            </div>
 
-          <div className={styles.filters}>
-            <select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-              className={styles.filterSelect}
-            >
-              <option value="all">كل الأنواع</option>
-              <option value="full_time">دوام كامل</option>
-              <option value="part_time">دوام جزئي</option>
-              <option value="internship">تدريب</option>
-              <option value="contract">عقد</option>
-            </select>
+            <div className="flex gap-3 w-full lg:w-auto">
+              <select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+                className="flex-1 lg:flex-none lg:min-w-[150px] px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] cursor-pointer hover:border-[#58a6ff] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
+              >
+                <option value="all">كل الأنواع</option>
+                <option value="full_time">دوام كامل</option>
+                <option value="part_time">دوام جزئي</option>
+                <option value="internship">تدريب</option>
+                <option value="contract">عقد</option>
+              </select>
 
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className={styles.filterSelect}
-            >
-              <option value="all">كل الحالات</option>
-              <option value="active">نشط</option>
-              <option value="inactive">غير نشط</option>
-            </select>
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+                className="flex-1 lg:flex-none lg:min-w-[150px] px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] cursor-pointer hover:border-[#58a6ff] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
+              >
+                <option value="all">كل الحالات</option>
+                <option value="active">نشط</option>
+                <option value="inactive">غير نشط</option>
+              </select>
+            </div>
           </div>
         </div>
 
         {/* Jobs Grid */}
         {error ? (
-          <div className={styles.errorMessage}>{error}</div>
+          <div className="bg-red-500/10 border border-red-500/30 text-red-500 rounded-xl p-6 text-center">
+            {error}
+          </div>
         ) : filteredJobs.length === 0 ? (
-          <div className={styles.emptyState}>
-            <FaBriefcase />
-            <h3>لا توجد وظائف متاحة</h3>
-            <p>ابدأ بإضافة وظيفة جديدة للعثور على أفضل المواهب</p>
-            <Link href="/company/jobs/new" className={styles.createButtonAlt}>
+          <div className="flex flex-col items-center justify-center py-20 px-5 text-center bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl">
+            <FaBriefcase className="text-6xl text-[var(--p-text)] opacity-50 mb-5" />
+            <h3 className="text-2xl font-bold mb-3">لا توجد وظائف متاحة</h3>
+            <p className="text-[var(--p-text)] mb-6 max-w-md">
+              ابدأ بإضافة وظيفة جديدة للعثور على أفضل المواهب
+            </p>
+            <Link
+              href="/company/jobs/new"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-500/30"
+            >
               <FaPlus /> إضافة وظيفة جديدة
             </Link>
           </div>
         ) : (
-          <div className={styles.jobsGrid}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredJobs.map((job) => (
-              <div key={job.id} className={styles.jobCard}>
-                <div className={styles.jobHeader}>
-                  <h3 className={styles.jobTitle}>{job.title}</h3>
+              <div
+                key={job.id}
+                className="bg-[var(--form-color)] border border-[var(--input-border-color)] rounded-xl p-6 flex flex-col gap-4 hover:border-[#58a6ff] hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 transition-all"
+              >
+                <div className="flex justify-between items-start gap-3">
+                  <h3 className="text-lg font-semibold flex-1 leading-snug">
+                    {job.title}
+                  </h3>
                   <span
-                    className={`${styles.statusBadge} ${
-                      job.is_active ? styles.active : styles.inactive
+                    className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
+                      job.is_active
+                        ? "bg-green-500/10 text-green-500 border border-green-500/30"
+                        : "bg-red-500/10 text-red-500 border border-red-500/30"
                     }`}
                   >
                     {job.is_active ? "نشط" : "غير نشط"}
                   </span>
                 </div>
 
-                <p className={styles.jobDescription}>
-                  {job.description.length > 150
-                    ? `${job.description.substring(0, 150)}...`
-                    : job.description}
+                <p className="text-[var(--p-text)] text-sm leading-relaxed line-clamp-3">
+                  {job.description}
                 </p>
 
-                <div className={styles.jobMetadata}>
-                  <div className={styles.metadataItem}>
-                    <FaBriefcase />
+                <div className="flex flex-wrap gap-3 text-sm text-[var(--p-text)]">
+                  <div className="flex items-center gap-1.5">
+                    <FaBriefcase className="text-[#58a6ff] text-sm" />
                     <span>{getJobTypeLabel(job.job_type)}</span>
                   </div>
-                  <div className={styles.metadataItem}>
-                    <FaMapMarkerAlt />
+                  <div className="flex items-center gap-1.5">
+                    <FaMapMarkerAlt className="text-[#58a6ff] text-sm" />
                     <span>{getWorkLocationLabel(job.work_location)}</span>
                   </div>
                   {job.location && (
-                    <div className={styles.metadataItem}>
-                      <FaMapMarkerAlt />
+                    <div className="flex items-center gap-1.5">
+                      <FaMapMarkerAlt className="text-[#58a6ff] text-sm" />
                       <span>{job.location}</span>
                     </div>
                   )}
                 </div>
 
-                {job.skills && job.skills.length > 0 && (
-                  <div className={styles.skillsSection}>
-                    {job.skills.slice(0, 3).map((skill, index) => (
-                      <span key={index} className={styles.skillBadge}>
+                {job.skills_required && job.skills_required.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {job.skills_required.slice(0, 3).map((skill, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-blue-500/10 text-[#58a6ff] border border-blue-500/30 rounded-md text-xs font-medium"
+                      >
                         {skill}
                       </span>
                     ))}
-                    {job.skills.length > 3 && (
-                      <span className={styles.skillBadge}>
-                        +{job.skills.length - 3}
+                    {job.skills_required.length > 3 && (
+                      <span className="px-3 py-1 bg-blue-500/10 text-[#58a6ff] border border-blue-500/30 rounded-md text-xs font-medium">
+                        +{job.skills_required.length - 3}
                       </span>
                     )}
                   </div>
                 )}
 
-                <div className={styles.jobFooter}>
-                  <div className={styles.applicationsCount}>
-                    <FaUsers />
+                <div className="flex justify-between items-center pt-4 border-t border-[var(--borders)]">
+                  <div className="flex items-center gap-1.5 font-semibold text-sm">
+                    <FaUsers className="text-[#58a6ff]" />
                     <span>{job.applications_count} متقدم</span>
                   </div>
 
-                  <div className={styles.jobActions}>
+                  <div className="flex gap-2">
                     <Link
                       href={`/company/jobs/${job.id}`}
-                      className={styles.actionButton}
+                      className="w-9 h-9 flex items-center justify-center bg-[var(--input-color)] hover:bg-[#58a6ff] hover:text-white border border-[var(--input-border-color)] hover:border-[#58a6ff] rounded-lg transition-all"
                       title="عرض"
                     >
-                      <FaEye />
+                      <FaEye className="text-sm" />
                     </Link>
                     <Link
                       href={`/company/jobs/${job.id}/edit`}
-                      className={styles.actionButton}
+                      className="w-9 h-9 flex items-center justify-center bg-[var(--input-color)] hover:bg-[#58a6ff] hover:text-white border border-[var(--input-border-color)] hover:border-[#58a6ff] rounded-lg transition-all"
                       title="تعديل"
                     >
-                      <FaEdit />
+                      <FaEdit className="text-sm" />
                     </Link>
                     <button
                       onClick={() => handleDeleteJob(job.id)}
-                      className={`${styles.actionButton} ${styles.deleteButton}`}
+                      className="w-9 h-9 flex items-center justify-center bg-[var(--input-color)] hover:bg-red-500 hover:text-white border border-[var(--input-border-color)] hover:border-red-500 rounded-lg transition-all"
                       title="حذف"
                     >
-                      <FaTrash />
+                      <FaTrash className="text-sm" />
                     </button>
                   </div>
                 </div>
 
-                <div className={styles.jobDate}>
+                <div className="flex items-center gap-1.5 text-xs text-[var(--p-text)] pt-3 border-t border-[var(--borders)]">
                   <FaClock />
                   <span>
-                    تم النشر{" "}
-                    {new Date(job.created_at).toLocaleDateString("ar-EG")}
+                    تم النشر {new Date(job.created_at).toLocaleDateString("ar-EG")}
                   </span>
                 </div>
               </div>
