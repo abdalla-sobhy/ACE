@@ -14,7 +14,7 @@ import {
 export default function EditJobPage() {
   const router = useRouter();
   const params = useParams();
-  const jobId = params.id as string;
+  const jobId = (params?.id as string) || "";
 
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(true);

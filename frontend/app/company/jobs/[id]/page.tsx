@@ -60,7 +60,7 @@ interface JobPosting {
 export default function JobDetailPage() {
   const router = useRouter();
   const params = useParams();
-  const jobId = params.id as string;
+  const jobId = (params?.id as string) || "";
 
   const [job, setJob] = useState<JobPosting | null>(null);
   const [loading, setLoading] = useState(true);
