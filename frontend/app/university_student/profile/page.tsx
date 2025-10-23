@@ -585,7 +585,19 @@ const handleRemoveCertification = (index: number) => {
                     rows={3}
                   />
                 ) : (
-                  <p>{profile.goal || "لم يتم تحديد هدف مهني بعد"}</p>
+                  <p>{profile.goal === "career_preparation"
+                    ? "الاستعداد المهني والتوظيف"
+                    : profile.goal === "skill_development"
+                    ? "تطوير المهارات المهنية"
+                    : profile.goal === "academic_excellence"
+                    ? "التفوق الأكاديمي"
+                    : profile.goal === "research"
+                    ? "البحث العلمي"
+                    : profile.goal === "entrepreneurship"
+                    ? "ريادة الأعمال"
+                    : profile.goal === "graduate_studies"
+                    ? "التحضير للدراسات العليا"
+                    : profile.goal || "لم يتم تحديد هدف مهني بعد"}</p>
                 )}
               </div>
 

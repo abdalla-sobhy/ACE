@@ -555,7 +555,7 @@ export default function ApplicationDetailsPage() {
                     {application.student.projects.map((project, index) => (
                       <div key={index} className={styles.projectItem}>
                         <h4>{project.name}</h4>
-                        <p>{project.description}</p>
+                        <p className="text-[#8b949e]">{project.description}</p>
                         {project.url && (
                           <a
                             href={project.url}
@@ -585,7 +585,7 @@ export default function ApplicationDetailsPage() {
                       {application.student.certifications.map((cert, index) => (
                         <div key={index} className={styles.certificationItem}>
                           <h4>{cert.name}</h4>
-                          <p>{cert.issuer}</p>
+                          <p className="text-[#8b949e]">{cert.issuer}</p>
                           <p className={styles.certDate}>{cert.date}</p>
                         </div>
                       ))}

@@ -394,7 +394,7 @@ export default function UniversityStudentDashboard() {
                 <button
                   className={styles.secondaryButton}
                   onClick={() =>
-                    router.push("/university_student/opportunities")
+                    router.push("/university_student/jobs")
                   }
                 >
                   <FaBriefcase /> فرص العمل
@@ -450,7 +450,19 @@ export default function UniversityStudentDashboard() {
               <FaBuilding className={styles.goalIcon} />
               <div className={styles.goalContent}>
                 <h3>هدفي المهني</h3>
-                <p>{user.universityStudentProfile.goal}</p>
+                <p>{user.universityStudentProfile.goal === "career_preparation"
+                    ? "الاستعداد المهني والتوظيف"
+                    : user.universityStudentProfile.goal === "skill_development"
+                    ? "تطوير المهارات المهنية"
+                    : user.universityStudentProfile.goal === "academic_excellence"
+                    ? "التفوق الأكاديمي"
+                    : user.universityStudentProfile.goal === "research"
+                    ? "البحث العلمي"
+                    : user.universityStudentProfile.goal === "entrepreneurship"
+                    ? "ريادة الأعمال"
+                    : user.universityStudentProfile.goal === "graduate_studies"
+                    ? "التحضير للدراسات العليا"
+                    : user.universityStudentProfile.goal}</p>
               </div>
               {user?.universityStudentProfile?.looking_for_opportunities && (
                 <div className={styles.lookingBadge}>
