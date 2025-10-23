@@ -274,4 +274,88 @@ class ParentStudentController extends Controller
             'message' => 'تم إلغاء متابعة الطالب'
         ]);
     }
+
+    /**
+     * Get parent profile
+     */
+    public function getProfile()
+    {
+        try {
+            $user = Auth::user();
+            $profile = $user->parentProfile;
+
+            if (!$profile) {
+                // Create default profile if doesn't exist
+                $profile = \App\Models\ParentProfile::create([
+                    'user_id' => $user->id,
+                    'children_count' => 0,
+                ]);
+            }
+
+            // Parse JSON fields
+            $profileData = $profile->toArray();
+            if (is_string($profileData['didit_data'] ?? null)) {
+                $profileData['didit_data'] = json_decode($profileData['didit_data'], true) ?? [];
+            }
+
+            return response()->json([
+                'success' => true,
+                'user' => $user,
+                'profile' => $profileData
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching parent profile: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch profile'
+            ], 500);
+        }
+    }
+
+    /**
+     * Update parent profile
+     */
+    public function updateProfile(Request $request)
+    {
+        try {
+            $validator = \Validator::make($request->all(), [
+                'children_count' => 'nullable|integer|min:0',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $profile = Auth::user()->parentProfile;
+
+            if (!$profile) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Parent profile not found'
+                ], 404);
+            }
+
+            $updateData = $request->only([
+                'children_count',
+            ]);
+
+            $profile->update($updateData);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully',
+                'profile' => $profile->fresh()
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error updating parent profile: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update profile'
+            ], 500);
+        }
+    }
 }

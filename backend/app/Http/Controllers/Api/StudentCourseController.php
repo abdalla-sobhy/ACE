@@ -400,5 +400,100 @@ class StudentCourseController extends Controller
     ]);
 }
 
+    /**
+     * Get student profile
+     */
+    public function getProfile()
+    {
+        try {
+            $user = Auth::user();
+            $profile = $user->studentProfile;
+
+            if (!$profile) {
+                // Create default profile if doesn't exist
+                $profile = \App\Models\StudentProfile::create([
+                    'user_id' => $user->id,
+                    'grade' => '',
+                    'goal' => '',
+                ]);
+            }
+
+            // Parse JSON fields
+            $profileData = $profile->toArray();
+            if (is_string($profileData['preferred_subjects'] ?? null)) {
+                $profileData['preferred_subjects'] = json_decode($profileData['preferred_subjects'], true) ?? [];
+            }
+
+            return response()->json([
+                'success' => true,
+                'user' => $user,
+                'profile' => $profileData
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching student profile: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch profile'
+            ], 500);
+        }
+    }
+
+    /**
+     * Update student profile
+     */
+    public function updateProfile(Request $request)
+    {
+        try {
+            $validator = \Validator::make($request->all(), [
+                'grade' => 'nullable|string|max:255',
+                'birth_date' => 'nullable|date',
+                'preferred_subjects' => 'nullable|array',
+                'goal' => 'nullable|string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $profile = Auth::user()->studentProfile;
+
+            if (!$profile) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Student profile not found'
+                ], 404);
+            }
+
+            $updateData = $request->only([
+                'grade',
+                'birth_date',
+                'goal',
+            ]);
+
+            // Handle array fields
+            if ($request->has('preferred_subjects')) {
+                $updateData['preferred_subjects'] = json_encode($request->preferred_subjects);
+            }
+
+            $profile->update($updateData);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully',
+                'profile' => $profile->fresh()
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error updating student profile: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update profile'
+            ], 500);
+        }
+    }
+
 
 }

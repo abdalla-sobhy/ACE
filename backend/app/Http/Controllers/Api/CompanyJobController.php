@@ -797,4 +797,165 @@ class CompanyJobController extends Controller
             }
         }
     }
+
+    /**
+     * Get company profile
+     */
+    public function getProfile()
+    {
+        try {
+            $user = Auth::user();
+            $company = $user->company;
+
+            if (!$company) {
+                // Create default profile if doesn't exist
+                $company = \App\Models\Company::create([
+                    'user_id' => $user->id,
+                    'company_name' => '',
+                    'industry' => '',
+                    'company_size' => '',
+                ]);
+            }
+
+            // Parse JSON fields
+            $profileData = $company->toArray();
+            if (is_string($profileData['benefits'])) {
+                $profileData['benefits'] = json_decode($profileData['benefits'], true) ?? [];
+            }
+
+            return response()->json([
+                'success' => true,
+                'user' => $user,
+                'profile' => $profileData
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching company profile: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch profile'
+            ], 500);
+        }
+    }
+
+    /**
+     * Update company profile
+     */
+    public function updateProfile(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'company_name' => 'nullable|string|max:255',
+                'industry' => 'nullable|string|max:255',
+                'company_size' => 'nullable|string|max:50',
+                'website' => 'nullable|url|max:255',
+                'description' => 'nullable|string',
+                'location' => 'nullable|string|max:255',
+                'founded_year' => 'nullable|integer|min:1800|max:' . date('Y'),
+                'benefits' => 'nullable|array',
+                'linkedin_url' => 'nullable|url|max:255',
+                'registration_number' => 'nullable|string|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $company = Auth::user()->company;
+
+            if (!$company) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Company profile not found'
+                ], 404);
+            }
+
+            // Prepare data for update
+            $updateData = $request->only([
+                'company_name',
+                'industry',
+                'company_size',
+                'website',
+                'description',
+                'location',
+                'founded_year',
+                'linkedin_url',
+                'registration_number'
+            ]);
+
+            // Handle array fields
+            if ($request->has('benefits')) {
+                $updateData['benefits'] = json_encode($request->benefits);
+            }
+
+            $company->update($updateData);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully',
+                'profile' => $company->fresh()
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error updating company profile: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update profile'
+            ], 500);
+        }
+    }
+
+    /**
+     * Upload company logo
+     */
+    public function uploadLogo(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $company = Auth::user()->company;
+
+            if (!$company) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Company profile not found'
+                ], 404);
+            }
+
+            // Delete old logo if exists
+            if ($company->logo_path) {
+                \Storage::delete('public/' . $company->logo_path);
+            }
+
+            // Store new logo
+            $logo = $request->file('logo');
+            $logoPath = $logo->store('company_logos', 'public');
+
+            $company->update(['logo_path' => $logoPath]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Logo uploaded successfully',
+                'logo_path' => $logoPath
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error uploading company logo: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload logo'
+            ], 500);
+        }
+    }
 }

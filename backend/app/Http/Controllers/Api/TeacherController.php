@@ -257,4 +257,143 @@ class TeacherController extends Controller
 
     Log::info("Created {$sessionsCreated} live sessions for course {$course->id}");
 }
+
+    /**
+     * Get teacher profile
+     */
+    public function getProfile()
+    {
+        try {
+            $user = Auth::user();
+            $profile = $user->teacherProfile;
+
+            if (!$profile) {
+                // Create default profile if doesn't exist
+                $profile = \App\Models\TeacherProfile::create([
+                    'user_id' => $user->id,
+                    'specialization' => '',
+                    'years_of_experience' => 0,
+                ]);
+            }
+
+            // Parse JSON fields
+            $profileData = $profile->toArray();
+            if (is_string($profileData['didit_data'] ?? null)) {
+                $profileData['didit_data'] = json_decode($profileData['didit_data'], true) ?? [];
+            }
+
+            return response()->json([
+                'success' => true,
+                'user' => $user,
+                'profile' => $profileData
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching teacher profile: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch profile'
+            ], 500);
+        }
+    }
+
+    /**
+     * Update teacher profile
+     */
+    public function updateProfile(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'specialization' => 'nullable|string|max:255',
+                'years_of_experience' => 'nullable|integer|min:0',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $profile = Auth::user()->teacherProfile;
+
+            if (!$profile) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Teacher profile not found'
+                ], 404);
+            }
+
+            $updateData = $request->only([
+                'specialization',
+                'years_of_experience',
+            ]);
+
+            $profile->update($updateData);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully',
+                'profile' => $profile->fresh()
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error updating teacher profile: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update profile'
+            ], 500);
+        }
+    }
+
+    /**
+     * Upload teacher CV
+     */
+    public function uploadCV(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'cv' => 'required|file|mimes:pdf,doc,docx|max:5120'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $profile = Auth::user()->teacherProfile;
+
+            if (!$profile) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Teacher profile not found'
+                ], 404);
+            }
+
+            // Delete old CV if exists
+            if ($profile->cv_path) {
+                \Storage::delete('public/' . $profile->cv_path);
+            }
+
+            // Store new CV
+            $cv = $request->file('cv');
+            $cvPath = $cv->store('teacher_cvs', 'public');
+
+            $profile->update(['cv_path' => $cvPath]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'CV uploaded successfully',
+                'cv_path' => $cvPath
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error uploading teacher CV: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload CV'
+            ], 500);
+        }
+    }
 }

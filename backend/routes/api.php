@@ -57,6 +57,11 @@ Route::middleware('auth:sanctum')->group(function () {
         // Dashboard
         Route::get('/dashboard/stats', [CompanyJobController::class, 'getDashboardStats']);
 
+        // Profile management
+        Route::get('/profile', [CompanyJobController::class, 'getProfile']);
+        Route::put('/profile', [CompanyJobController::class, 'updateProfile']);
+        Route::post('/upload-logo', [CompanyJobController::class, 'uploadLogo']);
+
         // Job postings management
         Route::get('/jobs', [CompanyJobController::class, 'getJobPostings']);
         Route::get('/jobs/{id}', [CompanyJobController::class, 'getJobPosting']);
@@ -107,6 +112,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Teacher routes
     Route::prefix('teacher')->group(function () {
+        // Profile management
+        Route::get('/profile', [TeacherController::class, 'getProfile']);
+        Route::put('/profile', [TeacherController::class, 'updateProfile']);
+        Route::post('/upload-cv', [TeacherController::class, 'uploadCV']);
+
         Route::get('/courses', [TeacherController::class, 'getCourses']);
         Route::get('/stats', [TeacherController::class, 'getStats']);
         Route::post('/courses', [TeacherController::class, 'createCourse']);
@@ -122,6 +132,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Parent routes
     Route::prefix('parent')->group(function () {
+        // Profile management
+        Route::get('/profile', [ParentStudentController::class, 'getProfile']);
+        Route::put('/profile', [ParentStudentController::class, 'updateProfile']);
+
         Route::post('/search-student', [ParentStudentController::class, 'searchStudent']);
         Route::post('/follow-request', [ParentStudentController::class, 'sendFollowRequest']);
         Route::get('/followed-students', [ParentStudentController::class, 'getFollowedStudents']);
@@ -134,6 +148,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/follow-request/{id}', [ParentStudentController::class, 'handleFollowRequest']);
 
     Route::prefix('student')->group(function () {
+        // Profile management
+        Route::get('/profile', [StudentCourseController::class, 'getProfile']);
+        Route::put('/profile', [StudentCourseController::class, 'updateProfile']);
+
         Route::get('/courses/{id}/view', [StudentCourseController::class, 'viewCourse']);
         Route::post('/courses/{id}/enroll', [StudentCourseController::class, 'enrollInCourse']);
         Route::post('/lessons/{id}/progress', [StudentCourseController::class, 'updateLessonProgress']);
