@@ -32,8 +32,35 @@ class UniversityStudentController extends Controller
                 ], 403);
             }
 
+            // Get user's profile to access their goal
+            $profile = UniversityStudentProfile::where('user_id', $user->id)->first();
+            $userGoal = $profile ? $profile->goal : null;
+
+            // Map goals to relevant course categories
+            $goalCategoryMap = [
+                'career_preparation' => ['programming', 'business', 'marketing', 'soft_skills', 'languages'],
+                'skill_development' => ['programming', 'design', 'data', 'marketing', 'soft_skills'],
+                'academic_excellence' => ['programming', 'data', 'languages'],
+                'research' => ['data', 'programming', 'soft_skills'],
+                'entrepreneurship' => ['business', 'marketing', 'soft_skills', 'programming'],
+                'graduate_studies' => ['programming', 'data', 'languages', 'soft_skills'],
+            ];
+
+            $relevantCategories = $userGoal && isset($goalCategoryMap[$userGoal])
+                ? $goalCategoryMap[$userGoal]
+                : [];
+
             $query = Course::with(['teacher:id,first_name,last_name,email'])
-                ->where('is_active', true);
+                ->where('is_active', true)
+                // Exclude school phase courses (prep and secondary)
+                ->where(function ($q) {
+                    $q->whereNull('grade')
+                      ->orWhereNotIn('grade', [
+                          'prep_1', 'prep_2', 'prep_3',
+                          'secondary_1', 'secondary_2', 'secondary_3',
+                          'primary_1', 'primary_2', 'primary_3', 'primary_4', 'primary_5', 'primary_6'
+                      ]);
+                });
 
             // Filter by category if provided
             if ($request->has('category') && $request->category !== 'all') {
@@ -53,15 +80,31 @@ class UniversityStudentController extends Controller
                 });
             }
 
-            // Sort by relevance for professional development
-            $query->orderByRaw('CASE
-                WHEN category IN ("programming", "business", "marketing", "data", "design", "soft_skills", "languages") THEN 0
-                ELSE 1
-            END')
-            ->orderBy('rating', 'desc')
-            ->orderBy('students_count', 'desc');
+            // Sort by user's goal relevance, then rating and popularity
+            if (!empty($relevantCategories)) {
+                $categoriesList = implode('","', $relevantCategories);
+                $query->orderByRaw('CASE
+                    WHEN category IN ("' . $categoriesList . '") THEN 0
+                    WHEN category IN ("programming", "business", "marketing", "data", "design", "soft_skills", "languages") THEN 1
+                    ELSE 2
+                END');
+            } else {
+                $query->orderByRaw('CASE
+                    WHEN category IN ("programming", "business", "marketing", "data", "design", "soft_skills", "languages") THEN 0
+                    ELSE 1
+                END');
+            }
 
-            $courses = $query->get()->map(function ($course) use ($user) {
+            $query->orderBy('rating', 'desc')
+                  ->orderBy('students_count', 'desc');
+
+            // Pagination
+            $perPage = $request->get('per_page', 12);
+            $page = $request->get('page', 1);
+
+            $paginatedCourses = $query->paginate($perPage, ['*'], 'page', $page);
+
+            $courses = $paginatedCourses->map(function ($course) use ($user) {
                 $courseData = [
                     'id' => $course->id,
                     'title' => $course->title,
@@ -87,7 +130,12 @@ class UniversityStudentController extends Controller
             return response()->json([
                 'success' => true,
                 'courses' => $courses,
-                'total' => $courses->count()
+                'total' => $paginatedCourses->total(),
+                'current_page' => $paginatedCourses->currentPage(),
+                'last_page' => $paginatedCourses->lastPage(),
+                'per_page' => $paginatedCourses->perPage(),
+                'from' => $paginatedCourses->firstItem(),
+                'to' => $paginatedCourses->lastItem(),
             ]);
 
         } catch (\Exception $e) {

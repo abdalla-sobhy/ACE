@@ -453,7 +453,7 @@
 
 .coursesHeader {
   max-width: 1400px;
-  margin: 0 auto 32px;
+  margin: 0 auto 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -469,6 +469,27 @@
   color: #8b949e;
   font-size: 16px;
   margin: 0;
+}
+
+.goalBasedInfo {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(121, 192, 255, 0.05) 100%);
+  border: 1px solid rgba(88, 166, 255, 0.3);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.goalBasedInfo p {
+  margin: 0;
+  color: #c9d1d9;
+  font-size: 14px;
+}
+
+.goalBasedInfo strong {
+  color: #58a6ff;
+  font-weight: 600;
 }
 
 /* Courses Grid */
@@ -696,6 +717,76 @@
 }
 .statCard:nth-child(4) {
   animation-delay: 0.4s;
+}
+
+/* Pagination */
+.pagination {
+  max-width: 1400px;
+  margin: 48px auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.paginationButton {
+  background: #161b22;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background: rgba(88, 166, 255, 0.1);
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.paginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginationPages {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.paginationNumber {
+  background: #161b22;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 40px;
+}
+
+.paginationNumber:hover {
+  background: rgba(88, 166, 255, 0.1);
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.paginationNumber.active {
+  background: #58a6ff;
+  border-color: #58a6ff;
+  color: #0d1117;
+  font-weight: 600;
+}
+
+.paginationEllipsis {
+  color: #6e7681;
+  padding: 0 8px;
+  font-size: 14px;
 }
 
 /* Responsive Design */

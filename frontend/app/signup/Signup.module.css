@@ -94,6 +94,12 @@
   margin: 0 auto;
 }
 
+/* Wider container for university student step 3 (goals and skills) */
+.formContainer:has(.skillsGrid),
+.formContainer:has(.goalsCard) {
+  max-width: 900px;
+}
+
 .stepContent {
   background: var(--from-wrapper-color);
   border: 1px solid var(--input-border-color);
@@ -435,21 +441,31 @@
   background: var(--input-color);
   border: 1px solid var(--input-border-color);
   border-radius: 12px;
-  padding: 24px;
+  padding: 32px;
   margin-bottom: 24px;
+  transition: all 0.3s;
+}
+
+.goalsCard:hover {
+  border-color: rgba(88, 166, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.1);
 }
 
 .cardTitle {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  margin: 0 0 8px;
+  margin: 0 0 12px;
   color: var(--main-text-white-lighter);
+  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .cardDesc {
   color: var(--p-text);
   font-size: 14px;
   margin: 0 0 20px;
+  line-height: 1.6;
 }
 
 .subjectsGrid {
@@ -458,35 +474,71 @@
   gap: 12px;
 }
 
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
 .checkboxLabel {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
   color: var(--main-text-white);
-  padding: 8px;
-  border-radius: 6px;
-  transition: background 0.2s;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
 }
 
 .checkboxLabel:hover {
   background: rgba(88, 166, 255, 0.1);
+  border-color: #58a6ff;
+  transform: translateY(-2px);
 }
 
 .checkboxLabel input[type="checkbox"] {
-  width: auto;
+  width: 18px;
+  height: 18px;
   margin: 0;
+  cursor: pointer;
+  accent-color: #58a6ff;
+}
+
+.checkboxLabel input[type="checkbox"]:checked + span {
+  color: #58a6ff;
+  font-weight: 600;
+}
+
+.checkboxLabel span {
+  transition: all 0.2s;
 }
 
 .goalSelect {
   width: 100%;
   background: var(--from-wrapper-color);
   border: 1px solid var(--input-border-color);
-  border-radius: 6px;
-  padding: 12px 16px;
+  border-radius: 8px;
+  padding: 14px 16px;
   color: var(--main-text-white);
   font-size: 16px;
   margin-top: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.goalSelect:hover {
+  border-color: #58a6ff;
+  background: rgba(88, 166, 255, 0.05);
+}
+
+.goalSelect:focus {
+  outline: none;
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
 }
 
 /* Children Note */
@@ -769,21 +821,29 @@
   .summaryGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .fileUploadLabel {
     padding: 1.5rem;
   }
-  
+
   .uploadIcon {
     font-size: 2.5rem;
   }
-  
+
   .pendingIcon {
     font-size: 4rem;
   }
-  
+
   .pendingInfo {
     padding: 1rem;
+  }
+
+  .skillsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .subjectsGrid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -828,6 +888,14 @@
   
   .successText {
     font-size: 16px;
+  }
+
+  .skillsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .goalsCard {
+    padding: 24px 16px;
   }
 }
 
