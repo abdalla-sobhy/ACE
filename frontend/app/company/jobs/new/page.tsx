@@ -34,6 +34,7 @@ export default function CreateJobPage() {
   const [benefits, setBenefits] = useState("");
   const [deadline, setDeadline] = useState("");
   const [isActive, setIsActive] = useState(true);
+  const [positionsAvailable, setPositionsAvailable] = useState(1);
 
   useEffect(() => {
     checkAuth();
@@ -120,12 +121,13 @@ export default function CreateJobPage() {
         location: location.trim() || null,
         salary_range: salaryRange.trim() || null,
         experience_level: experienceLevel,
-        skills,
+        skills_required: skills,
         requirements,
         responsibilities,
         benefits: benefits.trim() || null,
         deadline: deadline || null,
         is_active: isActive,
+        positions_available: positionsAvailable,
       };
 
       const response = await fetch(
@@ -271,6 +273,21 @@ export default function CreateJobPage() {
                 <option value="mid">متقدم (3-5 سنوات)</option>
                 <option value="senior">خبير (+5 سنوات)</option>
               </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>
+                عدد الوظائف المتاحة <span className={styles.required}>*</span>
+              </label>
+              <input
+                type="number"
+                value={positionsAvailable}
+                onChange={(e) => setPositionsAvailable(parseInt(e.target.value) || 1)}
+                className={styles.input}
+                placeholder="مثال: 1"
+                min="1"
+                required
+              />
             </div>
           </div>
 
