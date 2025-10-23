@@ -65,9 +65,14 @@ interface UniversityProfile {
   bio?: string;
   achievements?: string[];
   languages?: string[];
+  certifications?: unknown[];
+  experience?: unknown[];
+  projects?: unknown[];
   profile_completeness?: number;
   is_public?: boolean;
   looking_for_opportunities?: boolean;
+  profile_views?: number;
+  cv_downloads?: number;
 }
 
 interface User {
@@ -113,8 +118,11 @@ export default function UniversityStudentDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    checkAuth();
-    fetchDashboardData();
+    const initDashboard = async () => {
+      await checkAuth();
+      await fetchDashboardData();
+    };
+    initDashboard();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -124,7 +132,7 @@ export default function UniversityStudentDashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, selectedCategory]);
 
-  const checkAuth = () => {
+  const checkAuth = async () => {
     const userData = localStorage.getItem("user");
     const authData = localStorage.getItem("authData");
 
@@ -148,11 +156,50 @@ export default function UniversityStudentDashboard() {
       return;
     }
 
-    setUser(parsedUser);
+    // Fetch fresh profile data from backend
+    try {
+      const profileResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/university/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${parsedAuth.token}`,
+            Accept: "application/json",
+          },
+        }
+      );
 
-    const profile = parsedUser.universityStudentProfile;
-    if (!profile?.cv_path || (profile?.profile_completeness || 0) < 70) {
-      setShowProfileAlert(true);
+      if (profileResponse.ok) {
+        const profileData = await profileResponse.json();
+        // Update user data with fresh profile information
+        const updatedUser = {
+          ...parsedUser,
+          universityStudentProfile: profileData.profile,
+        };
+        setUser(updatedUser);
+
+        // Update localStorage with fresh data
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        const profile = profileData.profile;
+        if (!profile?.cv_path || (profile?.profile_completeness || 0) < 70) {
+          setShowProfileAlert(true);
+        }
+      } else {
+        // Fallback to cached user data if API fails
+        setUser(parsedUser);
+        const profile = parsedUser.universityStudentProfile;
+        if (!profile?.cv_path || (profile?.profile_completeness || 0) < 70) {
+          setShowProfileAlert(true);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching fresh profile:", error);
+      // Fallback to cached user data
+      setUser(parsedUser);
+      const profile = parsedUser.universityStudentProfile;
+      if (!profile?.cv_path || (profile?.profile_completeness || 0) < 70) {
+        setShowProfileAlert(true);
+      }
     }
   };
 
@@ -230,6 +277,12 @@ export default function UniversityStudentDashboard() {
     const profile = user?.universityStudentProfile;
     if (!profile) return 0;
 
+    // Use backend-calculated profile_completeness if available
+    if (profile.profile_completeness !== undefined) {
+      return profile.profile_completeness;
+    }
+
+    // Fallback to local calculation if backend value is not available
     let completed = 0;
     const checks = [
       profile.faculty,

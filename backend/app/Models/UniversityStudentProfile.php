@@ -53,6 +53,10 @@ class UniversityStudentProfile extends Model
         'cv_downloads' => 'integer',
     ];
 
+    protected $appends = [
+        'profile_completeness',
+    ];
+
     /**
      * Get the user that owns the profile.
      */
@@ -120,7 +124,7 @@ class UniversityStudentProfile extends Model
     /**
      * Calculate profile completeness percentage
      */
-    public function getCompletenessPercentageAttribute()
+    public function getProfileCompletenessAttribute()
     {
         $fields = [
             'faculty',
