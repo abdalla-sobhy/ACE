@@ -17,7 +17,7 @@ return new class extends Migration
 
             // Basic Information
             $table->string('faculty');
-            $table->text('goal');
+            $table->text('goal')->nullable();
             $table->string('university')->nullable();
             $table->integer('year_of_study')->nullable();
             $table->decimal('gpa', 3, 2)->nullable();
