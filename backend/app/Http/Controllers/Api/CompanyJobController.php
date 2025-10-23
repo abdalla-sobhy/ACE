@@ -155,6 +155,58 @@ class CompanyJobController extends Controller
     }
 
     /**
+     * Get single job posting
+     */
+    public function getJobPosting($id)
+    {
+        try {
+            $company = Auth::user()->company;
+            $jobPosting = $company->jobPostings()->with(['applications'])->findOrFail($id);
+
+            return response()->json([
+                'success' => true,
+                'job_posting' => [
+                    'id' => $jobPosting->id,
+                    'title' => $jobPosting->title,
+                    'description' => $jobPosting->description,
+                    'requirements' => $jobPosting->requirements,
+                    'responsibilities' => $jobPosting->responsibilities,
+                    'benefits' => $jobPosting->benefits,
+                    'skills_required' => $jobPosting->skills_required,
+                    'skills_preferred' => $jobPosting->skills_preferred,
+                    'job_type' => $jobPosting->job_type,
+                    'work_location' => $jobPosting->work_location,
+                    'location' => $jobPosting->location,
+                    'salary_range' => $jobPosting->salary_range,
+                    'experience_level' => $jobPosting->experience_level,
+                    'education_requirement' => $jobPosting->education_requirement,
+                    'faculties_preferred' => $jobPosting->faculties_preferred,
+                    'positions_available' => $jobPosting->positions_available,
+                    'application_deadline' => $jobPosting->application_deadline,
+                    'is_active' => $jobPosting->is_active,
+                    'views_count' => $jobPosting->views_count,
+                    'applications_count' => $jobPosting->applications_count,
+                    'applications_status' => $jobPosting->applications_status_count,
+                    'created_at' => $jobPosting->created_at,
+                    'updated_at' => $jobPosting->updated_at,
+                    'is_expired' => $jobPosting->is_expired,
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching job posting', [
+                'job_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching job posting'
+            ], 500);
+        }
+    }
+
+    /**
      * Update job posting
      */
     public function updateJobPosting(Request $request, $id)
@@ -207,6 +259,47 @@ class CompanyJobController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error updating job posting'
+            ], 500);
+        }
+    }
+
+    /**
+     * Delete job posting
+     */
+    public function deleteJobPosting($id)
+    {
+        try {
+            $company = Auth::user()->company;
+            $jobPosting = $company->jobPostings()->findOrFail($id);
+
+            // Check if there are pending applications
+            $hasPendingApplications = $jobPosting->applications()
+                ->whereIn('status', ['pending', 'reviewing', 'shortlisted', 'interviewed'])
+                ->exists();
+
+            if ($hasPendingApplications) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cannot delete job posting with pending applications. Please close or reject applications first.'
+                ], 400);
+            }
+
+            $jobPosting->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'تم حذف الوظيفة بنجاح'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error deleting job posting', [
+                'job_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting job posting'
             ], 500);
         }
     }
