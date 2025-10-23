@@ -138,6 +138,34 @@ export default function ApplicationDetailsPage() {
 
       if (response.ok) {
         const data = await response.json();
+
+        // Parse JSON string fields to arrays
+        const application = data.application;
+        if (application && application.student) {
+          const student = application.student;
+
+          // Helper function to safely parse JSON strings
+          const parseJsonField = (field: any, fallback: any = []) => {
+            if (Array.isArray(field)) return field;
+            if (typeof field === 'string') {
+              try {
+                return JSON.parse(field);
+              } catch {
+                return fallback;
+              }
+            }
+            return fallback;
+          };
+
+          // Parse all JSON string fields
+          student.skills = parseJsonField(student.skills, []);
+          student.languages = parseJsonField(student.languages, []);
+          student.experience = parseJsonField(student.experience, []);
+          student.projects = parseJsonField(student.projects, []);
+          student.certifications = parseJsonField(student.certifications, []);
+          student.achievements = parseJsonField(student.achievements, []);
+        }
+
         setApplication(data.application);
       } else {
         setError("فشل في تحميل بيانات الطلب");
