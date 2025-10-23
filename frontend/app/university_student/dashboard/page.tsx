@@ -41,6 +41,15 @@ interface Course {
   is_enrolled: boolean;
 }
 
+interface PaginationInfo {
+  total: number;
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  from: number | null;
+  to: number | null;
+}
+
 interface UniversityProfile {
   id: number;
   faculty: string;
@@ -93,6 +102,15 @@ export default function UniversityStudentDashboard() {
     certificates_earned: 0,
   });
   const [showProfileAlert, setShowProfileAlert] = useState(false);
+  const [pagination, setPagination] = useState<PaginationInfo>({
+    total: 0,
+    current_page: 1,
+    last_page: 1,
+    per_page: 12,
+    from: null,
+    to: null,
+  });
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     checkAuth();
@@ -101,9 +119,10 @@ export default function UniversityStudentDashboard() {
   }, []);
 
   useEffect(() => {
-    filterCourses();
+    setCurrentPage(1);
+    fetchDashboardData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, selectedCategory, courses]);
+  }, [searchQuery, selectedCategory]);
 
   const checkAuth = () => {
     const userData = localStorage.getItem("user");
@@ -137,13 +156,27 @@ export default function UniversityStudentDashboard() {
     }
   };
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = async (page: number = currentPage) => {
     try {
       setLoading(true);
       const authData = JSON.parse(localStorage.getItem("authData") || "{}");
 
+      // Build query parameters
+      const params = new URLSearchParams({
+        page: page.toString(),
+        per_page: "12",
+      });
+
+      if (selectedCategory !== "all") {
+        params.append("category", selectedCategory);
+      }
+
+      if (searchQuery) {
+        params.append("search", searchQuery);
+      }
+
       const coursesResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/university/courses`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/university/courses?${params}`,
         {
           headers: {
             Authorization: `Bearer ${authData.token}`,
@@ -155,6 +188,15 @@ export default function UniversityStudentDashboard() {
       if (coursesResponse.ok) {
         const coursesData = await coursesResponse.json();
         setCourses(coursesData.courses || []);
+        setFilteredCourses(coursesData.courses || []);
+        setPagination({
+          total: coursesData.total || 0,
+          current_page: coursesData.current_page || 1,
+          last_page: coursesData.last_page || 1,
+          per_page: coursesData.per_page || 12,
+          from: coursesData.from || null,
+          to: coursesData.to || null,
+        });
       }
 
       const statsResponse = await fetch(
@@ -178,27 +220,10 @@ export default function UniversityStudentDashboard() {
     }
   };
 
-  const filterCourses = () => {
-    let filtered = [...courses];
-
-    if (searchQuery) {
-      filtered = filtered.filter(
-        (course) =>
-          course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          course.description
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          course.teacher_name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter(
-        (course) => course.category === selectedCategory
-      );
-    }
-
-    setFilteredCourses(filtered);
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    fetchDashboardData(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const getProfileCompleteness = () => {
@@ -431,8 +456,31 @@ export default function UniversityStudentDashboard() {
         <section className={styles.coursesSection}>
           <div className={styles.coursesHeader}>
             <h2>الكورسات المتاحة</h2>
-            <p>{filteredCourses.length} كورس</p>
+            <p>{pagination.total} كورس</p>
           </div>
+
+          {user?.universityStudentProfile?.goal && (
+            <div className={styles.goalBasedInfo}>
+              <p>
+                الكورسات مرتبة حسب هدفك:{" "}
+                <strong>
+                  {user.universityStudentProfile.goal === "career_preparation"
+                    ? "الاستعداد المهني والتوظيف"
+                    : user.universityStudentProfile.goal === "skill_development"
+                    ? "تطوير المهارات المهنية"
+                    : user.universityStudentProfile.goal === "academic_excellence"
+                    ? "التفوق الأكاديمي"
+                    : user.universityStudentProfile.goal === "research"
+                    ? "البحث العلمي"
+                    : user.universityStudentProfile.goal === "entrepreneurship"
+                    ? "ريادة الأعمال"
+                    : user.universityStudentProfile.goal === "graduate_studies"
+                    ? "التحضير للدراسات العليا"
+                    : user.universityStudentProfile.goal}
+                </strong>
+              </p>
+            </div>
+          )}
 
           {filteredCourses.length === 0 ? (
             <div className={styles.noResults}>
@@ -441,86 +489,140 @@ export default function UniversityStudentDashboard() {
               <p>جرب البحث بكلمات مختلفة أو تغيير التصنيف</p>
             </div>
           ) : (
-            <div className={styles.coursesGrid}>
-              {filteredCourses.map((course) => (
-                <div
-                  key={course.id}
-                  className={styles.courseCard}
-                  onClick={() => handleCourseClick(course.id)}
-                >
-                  <div className={styles.courseThumbnail}>
-                    {course.thumbnail ? (
-                      <Image
-                        src={course.thumbnail}
-                        alt={course.title}
-                        width={320}
-                        height={180}
-                        style={{ objectFit: "cover" }}
-                      />
-                    ) : (
-                      <div className={styles.placeholderImage}>
-                        <FaBook />
-                      </div>
-                    )}
-                    {course.is_enrolled && (
-                      <div className={styles.enrolledBadge}>مسجل</div>
-                    )}
-                  </div>
-
-                  <div className={styles.courseContent}>
-                    <h3>{course.title}</h3>
-                    <p className={styles.courseInstructor}>
-                      {course.teacher_name}
-                    </p>
-                    <p className={styles.courseDescription}>
-                      {course.description}
-                    </p>
-
-                    <div className={styles.courseStats}>
-                      <span>
-                        <FaBook /> {course.lessons_count} درس
-                      </span>
-                      <span>
-                        <FaUsers /> {course.students_count} طالب
-                      </span>
-                      <span>
-                        <FaStar /> {course.rating}
-                      </span>
+            <>
+              <div className={styles.coursesGrid}>
+                {filteredCourses.map((course) => (
+                  <div
+                    key={course.id}
+                    className={styles.courseCard}
+                    onClick={() => handleCourseClick(course.id)}
+                  >
+                    <div className={styles.courseThumbnail}>
+                      {course.thumbnail ? (
+                        <Image
+                          src={course.thumbnail}
+                          alt={course.title}
+                          width={320}
+                          height={180}
+                          style={{ objectFit: "cover" }}
+                        />
+                      ) : (
+                        <div className={styles.placeholderImage}>
+                          <FaBook />
+                        </div>
+                      )}
+                      {course.is_enrolled && (
+                        <div className={styles.enrolledBadge}>مسجل</div>
+                      )}
                     </div>
 
-                    <div className={styles.courseFooter}>
-                      <div className={styles.coursePrice}>
-                        {course.original_price && (
-                          <span className={styles.originalPrice}>
-                            {course.original_price} جنيه
-                          </span>
-                        )}
-                        <span className={styles.currentPrice}>
-                          {course.price === 0
-                            ? "مجاني"
-                            : `${course.price} جنيه`}
+                    <div className={styles.courseContent}>
+                      <h3>{course.title}</h3>
+                      <p className={styles.courseInstructor}>
+                        {course.teacher_name}
+                      </p>
+                      <p className={styles.courseDescription}>
+                        {course.description}
+                      </p>
+
+                      <div className={styles.courseStats}>
+                        <span>
+                          <FaBook /> {course.lessons_count} درس
+                        </span>
+                        <span>
+                          <FaUsers /> {course.students_count} طالب
+                        </span>
+                        <span>
+                          <FaStar /> {course.rating}
                         </span>
                       </div>
-                      <button
-                        className={`${styles.enrollButton} ${
-                          course.is_enrolled ? styles.enrolled : ""
-                        }`}
-                      >
-                        {course.is_enrolled ? (
-                          <>
-                            <FaBook /> متابعة
-                          </>
-                        ) : (
-                          <>
-                            <FaShoppingCart /> تسجيل
-                          </>
-                        )}
-                      </button>
+
+                      <div className={styles.courseFooter}>
+                        <div className={styles.coursePrice}>
+                          {course.original_price && (
+                            <span className={styles.originalPrice}>
+                              {course.original_price} جنيه
+                            </span>
+                          )}
+                          <span className={styles.currentPrice}>
+                            {course.price === 0
+                              ? "مجاني"
+                              : `${course.price} جنيه`}
+                          </span>
+                        </div>
+                        <button
+                          className={`${styles.enrollButton} ${
+                            course.is_enrolled ? styles.enrolled : ""
+                          }`}
+                        >
+                          {course.is_enrolled ? (
+                            <>
+                              <FaBook /> متابعة
+                            </>
+                          ) : (
+                            <>
+                              <FaShoppingCart /> تسجيل
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {pagination.last_page > 1 && (
+                <div className={styles.pagination}>
+                  <button
+                    className={styles.paginationButton}
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    السابق
+                  </button>
+
+                  <div className={styles.paginationPages}>
+                    {Array.from({ length: pagination.last_page }, (_, i) => i + 1)
+                      .filter((page) => {
+                        // Show first, last, current, and adjacent pages
+                        return (
+                          page === 1 ||
+                          page === pagination.last_page ||
+                          Math.abs(page - currentPage) <= 1
+                        );
+                      })
+                      .map((page, index, array) => {
+                        // Add ellipsis if there's a gap
+                        const showEllipsis = index > 0 && page - array[index - 1] > 1;
+                        return (
+                          <div key={page} style={{ display: "flex", gap: "8px" }}>
+                            {showEllipsis && (
+                              <span className={styles.paginationEllipsis}>...</span>
+                            )}
+                            <button
+                              className={`${styles.paginationNumber} ${
+                                currentPage === page ? styles.active : ""
+                              }`}
+                              onClick={() => handlePageChange(page)}
+                            >
+                              {page}
+                            </button>
+                          </div>
+                        );
+                      })}
+                  </div>
+
+                  <button
+                    className={styles.paginationButton}
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === pagination.last_page}
+                  >
+                    التالي
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </section>
       </main>
