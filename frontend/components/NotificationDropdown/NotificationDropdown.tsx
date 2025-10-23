@@ -42,7 +42,7 @@ export default function NotificationDropdown() {
   }, [isOpen]);
 
   const getNotificationMessage = (notification: Notification) => {
-    const data = notification.data;
+    const data = notification.data as Record<string, string>;
 
     switch (notification.type) {
       case "App\\Notifications\\NewJobApplication":
