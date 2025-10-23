@@ -19,7 +19,6 @@ import {
   FaGraduationCap,
   FaBriefcase,
   FaTrophy,
-  FaLanguage,
   FaEye,
   FaEyeSlash,
   FaBuilding,

@@ -10,12 +10,12 @@ import {
   FaFileAlt,
   FaBook,
   FaUser,
-  FaBell,
   FaSignOutAlt,
   FaBars,
   FaGraduationCap,
   FaClipboardList,
 } from "react-icons/fa";
+import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 
 interface User {
   name: string;
@@ -166,10 +166,7 @@ export default function UniversityStudentNav() {
           </div>
 
           <div className={styles.navRight}>
-            <button className={styles.notificationButton}>
-              <FaBell />
-              <span className={styles.notificationBadge}>3</span>
-            </button>
+            <NotificationDropdown />
 
             <div className={styles.profileDropdown} ref={profileRef}>
               <button className={styles.profileButton} onClick={toggleProfile}>
