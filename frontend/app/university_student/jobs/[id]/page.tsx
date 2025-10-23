@@ -269,7 +269,7 @@ export default function JobDetailsPage() {
                 </div>
                 {job.salary_range && (
                   <div className={styles.metaItem}>
-                    <span>💰 {job.salary_range}</span>
+                    <span>{job.salary_range}</span>
                   </div>
                 )}
               </div>

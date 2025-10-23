@@ -527,20 +527,20 @@
 }
 
 .deleteButton {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: transparent;
-  border: 1px solid #f85149;
   color: #f85149;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
   cursor: pointer;
-  display: flex;
+  background: none;
+  border: 1px solid #f85149;
+  border-radius: 6px;
   align-items: center;
   gap: 6px;
-  transition: all 0.3s;
+  padding: 6px 12px;
+  font-size: 12px;
+  transition: all .3s;
+  display: flex;
+  position: relative;
+  top: -11px;
+  float: left;
 }
 
 .deleteButton:hover {
@@ -715,4 +715,29 @@
   .profileTabs {
     overflow-x: auto;
   }
+}
+
+
+.certificationsList {
+  display: grid;
+  gap: 12px;
+}
+
+.certificationItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #0d1117;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+}
+
+.certificationItem span {
+  color: #c9d1d9;
+}
+
+.certificationItem .level {
+  background: rgba(63, 185, 80, 0.1);
+  color: #3fb950;
 }

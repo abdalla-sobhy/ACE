@@ -241,7 +241,6 @@ export default function UniversityStudentProfile() {
           cv_path: data.cv_path,
           cv_filename: file.name,
         });
-        alert("تم رفع السيرة الذاتية بنجاح");
       } else {
         alert("حدث خطأ في رفع السيرة الذاتية");
       }
@@ -268,6 +267,50 @@ export default function UniversityStudentProfile() {
     skills.splice(index, 1);
     setProfile({ ...profile, skills });
   };
+
+  const handleAddLanguage = () => {
+  setProfile({
+    ...profile,
+    languages: [
+      ...(profile.languages || []),
+      { name: "", level: "" },
+    ],
+  });
+};
+
+const handleUpdateLanguage = (index: number, field: string, value: string) => {
+  const languages = [...(profile.languages || [])];
+  languages[index] = { ...languages[index], [field]: value };
+  setProfile({ ...profile, languages });
+};
+
+const handleRemoveLanguage = (index: number) => {
+  const languages = [...(profile.languages || [])];
+  languages.splice(index, 1);
+  setProfile({ ...profile, languages });
+};
+
+const handleAddCertification = () => {
+  setProfile({
+    ...profile,
+    certifications: [
+      ...(profile.certifications || []),
+      { name: "", issuer: "", date: "" },
+    ],
+  });
+};
+
+const handleUpdateCertification = (index: number, field: string, value: string) => {
+  const certifications = [...(profile.certifications || [])];
+  certifications[index] = { ...certifications[index], [field]: value };
+  setProfile({ ...profile, certifications });
+};
+
+const handleRemoveCertification = (index: number) => {
+  const certifications = [...(profile.certifications || [])];
+  certifications.splice(index, 1);
+  setProfile({ ...profile, certifications });
+};
 
   const handleAddAchievement = () => {
     if (newAchievement.trim()) {
@@ -705,6 +748,12 @@ export default function UniversityStudentProfile() {
                       <div key={index} className={styles.experienceItem}>
                         {isEditing ? (
                           <>
+                          <button
+                              className={styles.deleteButton}
+                              onClick={() => handleRemoveExperience(index)}
+                            >
+                              <FaTrash /> حذف
+                            </button>
                             <input
                               className={styles.input}
                               placeholder="المسمى الوظيفي"
@@ -754,12 +803,7 @@ export default function UniversityStudentProfile() {
                               }
                               rows={3}
                             />
-                            <button
-                              className={styles.deleteButton}
-                              onClick={() => handleRemoveExperience(index)}
-                            >
-                              <FaTrash /> حذف
-                            </button>
+                            
                           </>
                         ) : (
                           <>
@@ -799,6 +843,12 @@ export default function UniversityStudentProfile() {
                       <div key={index} className={styles.projectItem}>
                         {isEditing ? (
                           <>
+                          <button
+                              className={styles.deleteButton}
+                              onClick={() => handleRemoveProject(index)}
+                            >
+                              <FaTrash /> حذف
+                            </button>
                             <input
                               className={styles.input}
                               placeholder="اسم المشروع"
@@ -836,12 +886,7 @@ export default function UniversityStudentProfile() {
                                 )
                               }
                             />
-                            <button
-                              className={styles.deleteButton}
-                              onClick={() => handleRemoveProject(index)}
-                            >
-                              <FaTrash /> حذف
-                            </button>
+                            
                           </>
                         ) : (
                           <>
@@ -981,6 +1026,72 @@ export default function UniversityStudentProfile() {
                   <p>لم يتم إضافة إنجازات بعد</p>
                 )}
               </div>
+
+
+
+              {/* Certifications */}
+<div className={styles.section}>
+  <div className={styles.sectionHeader}>
+    <h2>الشهادات</h2>
+    {isEditing && (
+      <button className={styles.addButton} onClick={handleAddCertification}>
+        <FaPlus /> إضافة شهادة
+      </button>
+    )}
+  </div>
+
+  {profile.certifications && profile.certifications.length > 0 ? (
+    <div className={styles.certificationsList}>
+      {profile.certifications.map((cert, index) => (
+        <div key={index} className={styles.certificationItem}>
+          {isEditing ? (
+            <>
+              <input
+                className={styles.input}
+                placeholder="اسم الشهادة"
+                value={cert.name}
+                onChange={(e) =>
+                  handleUpdateCertification(index, "name", e.target.value)
+                }
+              />
+              <input
+                className={styles.input}
+                placeholder="الجهة المانحة"
+                value={cert.issuer}
+                onChange={(e) =>
+                  handleUpdateCertification(index, "issuer", e.target.value)
+                }
+              />
+              <input
+                className={styles.input}
+                type="date"
+                value={cert.date}
+                onChange={(e) =>
+                  handleUpdateCertification(index, "date", e.target.value)
+                }
+              />
+              <button
+                className={styles.removeButton}
+                onClick={() => handleRemoveCertification(index)}
+              >
+                <FaTrash />
+              </button>
+            </>
+          ) : (
+            <>
+              <span>{cert.name}</span>
+              <span className={styles.level}>{cert.issuer}</span>
+              <span>{cert.date}</span>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p>لم يتم إضافة شهادات بعد</p>
+  )}
+</div>
+
             </div>
           )}
 
@@ -1025,22 +1136,64 @@ export default function UniversityStudentProfile() {
               </div>
 
               {/* Languages */}
-              <div className={styles.section}>
-                <h2>اللغات</h2>
-                {profile.languages && profile.languages.length > 0 ? (
-                  <div className={styles.languagesList}>
-                    {profile.languages.map((lang, index) => (
-                      <div key={index} className={styles.languageItem}>
-                        <FaLanguage />
-                        <span>{lang.name}</span>
-                        <span className={styles.level}>{lang.level}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p>لم يتم إضافة لغات بعد</p>
-                )}
-              </div>
+<div className={styles.section}>
+  <div className={styles.sectionHeader}>
+    <h2>اللغات</h2>
+    {isEditing && (
+      <button className={styles.addButton} onClick={handleAddLanguage}>
+        <FaPlus /> إضافة لغة
+      </button>
+    )}
+  </div>
+
+  {profile.languages && profile.languages.length > 0 ? (
+    <div className={styles.languagesList}>
+      {profile.languages.map((lang, index) => (
+        <div key={index} className={styles.languageItem}>
+          {isEditing ? (
+            <>
+              <input
+                className={styles.input}
+                placeholder="اسم اللغة"
+                value={lang.name}
+                onChange={(e) =>
+                  handleUpdateLanguage(index, "name", e.target.value)
+                }
+              />
+              <select
+                className={styles.input}
+                value={lang.level}
+                onChange={(e) =>
+                  handleUpdateLanguage(index, "level", e.target.value)
+                }
+              >
+                <option value="">اختر المستوى</option>
+                <option value="أساسي">أساسي</option>
+                <option value="متوسط">متوسط</option>
+                <option value="متقدم">متقدم</option>
+                <option value="بطلاقة">بطلاقة</option>
+              </select>
+              <button
+                className={styles.removeButton}
+                onClick={() => handleRemoveLanguage(index)}
+              >
+                <FaTrash />
+              </button>
+            </>
+          ) : (
+            <>
+              <span>{lang.name}</span>
+              <span className={styles.level}>{lang.level}</span>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p>لم يتم إضافة لغات بعد</p>
+  )}
+</div>
+
             </div>
           )}
         </div>

@@ -156,7 +156,7 @@ export default function UniversityStudentNav() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={pathname?.startsWith(item.href) ? styles.active : ""}
+                className={`${pathname?.startsWith(item.href) ? styles.active : ""} whitespace-nowrap`}
                 onClick={closeMenu}
               >
                 <span className={styles.navIcon}>{item.icon}</span>
@@ -179,7 +179,7 @@ export default function UniversityStudentNav() {
                     .map((n) => n[0])
                     .join("")}
                 </div>
-                <span className={styles.userName}>{user?.name}</span>
+                <span className={`${styles.userName} whitespace-nowrap`}>{user?.name}</span>
               </button>
 
               {isProfileOpen && (
