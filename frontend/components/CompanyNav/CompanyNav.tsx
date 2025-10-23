@@ -11,16 +11,14 @@ import {
   FaUsers,
   FaUserCircle,
   FaSignOutAlt,
-  FaBell,
 } from "react-icons/fa";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 
 export default function CompanyNav() {
   const router = useRouter();
   const pathname = usePathname();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [notifications, setNotifications] = useState(3); // not now
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -80,12 +78,7 @@ export default function CompanyNav() {
         </div>
 
         <div className={styles.navRight}>
-          <button className={styles.notificationButton}>
-            <FaBell />
-            {notifications > 0 && (
-              <span className={styles.notificationBadge}>{notifications}</span>
-            )}
-          </button>
+          <NotificationDropdown />
 
           <div className={styles.profileMenu}>
             <button

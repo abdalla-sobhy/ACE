@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\LiveStreamController;
 use App\Http\Controllers\Api\CompanyAuthController;
 use App\Http\Controllers\Api\CompanyJobController;
 use App\Http\Controllers\Api\UniversityJobController;
+use App\Http\Controllers\Api\NotificationController;
 
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -49,6 +50,16 @@ Route::middleware('auth:sanctum')->group(function () {
             'universityStudentProfile',
             'company'
         ]);
+    });
+
+    // Notification routes (available to all authenticated users)
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', [NotificationController::class, 'index']);
+        Route::get('/unread-count', [NotificationController::class, 'getUnreadCount']);
+        Route::put('/{id}/read', [NotificationController::class, 'markAsRead']);
+        Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+        Route::delete('/{id}', [NotificationController::class, 'destroy']);
+        Route::delete('/read/all', [NotificationController::class, 'deleteAllRead']);
     });
 
         Route::get('/courses', [CourseController::class, 'index']);

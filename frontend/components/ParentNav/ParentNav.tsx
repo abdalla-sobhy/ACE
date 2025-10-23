@@ -9,8 +9,8 @@ import {
   FaUsers,
   FaUser,
   FaSignOutAlt,
-  FaBell,
 } from "react-icons/fa";
+import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 
 export default function ParentNav() {
   const pathname = usePathname();
@@ -54,9 +54,7 @@ export default function ParentNav() {
         </div>
 
         <div className={styles.navRight}>
-          <button className={styles.notificationButton}>
-            <FaBell />
-          </button>
+          <NotificationDropdown />
 
           <div className={styles.profileMenu}>
             <button
