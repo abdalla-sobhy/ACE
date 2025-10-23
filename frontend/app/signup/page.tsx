@@ -330,8 +330,7 @@ function SignupContent() {
             );
             baseForm.clearErrors("email");
 
-            // Skip directly to step 4 (terms)
-            setStep(4);
+            setStep(3);
           }
 
           sessionStorage.removeItem("signupFormData");
