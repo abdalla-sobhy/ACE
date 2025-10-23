@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { FaBell, FaTimes, FaCheckDouble } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
+import { Notification } from "@/lib/notifications";
 import styles from "./NotificationDropdown.module.css";
 
 export default function NotificationDropdown() {
@@ -40,7 +41,7 @@ export default function NotificationDropdown() {
     };
   }, [isOpen]);
 
-  const getNotificationMessage = (notification: any) => {
+  const getNotificationMessage = (notification: Notification) => {
     const data = notification.data;
 
     switch (notification.type) {
@@ -108,7 +109,7 @@ export default function NotificationDropdown() {
     return statusMap[status] || status;
   };
 
-  const handleNotificationClick = async (notification: any) => {
+  const handleNotificationClick = async (notification: Notification) => {
     if (!notification.read_at) {
       await markAsRead(notification.id);
     }

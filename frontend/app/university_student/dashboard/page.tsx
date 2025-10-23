@@ -95,7 +95,7 @@ interface ProfileStats {
 export default function UniversityStudentDashboard() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [, setCourses] = useState<Course[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");

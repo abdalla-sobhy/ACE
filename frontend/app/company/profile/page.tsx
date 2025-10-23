@@ -13,7 +13,6 @@ import {
   FaLinkedin,
   FaGlobe,
   FaPlus,
-  FaTrash,
   FaMapMarkerAlt,
   FaPhone,
   FaEnvelope,

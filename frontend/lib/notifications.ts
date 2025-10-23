@@ -2,10 +2,55 @@ import { getAuthToken } from './auth';
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
 
+// Define notification data types
+interface NewJobApplicationData {
+  student_name: string;
+  job_title: string;
+  application_id: string;
+}
+
+interface ApplicationStatusUpdatedData {
+  job_title: string;
+  new_status: string;
+}
+
+interface NewJobPostedData {
+  company_name: string;
+  job_title: string;
+  job_id: string;
+}
+
+interface WelcomeNotificationData {
+  title?: string;
+  message: string;
+}
+
+interface FollowRequestNotificationData {
+  parent_name: string;
+}
+
+interface FollowRequestApprovedNotificationData {
+  message: string;
+}
+
+interface GenericNotificationData {
+  message?: string;
+  [key: string]: unknown;
+}
+
+export type NotificationData =
+  | NewJobApplicationData
+  | ApplicationStatusUpdatedData
+  | NewJobPostedData
+  | WelcomeNotificationData
+  | FollowRequestNotificationData
+  | FollowRequestApprovedNotificationData
+  | GenericNotificationData;
+
 export interface Notification {
   id: string;
   type: string;
-  data: any;
+  data: NotificationData;
   read_at: string | null;
   created_at: string;
 }
