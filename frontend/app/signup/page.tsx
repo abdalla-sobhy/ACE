@@ -611,13 +611,16 @@ function SignupContent() {
         universityStudentForm.getValues("faculty") ||
         sessionStorage.getItem("institutionName") ||
         "";
+      const goal = universityStudentForm.getValues("goal") || "";
 
       formData.append("universityData[faculty]", faculty);
-      formData.append("universityData[goal]", "");
+      if (goal) {
+        formData.append("universityData[goal]", goal);
+      }
 
       dataToSend.universityData = {
         faculty: faculty,
-        goal: "",
+        ...(goal && { goal: goal }),
       };
     }
 
@@ -1624,6 +1627,32 @@ function SignupContent() {
                           </label>
                         ))}
                       </div>
+                    </div>
+
+                    <div className={styles.goalsCard}>
+                      <h3 className={styles.cardTitle}>هدفك من المنصة</h3>
+                      <select
+                        className={styles.goalSelect}
+                        {...universityStudentForm.register("goal")}
+                      >
+                        <option value="">اختر هدفك</option>
+                        <option value="career_preparation">
+                          الاستعداد المهني والتوظيف
+                        </option>
+                        <option value="skill_development">
+                          تطوير المهارات المهنية
+                        </option>
+                        <option value="academic_excellence">
+                          التفوق الأكاديمي
+                        </option>
+                        <option value="research">البحث العلمي</option>
+                        <option value="entrepreneurship">
+                          ريادة الأعمال
+                        </option>
+                        <option value="graduate_studies">
+                          التحضير للدراسات العليا
+                        </option>
+                      </select>
                     </div>
 
                     <div className={styles.formActions}>

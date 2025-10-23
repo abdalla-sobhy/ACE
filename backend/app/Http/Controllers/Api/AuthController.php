@@ -58,6 +58,7 @@ class AuthController extends Controller
             } elseif ($userType === 'university_student') {
                 $additionalRules = [
                     'universityData.faculty' => 'required|string',
+                    'universityData.goal' => 'nullable|string',
                     'basicData.email' => [
                         'required',
                         'email',
