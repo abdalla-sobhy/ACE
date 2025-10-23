@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Job postings management
         Route::get('/jobs', [CompanyJobController::class, 'getJobPostings']);
+        Route::get('/jobs/{id}', [CompanyJobController::class, 'getJobPosting']);
         Route::post('/jobs', [CompanyJobController::class, 'createJobPosting']);
         Route::put('/jobs/{id}', [CompanyJobController::class, 'updateJobPosting']);
         Route::delete('/jobs/{id}', [CompanyJobController::class, 'deleteJobPosting']);

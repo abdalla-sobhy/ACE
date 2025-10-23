@@ -1,8 +1,7 @@
 
 "use client";
 import React, { createContext, useEffect, useState, ReactNode } from "react";
-
-type Theme = "light" | "dark";
+import { setTheme as setThemeCookie, type Theme } from "@/app/actions/theme";
 
 interface ThemeContextType {
   theme: Theme;
@@ -14,27 +13,27 @@ export const ThemeContext = createContext<ThemeContextType>({
   toggleTheme: () => {},
 });
 
-export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>("light");
+export const ThemeProvider = ({
+  children,
+  initialTheme = "light"
+}: {
+  children: ReactNode;
+  initialTheme?: Theme;
+}) => {
+  const [theme, setTheme] = useState<Theme>(initialTheme);
 
-  // Load theme from localStorage on mount
+  // Apply theme class on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.add(savedTheme);
-    }
-  }, []);
-
-  // Save theme to localStorage and update DOM
-  useEffect(() => {
-    document.documentElement.classList.remove(theme === "light" ? "dark" : "light");
+    document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(theme);
-    localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const toggleTheme = async () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    // Update cookie via server action
+    await setThemeCookie(newTheme);
+  };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
