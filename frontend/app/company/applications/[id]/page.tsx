@@ -145,7 +145,7 @@ export default function ApplicationDetailsPage() {
           const student = application.student;
 
           // Helper function to safely parse JSON strings
-          const parseJsonField = (field: any, fallback: any = []) => {
+          const parseJsonField = (field: unknown, fallback: unknown[] = []) => {
             if (Array.isArray(field)) return field;
             if (typeof field === 'string') {
               try {
