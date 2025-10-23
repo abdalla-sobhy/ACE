@@ -1,19 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import CompanyNav from "@/components/CompanyNav/CompanyNav";
+import Link from "next/link";
 import {
   FaBriefcase,
   FaArrowLeft,
   FaPlus,
   FaTimes,
 } from "react-icons/fa";
-import Link from "next/link";
 
-export default function CreateJobPage() {
+export default function EditJobPage() {
   const router = useRouter();
+  const params = useParams();
+  const jobId = params.id as string;
+
   const [loading, setLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(true);
   const [error, setError] = useState("");
 
   // Form state
@@ -43,8 +47,11 @@ export default function CreateJobPage() {
 
   useEffect(() => {
     checkAuth();
+    if (jobId) {
+      fetchJobDetails();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [jobId]);
 
   const checkAuth = () => {
     const userData = localStorage.getItem("user");
@@ -59,6 +66,53 @@ export default function CreateJobPage() {
     if (parsedUser.type !== "company") {
       router.push("/");
       return;
+    }
+  };
+
+  const fetchJobDetails = async () => {
+    try {
+      setFetchLoading(true);
+      const authData = JSON.parse(localStorage.getItem("authData") || "{}");
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/jobs/${jobId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authData.token}`,
+            Accept: "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        const job = data.job_posting;
+
+        setTitle(job.title || "");
+        setDescription(job.description || "");
+        setJobType(job.job_type || "full_time");
+        setWorkLocation(job.work_location || "onsite");
+        setLocation(job.location || "");
+        setSalaryRange(job.salary_range || "");
+        setExperienceLevel(job.experience_level || "entry");
+        setEducationRequirement(job.education_requirement || "");
+        setSkillsRequired(job.skills_required || []);
+        setSkillsPreferred(job.skills_preferred || []);
+        setRequirements(job.requirements || []);
+        setResponsibilities(job.responsibilities || []);
+        setBenefits(job.benefits || []);
+        setFacultiesPreferred(job.faculties_preferred || []);
+        setDeadline(job.application_deadline || "");
+        setIsActive(job.is_active);
+        setPositionsAvailable(job.positions_available || 1);
+      } else {
+        setError("فشل في تحميل بيانات الوظيفة");
+      }
+    } catch (error) {
+      console.error("Error fetching job details:", error);
+      setError("حدث خطأ أثناء تحميل البيانات");
+    } finally {
+      setFetchLoading(false);
     }
   };
 
@@ -182,9 +236,9 @@ export default function CreateJobPage() {
       };
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/jobs`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/jobs/${jobId}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${authData.token}`,
             Accept: "application/json",
@@ -195,18 +249,30 @@ export default function CreateJobPage() {
       );
 
       if (response.ok) {
-        router.push("/company/jobs");
+        router.push(`/company/jobs/${jobId}`);
       } else {
         const data = await response.json();
-        setError(data.message || "فشل في إنشاء الوظيفة");
+        setError(data.message || "فشل في تحديث الوظيفة");
       }
     } catch (error) {
-      console.error("Error creating job:", error);
-      setError("حدث خطأ أثناء إنشاء الوظيفة");
+      console.error("Error updating job:", error);
+      setError("حدث خطأ أثناء تحديث الوظيفة");
     } finally {
       setLoading(false);
     }
   };
+
+  if (fetchLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--main-color)] text-[var(--main-text-white)]" dir="rtl">
+        <CompanyNav />
+        <div className="flex flex-col justify-center items-center min-h-[50vh] gap-4">
+          <div className="w-12 h-12 border-4 border-[var(--borders)] border-t-[#58a6ff] rounded-full animate-spin"></div>
+          <p className="text-[var(--p-text)]">جاري تحميل البيانات...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[var(--main-color)] text-[var(--main-text-white)]" dir="rtl">
@@ -215,22 +281,20 @@ export default function CreateJobPage() {
       <main className="max-w-5xl mx-auto px-6 py-24">
         <div className="mb-6">
           <Link
-            href="/company/jobs"
+            href={`/company/jobs/${jobId}`}
             className="inline-flex items-center gap-2 text-[var(--p-text)] hover:text-[#58a6ff] transition-colors"
           >
             <FaArrowLeft className="text-sm" />
-            <span>العودة للوظائف</span>
+            <span>العودة لصفحة الوظيفة</span>
           </Link>
         </div>
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
             <FaBriefcase className="text-[#58a6ff]" />
-            إضافة وظيفة جديدة
+            تعديل الوظيفة
           </h1>
-          <p className="text-[var(--p-text)]">
-            قم بملء البيانات التالية لإنشاء إعلان وظيفي جديد
-          </p>
+          <p className="text-[var(--p-text)]">قم بتحديث بيانات الوظيفة</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -646,7 +710,7 @@ export default function CreateJobPage() {
                   className="w-5 h-5 text-[#58a6ff] bg-[var(--input-color)] border-[var(--input-border-color)] rounded focus:ring-2 focus:ring-[#58a6ff]/20"
                 />
                 <label htmlFor="isActive" className="text-sm font-medium cursor-pointer">
-                  نشر الوظيفة فوراً
+                  الوظيفة نشطة (يمكن للطلاب التقديم)
                 </label>
               </div>
             </div>
@@ -659,10 +723,10 @@ export default function CreateJobPage() {
               disabled={loading}
               className="flex-1 px-6 py-3 bg-[#238636] hover:bg-[#2ea043] disabled:bg-gray-500 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-all"
             >
-              {loading ? "جاري النشر..." : "نشر الوظيفة"}
+              {loading ? "جاري الحفظ..." : "حفظ التغييرات"}
             </button>
             <Link
-              href="/company/jobs"
+              href={`/company/jobs/${jobId}`}
               className="px-6 py-3 bg-[var(--input-color)] hover:bg-[var(--input-border-color)] text-[var(--main-text-white)] border border-[var(--borders)] rounded-lg font-medium transition-all text-center"
             >
               إلغاء

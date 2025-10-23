@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import ClientBody from "../components/ClientBody";
 import AuthExpirationChecker from '@/components/AuthExpirationChecker';
 import { AuthProvider } from '@/context/AuthContext';
+import { getTheme } from "@/app/actions/theme";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,12 +50,14 @@ export const metadata: Metadata = {
 //   );
 // }
 
-//did that because next only allow one declaration per file 
-export default function RootLayout({
+//did that because next only allow one declaration per file
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const theme = await getTheme();
+
   return (
     <html lang="en">
       <ClientBody
@@ -62,7 +65,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <AuthExpirationChecker>
-            <ThemeProvider>
+            <ThemeProvider initialTheme={theme}>
               {children}
             </ThemeProvider>
           </AuthExpirationChecker>
