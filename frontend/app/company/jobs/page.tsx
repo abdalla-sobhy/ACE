@@ -83,7 +83,7 @@ export default function CompanyJobsPage() {
 
       if (response.ok) {
         const data = await response.json();
-        setJobs(data.jobs || []);
+        setJobs(data.job_postings || []);
       } else {
         setError("فشل في تحميل الوظائف");
       }
