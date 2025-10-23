@@ -13,6 +13,7 @@ import {
   FaSignOutAlt,
   FaBell,
 } from "react-icons/fa";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 export default function CompanyNav() {
   const router = useRouter();
@@ -71,6 +72,10 @@ export default function CompanyNav() {
               <FaUsers />
               <span>الطلبات</span>
             </Link>
+
+            <div id="themeIcon">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
 
