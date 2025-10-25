@@ -18,7 +18,7 @@ export function useTranslations() {
   const pathname = usePathname();
 
   // Determine locale from pathname or default to 'ar'
-  const locale = pathname.startsWith('/en') ? 'en' : 'ar';
+  const locale = pathname?.startsWith('/en') ? 'en' : 'ar';
 
   const messages = useMemo(() => {
     return locale === 'en' ? enTranslations : arTranslations;
@@ -55,5 +55,5 @@ export function useTranslations() {
 
 export function useLocale() {
   const pathname = usePathname();
-  return pathname.startsWith('/en') ? 'en' : 'ar';
+  return pathname?.startsWith('/en') ? 'en' : 'ar';
 }
