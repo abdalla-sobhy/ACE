@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class StudentCourseController extends Controller
 {
@@ -430,7 +431,7 @@ class StudentCourseController extends Controller
                 'profile' => $profileData
             ]);
         } catch (\Exception $e) {
-            \Log::error('Error fetching student profile: ' . $e->getMessage());
+            Log::error('Error fetching student profile: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to fetch profile'
@@ -444,7 +445,7 @@ class StudentCourseController extends Controller
     public function updateProfile(Request $request)
     {
         try {
-            $validator = \Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                 'grade' => 'nullable|string|max:255',
                 'birth_date' => 'nullable|date',
                 'preferred_subjects' => 'nullable|array',
@@ -487,7 +488,7 @@ class StudentCourseController extends Controller
                 'profile' => $profile->fresh()
             ]);
         } catch (\Exception $e) {
-            \Log::error('Error updating student profile: ' . $e->getMessage());
+            Log::error('Error updating student profile: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to update profile'
