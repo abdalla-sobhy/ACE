@@ -14,7 +14,7 @@ export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
 
   // Get current locale from pathname or default to 'ar'
-  const currentLocale: Locale = pathname.startsWith('/en') ? 'en' : 'ar';
+  const currentLocale: Locale = pathname?.startsWith('/en') ? 'en' : 'ar';
 
   const switchLanguage = (newLocale: Locale) => {
     if (newLocale === currentLocale) {
@@ -31,14 +31,14 @@ export default function LanguageSwitcher() {
       document.documentElement.lang = newLocale;
 
       // Navigate to the new locale path
-      let newPath = pathname;
+      let newPath = pathname || '/';
 
       if (currentLocale === 'ar' && newLocale === 'en') {
         // Switching from Arabic to English: add /en prefix
-        newPath = `/en${pathname}`;
+        newPath = `/en${pathname || '/'}`;
       } else if (currentLocale === 'en' && newLocale === 'ar') {
         // Switching from English to Arabic: remove /en prefix
-        newPath = pathname.replace(/^\/en/, '') || '/';
+        newPath = (pathname || '/').replace(/^\/en/, '') || '/';
       }
 
       router.push(newPath);
