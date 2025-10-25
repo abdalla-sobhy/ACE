@@ -17,8 +17,8 @@ type TranslationKey = NestedKeyOf<Translations>;
 export function useTranslations() {
   const pathname = usePathname();
 
-  // Determine locale from pathname or default to 'ar'
-  const locale = pathname?.startsWith('/en') ? 'en' : 'ar';
+  // Determine locale from pathname - check for /en or /ar at the start
+  const locale = pathname?.startsWith('/en') ? 'en' : pathname?.startsWith('/ar') ? 'ar' : 'ar';
 
   const messages = useMemo(() => {
     return locale === 'en' ? enTranslations : arTranslations;
@@ -55,5 +55,5 @@ export function useTranslations() {
 
 export function useLocale() {
   const pathname = usePathname();
-  return pathname?.startsWith('/en') ? 'en' : 'ar';
+  return pathname?.startsWith('/en') ? 'en' : pathname?.startsWith('/ar') ? 'ar' : 'ar';
 }

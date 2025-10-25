@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { FaGlobe } from "react-icons/fa";
+import { useLocale } from 'next-intl';
 import styles from "./LanguageSwitcher.module.css";
 
 type Locale = 'ar' | 'en';
@@ -10,11 +11,9 @@ type Locale = 'ar' | 'en';
 export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
+  const currentLocale = useLocale() as Locale;
   const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
-
-  // Get current locale from pathname or default to 'ar'
-  const currentLocale: Locale = pathname?.startsWith('/en') ? 'en' : 'ar';
 
   const switchLanguage = (newLocale: Locale) => {
     if (newLocale === currentLocale) {
@@ -26,20 +25,8 @@ export default function LanguageSwitcher() {
       // Store preference in localStorage
       localStorage.setItem('locale', newLocale);
 
-      // Update document direction
-      document.documentElement.dir = newLocale === 'ar' ? 'rtl' : 'ltr';
-      document.documentElement.lang = newLocale;
-
-      // Navigate to the new locale path
-      let newPath = pathname || '/';
-
-      if (currentLocale === 'ar' && newLocale === 'en') {
-        // Switching from Arabic to English: add /en prefix
-        newPath = `/en${pathname || '/'}`;
-      } else if (currentLocale === 'en' && newLocale === 'ar') {
-        // Switching from English to Arabic: remove /en prefix
-        newPath = (pathname || '/').replace(/^\/en/, '') || '/';
-      }
+      // Replace the locale in the current path
+      const newPath = pathname?.replace(`/${currentLocale}`, `/${newLocale}`) || `/${newLocale}`;
 
       router.push(newPath);
       router.refresh();

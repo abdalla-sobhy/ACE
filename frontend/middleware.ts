@@ -6,13 +6,18 @@ import { locales, defaultLocale } from './i18n';
 const intlMiddleware = createIntlMiddleware({
   locales,
   defaultLocale,
-  localePrefix: 'as-needed'
+  localePrefix: 'always'
 });
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("authToken")?.value;
   const userType = request.cookies.get("userType")?.value;
   const pathname = request.nextUrl.pathname;
+
+  // Extract locale and pathname without locale
+  const pathnameWithoutLocale = pathname.replace(/^\/(en|ar)/, '') || '/';
+  const localeMatch = pathname.match(/^\/(en|ar)/);
+  const currentLocale = localeMatch ? localeMatch[1] : defaultLocale;
 
   const protectedRoutes = {
     student: ["/student"],
@@ -25,20 +30,20 @@ export function middleware(request: NextRequest) {
 
   const authRoutes = ["/login", "/signup", "/forgot-password"];
 
-  const isDashboard = pathname === "/dashboard";
+  const isDashboard = pathnameWithoutLocale === "/dashboard";
 
   const isProtectedRoute = Object.values(protectedRoutes).some((routes) =>
-    routes.some((route) => pathname.startsWith(route))
+    routes.some((route) => pathnameWithoutLocale.startsWith(route))
   );
 
-  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
+  const isAuthRoute = authRoutes.some((route) => pathnameWithoutLocale.startsWith(route));
 
-  if (pathname === "/verifyEmail") {
-    return NextResponse.next();
+  if (pathnameWithoutLocale === "/verifyEmail") {
+    return intlMiddleware(request);
   }
 
   if ((isProtectedRoute || isDashboard) && !token) {
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = new URL(`/${currentLocale}/login`, request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
@@ -67,15 +72,15 @@ export function middleware(request: NextRequest) {
         break;
     }
 
-    return NextResponse.redirect(new URL(redirectPath, request.url));
+    return NextResponse.redirect(new URL(`/${currentLocale}${redirectPath}`, request.url));
   }
 
   if (isProtectedRoute && token && userType) {
     for (const [type, routes] of Object.entries(protectedRoutes)) {
-      if (routes.some((route) => pathname.startsWith(route))) {
+      if (routes.some((route) => pathnameWithoutLocale.startsWith(route))) {
         if (userType !== type) {
           return NextResponse.redirect(
-            new URL(getDashboardPath(userType), request.url)
+            new URL(`/${currentLocale}${getDashboardPath(userType)}`, request.url)
           );
         }
       }
@@ -84,7 +89,7 @@ export function middleware(request: NextRequest) {
 
   if (isAuthRoute && token && userType) {
     return NextResponse.redirect(
-      new URL(getDashboardPath(userType), request.url)
+      new URL(`/${currentLocale}${getDashboardPath(userType)}`, request.url)
     );
   }
 

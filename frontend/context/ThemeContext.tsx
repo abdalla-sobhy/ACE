@@ -1,7 +1,7 @@
 
 "use client";
 import React, { createContext, useEffect, useState, ReactNode } from "react";
-import { setTheme as setThemeCookie, type Theme } from "@/app/actions/theme";
+import { setTheme as setThemeCookie, type Theme } from "@/app/[locale]/actions/theme";
 
 interface ThemeContextType {
   theme: Theme;
