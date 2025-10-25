@@ -5,11 +5,16 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import styles from "./Nav.module.css";
 import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useTranslations, useLocale } from 'next-intl';
 
 export default function Nav() {
   const pathname = usePathname();
+  const locale = useLocale();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+
+  const t = useTranslations('nav');
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -52,7 +57,7 @@ export default function Nav() {
     <nav className={styles.nav} ref={navRef}>
       <div className={styles.navContainer}>
         <div className={styles.navHeader}>
-          <Link href="/" className={styles.logo} onClick={closeMenu}>
+          <Link href={`/${locale}`} className={styles.logo} onClick={closeMenu}>
             Edvance
           </Link>
           <button
@@ -70,59 +75,60 @@ export default function Nav() {
           className={`${styles.navContent} ${isMenuOpen ? styles.open : ""}`}
         >
           <div className={styles.navLeft}>
-            <Link href="/" className={styles.logoDesktop} onClick={closeMenu}>
+            <Link href={`/${locale}`} className={styles.logoDesktop} onClick={closeMenu}>
               Edvance
             </Link>
             <Link
-              href="/features"
-              className={pathname === "/features" ? styles.active : ""}
+              href={`/${locale}/features`}
+              className={pathname === `/${locale}/features` ? styles.active : ""}
               onClick={closeMenu}
             >
-              المميزات
+              {t('features')}
             </Link>
             <Link
-              href="/courses"
-              className={pathname === "/courses" ? styles.active : ""}
+              href={`/${locale}/courses`}
+              className={pathname === `/${locale}/courses` ? styles.active : ""}
               onClick={closeMenu}
             >
-              الكورسات
+              {t('courses')}
             </Link>
             <Link
-              href="/about"
-              className={pathname === "/about" ? styles.active : ""}
+              href={`/${locale}/about`}
+              className={pathname === `/${locale}/about` ? styles.active : ""}
               onClick={closeMenu}
             >
-              من نحن
+              {t('about')}
             </Link>
             <Link
-              href="/contact"
-              className={pathname === "/contact" ? styles.active : ""}
+              href={`/${locale}/contact`}
+              className={pathname === `/${locale}/contact` ? styles.active : ""}
               onClick={closeMenu}
             >
-              تواصل معنا
+              {t('contact')}
             </Link>
             <div id="themeIcon">
               <ThemeToggle />
             </div>
+            <LanguageSwitcher />
           </div>
           <div className={styles.navRight}>
             <Link
-              href="/login"
+              href={`/${locale}/login`}
               className={
-                pathname === "/login" ? styles.signInActive : styles.signIn
+                pathname === `/${locale}/login` ? styles.signInActive : styles.signIn
               }
               onClick={closeMenu}
             >
-              تسجيل الدخول
+              {t('login')}
             </Link>
             <Link
-              href="/signup"
+              href={`/${locale}/signup`}
               className={
-                pathname === "/signup" ? styles.signUpActive : styles.signUp
+                pathname === `/${locale}/signup` ? styles.signUpActive : styles.signUp
               }
               onClick={closeMenu}
             >
-              انضم مجاناً
+              {t('signup')}
             </Link>
           </div>
         </div>

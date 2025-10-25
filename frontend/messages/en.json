@@ -31,7 +31,13 @@
     "users": "Users",
     "myCourses": "My Courses",
     "exams": "Exams",
-    "progress": "Progress"
+    "progress": "Progress",
+    "features": "Features",
+    "courses": "Courses",
+    "about": "About Us",
+    "contact": "Contact Us",
+    "login": "Login",
+    "signup": "Join for Free"
   },
   "notifications": {
     "title": "Notifications",

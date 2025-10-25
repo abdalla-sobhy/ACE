@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import LanguageSwitcher from "../LanguageSwitcher";
-import { useTranslations } from "@/hooks/useTranslations";
+import { useTranslations, useLocale } from "@/hooks/useTranslations";
 
 interface User {
   name: string;
@@ -31,6 +31,7 @@ export default function StudentNav() {
   const navRef = useRef<HTMLElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslations();
+  const locale = useLocale();
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -55,7 +56,7 @@ export default function StudentNav() {
     localStorage.removeItem("user");
     localStorage.removeItem("authData");
     document.cookie = "authToken=; path=/; max-age=0";
-    router.push("/login");
+    router.push(`/${locale}/login`);
   };
 
   useEffect(() => {
@@ -83,10 +84,10 @@ export default function StudentNav() {
   }, [isMenuOpen, isProfileOpen]);
 
   const navItems = [
-    { href: "/student/dashboard", label: t("nav.home"), icon: <FaHome /> },
-    { href: "/student/my-courses", label: t("nav.myCourses"), icon: <FaBook /> },
-    { href: "/student/exams", label: t("nav.exams"), icon: <FaGraduationCap /> },
-    { href: "/student/progress", label: t("nav.progress"), icon: <FaChartLine /> },
+    { href: `/${locale}/student/dashboard`, label: t("nav.home"), icon: <FaHome /> },
+    { href: `/${locale}/student/my-courses`, label: t("nav.myCourses"), icon: <FaBook /> },
+    { href: `/${locale}/student/exams`, label: t("nav.exams"), icon: <FaGraduationCap /> },
+    { href: `/${locale}/student/progress`, label: t("nav.progress"), icon: <FaChartLine /> },
   ];
 
   return (
@@ -94,7 +95,7 @@ export default function StudentNav() {
       <div className={styles.navContainer}>
         <div className={styles.navHeader}>
           <Link
-            href="/student/dashboard"
+            href={`/${locale}/student/dashboard`}
             className={styles.logo}
             onClick={closeMenu}
           >
@@ -113,7 +114,7 @@ export default function StudentNav() {
           className={`${styles.navContent} ${isMenuOpen ? styles.open : ""}`}
         >
           <div className={styles.navLeft}>
-            <Link href="/student/dashboard" className={styles.logoDesktop}>
+            <Link href={`/${locale}/student/dashboard`} className={styles.logoDesktop}>
               Edvance
             </Link>
             {navItems.map((item) => (
@@ -159,7 +160,7 @@ export default function StudentNav() {
                     </div>
                   </div>
                   <div className={styles.dropdownDivider}></div>
-                  <Link href="/student/profile" className={styles.dropdownItem}>
+                  <Link href={`/${locale}/student/profile`} className={styles.dropdownItem}>
                     <FaUser />
                     <span>{t("nav.profile")}</span>
                   </Link>

@@ -31,7 +31,13 @@
     "users": "المستخدمين",
     "myCourses": "كورساتي",
     "exams": "الامتحانات",
-    "progress": "التقدم"
+    "progress": "التقدم",
+    "features": "المميزات",
+    "courses": "الكورسات",
+    "about": "من نحن",
+    "contact": "تواصل معنا",
+    "login": "تسجيل الدخول",
+    "signup": "انضم مجاناً"
   },
   "notifications": {
     "title": "الإشعارات",
