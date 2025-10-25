@@ -41,18 +41,27 @@
 .dropdown {
   position: absolute;
   top: calc(100% + 0.5rem);
+  left: auto;
   right: 0;
+  transform: translateX(0);
   background: var(--card-background, white);
   border: 1px solid var(--border-color, #e5e7eb);
   border-radius: 0.75rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 400px;
+  max-width: calc(100vw - 2rem);
   max-height: 600px;
   display: flex;
   flex-direction: column;
   z-index: 1000;
   animation: slideDown 0.2s ease;
   backdrop-filter: blur(10px);
+}
+
+/* RTL Support */
+[dir="rtl"] .dropdown {
+  left: 0;
+  right: auto;
 }
 
 @keyframes slideDown {
@@ -245,7 +254,7 @@
 @media (max-width: 768px) {
   .dropdown {
     width: 340px;
-    right: 0;
+    max-width: calc(100vw - 2rem);
   }
 }
 
