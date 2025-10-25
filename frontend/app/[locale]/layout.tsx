@@ -8,7 +8,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { getTheme } from "@/app/[locale]/actions/theme";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { locales } from '@/i18n';
+import { locales } from '@/i18n/request';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

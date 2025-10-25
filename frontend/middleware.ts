@@ -1,15 +1,24 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import createIntlMiddleware from 'next-intl/middleware';
-import { locales, defaultLocale } from './i18n';
+import createMiddleware from 'next-intl/middleware';
+import { locales, defaultLocale } from './i18n/request';
 
-const intlMiddleware = createIntlMiddleware({
+const intlMiddleware = createMiddleware({
   locales,
   defaultLocale,
   localePrefix: 'always'
 });
 
 export function middleware(request: NextRequest) {
+  // First, handle i18n routing
+  const response = intlMiddleware(request);
+
+  // Check if the response is a redirect; if so, return it immediately
+  if (response && (response.status === 307 || response.status === 308 || response.status === 302)) {
+    return response;
+  }
+
+  // Then apply auth logic
   const token = request.cookies.get("authToken")?.value;
   const userType = request.cookies.get("userType")?.value;
   const pathname = request.nextUrl.pathname;
@@ -38,8 +47,9 @@ export function middleware(request: NextRequest) {
 
   const isAuthRoute = authRoutes.some((route) => pathnameWithoutLocale.startsWith(route));
 
+  // Allow verifyEmail without redirects
   if (pathnameWithoutLocale === "/verifyEmail") {
-    return intlMiddleware(request);
+    return response;
   }
 
   if ((isProtectedRoute || isDashboard) && !token) {
@@ -93,9 +103,10 @@ export function middleware(request: NextRequest) {
     );
   }
 
-  // Apply i18n middleware for all requests
-  return intlMiddleware(request);
+  return response;
 }
+
+export default middleware;
 
 function getDashboardPath(userType: string): string {
   switch (userType) {
