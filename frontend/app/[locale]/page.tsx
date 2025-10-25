@@ -1,8 +1,15 @@
+"use client";
+
 import styles from "./Landing.module.css";
 import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function LandingPage() {
+  const t = useTranslations("landing");
+  const tNav = useTranslations("nav");
+  const locale = useLocale();
+
   return (
     <div className={styles.container}>
       <NavigationBar />
@@ -11,22 +18,28 @@ export default function LandingPage() {
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            التعليم المجاني
+            {t("hero.title")}
             <br />
-            <span className={styles.heroGradient}>لكل طالب مصري</span>
+            <span className={styles.heroGradient}>{t("hero.subtitle")}</span>
           </h1>
           <p className={styles.heroDescription}>
-            منصة تعليمية مجانية تماماً تربط الطلاب بأفضل المحاضرين
+            {t("hero.description")}
             <br />
-            احجز مقعدك في البث المباشر واحصل على تعليم متميز
+            {t("hero.liveBooking")}
           </p>
 
           <div className={styles.heroButtons}>
-            <Link href="/signup/student" className={styles.primaryButton}>
-              سجل كطالب
+            <Link
+              href={`/${locale}/signup/student`}
+              className={styles.primaryButton}
+            >
+              {t("hero.registerStudent")}
             </Link>
-            <Link href="/signup/teacher" className={styles.secondaryButton}>
-              انضم كمحاضر
+            <Link
+              href={`/${locale}/signup/teacher`}
+              className={styles.secondaryButton}
+            >
+              {t("hero.joinTeacher")}
             </Link>
           </div>
 
@@ -34,15 +47,15 @@ export default function LandingPage() {
           <div className={styles.userTypes}>
             <div className={styles.userType}>
               <span className={styles.userIcon}>🎓</span>
-              <span>طلاب</span>
+              <span>{t("userTypes.students")}</span>
             </div>
             <div className={styles.userType}>
               <span className={styles.userIcon}>👨‍🏫</span>
-              <span>محاضرين</span>
+              <span>{t("userTypes.teachers")}</span>
             </div>
             <div className={styles.userType}>
               <span className={styles.userIcon}>👨‍👩‍👧</span>
-              <span>أولياء أمور</span>
+              <span>{t("userTypes.parents")}</span>
             </div>
           </div>
         </div>
@@ -55,23 +68,27 @@ export default function LandingPage() {
                 <span></span>
                 <span></span>
               </div>
-              <span>جدول المحاضرات</span>
+              <span>{t("schedule.title")}</span>
             </div>
             <div className={styles.codeContent}>
               <div className={styles.scheduleLine}>
                 <span className={styles.time}>10:00 ص</span>
                 <span className={styles.subject}>رياضيات - ثانوية عامة</span>
-                <span className={styles.seats}>15 مقعد متاح</span>
+                <span className={styles.seats}>
+                  {t("schedule.seatsAvailable", { count: "15" })}
+                </span>
               </div>
               <div className={styles.scheduleLine}>
                 <span className={styles.time}>2:00 م</span>
                 <span className={styles.subject}>فيزياء - الصف الثالث</span>
-                <span className={styles.seats}>8 مقاعد متاحة</span>
+                <span className={styles.seats}>
+                  {t("schedule.seatsAvailable", { count: "8" })}
+                </span>
               </div>
               <div className={styles.scheduleLine}>
                 <span className={styles.time}>6:00 م</span>
                 <span className={styles.subject}>كيمياء - مراجعة نهائية</span>
-                <span className={styles.seats}>مكتمل</span>
+                <span className={styles.seats}>{t("schedule.full")}</span>
               </div>
             </div>
           </div>
@@ -81,27 +98,27 @@ export default function LandingPage() {
       {/* Features Section */}
       <section className={styles.features}>
         <div className={styles.featuresContainer}>
-          <h2>لماذا Edvance؟</h2>
+          <h2>{t("features.title")}</h2>
           <div className={styles.featuresGrid}>
             <div className={styles.feature}>
               <div className={styles.featureIcon}>📚</div>
-              <h3>دروس مباشرة تفاعلية</h3>
-              <p>احضر المحاضرات مباشرة وتفاعل مع المحاضر والطلاب</p>
+              <h3>{t("features.liveLessons.title")}</h3>
+              <p>{t("features.liveLessons.description")}</p>
             </div>
             <div className={styles.feature}>
               <div className={styles.featureIcon}>🎯</div>
-              <h3>نظام النقاط</h3>
-              <p>اكسب نقاط عند الحضور والمشاركة واستخدمها في مزايا إضافية</p>
+              <h3>{t("features.pointsSystem.title")}</h3>
+              <p>{t("features.pointsSystem.description")}</p>
             </div>
             <div className={styles.feature}>
               <div className={styles.featureIcon}>📝</div>
-              <h3>امتحانات شاملة</h3>
-              <p>اختبر نفسك بامتحانات نهائية معتمدة وتابع تقدمك</p>
+              <h3>{t("features.comprehensiveExams.title")}</h3>
+              <p>{t("features.comprehensiveExams.description")}</p>
             </div>
             <div className={styles.feature}>
               <div className={styles.featureIcon}>🆓</div>
-              <h3>مجاني 100%</h3>
-              <p>لا رسوم خفية، التعليم حق للجميع</p>
+              <h3>{t("features.free.title")}</h3>
+              <p>{t("features.free.description")}</p>
             </div>
           </div>
         </div>
@@ -112,29 +129,29 @@ export default function LandingPage() {
         <div className={styles.statsContainer}>
           <div className={styles.stat}>
             <h3>50,000+</h3>
-            <p>طالب مسجل</p>
+            <p>{t("stats.students")}</p>
           </div>
           <div className={styles.stat}>
             <h3>500+</h3>
-            <p>محاضر متميز</p>
+            <p>{t("stats.teachers")}</p>
           </div>
           <div className={styles.stat}>
             <h3>1000+</h3>
-            <p>محاضرة يومياً</p>
+            <p>{t("stats.lectures")}</p>
           </div>
           <div className={styles.stat}>
             <h3>27</h3>
-            <p>محافظة</p>
+            <p>{t("stats.cities")}</p>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className={styles.cta}>
-        <h2>ابدأ رحلتك التعليمية اليوم</h2>
-        <p>انضم لآلاف الطلاب المصريين في رحلة التعلم المجاني</p>
-        <Link href="/signup" className={styles.ctaButton}>
-          سجل الآن مجاناً
+        <h2>{t("cta.title")}</h2>
+        <p>{t("cta.description")}</p>
+        <Link href={`/${locale}/signup`} className={styles.ctaButton}>
+          {t("cta.register")}
         </Link>
       </section>
 
@@ -143,27 +160,27 @@ export default function LandingPage() {
         <div className={styles.footerContainer}>
           <div className={styles.footerSection}>
             <h4>Edvance</h4>
-            <p>منصة تعليمية مجانية لكل طالب مصري</p>
+            <p>{t("footer.description")}</p>
           </div>
           <div className={styles.footerSection}>
-            <h5>للطلاب</h5>
-            <Link href="/courses">الكورسات</Link>
-            <Link href="/schedule">الجدول</Link>
-            <Link href="/exams">الامتحانات</Link>
+            <h5>{t("footer.forStudents")}</h5>
+            <Link href={`/${locale}/courses`}>{tNav("courses")}</Link>
+            <Link href={`/${locale}/schedule`}>{tNav("schedule")}</Link>
+            <Link href={`/${locale}/exams`}>{tNav("exams")}</Link>
           </div>
           <div className={styles.footerSection}>
-            <h5>للمحاضرين</h5>
-            <Link href="/teach">كيف تدرس معنا</Link>
-            <Link href="/resources">المصادر</Link>
+            <h5>{t("footer.forTeachers")}</h5>
+            <Link href={`/${locale}/teach`}>{t("footer.howToTeach")}</Link>
+            <Link href={`/${locale}/resources`}>{t("footer.resources")}</Link>
           </div>
           <div className={styles.footerSection}>
-            <h5>تواصل معنا</h5>
-            <Link href="/contact">اتصل بنا</Link>
-            <Link href="/support">الدعم</Link>
+            <h5>{tNav("contact")}</h5>
+            <Link href={`/${locale}/contact`}>{t("footer.contactUs")}</Link>
+            <Link href={`/${locale}/support`}>{t("footer.support")}</Link>
           </div>
         </div>
         <div className={styles.footerBottom}>
-          <p>© 2024 Edvance. صنع بـ ❤️ من أجل مصر</p>
+          <p>© 2024 Edvance. {t("footer.copyright")}</p>
         </div>
       </footer>
     </div>

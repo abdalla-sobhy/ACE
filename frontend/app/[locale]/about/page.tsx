@@ -1,9 +1,14 @@
+"use client";
+
 import styles from './About.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import NavigationBar from '@/components/Nav/Nav';
+import { useTranslations, useLocale } from 'next-intl';
 
 export default function AboutPage() {
+  const t = useTranslations('about');
+  const locale = useLocale();
   const developers = [
     {
       name: "ملك  مجدي",
@@ -47,8 +52,8 @@ export default function AboutPage() {
       <section className={styles.hero}>
         <div className={styles.heroPattern}></div>
         <div className={styles.heroContent}>
-          <h1>نبني مستقبل التعليم في مصر</h1>
-          <p>فريق من الشباب المصري المتحمس لجعل التعليم متاحاً ومجانياً للجميع</p>
+          <h1>{t('hero.title')}</h1>
+          <p>{t('hero.description')}</p>
         </div>
       </section>
 
@@ -56,31 +61,28 @@ export default function AboutPage() {
       <section className={styles.mission}>
         <div className={styles.missionContainer}>
           <div className={styles.missionContent}>
-            <h2>مهمتنا</h2>
-            <p>
-              نؤمن أن التعليم حق أساسي لكل طالب مصري. نعمل على كسر الحواجز المالية 
-              والجغرافية التي تمنع الطلاب من الحصول على تعليم عالي الجودة.
-            </p>
+            <h2>{t('mission.title')}</h2>
+            <p>{t('mission.description')}</p>
             <div className={styles.missionPoints}>
               <div className={styles.point}>
                 <span className={styles.pointIcon}>🎯</span>
                 <div>
-                  <h3>تعليم مجاني 100%</h3>
-                  <p>لا رسوم مخفية، لا اشتراكات، تعليم مجاني حقيقي</p>
+                  <h3>{t('mission.free.title')}</h3>
+                  <p>{t('mission.free.description')}</p>
                 </div>
               </div>
               <div className={styles.point}>
                 <span className={styles.pointIcon}>🌍</span>
                 <div>
-                  <h3>متاح للجميع</h3>
-                  <p>من أسوان إلى الإسكندرية، التعليم متاح لكل طالب</p>
+                  <h3>{t('mission.accessible.title')}</h3>
+                  <p>{t('mission.accessible.description')}</p>
                 </div>
               </div>
               <div className={styles.point}>
                 <span className={styles.pointIcon}>⚡</span>
                 <div>
-                  <h3>تعليم تفاعلي</h3>
-                  <p>دروس مباشرة وتفاعلية مع أفضل المعلمين</p>
+                  <h3>{t('mission.interactive.title')}</h3>
+                  <p>{t('mission.interactive.description')}</p>
                 </div>
               </div>
             </div>
@@ -89,15 +91,15 @@ export default function AboutPage() {
             <div className={styles.statsCard}>
               <div className={styles.statItem}>
                 <span className={styles.statNumber}>50K+</span>
-                <span className={styles.statLabel}>طالب مستفيد</span>
+                <span className={styles.statLabel}>{t('mission.beneficiaries')}</span>
               </div>
               <div className={styles.statItem}>
                 <span className={styles.statNumber}>95%</span>
-                <span className={styles.statLabel}>نسبة الرضا</span>
+                <span className={styles.statLabel}>{t('mission.satisfaction')}</span>
               </div>
               <div className={styles.statItem}>
                 <span className={styles.statNumber}>27</span>
-                <span className={styles.statLabel}>محافظة</span>
+                <span className={styles.statLabel}>{t('mission.governorates')}</span>
               </div>
             </div>
           </div>
@@ -107,34 +109,34 @@ export default function AboutPage() {
       {/* Story Section */}
       <section className={styles.story}>
         <div className={styles.storyContainer}>
-          <h2>قصتنا</h2>
+          <h2>{t('story.title')}</h2>
           <div className={styles.timeline}>
             <div className={styles.timelineItem}>
               <div className={styles.timelineDot}></div>
               <div className={styles.timelineContent}>
-                <h3>البداية - 2023</h3>
-                <p>بدأت الفكرة من مجموعة صغيرة من المطورين الذين عانوا من صعوبة الحصول على تعليم جيد</p>
+                <h3>{t('story.beginning.title')}</h3>
+                <p>{t('story.beginning.description')}</p>
               </div>
             </div>
             <div className={styles.timelineItem}>
               <div className={styles.timelineDot}></div>
               <div className={styles.timelineContent}>
-                <h3>الإطلاق التجريبي</h3>
-                <p>أطلقنا نسخة تجريبية مع 100 طالب و 10 معلمين متطوعين</p>
+                <h3>{t('story.beta.title')}</h3>
+                <p>{t('story.beta.description')}</p>
               </div>
             </div>
             <div className={styles.timelineItem}>
               <div className={styles.timelineDot}></div>
               <div className={styles.timelineContent}>
-                <h3>النمو والتوسع</h3>
-                <p>وصلنا إلى آلاف الطلاب في جميع المحافظات وضاعفنا عدد المعلمين</p>
+                <h3>{t('story.growth.title')}</h3>
+                <p>{t('story.growth.description')}</p>
               </div>
             </div>
             <div className={styles.timelineItem}>
               <div className={styles.timelineDot}></div>
               <div className={styles.timelineContent}>
-                <h3>المستقبل</h3>
-                <p>نطمح للوصول لكل طالب مصري وتوفير تعليم عالمي المستوى</p>
+                <h3>{t('story.future.title')}</h3>
+                <p>{t('story.future.description')}</p>
               </div>
             </div>
           </div>
@@ -144,10 +146,8 @@ export default function AboutPage() {
       {/* Team Section */}
       <section className={styles.team}>
         <div className={styles.teamContainer}>
-          <h2>فريق العمل</h2>
-          <p className={styles.teamSubtitle}>
-            مجموعة من الشباب المصري المتحمس لإحداث تغيير حقيقي في التعليم
-          </p>
+          <h2>{t('team.title')}</h2>
+          <p className={styles.teamSubtitle}>{t('team.subtitle')}</p>
           <div className={styles.teamGrid}>
             {developers.map((dev, index) => (
               <div key={index} className={styles.teamCard}>
@@ -178,27 +178,27 @@ export default function AboutPage() {
       {/* Values Section */}
       <section className={styles.values}>
         <div className={styles.valuesContainer}>
-          <h2>قيمنا</h2>
+          <h2>{t('values.title')}</h2>
           <div className={styles.valuesGrid}>
             <div className={styles.value}>
               <div className={styles.valueIcon}>💡</div>
-              <h3>الابتكار</h3>
-              <p>نبحث دائماً عن طرق جديدة ومبتكرة لتحسين تجربة التعلم</p>
+              <h3>{t('values.innovation.title')}</h3>
+              <p>{t('values.innovation.description')}</p>
             </div>
             <div className={styles.value}>
               <div className={styles.valueIcon}>🤝</div>
-              <h3>المساواة</h3>
-              <p>نؤمن بحق كل طالب في الحصول على تعليم متميز بغض النظر عن ظروفه</p>
+              <h3>{t('values.equality.title')}</h3>
+              <p>{t('values.equality.description')}</p>
             </div>
             <div className={styles.value}>
               <div className={styles.valueIcon}>🌟</div>
-              <h3>الجودة</h3>
-              <p>نحرص على تقديم محتوى تعليمي عالي الجودة يواكب المعايير العالمية</p>
+              <h3>{t('values.quality.title')}</h3>
+              <p>{t('values.quality.description')}</p>
             </div>
             <div className={styles.value}>
               <div className={styles.valueIcon}>❤️</div>
-              <h3>الشغف</h3>
-              <p>نعمل بشغف وحب لمساعدة الطلاب على تحقيق أحلامهم</p>
+              <h3>{t('values.passion.title')}</h3>
+              <p>{t('values.passion.description')}</p>
             </div>
           </div>
         </div>
@@ -207,17 +207,17 @@ export default function AboutPage() {
       {/* Contact CTA */}
       <section className={styles.contactCta}>
         <div className={styles.contactContainer}>
-          <h2>انضم إلينا في رحلة التغيير</h2>
-          <p>سواء كنت طالباً أو معلماً أو ولي أمر، يمكنك أن تكون جزءاً من هذه الرحلة</p>
+          <h2>{t('cta.title')}</h2>
+          <p>{t('cta.description')}</p>
           <div className={styles.ctaButtons}>
-            <Link href="/signup/student" className={styles.primaryButton}>
-              انضم كطالب
+            <Link href={`/${locale}/signup/student`} className={styles.primaryButton}>
+              {t('cta.joinStudent')}
             </Link>
-            <Link href="/signup/teacher" className={styles.secondaryButton}>
-              انضم كمعلم
+            <Link href={`/${locale}/signup/teacher`} className={styles.secondaryButton}>
+              {t('cta.joinTeacher')}
             </Link>
-            <Link href="/contact" className={styles.tertiaryButton}>
-              تواصل معنا
+            <Link href={`/${locale}/contact`} className={styles.tertiaryButton}>
+              {t('cta.contactUs')}
             </Link>
           </div>
         </div>

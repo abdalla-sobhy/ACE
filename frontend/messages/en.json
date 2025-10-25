@@ -95,5 +95,170 @@
     "ar": "العربية",
     "en": "English",
     "switchTo": "Switch to"
+  },
+  "landing": {
+    "hero": {
+      "title": "Free Education",
+      "subtitle": "For Every Egyptian Student",
+      "description": "A completely free educational platform connecting students with the best teachers",
+      "liveBooking": "Book your seat in live broadcasts and get excellent education",
+      "registerStudent": "Register as Student",
+      "joinTeacher": "Join as Teacher"
+    },
+    "userTypes": {
+      "students": "Students",
+      "teachers": "Teachers",
+      "parents": "Parents"
+    },
+    "schedule": {
+      "title": "Lecture Schedule",
+      "time": "Time",
+      "seatsAvailable": "{count} seats available",
+      "full": "Full"
+    },
+    "features": {
+      "title": "Why Edvance?",
+      "liveLessons": {
+        "title": "Interactive Live Lessons",
+        "description": "Attend lectures live and interact with teachers and students"
+      },
+      "pointsSystem": {
+        "title": "Points System",
+        "description": "Earn points for attendance and participation, use them for additional features"
+      },
+      "comprehensiveExams": {
+        "title": "Comprehensive Exams",
+        "description": "Test yourself with certified final exams and track your progress"
+      },
+      "free": {
+        "title": "100% Free",
+        "description": "No hidden fees, education is a right for everyone"
+      }
+    },
+    "stats": {
+      "students": "Registered Students",
+      "teachers": "Distinguished Teachers",
+      "lectures": "Daily Lectures",
+      "cities": "Governorates"
+    },
+    "cta": {
+      "title": "Start Your Educational Journey Today",
+      "description": "Join thousands of Egyptian students on the free learning journey",
+      "register": "Register Now for Free"
+    },
+    "footer": {
+      "description": "A free educational platform for every Egyptian student",
+      "forStudents": "For Students",
+      "forTeachers": "For Teachers",
+      "howToTeach": "How to Teach with Us",
+      "resources": "Resources",
+      "contactUs": "Contact Us",
+      "support": "Support",
+      "copyright": "Made with ❤️ for Egypt"
+    }
+  },
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Log in to access your educational platform",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot Password?",
+    "loginButton": "Login",
+    "loggingIn": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "registerNow": "Register Now for Free",
+    "successMessage": "Login successful! Redirecting...",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "enterPassword": "Enter password",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "invalidData": "Invalid data entered",
+      "invalidCredentials": "Email or password is incorrect",
+      "accountBlocked": "Your account has been blocked. Please contact support",
+      "accountNotFound": "No account exists with this email",
+      "tooManyAttempts": "Too many login attempts. Try again later",
+      "serverError": "Server error. Please try again",
+      "unexpectedError": "An unexpected error occurred",
+      "connectionError": "Connection error. Check your internet connection"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "Building the Future of Education in Egypt",
+      "description": "A team of passionate young Egyptians making education accessible and free for everyone"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "We believe that education is a fundamental right for every Egyptian student. We work to break down the financial and geographical barriers that prevent students from receiving high-quality education.",
+      "free": {
+        "title": "100% Free Education",
+        "description": "No hidden fees, no subscriptions, truly free education"
+      },
+      "accessible": {
+        "title": "Available to Everyone",
+        "description": "From Aswan to Alexandria, education is available to every student"
+      },
+      "interactive": {
+        "title": "Interactive Education",
+        "description": "Live and interactive lessons with the best teachers"
+      },
+      "beneficiaries": "Benefiting Students",
+      "satisfaction": "Satisfaction Rate",
+      "governorates": "Governorates"
+    },
+    "story": {
+      "title": "Our Story",
+      "beginning": {
+        "title": "The Beginning - 2023",
+        "description": "The idea started from a small group of developers who struggled to get quality education"
+      },
+      "beta": {
+        "title": "Beta Launch",
+        "description": "We launched a beta version with 100 students and 10 volunteer teachers"
+      },
+      "growth": {
+        "title": "Growth and Expansion",
+        "description": "We reached thousands of students in all governorates and doubled the number of teachers"
+      },
+      "future": {
+        "title": "The Future",
+        "description": "We aspire to reach every Egyptian student and provide world-class education"
+      }
+    },
+    "team": {
+      "title": "Our Team",
+      "subtitle": "A group of passionate young Egyptians making a real change in education"
+    },
+    "values": {
+      "title": "Our Values",
+      "innovation": {
+        "title": "Innovation",
+        "description": "We constantly seek new and innovative ways to improve the learning experience"
+      },
+      "equality": {
+        "title": "Equality",
+        "description": "We believe in every student's right to excellent education regardless of their circumstances"
+      },
+      "quality": {
+        "title": "Quality",
+        "description": "We ensure high-quality educational content that meets global standards"
+      },
+      "passion": {
+        "title": "Passion",
+        "description": "We work with passion and love to help students achieve their dreams"
+      }
+    },
+    "cta": {
+      "title": "Join Us in the Journey of Change",
+      "description": "Whether you're a student, teacher, or parent, you can be part of this journey",
+      "joinStudent": "Join as Student",
+      "joinTeacher": "Join as Teacher",
+      "contactUs": "Contact Us"
+    }
   }
 }
