@@ -14,6 +14,8 @@ import {
   FaBars,
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
+import LanguageSwitcher from "../LanguageSwitcher";
+import { useTranslations } from "@/hooks/useTranslations";
 
 interface User {
   name: string;
@@ -28,6 +30,7 @@ export default function StudentNav() {
   const [user, setUser] = useState<User | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslations();
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -80,10 +83,10 @@ export default function StudentNav() {
   }, [isMenuOpen, isProfileOpen]);
 
   const navItems = [
-    { href: "/student/dashboard", label: "الرئيسية", icon: <FaHome /> },
-    { href: "/student/my-courses", label: "كورساتي", icon: <FaBook /> },
-    { href: "/student/exams", label: "الامتحانات", icon: <FaGraduationCap /> },
-    { href: "/student/progress", label: "التقدم", icon: <FaChartLine /> },
+    { href: "/student/dashboard", label: t("nav.home"), icon: <FaHome /> },
+    { href: "/student/my-courses", label: t("nav.myCourses"), icon: <FaBook /> },
+    { href: "/student/exams", label: t("nav.exams"), icon: <FaGraduationCap /> },
+    { href: "/student/progress", label: t("nav.progress"), icon: <FaChartLine /> },
   ];
 
   return (
@@ -127,6 +130,7 @@ export default function StudentNav() {
           </div>
 
           <div className={styles.navRight}>
+            <LanguageSwitcher />
             <NotificationDropdown />
 
             <div className={styles.profileDropdown} ref={profileRef}>
@@ -157,14 +161,14 @@ export default function StudentNav() {
                   <div className={styles.dropdownDivider}></div>
                   <Link href="/student/profile" className={styles.dropdownItem}>
                     <FaUser />
-                    <span>الملف الشخصي</span>
+                    <span>{t("nav.profile")}</span>
                   </Link>
                   <button
                     className={styles.dropdownItem}
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt />
-                    <span>تسجيل الخروج</span>
+                    <span>{t("nav.logout")}</span>
                   </button>
                 </div>
               )}

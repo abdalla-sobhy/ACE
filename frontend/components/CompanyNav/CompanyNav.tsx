@@ -14,11 +14,14 @@ import {
 } from "react-icons/fa";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
+import LanguageSwitcher from "../LanguageSwitcher";
+import { useTranslations } from "@/hooks/useTranslations";
 
 export default function CompanyNav() {
   const router = useRouter();
   const pathname = usePathname();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const { t } = useTranslations();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -48,7 +51,7 @@ export default function CompanyNav() {
               }`}
             >
               <FaTachometerAlt />
-              <span>لوحة التحكم</span>
+              <span>{t("nav.dashboard")}</span>
             </Link>
 
             <Link
@@ -58,7 +61,7 @@ export default function CompanyNav() {
               }`}
             >
               <FaBriefcase />
-              <span>الوظائف</span>
+              <span>{t("nav.jobs")}</span>
             </Link>
 
             <Link
@@ -68,7 +71,7 @@ export default function CompanyNav() {
               }`}
             >
               <FaUsers />
-              <span>الطلبات</span>
+              <span>{t("nav.applications")}</span>
             </Link>
 
             <div id="themeIcon">
@@ -78,6 +81,7 @@ export default function CompanyNav() {
         </div>
 
         <div className={styles.navRight}>
+          <LanguageSwitcher />
           <NotificationDropdown />
 
           <div className={styles.profileMenu}>
@@ -92,11 +96,11 @@ export default function CompanyNav() {
               <div className={styles.dropdown}>
                 <Link href="/company/profile" className={styles.dropdownItem}>
                   <FaUserCircle />
-                  <span>الملف الشخصي</span>
+                  <span>{t("nav.profile")}</span>
                 </Link>
                 <button className={styles.dropdownItem} onClick={handleLogout}>
                   <FaSignOutAlt />
-                  <span>تسجيل الخروج</span>
+                  <span>{t("nav.logout")}</span>
                 </button>
               </div>
             )}

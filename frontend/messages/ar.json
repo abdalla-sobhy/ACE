@@ -1,0 +1,87 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "submit": "إرسال",
+    "search": "بحث",
+    "filter": "تصفية",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "confirm": "تأكيد",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "home": "الرئيسية",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "jobs": "الوظائف",
+    "applications": "الطلبات",
+    "students": "الطلاب",
+    "teachers": "المعلمين",
+    "parents": "أولياء الأمور",
+    "companies": "الشركات",
+    "users": "المستخدمين",
+    "myCourses": "كورساتي",
+    "exams": "الامتحانات",
+    "progress": "التقدم"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "noNotifications": "لا توجد إشعارات",
+    "markAllAsRead": "تحديد الكل كمقروء",
+    "viewAll": "عرض جميع الإشعارات",
+    "delete": "حذف",
+    "newJobApplication": "طلب توظيف جديد",
+    "applicationStatusUpdated": "تحديث حالة الطلب",
+    "newJobPosted": "وظيفة جديدة",
+    "welcome": "مرحباً",
+    "notification": "إشعار",
+    "followRequest": "طلب متابعة جديد",
+    "followRequestApproved": "تمت الموافقة على الطلب",
+    "studentApplied": "{studentName} تقدم لوظيفة {jobTitle}",
+    "statusUpdatedTo": "تم تحديث حالة طلبك في {jobTitle} إلى: {status}",
+    "companyPostedJob": "{companyName} نشرت وظيفة جديدة: {jobTitle}",
+    "parentWantsToFollow": "{parentName} يريد متابعة تقدمك",
+    "newNotification": "لديك إشعار جديد",
+    "time": {
+      "now": "الآن",
+      "minutesAgo": "منذ {minutes} دقيقة",
+      "hoursAgo": "منذ {hours} ساعة",
+      "daysAgo": "منذ {days} يوم"
+    }
+  },
+  "status": {
+    "pending": "قيد الانتظار",
+    "reviewing": "قيد المراجعة",
+    "shortlisted": "في القائمة المختصرة",
+    "interviewed": "تمت المقابلة",
+    "accepted": "مقبول",
+    "rejected": "مرفوض",
+    "withdrawn": "منسحب"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "forgotPassword": "نسيت كلمة المرور",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "rememberMe": "تذكرني",
+    "loginButton": "دخول",
+    "signupButton": "تسجيل",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "dontHaveAccount": "ليس لديك حساب؟"
+  },
+  "language": {
+    "ar": "العربية",
+    "en": "English",
+    "switchTo": "التبديل إلى"
+  }
+}
