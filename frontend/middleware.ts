@@ -1,13 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import createIntlMiddleware from 'next-intl/middleware';
-import { locales, defaultLocale } from './i18n';
-
-const intlMiddleware = createIntlMiddleware({
-  locales,
-  defaultLocale,
-  localePrefix: 'as-needed'
-});
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("authToken")?.value;
@@ -88,8 +80,7 @@ export function middleware(request: NextRequest) {
     );
   }
 
-  // Apply i18n middleware for all requests
-  return intlMiddleware(request);
+  return NextResponse.next();
 }
 
 function getDashboardPath(userType: string): string {
