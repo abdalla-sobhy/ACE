@@ -296,7 +296,7 @@ export default function UniversityJobs() {
         {/* Jobs List */}
         <section className={styles.jobsSection}>
           {jobs.length === 0 ? (
-            <div className={styles.emptyState}>
+            <div className={`${styles.emptyState} flex flex-col justify-center items-center`}>
               <FaBriefcase className={styles.emptyIcon} />
               <h3>لا توجد وظائف متاحة</h3>
               <p>جرب تغيير معايير البحث أو الفلترة</p>
