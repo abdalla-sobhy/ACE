@@ -16,6 +16,9 @@ import {
   FaMoneyBillWave,
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
+import LanguageSwitcher from "../LanguageSwitcher";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import { useTranslations, useLocale } from "@/hooks/useTranslations";
 
 interface User {
   name: string;
@@ -30,6 +33,8 @@ export default function TeacherNav() {
   const [user, setUser] = useState<User | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslations();
+  const locale = useLocale();
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -54,7 +59,7 @@ export default function TeacherNav() {
     localStorage.removeItem("user");
     localStorage.removeItem("authData");
     document.cookie = "authToken=; path=/; max-age=0";
-    router.push("/login");
+    router.push(`/${locale}/login`);
   };
 
   useEffect(() => {
@@ -82,12 +87,12 @@ export default function TeacherNav() {
   }, [isMenuOpen, isProfileOpen]);
 
   const navItems = [
-    { href: "/teacher/dashboard", label: "الرئيسية", icon: <FaHome /> },
-    { href: "/teacher/courses", label: "كورساتي", icon: <FaBook /> },
-    { href: "/teacher/students", label: "الطلاب", icon: <FaUsers /> },
-    { href: "/teacher/schedule", label: "الجدول", icon: <FaCalendarAlt /> },
-    { href: "/teacher/analytics", label: "الإحصائيات", icon: <FaChartBar /> },
-    { href: "/teacher/earnings", label: "الأرباح", icon: <FaMoneyBillWave /> },
+    { href: `/${locale}/teacher/dashboard`, label: t("nav.home"), icon: <FaHome /> },
+    { href: `/${locale}/teacher/courses`, label: t("nav.myCourses"), icon: <FaBook /> },
+    { href: `/${locale}/teacher/students`, label: t("nav.students"), icon: <FaUsers /> },
+    { href: `/${locale}/teacher/schedule`, label: t("nav.schedule"), icon: <FaCalendarAlt /> },
+    { href: `/${locale}/teacher/analytics`, label: t("nav.analytics"), icon: <FaChartBar /> },
+    { href: `/${locale}/teacher/earnings`, label: t("nav.earnings"), icon: <FaMoneyBillWave /> },
   ];
 
   return (
@@ -95,11 +100,11 @@ export default function TeacherNav() {
       <div className={styles.navContainer}>
         <div className={styles.navHeader}>
           <Link
-            href="/teacher/dashboard"
+            href={`/${locale}/teacher/dashboard`}
             className={styles.logo}
             onClick={closeMenu}
           >
-            Edvance <span className={styles.teacherBadge}>محاضر</span>
+            Edvance <span className={styles.teacherBadge}>{t("nav.teachers")}</span>
           </Link>
           <button
             className={styles.hamburger}
@@ -114,8 +119,8 @@ export default function TeacherNav() {
           className={`${styles.navContent} ${isMenuOpen ? styles.open : ""}`}
         >
           <div className={styles.navLeft}>
-            <Link href="/teacher/dashboard" className={styles.logoDesktop}>
-              Edvance <span className={styles.teacherBadge}>محاضر</span>
+            <Link href={`/${locale}/teacher/dashboard`} className={styles.logoDesktop}>
+              Edvance <span className={styles.teacherBadge}>{t("nav.teachers")}</span>
             </Link>
             {navItems.map((item) => (
               <Link
@@ -131,6 +136,8 @@ export default function TeacherNav() {
           </div>
 
           <div className={styles.navRight}>
+            <ThemeToggle />
+            <LanguageSwitcher />
             <NotificationDropdown />
 
             <div className={styles.profileDropdown} ref={profileRef}>
@@ -159,16 +166,16 @@ export default function TeacherNav() {
                     </div>
                   </div>
                   <div className={styles.dropdownDivider}></div>
-                  <Link href="/teacher/profile" className={styles.dropdownItem}>
+                  <Link href={`/${locale}/teacher/profile`} className={styles.dropdownItem}>
                     <FaUser />
-                    <span>الملف الشخصي</span>
+                    <span>{t("nav.profile")}</span>
                   </Link>
                   <button
                     className={styles.dropdownItem}
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt />
-                    <span>تسجيل الخروج</span>
+                    <span>{t("nav.logout")}</span>
                   </button>
                 </div>
               )}

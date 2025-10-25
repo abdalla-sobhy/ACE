@@ -37,7 +37,13 @@
     "about": "About Us",
     "contact": "Contact Us",
     "login": "Login",
-    "signup": "Join for Free"
+    "signup": "Join for Free",
+    "schedule": "Schedule",
+    "analytics": "Analytics",
+    "earnings": "Earnings",
+    "jobOpportunities": "Job Opportunities",
+    "myApplications": "My Applications",
+    "myProfile": "My Profile"
   },
   "notifications": {
     "title": "Notifications",

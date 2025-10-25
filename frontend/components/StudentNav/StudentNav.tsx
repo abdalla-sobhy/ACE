@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import LanguageSwitcher from "../LanguageSwitcher";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { useTranslations, useLocale } from "@/hooks/useTranslations";
 
 interface User {
@@ -131,6 +132,7 @@ export default function StudentNav() {
           </div>
 
           <div className={styles.navRight}>
+            <ThemeToggle />
             <LanguageSwitcher />
             <NotificationDropdown />
 
