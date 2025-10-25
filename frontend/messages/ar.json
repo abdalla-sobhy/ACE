@@ -37,7 +37,13 @@
     "about": "من نحن",
     "contact": "تواصل معنا",
     "login": "تسجيل الدخول",
-    "signup": "انضم مجاناً"
+    "signup": "انضم مجاناً",
+    "schedule": "الجدول",
+    "analytics": "الإحصائيات",
+    "earnings": "الأرباح",
+    "jobOpportunities": "فرص العمل",
+    "myApplications": "طلباتي",
+    "myProfile": "ملفي الشخصي"
   },
   "notifications": {
     "title": "الإشعارات",

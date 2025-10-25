@@ -16,6 +16,9 @@ import {
   FaClipboardList,
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
+import LanguageSwitcher from "../LanguageSwitcher";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import { useTranslations, useLocale } from "@/hooks/useTranslations";
 
 interface User {
   name: string;
@@ -34,6 +37,8 @@ export default function UniversityStudentNav() {
   const [user, setUser] = useState<User | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslations();
+  const locale = useLocale();
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -58,7 +63,7 @@ export default function UniversityStudentNav() {
     localStorage.removeItem("user");
     localStorage.removeItem("authData");
     document.cookie = "authToken=; path=/; max-age=0";
-    router.push("/login");
+    router.push(`/${locale}/login`);
   };
 
   useEffect(() => {
@@ -87,33 +92,33 @@ export default function UniversityStudentNav() {
 
   const navItems = [
     {
-      href: "/university_student/dashboard",
-      label: "الرئيسية",
+      href: `/${locale}/university_student/dashboard`,
+      label: t("nav.home"),
       icon: <FaHome />,
     },
     {
-      href: "/university_student/jobs",
-      label: "فرص العمل",
+      href: `/${locale}/university_student/jobs`,
+      label: t("nav.jobOpportunities"),
       icon: <FaBriefcase />,
     },
     {
-      href: "/university_student/applications",
-      label: "طلباتي",
+      href: `/${locale}/university_student/applications`,
+      label: t("nav.myApplications"),
       icon: <FaClipboardList />,
     },
     {
-      href: "/university_student/courses",
-      label: "الكورسات",
+      href: `/${locale}/university_student/courses`,
+      label: t("nav.courses"),
       icon: <FaBook />,
     },
     {
-      href: "/university_student/my-courses",
-      label: "كورساتي",
+      href: `/${locale}/university_student/my-courses`,
+      label: t("nav.myCourses"),
       icon: <FaGraduationCap />,
     },
     {
-      href: "/university_student/profile",
-      label: "ملفي الشخصي",
+      href: `/${locale}/university_student/profile`,
+      label: t("nav.myProfile"),
       icon: <FaFileAlt />,
     },
   ];
@@ -123,7 +128,7 @@ export default function UniversityStudentNav() {
       <div className={styles.navContainer}>
         <div className={styles.navHeader}>
           <Link
-            href="/university_student/dashboard"
+            href={`/${locale}/university_student/dashboard`}
             className={styles.logo}
             onClick={closeMenu}
           >
@@ -145,7 +150,7 @@ export default function UniversityStudentNav() {
         >
           <div className={styles.navLeft}>
             <Link
-              href="/university_student/dashboard"
+              href={`/${locale}/university_student/dashboard`}
               className={styles.logoDesktop}
             >
               <FaGraduationCap className={styles.logoIcon} />
@@ -166,6 +171,8 @@ export default function UniversityStudentNav() {
           </div>
 
           <div className={styles.navRight}>
+            <ThemeToggle />
+            <LanguageSwitcher />
             <NotificationDropdown />
 
             <div className={styles.profileDropdown} ref={profileRef}>
@@ -200,25 +207,25 @@ export default function UniversityStudentNav() {
                   </div>
                   <div className={styles.dropdownDivider}></div>
                   <Link
-                    href="/university_student/profile"
+                    href={`/${locale}/university_student/profile`}
                     className={styles.dropdownItem}
                   >
                     <FaUser />
-                    <span>الملف الشخصي</span>
+                    <span>{t("nav.profile")}</span>
                   </Link>
                   <Link
-                    href="/university_student/applications"
+                    href={`/${locale}/university_student/applications`}
                     className={styles.dropdownItem}
                   >
                     <FaClipboardList />
-                    <span>طلباتي الوظيفية</span>
+                    <span>{t("nav.myApplications")}</span>
                   </Link>
                   <button
                     className={styles.dropdownItem}
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt />
-                    <span>تسجيل الخروج</span>
+                    <span>{t("nav.logout")}</span>
                   </button>
                 </div>
               )}
