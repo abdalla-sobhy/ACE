@@ -5,12 +5,14 @@ import { FaBell, FaTimes, FaCheckDouble } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
 import { Notification } from "@/lib/notifications";
+import { useTranslations } from "@/hooks/useTranslations";
 import styles from "./NotificationDropdown.module.css";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const { t, locale } = useTranslations();
 
   const {
     notifications,
@@ -47,66 +49,70 @@ export default function NotificationDropdown() {
     switch (notification.type) {
       case "App\\Notifications\\NewJobApplication":
         return {
-          title: "طلب توظيف جديد",
-          message: `تقدم ${data.student_name} لوظيفة ${data.job_title}`,
+          title: t("notifications.newJobApplication"),
+          message: t("notifications.studentApplied", {
+            studentName: data.student_name,
+            jobTitle: data.job_title
+          }),
           link: `/company/applications/${data.application_id}`,
         };
 
       case "App\\Notifications\\ApplicationStatusUpdated":
         return {
-          title: "تحديث حالة الطلب",
-          message: `تم تحديث حالة طلبك في ${data.job_title} إلى: ${getStatusText(data.new_status)}`,
+          title: t("notifications.applicationStatusUpdated"),
+          message: t("notifications.statusUpdatedTo", {
+            jobTitle: data.job_title,
+            status: getStatusText(data.new_status)
+          }),
           link: `/university_student/applications`,
         };
 
       case "App\\Notifications\\NewJobPosted":
         return {
-          title: "وظيفة جديدة",
-          message: `${data.company_name} نشرت وظيفة جديدة: ${data.job_title}`,
+          title: t("notifications.newJobPosted"),
+          message: t("notifications.companyPostedJob", {
+            companyName: data.company_name,
+            jobTitle: data.job_title
+          }),
           link: `/university_student/jobs/${data.job_id}`,
         };
 
       case "App\\Notifications\\WelcomeNotification":
         return {
-          title: data.title || "مرحباً",
+          title: data.title || t("notifications.welcome"),
           message: data.message,
           link: null,
         };
 
       case "App\\Notifications\\FollowRequestNotification":
         return {
-          title: "طلب متابعة جديد",
-          message: `${data.parent_name} يريد متابعة تقدمك`,
+          title: t("notifications.followRequest"),
+          message: t("notifications.parentWantsToFollow", {
+            parentName: data.parent_name
+          }),
           link: `/student/follow-requests`,
         };
 
       case "App\\Notifications\\FollowRequestApprovedNotification":
         return {
-          title: "تمت الموافقة على الطلب",
+          title: t("notifications.followRequestApproved"),
           message: data.message,
           link: `/parent/students`,
         };
 
       default:
         return {
-          title: "إشعار",
-          message: data.message || "لديك إشعار جديد",
+          title: t("notifications.notification"),
+          message: data.message || t("notifications.newNotification"),
           link: null,
         };
     }
   };
 
   const getStatusText = (status: string) => {
-    const statusMap: Record<string, string> = {
-      pending: "قيد الانتظار",
-      reviewing: "قيد المراجعة",
-      shortlisted: "في القائمة المختصرة",
-      interviewed: "تمت المقابلة",
-      accepted: "مقبول",
-      rejected: "مرفوض",
-      withdrawn: "منسحب",
-    };
-    return statusMap[status] || status;
+    const statusKey = `status.${status}`;
+    const translated = t(statusKey);
+    return translated !== statusKey ? translated : status;
   };
 
   const handleNotificationClick = async (notification: Notification) => {
@@ -138,12 +144,21 @@ export default function NotificationDropdown() {
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffInSeconds < 60) return "الآن";
-    if (diffInSeconds < 3600) return `منذ ${Math.floor(diffInSeconds / 60)} دقيقة`;
-    if (diffInSeconds < 86400) return `منذ ${Math.floor(diffInSeconds / 3600)} ساعة`;
-    if (diffInSeconds < 604800) return `منذ ${Math.floor(diffInSeconds / 86400)} يوم`;
+    if (diffInSeconds < 60) return t("notifications.time.now");
+    if (diffInSeconds < 3600) {
+      const minutes = Math.floor(diffInSeconds / 60);
+      return t("notifications.time.minutesAgo", { minutes: minutes.toString() });
+    }
+    if (diffInSeconds < 86400) {
+      const hours = Math.floor(diffInSeconds / 3600);
+      return t("notifications.time.hoursAgo", { hours: hours.toString() });
+    }
+    if (diffInSeconds < 604800) {
+      const days = Math.floor(diffInSeconds / 86400);
+      return t("notifications.time.daysAgo", { days: days.toString() });
+    }
 
-    return date.toLocaleDateString("ar-EG", {
+    return date.toLocaleDateString(locale === 'ar' ? "ar-EG" : "en-US", {
       month: "short",
       day: "numeric",
     });
@@ -166,12 +181,12 @@ export default function NotificationDropdown() {
       {isOpen && (
         <div className={styles.dropdown}>
           <div className={styles.dropdownHeader}>
-            <h3>الإشعارات</h3>
+            <h3>{t("notifications.title")}</h3>
             {unreadCount > 0 && (
               <button
                 className={styles.markAllButton}
                 onClick={handleMarkAllAsRead}
-                title="تحديد الكل كمقروء"
+                title={t("notifications.markAllAsRead")}
               >
                 <FaCheckDouble />
               </button>
@@ -181,12 +196,12 @@ export default function NotificationDropdown() {
           <div className={styles.notificationList}>
             {loading && notifications.length === 0 ? (
               <div className={styles.emptyState}>
-                <p>جاري التحميل...</p>
+                <p>{t("common.loading")}</p>
               </div>
             ) : notifications.length === 0 ? (
               <div className={styles.emptyState}>
                 <FaBell className={styles.emptyIcon} />
-                <p>لا توجد إشعارات</p>
+                <p>{t("notifications.noNotifications")}</p>
               </div>
             ) : (
               notifications.map((notification) => {
@@ -215,7 +230,7 @@ export default function NotificationDropdown() {
                       onClick={(e) =>
                         handleDeleteNotification(e, notification.id)
                       }
-                      title="حذف"
+                      title={t("notifications.delete")}
                     >
                       <FaTimes />
                     </button>
@@ -235,7 +250,7 @@ export default function NotificationDropdown() {
                   setIsOpen(false);
                 }}
               >
-                عرض جميع الإشعارات
+                {t("notifications.viewAll")}
               </button>
             </div>
           )}

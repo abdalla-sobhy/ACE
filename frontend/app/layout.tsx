@@ -59,7 +59,7 @@ export default async function RootLayout({
   const theme = await getTheme();
 
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <ClientBody
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

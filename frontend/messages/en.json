@@ -1,0 +1,87 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "home": "Home",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "jobs": "Jobs",
+    "applications": "Applications",
+    "students": "Students",
+    "teachers": "Teachers",
+    "parents": "Parents",
+    "companies": "Companies",
+    "users": "Users",
+    "myCourses": "My Courses",
+    "exams": "Exams",
+    "progress": "Progress"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "No notifications",
+    "markAllAsRead": "Mark all as read",
+    "viewAll": "View all notifications",
+    "delete": "Delete",
+    "newJobApplication": "New job application",
+    "applicationStatusUpdated": "Application status updated",
+    "newJobPosted": "New job posted",
+    "welcome": "Welcome",
+    "notification": "Notification",
+    "followRequest": "New follow request",
+    "followRequestApproved": "Follow request approved",
+    "studentApplied": "{studentName} applied for {jobTitle}",
+    "statusUpdatedTo": "Your application for {jobTitle} has been updated to: {status}",
+    "companyPostedJob": "{companyName} posted a new job: {jobTitle}",
+    "parentWantsToFollow": "{parentName} wants to follow your progress",
+    "newNotification": "You have a new notification",
+    "time": {
+      "now": "Now",
+      "minutesAgo": "{minutes} minutes ago",
+      "hoursAgo": "{hours} hours ago",
+      "daysAgo": "{days} days ago"
+    }
+  },
+  "status": {
+    "pending": "Pending",
+    "reviewing": "Reviewing",
+    "shortlisted": "Shortlisted",
+    "interviewed": "Interviewed",
+    "accepted": "Accepted",
+    "rejected": "Rejected",
+    "withdrawn": "Withdrawn"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "forgotPassword": "Forgot Password",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "loginButton": "Login",
+    "signupButton": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?"
+  },
+  "language": {
+    "ar": "العربية",
+    "en": "English",
+    "switchTo": "Switch to"
+  }
+}
