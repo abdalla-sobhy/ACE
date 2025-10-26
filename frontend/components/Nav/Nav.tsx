@@ -81,13 +81,6 @@ export default function Nav() {
               المميزات
             </Link>
             <Link
-              href="/courses"
-              className={pathname === "/courses" ? styles.active : ""}
-              onClick={closeMenu}
-            >
-              الكورسات
-            </Link>
-            <Link
               href="/about"
               className={pathname === "/about" ? styles.active : ""}
               onClick={closeMenu}

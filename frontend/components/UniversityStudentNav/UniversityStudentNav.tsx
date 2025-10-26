@@ -102,11 +102,6 @@ export default function UniversityStudentNav() {
       icon: <FaClipboardList />,
     },
     {
-      href: "/university_student/courses",
-      label: "الكورسات",
-      icon: <FaBook />,
-    },
-    {
       href: "/university_student/my-courses",
       label: "كورساتي",
       icon: <FaGraduationCap />,

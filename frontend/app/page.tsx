@@ -147,7 +147,6 @@ export default function LandingPage() {
           </div>
           <div className={styles.footerSection}>
             <h5>للطلاب</h5>
-            <Link href="/courses">الكورسات</Link>
             <Link href="/schedule">الجدول</Link>
             <Link href="/exams">الامتحانات</Link>
           </div>
