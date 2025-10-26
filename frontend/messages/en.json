@@ -402,11 +402,12 @@
     "welcome": "Welcome {name} 👋",
     "exploreOpportunities": "Explore available opportunities and courses",
     "loading": "Loading...",
+    "loadingData": "Loading data...",
     "stats": {
       "profileViews": "Profile Views",
       "cvDownloads": "CV Downloads",
       "coursesCompleted": "Courses Completed",
-      "certificates": "Certificates Earned"
+      "certificates": "Certificates"
     },
     "profileCompletion": {
       "title": "Profile Completion",
@@ -414,15 +415,71 @@
       "completeProfile": "Complete Your Profile",
       "getNoticed": "Complete your profile to get noticed by employers"
     },
+    "profileAlert": {
+      "title": "Complete your profile to get better opportunities!",
+      "description": "Companies are looking for students with complete profiles. Add your CV and skills.",
+      "updateProfile": "Update Profile"
+    },
     "quickActions": {
       "editProfile": "Edit Profile",
+      "viewProfile": "View Profile",
       "browseJobs": "Browse Jobs",
+      "jobOpportunities": "Job Opportunities",
       "myCourses": "My Courses",
       "myApplications": "My Applications"
     },
+    "careerGoal": {
+      "title": "My Career Goal",
+      "lookingForOpportunities": "Looking for opportunities",
+      "goals": {
+        "career_preparation": "Career Preparation & Employment",
+        "skill_development": "Professional Skill Development",
+        "academic_excellence": "Academic Excellence",
+        "research": "Scientific Research",
+        "entrepreneurship": "Entrepreneurship",
+        "graduate_studies": "Graduate Studies Preparation"
+      }
+    },
+    "skillDevelopment": {
+      "title": "Skill Development",
+      "subtitle": "Acquire skills required in the job market"
+    },
+    "search": {
+      "placeholder": "Search for courses, skills, or instructors...",
+      "coursesSortedBy": "Courses sorted by your goal:"
+    },
+    "categories": {
+      "all": "All Specializations",
+      "programming": "Programming",
+      "business": "Business Management",
+      "design": "Design",
+      "marketing": "Marketing",
+      "data": "Data Analysis",
+      "languages": "Languages",
+      "soft_skills": "Soft Skills"
+    },
     "courses": {
       "title": "Available Courses",
-      "count": "{count} courses"
+      "count": "{count} courses",
+      "noResults": "No results found",
+      "tryDifferent": "Try searching with different words or change the category",
+      "enrolled": "Enrolled",
+      "free": "Free",
+      "egp": "EGP",
+      "lesson": "lesson",
+      "lessons": "lessons",
+      "student": "student",
+      "students": "students",
+      "continue": "Continue",
+      "enroll": "Enroll"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "profile": {
+      "universityStudent": "University Student",
+      "university": "University"
     }
   },
   "signup": {
