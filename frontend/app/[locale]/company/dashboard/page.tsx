@@ -111,7 +111,9 @@ export default function CompanyDashboard() {
   };
 
   const getStatusLabel = (status: string) => {
-    return t(`applicationStatus.${status}` as any) || status;
+    const key = `applicationStatus.${status}`;
+    // @ts-expect-error - Dynamic translation key
+    return t(key) || status;
   };
 
   if (loading) {

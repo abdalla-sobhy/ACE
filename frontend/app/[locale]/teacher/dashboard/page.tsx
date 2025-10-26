@@ -240,11 +240,13 @@ export default function TeacherDashboard() {
   };
 
   const getCategoryLabel = (category: string) => {
-    return tCategories(category as any) || category;
+    // @ts-expect-error - Dynamic translation key
+    return tCategories(category) || category;
   };
 
   const getGradeLabel = (grade: string) => {
-    return tGrades(grade as any) || grade;
+    // @ts-expect-error - Dynamic translation key
+    return tGrades(grade) || grade;
   };
 
   if (loading) {
