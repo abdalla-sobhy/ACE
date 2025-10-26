@@ -344,7 +344,6 @@ const findNextSessionFromSchedule = (
 
   const getGradeLabel = (grade: string) => {
     const key = `grades.${grade}`;
-    // @ts-expect-error - Dynamic translation key
     return t(key) || grade;
   };
 
@@ -361,7 +360,6 @@ const findNextSessionFromSchedule = (
     };
     const key = `categories.${category}`;
     return {
-      // @ts-expect-error - Dynamic translation key
       label: t(key) || category,
       icon: iconMap[category] || "📚"
     };

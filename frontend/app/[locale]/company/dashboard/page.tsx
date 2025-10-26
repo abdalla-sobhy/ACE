@@ -112,7 +112,6 @@ export default function CompanyDashboard() {
 
   const getStatusLabel = (status: string) => {
     const key = `applicationStatus.${status}`;
-    // @ts-expect-error - Dynamic translation key
     return t(key) || status;
   };
 

@@ -240,12 +240,10 @@ export default function TeacherDashboard() {
   };
 
   const getCategoryLabel = (category: string) => {
-    // @ts-expect-error - Dynamic translation key
     return tCategories(category) || category;
   };
 
   const getGradeLabel = (grade: string) => {
-    // @ts-expect-error - Dynamic translation key
     return tGrades(grade) || grade;
   };
 

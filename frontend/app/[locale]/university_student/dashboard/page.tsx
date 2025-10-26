@@ -312,7 +312,6 @@ export default function UniversityStudentDashboard() {
 
   const getGoalLabel = (goal: string) => {
     const key = `careerGoal.goals.${goal}`;
-    // @ts-expect-error - Dynamic translation key
     return t(key) || goal;
   };
 
