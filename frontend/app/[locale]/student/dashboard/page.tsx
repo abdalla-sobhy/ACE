@@ -6,6 +6,7 @@ import styles from "./StudentDashboard.module.css";
 import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaShoppingCart, FaTimes, FaVideo, FaCalendarAlt, FaBroadcastTower } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useTranslations, useLocale } from "next-intl";
 
 interface Course {
   id: number;
@@ -55,6 +56,8 @@ interface User {
 
 export default function StudentDashboard() {
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations('studentDashboard');
   const [user, setUser] = useState<User | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
@@ -172,7 +175,7 @@ export default function StudentDashboard() {
 
   const handleCourseAction = async (course: Course) => {
   if (course.is_full && !course.is_enrolled) {
-    alert("عذراً، هذا الكورس مكتمل العدد");
+    alert(t('courses.courseFull'));
     return;
   }
 
@@ -181,15 +184,15 @@ export default function StudentDashboard() {
       const authData = JSON.parse(localStorage.getItem("authData") || "{}");
       
       if (!authData.token) {
-        alert("لم يتم العثور على رمز المصادقة. يرجى تسجيل الدخول مرة أخرى.");
-        router.push("/login");
+        alert(t('courses.noUpcoming'));
+        router.push(`/${locale}/login`);
         return;
       }
 
       console.log(course)
 
       if (!course.schedule || course.schedule.length === 0) {
-        alert("لا توجد جلسات مجدولة لهذا الكورس");
+        alert(t('courses.noUpcoming'));
         return;
       }
 
@@ -205,10 +208,10 @@ export default function StudentDashboard() {
       });
 
       if (response.status === 401) {
-        alert("انتهت صلاحية جلسة الدخول. يرجى تسجيل الدخول مرة أخرى.");
+        alert(t('courses.sessionEnded'));
         localStorage.removeItem("authData");
         localStorage.removeItem("user");
-        router.push("/login");
+        router.push(`/${locale}/login`);
         return;
       }
 
@@ -216,9 +219,9 @@ export default function StudentDashboard() {
         const nextSession = findNextSessionFromSchedule(course.schedule, course.start_date, course.end_date);
         
         if (nextSession) {
-          router.push(`/student/live-class/course/${course.id}`);
+          router.push(`/${locale}/student/live-class/course/${course.id}`);
         } else {
-          alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
+          alert(t('courses.noUpcoming'));
         }
         return;
       }
@@ -226,8 +229,8 @@ export default function StudentDashboard() {
       if (!response.ok) {
         const errorText = await response.text();
         console.error("API Error:", errorText);
-        
-        router.push(`/student/courses/${course.id}`);
+
+        router.push(`/${locale}/student/courses/${course.id}`);
         return;
       }
 
@@ -235,49 +238,49 @@ export default function StudentDashboard() {
       
       if (!data || typeof data.success === 'undefined') {
         console.error("Invalid API response structure:", data);
-        router.push(`/student/courses/${course.id}`);
+        router.push(`/${locale}/student/courses/${course.id}`);
         return;
       }
-      
+
       if (data.success && data.session) {
   if (data.session.can_join) {
-    router.push(`/student/live-class/${data.session.id}`);
+    router.push(`/${locale}/student/live-class/${data.session.id}`);
   } else if (data.session.minutes_until_start > 15) {
     const totalMinutes = Math.round(data.session.minutes_until_start);
     const hoursUntil = Math.floor(totalMinutes / 60);
     const minutesUntil = totalMinutes % 60;
-    
-    let message = 'الجلسة ستبدأ بعد ';
+
+    let message = t('courses.sessionWillStart') + ' ';
     if (hoursUntil > 0) {
-      message += `${hoursUntil} ساعة`;
+      message += `${hoursUntil} ${locale === 'ar' ? 'ساعة' : 'hours'}`;
       if (minutesUntil > 0) {
-        message += ` و ${minutesUntil} دقيقة`;
+        message += ` ${locale === 'ar' ? 'و' : 'and'} ${minutesUntil} ${locale === 'ar' ? 'دقيقة' : 'minutes'}`;
       }
     } else {
-      message += `${minutesUntil} دقيقة`;
+      message += `${minutesUntil} ${locale === 'ar' ? 'دقيقة' : 'minutes'}`;
     }
-    message += '\n\nيمكنك الانضمام قبل 15 دقيقة من موعد البدء';
-    
+    message += '\n\n' + t('courses.canJoinBefore');
+
     alert(message);
   } else if (data.session.minutes_until_start < -120) {
-    alert("انتهت الجلسة المباشرة");
+    alert(t('courses.sessionEnded'));
   } else {
-    alert("لا يمكن الانضمام للجلسة حالياً");
+    alert(t('courses.cannotJoin'));
   }
 } else {
-  alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
-  router.push(`/student/courses/${course.id}`);
+  alert(t('courses.noUpcoming'));
+  router.push(`/${locale}/student/courses/${course.id}`);
 }
     } catch (error) {
       console.error("Error in handleCourseAction:", error);
-      
-      alert("حدث خطأ. سيتم توجيهك لصفحة الكورس");
-      router.push(`/student/courses/${course.id}`);
+
+      alert(t('courses.cannotJoin'));
+      router.push(`/${locale}/student/courses/${course.id}`);
     }
   } else if (course.is_enrolled) {
-    router.push(`/student/courses/${course.id}`);
+    router.push(`/${locale}/student/courses/${course.id}`);
   } else {
-    router.push(`/student/courses/${course.id}`);
+    router.push(`/${locale}/student/courses/${course.id}`);
   }
 };
 
@@ -340,35 +343,24 @@ const findNextSessionFromSchedule = (
 };
 
   const getGradeLabel = (grade: string) => {
-    const gradeLabels: { [key: string]: string } = {
-      primary_1: "الصف الأول الابتدائي",
-      primary_2: "الصف الثاني الابتدائي",
-      primary_3: "الصف الثالث الابتدائي",
-      primary_4: "الصف الرابع الابتدائي",
-      primary_5: "الصف الخامس الابتدائي",
-      primary_6: "الصف السادس الابتدائي",
-      prep_1: "الصف الأول الإعدادي",
-      prep_2: "الصف الثاني الإعدادي",
-      prep_3: "الصف الثالث الإعدادي",
-      secondary_1: "الصف الأول الثانوي",
-      secondary_2: "الصف الثاني الثانوي",
-      secondary_3: "الصف الثالث الثانوي",
-    };
-    return gradeLabels[grade] || grade;
+    return t(`grades.${grade}` as any) || grade;
   };
 
   const getCategoryLabel = (category: string) => {
-    const categoryLabels: { [key: string]: { label: string; icon: string } } = {
-      arabic: { label: "اللغة العربية", icon: "📝" },
-      english: { label: "اللغة الإنجليزية", icon: "🌍" },
-      math: { label: "الرياضيات", icon: "🔢" },
-      science: { label: "العلوم", icon: "🔬" },
-      social: { label: "الدراسات الاجتماعية", icon: "🗺️" },
-      religion: { label: "التربية الدينية", icon: "🕌" },
-      french: { label: "اللغة الفرنسية", icon: "🇫🇷" },
-      german: { label: "اللغة الألمانية", icon: "🇩🇪" },
+    const iconMap: { [key: string]: string } = {
+      arabic: "📝",
+      english: "🌍",
+      math: "🔢",
+      science: "🔬",
+      social: "🗺️",
+      religion: "🕌",
+      french: "🇫🇷",
+      german: "🇩🇪",
     };
-    return categoryLabels[category] || { label: category, icon: "📚" };
+    return {
+      label: t(`categories.${category}` as any) || category,
+      icon: iconMap[category] || "📚"
+    };
   };
 
   if (loading) {
@@ -377,7 +369,7 @@ const findNextSessionFromSchedule = (
         <StudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل الكورسات...</p>
+          <p>{t('loading')}</p>
         </div>
       </div>
     );
@@ -391,29 +383,29 @@ const findNextSessionFromSchedule = (
         {/* Welcome Section */}
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeContent}>
-            <h1>مرحباً {user?.name?.split(' ')[0]} 👋</h1>
-            <p>استكشف الكورسات المتاحة لـ{getGradeLabel(user?.profile?.grade || "")}</p>
+            <h1>{t('welcome', { name: user?.name?.split(' ')[0] || '' })}</h1>
+            <p>{t('exploreFor', { grade: getGradeLabel(user?.profile?.grade || "") })}</p>
           </div>
           <div className={styles.statsCards}>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>📚</div>
               <div className={styles.statInfo}>
                 <h3>{courses.length}</h3>
-                <p>كورس متاح</p>
+                <p>{t('stats.availableCourses')}</p>
               </div>
             </div>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>🎯</div>
               <div className={styles.statInfo}>
                 <h3>{enrolledCount}</h3>
-                <p>كورس مسجل</p>
+                <p>{t('stats.enrolledCourses')}</p>
               </div>
             </div>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>👨‍🏫</div>
               <div className={styles.statInfo}>
                 <h3>{new Set(courses.map(c => c.teacher_id)).size}</h3>
-                <p>مدرس متاح</p>
+                <p>{t('stats.availableTeachers')}</p>
               </div>
             </div>
           </div>
@@ -427,7 +419,7 @@ const findNextSessionFromSchedule = (
               <FaSearch className={styles.searchIcon} />
               <input
                 type="text"
-                placeholder="ابحث عن كورس أو موضوع..."
+                placeholder={t('search.placeholder')}
                 className={styles.searchInput}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -447,7 +439,7 @@ const findNextSessionFromSchedule = (
               <div className={styles.teacherSearchBox}>
                 <input
                   type="text"
-                  placeholder="البحث باسم المدرس..."
+                  placeholder={t('search.teacherPlaceholder')}
                   className={styles.teacherInput}
                   value={teacherNameFilter}
                   onChange={(e) => setTeacherNameFilter(e.target.value)}
@@ -462,7 +454,7 @@ const findNextSessionFromSchedule = (
                   </button>
                 )}
                 <button type="submit" className={styles.searchButton}>
-                  بحث
+                  {t('search.search')}
                 </button>
               </div>
             </form>
@@ -470,39 +462,39 @@ const findNextSessionFromSchedule = (
 
           {/* Course Type Filter */}
           <div className={styles.courseTypeFilter}>
-            <button 
+            <button
               className={`${styles.typeButton} ${courseTypeFilter === 'all' ? styles.active : ''}`}
               onClick={() => {
                 setCourseTypeFilter('all');
                 fetchCourses(teacherNameFilter, 'all');
               }}
             >
-              جميع الكورسات
+              {t('filters.allCourses')}
             </button>
-            <button 
+            <button
               className={`${styles.typeButton} ${courseTypeFilter === 'recorded' ? styles.active : ''}`}
               onClick={() => {
                 setCourseTypeFilter('recorded');
                 fetchCourses(teacherNameFilter, 'recorded');
               }}
             >
-              <FaVideo /> كورسات مسجلة
+              <FaVideo /> {t('filters.recordedCourses')}
             </button>
-            <button 
+            <button
               className={`${styles.typeButton} ${courseTypeFilter === 'live' ? styles.active : ''}`}
               onClick={() => {
                 setCourseTypeFilter('live');
                 fetchCourses(teacherNameFilter, 'live');
               }}
             >
-              <span className={styles.liveIcon}>🔴</span> بث مباشر
+              <span className={styles.liveIcon}>🔴</span> {t('filters.liveCourses')}
             </button>
           </div>
 
           {teacherNameFilter && (
             <div className={styles.activeFilter}>
-              <span>النتائج للمدرس: &quot;{teacherNameFilter}&quot;</span>
-              <button onClick={clearTeacherFilter}>إلغاء التصفية</button>
+              <span>{t('filters.resultsFor', { name: teacherNameFilter })}</span>
+              <button onClick={clearTeacherFilter}>{t('filters.cancelFilter')}</button>
             </div>
           )}
         </section>
@@ -510,15 +502,15 @@ const findNextSessionFromSchedule = (
         {/* Courses Grid */}
         <section className={styles.coursesSection}>
           <div className={styles.coursesHeader}>
-            <h2>الكورسات المتاحة</h2>
-            <p>{filteredCourses.length} كورس</p>
+            <h2>{t('courses.title')}</h2>
+            <p>{t('courses.count', { count: filteredCourses.length })}</p>
           </div>
 
           {filteredCourses.length === 0 ? (
             <div className={styles.noResults}>
               <span className={styles.noResultsIcon}>🔍</span>
-              <h3>لا توجد كورسات</h3>
-              <p>جرب البحث باسم مدرس آخر أو تغيير كلمات البحث</p>
+              <h3>{t('courses.noCourses')}</h3>
+              <p>{t('courses.tryDifferent')}</p>
             </div>
           ) : (
             <div className={styles.coursesGrid}>
@@ -552,7 +544,7 @@ const findNextSessionFromSchedule = (
   <div className={styles.scheduleInfo}>
     <div className={styles.scheduleHeader}>
       <FaCalendarAlt />
-      <span>جدول المحاضرات</span>
+      <span>{t('courses.scheduleTitle')}</span>
     </div>
     <div className={styles.sessionsList}>
       {course.schedule.map((session, index) => (
@@ -566,18 +558,20 @@ const findNextSessionFromSchedule = (
     </div>
     {course.start_date && (
       <p className={styles.startDate}>
-        تبدأ في: {new Date(course.start_date + 'T00:00:00').toLocaleDateString('ar-EG', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
+        {t('courses.startDate', {
+          date: new Date(course.start_date + 'T00:00:00').toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
         })}
       </p>
     )}
   </div>
 )}
-                      
+
                       {course.is_enrolled && (
-                        <div className={styles.enrolledBadge}>مسجل</div>
+                        <div className={styles.enrolledBadge}>{t('courses.enrolled')}</div>
                       )}
                     </div>
                     
@@ -591,7 +585,7 @@ const findNextSessionFromSchedule = (
                         <div className={styles.scheduleInfo}>
                           <div className={styles.scheduleHeader}>
                             <FaCalendarAlt />
-                            <span>جدول المحاضرات</span>
+                            <span>{t('courses.scheduleTitle')}</span>
                           </div>
                           <div className={styles.sessionsList}>
                             {course.schedule.map((session, index) => (
@@ -603,7 +597,9 @@ const findNextSessionFromSchedule = (
                           </div>
                           {course.start_date && (
                             <p className={styles.startDate}>
-                              تبدأ في: {new Date(course.start_date).toLocaleDateString('ar-EG')}
+                              {t('courses.startDate', {
+                                date: new Date(course.start_date).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US')
+                              })}
                             </p>
                           )}
                         </div>
@@ -616,11 +612,11 @@ const findNextSessionFromSchedule = (
                         </div>
                         <div className={styles.courseStat}>
                           <FaBook />
-                          <span>{course.lessons_count} درس</span>
+                          <span>{t('courses.lessons', { count: course.lessons_count })}</span>
                         </div>
                         <div className={styles.courseStat}>
                           <FaUsers />
-                          <span>{course.students_count} طالب</span>
+                          <span>{t('courses.students', { count: course.students_count })}</span>
                         </div>
                         <div className={styles.courseStat}>
                           <FaStar />
@@ -632,10 +628,10 @@ const findNextSessionFromSchedule = (
                         <div className={styles.coursePrice}>
                           {course.original_price && (
                             <span className={styles.originalPrice}>
-                              {course.original_price} جنيه
+                              {t('courses.price', { price: course.original_price })}
                             </span>
                           )}
-                          <span className={styles.currentPrice}>{course.price} جنيه</span>
+                          <span className={styles.currentPrice}>{t('courses.price', { price: course.price })}</span>
                         </div>
                         <button
                           className={`${styles.enrollButton} ${course.is_enrolled ? styles.enrolled : ''} ${course.is_full && !course.is_enrolled ? styles.disabled : ''}`}
@@ -648,22 +644,22 @@ const findNextSessionFromSchedule = (
                           {course.is_enrolled && course.course_type === 'live' ? (
                             <>
                               <FaBroadcastTower />
-                              <span>دخول البث المباشر</span>
+                              <span>{t('courses.joinLive')}</span>
                             </>
                           ) : course.is_enrolled ? (
                             <>
                               <FaBook />
-                              <span>متابعة الدراسة</span>
+                              <span>{t('courses.continueLearning')}</span>
                             </>
                           ) : course.is_full ? (
                             <>
                               <FaTimes />
-                              <span>مكتمل العدد</span>
+                              <span>{t('courses.full')}</span>
                             </>
                           ) : (
                             <>
                               <FaShoppingCart />
-                              <span>تسجيل الآن</span>
+                              <span>{t('courses.enrollNow')}</span>
                             </>
                           )}
                         </button>

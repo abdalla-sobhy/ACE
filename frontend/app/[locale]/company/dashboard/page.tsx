@@ -15,6 +15,7 @@ import {
   FaChartLine,
 } from "react-icons/fa";
 import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 
 interface DashboardStats {
   total_jobs: number;
@@ -35,6 +36,8 @@ interface RecentApplication {
 
 export default function CompanyDashboard() {
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations('companyDashboard');
   const [stats, setStats] = useState<DashboardStats>({
     total_jobs: 0,
     active_jobs: 0,
@@ -108,15 +111,7 @@ export default function CompanyDashboard() {
   };
 
   const getStatusLabel = (status: string) => {
-    const labels: { [key: string]: string } = {
-      pending: "قيد الانتظار",
-      reviewing: "قيد المراجعة",
-      shortlisted: "مرشح مبدئياً",
-      interviewed: "تمت المقابلة",
-      accepted: "مقبول",
-      rejected: "مرفوض",
-    };
-    return labels[status] || status;
+    return t(`applicationStatus.${status}` as any) || status;
   };
 
   if (loading) {
@@ -125,7 +120,7 @@ export default function CompanyDashboard() {
         <CompanyNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل البيانات...</p>
+          <p>{t('loading')}</p>
         </div>
       </div>
     );
@@ -137,9 +132,9 @@ export default function CompanyDashboard() {
 
       <main className={styles.main}>
         <div className={styles.header}>
-          <h1>لوحة التحكم</h1>
-          <Link href="/company/jobs/new" className={styles.newJobButton}>
-            <FaPlus /> نشر وظيفة جديدة
+          <h1>{t('title')}</h1>
+          <Link href={`/${locale}/company/jobs/new`} className={styles.newJobButton}>
+            <FaPlus /> {t('newJob')}
           </Link>
         </div>
 
@@ -150,7 +145,7 @@ export default function CompanyDashboard() {
             </div>
             <div className={styles.statContent}>
               <h3>{stats.total_jobs}</h3>
-              <p>إجمالي الوظائف</p>
+              <p>{t('stats.totalJobs')}</p>
             </div>
           </div>
 
@@ -160,7 +155,7 @@ export default function CompanyDashboard() {
             </div>
             <div className={styles.statContent}>
               <h3>{stats.active_jobs}</h3>
-              <p>وظائف نشطة</p>
+              <p>{t('stats.activeJobs')}</p>
             </div>
           </div>
 
@@ -170,7 +165,7 @@ export default function CompanyDashboard() {
             </div>
             <div className={styles.statContent}>
               <h3>{stats.total_applications}</h3>
-              <p>إجمالي الطلبات</p>
+              <p>{t('stats.totalApplications')}</p>
             </div>
           </div>
 
@@ -180,7 +175,7 @@ export default function CompanyDashboard() {
             </div>
             <div className={styles.statContent}>
               <h3>{stats.new_applications}</h3>
-              <p>طلبات جديدة</p>
+              <p>{t('stats.newApplications')}</p>
             </div>
           </div>
 
@@ -190,7 +185,7 @@ export default function CompanyDashboard() {
             </div>
             <div className={styles.statContent}>
               <h3>{stats.shortlisted_candidates}</h3>
-              <p>مرشحون مبدئياً</p>
+              <p>{t('stats.shortlisted')}</p>
             </div>
           </div>
 
@@ -200,16 +195,16 @@ export default function CompanyDashboard() {
             </div>
             <div className={styles.statContent}>
               <h3>{stats.interviews_scheduled}</h3>
-              <p>مقابلات مجدولة</p>
+              <p>{t('stats.interviews')}</p>
             </div>
           </div>
         </div>
 
         <div className={styles.recentSection}>
           <div className={styles.sectionHeader}>
-            <h2>الطلبات الأخيرة</h2>
-            <Link href="/company/applications" className={styles.viewAllLink}>
-              عرض الكل
+            <h2>{t('recentApplications.title')}</h2>
+            <Link href={`/${locale}/company/applications`} className={styles.viewAllLink}>
+              {t('recentApplications.viewAll')}
             </Link>
           </div>
 
@@ -218,10 +213,10 @@ export default function CompanyDashboard() {
               <table>
                 <thead>
                   <tr>
-                    <th>اسم المتقدم</th>
-                    <th>الوظيفة</th>
-                    <th>الحالة</th>
-                    <th>التاريخ</th>
+                    <th>{t('recentApplications.applicantName')}</th>
+                    <th>{t('recentApplications.job')}</th>
+                    <th>{t('recentApplications.status')}</th>
+                    <th>{t('recentApplications.date')}</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -242,14 +237,14 @@ export default function CompanyDashboard() {
                         </span>
                       </td>
                       <td>
-                        {new Date(application.created_at).toLocaleDateString("ar-EG")}
+                        {new Date(application.created_at).toLocaleDateString(locale === 'ar' ? "ar-EG" : "en-US")}
                       </td>
                       <td>
                         <Link
-                          href={`/company/applications/${application.id}`}
+                          href={`/${locale}/company/applications/${application.id}`}
                           className={styles.viewButton}
                         >
-                          <FaEye /> عرض
+                          <FaEye /> {t('recentApplications.view')}
                         </Link>
                       </td>
                     </tr>
@@ -259,7 +254,7 @@ export default function CompanyDashboard() {
             </div>
           ) : (
             <div className={styles.emptyState}>
-              <p>لا توجد طلبات جديدة</p>
+              <p>{t('recentApplications.noApplications')}</p>
             </div>
           )}
         </div>

@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import TeacherNav from "@/components/TeacherNav/TeacherNav";
 import styles from "./TeacherDashboard.module.css";
-import { 
-  FaBook, 
-  FaUsers, 
-  FaMoneyBillWave, 
-  FaStar, 
-  FaPlus, 
-  FaVideo, 
+import {
+  FaBook,
+  FaUsers,
+  FaMoneyBillWave,
+  FaStar,
+  FaPlus,
+  FaVideo,
   FaCalendarAlt,
   FaEdit,
   FaTrash,
@@ -19,6 +19,7 @@ import {
   FaBroadcastTower
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 
 interface Course {
   id: number;
@@ -76,6 +77,10 @@ interface User {
 
 export default function TeacherDashboard() {
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations('teacherDashboard');
+  const tGrades = useTranslations('studentDashboard.grades');
+  const tCategories = useTranslations('studentDashboard.categories');
   const [user, setUser] = useState<User | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const [stats, setStats] = useState<TeacherStats | null>(null);
@@ -173,38 +178,38 @@ export default function TeacherDashboard() {
       );
 
       if (!response.ok) {
-        alert("لا توجد جلسات مجدولة حالياً");
+        alert(t('courses.noScheduledSessions'));
         return;
       }
 
       const data = await response.json();
-      
+
       if (data.success && data.session) {
         // Teachers can join anytime (no 15-minute restriction)
-        router.push(`/teacher/live-class/${data.session.id}`);
+        router.push(`/${locale}/teacher/live-class/${data.session.id}`);
       } else {
-        alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
+        alert(t('courses.noScheduledSessions'));
       }
     } catch (error) {
       console.error("Error joining live session:", error);
-      alert("حدث خطأ أثناء الانضمام للجلسة");
+      alert(t('courses.noScheduledSessions'));
     }
   };
 
   const handleCreateCourse = () => {
-    router.push("/teacher/courses/create");
+    router.push(`/${locale}/teacher/courses/create`);
   };
 
   const handleEditCourse = (courseId: number) => {
-    router.push(`/teacher/courses/${courseId}/edit`);
+    router.push(`/${locale}/teacher/courses/${courseId}/edit`);
   };
 
   const handleViewCourse = (courseId: number) => {
-    router.push(`/teacher/courses/${courseId}`);
+    router.push(`/${locale}/teacher/courses/${courseId}`);
   };
 
   const handleDeleteCourse = async (courseId: number) => {
-    if (!confirm("هل أنت متأكد من حذف هذا الكورس؟")) {
+    if (!confirm(t('courses.confirmDelete'))) {
       return;
     }
 
@@ -235,35 +240,11 @@ export default function TeacherDashboard() {
   };
 
   const getCategoryLabel = (category: string) => {
-    const categoryLabels: { [key: string]: string } = {
-      arabic: "اللغة العربية",
-      english: "اللغة الإنجليزية",
-      math: "الرياضيات",
-      science: "العلوم",
-      social: "الدراسات الاجتماعية",
-      religion: "التربية الدينية",
-      french: "اللغة الفرنسية",
-      german: "اللغة الألمانية",
-    };
-    return categoryLabels[category] || category;
+    return tCategories(category as any) || category;
   };
 
   const getGradeLabel = (grade: string) => {
-    const gradeLabels: { [key: string]: string } = {
-      primary_1: "الصف الأول الابتدائي",
-      primary_2: "الصف الثاني الابتدائي",
-      primary_3: "الصف الثالث الابتدائي",
-      primary_4: "الصف الرابع الابتدائي",
-      primary_5: "الصف الخامس الابتدائي",
-      primary_6: "الصف السادس الابتدائي",
-      prep_1: "الصف الأول الإعدادي",
-      prep_2: "الصف الثاني الإعدادي",
-      prep_3: "الصف الثالث الإعدادي",
-      secondary_1: "الصف الأول الثانوي",
-      secondary_2: "الصف الثاني الثانوي",
-      secondary_3: "الصف الثالث الثانوي",
-    };
-    return gradeLabels[grade] || grade;
+    return tGrades(grade as any) || grade;
   };
 
   if (loading) {
@@ -272,7 +253,7 @@ export default function TeacherDashboard() {
         <TeacherNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل البيانات...</p>
+          <p>{t('loading')}</p>
         </div>
       </div>
     );
@@ -286,8 +267,8 @@ export default function TeacherDashboard() {
         {/* Welcome Section */}
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeContent}>
-            <h1>أهلاً {user?.name?.split(' ')[0]} 👋</h1>
-            <p>إليك نظرة عامة على أداء كورساتك</p>
+            <h1>{t('welcome', { name: user?.name?.split(' ')[0] || '' })}</h1>
+            <p>{t('overview')}</p>
           </div>
           
           {/* Stats Cards */}
@@ -298,7 +279,7 @@ export default function TeacherDashboard() {
               </div>
               <div className={styles.statInfo}>
                 <h3>{stats?.total_courses || 0}</h3>
-                <p>كورس</p>
+                <p>{t('stats.courses')}</p>
               </div>
               <div className={styles.statTrend}>
                 <FaChartLine />
@@ -312,7 +293,7 @@ export default function TeacherDashboard() {
               </div>
               <div className={styles.statInfo}>
                 <h3>{stats?.total_students || 0}</h3>
-                <p>طالب</p>
+                <p>{t('stats.students')}</p>
               </div>
               <div className={styles.statTrend}>
                 <FaChartLine />
@@ -325,8 +306,8 @@ export default function TeacherDashboard() {
                 <FaMoneyBillWave style={{ color: '#f85149' }} />
               </div>
               <div className={styles.statInfo}>
-                <h3>{stats?.total_revenue || 0} جنيه</h3>
-                <p>إجمالي الأرباح</p>
+                <h3>{stats?.total_revenue || 0} {locale === 'ar' ? 'جنيه' : 'EGP'}</h3>
+                <p>{t('stats.totalRevenue')}</p>
               </div>
               <div className={styles.statTrend}>
                 <FaChartLine />
@@ -340,7 +321,7 @@ export default function TeacherDashboard() {
               </div>
               <div className={styles.statInfo}>
                 <h3>{stats?.average_rating || 0}</h3>
-                <p>متوسط التقييم</p>
+                <p>{t('stats.avgRating')}</p>
               </div>
             </div>
           </div>
@@ -350,40 +331,40 @@ export default function TeacherDashboard() {
         <section className={styles.quickActions}>
           <button className={styles.createButton} onClick={handleCreateCourse}>
             <FaPlus />
-            <span>إنشاء كورس جديد</span>
+            <span>{t('quickActions.createCourse')}</span>
           </button>
           <button className={styles.scheduleButton}>
             <FaCalendarAlt />
-            <span>جدول المحاضرات</span>
+            <span>{t('quickActions.schedule')}</span>
           </button>
           <button className={styles.studentsButton}>
             <FaUsers />
-            <span>إدارة الطلاب</span>
+            <span>{t('quickActions.manageStudents')}</span>
           </button>
         </section>
 
         {/* Courses Section */}
         <section className={styles.coursesSection}>
           <div className={styles.coursesHeader}>
-            <h2>كورساتي</h2>
+            <h2>{t('courses.title')}</h2>
             <div className={styles.tabButtons}>
-              <button 
+              <button
                 className={`${styles.tabButton} ${activeTab === 'all' ? styles.active : ''}`}
                 onClick={() => setActiveTab('all')}
               >
-                الكل ({courses.length})
+                {t('courses.all', { count: courses.length })}
               </button>
-              <button 
+              <button
                 className={`${styles.tabButton} ${activeTab === 'live' ? styles.active : ''}`}
                 onClick={() => setActiveTab('live')}
               >
-                <FaVideo /> بث مباشر ({courses.filter(c => c.course_type === 'live').length})
+                <FaVideo /> {t('courses.live', { count: courses.filter(c => c.course_type === 'live').length })}
               </button>
-              <button 
+              <button
                 className={`${styles.tabButton} ${activeTab === 'recorded' ? styles.active : ''}`}
                 onClick={() => setActiveTab('recorded')}
               >
-                <FaBook /> مسجلة ({courses.filter(c => c.course_type === 'recorded').length})
+                <FaBook /> {t('courses.recorded', { count: courses.filter(c => c.course_type === 'recorded').length })}
               </button>
             </div>
           </div>
@@ -391,11 +372,11 @@ export default function TeacherDashboard() {
           {getFilteredCourses().length === 0 ? (
             <div className={styles.noCourses}>
               <FaBook className={styles.noCoursesIcon} />
-              <h3>لا توجد كورسات حتى الآن</h3>
-              <p>ابدأ بإنشاء أول كورس لك</p>
+              <h3>{t('courses.noCourses')}</h3>
+              <p>{t('courses.createFirst')}</p>
               <button className={styles.createFirstButton} onClick={handleCreateCourse}>
                 <FaPlus />
-                <span>إنشاء كورس</span>
+                <span>{t('courses.create')}</span>
               </button>
             </div>
           ) : (
@@ -418,31 +399,31 @@ export default function TeacherDashboard() {
                         </div>
                       </div>
                       <div className={styles.courseActions}>
-                        <button 
-                          className={styles.actionButton} 
+                        <button
+                          className={styles.actionButton}
                           onClick={() => handleViewCourse(course.id)}
-                          title="عرض"
+                          title={t('courses.view')}
                         >
                           <FaEye />
                         </button>
-                        <button 
-                          className={styles.actionButton} 
+                        <button
+                          className={styles.actionButton}
                           onClick={() => handleEditCourse(course.id)}
-                          title="تعديل"
+                          title={t('courses.edit')}
                         >
                           <FaEdit />
                         </button>
-                        <button 
-                          className={styles.actionButton} 
+                        <button
+                          className={styles.actionButton}
                           onClick={() => handleDeleteCourse(course.id)}
-                          title="حذف"
+                          title={t('courses.delete')}
                         >
                           <FaTrash />
                         </button>
                       </div>
                       {course.course_type === 'live' && (
                         <div className={styles.liveBadge}>
-                          <span>🔴</span> مباشر
+                          <span>🔴</span> {locale === 'ar' ? 'مباشر' : 'Live'}
                         </div>
                       )}
                     </div>
@@ -451,11 +432,11 @@ export default function TeacherDashboard() {
                   <div className={styles.courseStats}>
                     <div className={styles.courseStat}>
                       <FaUsers />
-                      <span>{course.students_count} طالب</span>
+                      <span>{course.students_count} {locale === 'ar' ? 'طالب' : 'students'}</span>
                     </div>
                     <div className={styles.courseStat}>
                       <FaBook />
-                      <span>{course.lessons_count} درس</span>
+                      <span>{course.lessons_count} {locale === 'ar' ? 'درس' : 'lessons'}</span>
                     </div>
                     <div className={styles.courseStat}>
                       <FaClock />
@@ -471,7 +452,7 @@ export default function TeacherDashboard() {
                     <div className={styles.schedulePreview}>
                       <div className={styles.scheduleHeader}>
                         <FaCalendarAlt />
-                        <span>الجدول الأسبوعي</span>
+                        <span>{t('courses.weeklySchedule')}</span>
                       </div>
                       <div className={styles.sessionsList}>
                         {course.schedule.slice(0, 2).map((session, index) => (
@@ -482,7 +463,7 @@ export default function TeacherDashboard() {
                         ))}
                         {course.schedule.length > 2 && (
                           <span className={styles.moreSchedule}>
-                            +{course.schedule.length - 2} جلسات أخرى
+                            {t('courses.moreSessions', { count: course.schedule.length - 2 })}
                           </span>
                         )}
                       </div>
@@ -491,38 +472,38 @@ export default function TeacherDashboard() {
 
                   <div className={styles.courseFooter}>
                     <div className={styles.priceInfo}>
-                      <span className={styles.price}>{course.price} جنيه</span>
+                      <span className={styles.price}>{course.price} {locale === 'ar' ? 'جنيه' : 'EGP'}</span>
                       {course.original_price && (
-                        <span className={styles.originalPrice}>{course.original_price} جنيه</span>
+                        <span className={styles.originalPrice}>{course.original_price} {locale === 'ar' ? 'جنيه' : 'EGP'}</span>
                       )}
                     </div>
                     <div className={styles.revenueInfo}>
                       <span className={styles.revenue}>
-                        {course.total_revenue || course.price * course.students_count} جنيه
+                        {course.total_revenue || course.price * course.students_count} {locale === 'ar' ? 'جنيه' : 'EGP'}
                       </span>
-                      <span className={styles.revenueLabel}>إجمالي الربح</span>
+                      <span className={styles.revenueLabel}>{t('courses.totalRevenue')}</span>
                     </div>
                   </div>
 
                   {/* Live Session Join Button for Teachers */}
                   {course.course_type === 'live' && (
                     <>
-                      <button 
+                      <button
                         className={styles.joinLiveButton}
                         onClick={() => handleJoinLiveSession(course)}
                       >
                         <FaBroadcastTower />
-                        <span>الدخول للبث المباشر</span>
+                        <span>{t('courses.joinLive')}</span>
                       </button>
-                      
+
                       <div className={styles.seatsBar}>
                         <div className={styles.seatsInfo}>
-                          <span>{course.enrolled_seats || 0} / {course.max_seats || 0} مقعد</span>
+                          <span>{t('courses.seats', { enrolled: course.enrolled_seats || 0, max: course.max_seats || 0 })}</span>
                         </div>
                         <div className={styles.seatsProgress}>
-                          <div 
-                            className={styles.seatsProgressFill} 
-                            style={{ 
+                          <div
+                            className={styles.seatsProgressFill}
+                            style={{
                               width: `${((course.enrolled_seats || 0) / (course.max_seats || 1)) * 100}%`,
                               backgroundColor: course.is_full ? '#f85149' : '#3fb950'
                             }}
@@ -533,7 +514,7 @@ export default function TeacherDashboard() {
                   )}
 
                   {!course.is_active && (
-                    <div className={styles.inactiveBadge}>غير نشط</div>
+                    <div className={styles.inactiveBadge}>{t('courses.inactive')}</div>
                   )}
                 </div>
               ))}
