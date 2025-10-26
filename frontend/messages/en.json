@@ -521,6 +521,25 @@
       "passwordsMatch": "Passwords must match"
     }
   },
+  "verifyEmail": {
+    "title": "Email Verification",
+    "subtitle": "A verification code has been sent to",
+    "otpLabel": "Enter the 6-digit verification code",
+    "verifyButton": "Verify Code",
+    "didntReceive": "Didn't receive the code?",
+    "canResendAfter": "You can resend after {seconds} seconds",
+    "resendCode": "Resend Code",
+    "backToSignup": "Back to Signup",
+    "errors": {
+      "incompleteOtp": "You must enter the complete verification code",
+      "invalidOtp": "Invalid verification code",
+      "verificationError": "Verification error occurred. Please try again.",
+      "resendError": "Error sending verification code"
+    },
+    "success": {
+      "otpResent": "A new verification code has been sent to your email"
+    }
+  },
   "features": {
     "title": "Platform Features",
     "subtitle": "Everything you need for a great learning experience",
