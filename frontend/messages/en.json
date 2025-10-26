@@ -541,8 +541,16 @@
     }
   },
   "features": {
-    "title": "Platform Features",
-    "subtitle": "Everything you need for a great learning experience",
+    "hero": {
+      "badge": "Egypt's #1 Platform",
+      "title": "Features that make learning",
+      "titleGradient": "easier and more enjoyable",
+      "subtitle": "A comprehensive platform designed specifically for Egyptian students' needs"
+    },
+    "mainFeatures": {
+      "title": "Core Features",
+      "subtitle": "Everything you need for academic excellence in one place"
+    },
     "liveLessons": {
       "title": "Interactive Live Streaming",
       "description": "Attend live lectures in HD quality with direct interaction with the instructor",
@@ -555,7 +563,7 @@
     },
     "seatBooking": {
       "title": "Seat Booking System",
-      "description": "Book your seat in advance to guarantee your attendance",
+      "description": "Book your seat in advance to guarantee your attendance and better class organization",
       "details": {
         "advance": "Advanced booking for lectures",
         "reminders": "Reminder notifications",
@@ -565,7 +573,7 @@
     },
     "rewards": {
       "title": "Points and Rewards System",
-      "description": "Earn points with every attendance and participation",
+      "description": "Earn points with every attendance and participation and exchange them for additional benefits",
       "details": {
         "attendance": "Points for regular attendance",
         "participation": "Rewards for active participation",
@@ -575,13 +583,121 @@
     },
     "exams": {
       "title": "Comprehensive Exams",
-      "description": "Test your knowledge with certified exams",
+      "description": "Test your knowledge with certified exams with instant grading and detailed reports",
       "details": {
         "practice": "Practice exams",
         "instant": "Instant grading",
         "reports": "Detailed performance reports",
         "certificates": "Certified certificates"
       }
+    },
+    "showcase": {
+      "badge": "Most Requested",
+      "title": "Advanced Live Streaming System",
+      "description": "High-quality streaming technology ensures a smooth and continuous learning experience with advanced interaction capabilities that make you feel like you're in a real classroom",
+      "features": {
+        "smallClasses": {
+          "title": "Small Classes",
+          "description": "Only 15-20 students to ensure interaction"
+        },
+        "autoRecording": {
+          "title": "Auto Recording",
+          "description": "All lectures available for review"
+        },
+        "liveChat": {
+          "title": "Live Chat",
+          "description": "Ask and get instant answers"
+        }
+      },
+      "browserTitle": "Physics Lecture - Live",
+      "liveIndicator": "● Live",
+      "viewerCount": "👥 18 students",
+      "chatMessages": {
+        "student1": "Ahmed: Can you explain that again?",
+        "teacher": "Teacher: Of course! Let me clarify",
+        "student2": "Sara: Thanks, it's clear now!"
+      }
+    },
+    "additional": {
+      "title": "Additional features to enrich your experience",
+      "parentDashboard": {
+        "title": "Parent Dashboard",
+        "description": "Accurate tracking of children's progress and attendance"
+      },
+      "detailedReports": {
+        "title": "Detailed Reports",
+        "description": "Comprehensive statistics on performance and academic progress"
+      },
+      "discussionForum": {
+        "title": "Discussion Forum",
+        "description": "Connect with classmates and teachers outside class time"
+      },
+      "digitalLibrary": {
+        "title": "Digital Library",
+        "description": "Educational resources, summaries, and digital books"
+      },
+      "mobileApp": {
+        "title": "Mobile App",
+        "description": "Learn anytime, anywhere"
+      },
+      "smartNotifications": {
+        "title": "Smart Notifications",
+        "description": "Never miss any lecture or important date"
+      }
+    },
+    "comparison": {
+      "title": "Why Edvance?",
+      "subtitle": "A quick comparison showing the difference",
+      "edvance": "Edvance",
+      "others": "Other Platforms",
+      "features": {
+        "cost": {
+          "label": "Cost",
+          "edvanceValue": "100% Free",
+          "othersValue": "Monthly subscriptions"
+        },
+        "liveStreaming": {
+          "label": "Interactive Live Streaming",
+          "edvanceValue": "Available for all courses",
+          "othersValue": "Recorded videos only"
+        },
+        "pointsSystem": {
+          "label": "Points System",
+          "edvanceValue": "Complete system",
+          "othersValue": "Not available"
+        },
+        "parentTracking": {
+          "label": "Parent Tracking",
+          "edvanceValue": "Dedicated dashboard",
+          "othersValue": "Limited or unavailable"
+        }
+      }
+    },
+    "stats": {
+      "title": "Numbers speak of success",
+      "improvement": {
+        "value": "98%",
+        "label": "Student improvement rate"
+      },
+      "support": {
+        "value": "24/7",
+        "label": "Continuous technical support"
+      },
+      "satisfaction": {
+        "value": "95%",
+        "label": "Student satisfaction rate"
+      },
+      "latency": {
+        "value": "0.5 seconds",
+        "label": "Stream latency"
+      }
+    },
+    "cta": {
+      "title": "Start your learning journey today",
+      "subtitle": "Join thousands of students achieving their dreams with us",
+      "registerButton": "Register for Free Now",
+      "demoButton": "Try a Demo",
+      "note": "Get 100 welcome points upon registration"
     }
   }
 }
