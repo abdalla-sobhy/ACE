@@ -23,7 +23,7 @@
   width: 48px;
   height: 48px;
   border: 4px solid #30363d;
-  border-top-color: #58a6ff;
+  border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -34,7 +34,7 @@
 
 .welcomeSection {
   padding: 48px 24px;
-  background: linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(121, 192, 255, 0.05) 100%);
+  background: linear-gradient(135deg, var(--accent-blue-bg) 0%, rgba(121, 192, 255, 0.05) 100%);
   border-bottom: 1px solid #30363d;
 }
 
@@ -47,7 +47,7 @@
   font-size: 36px;
   font-weight: 700;
   margin: 0 0 8px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -78,7 +78,7 @@
 }
 
 .statCard:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-2px);
 }
 
@@ -89,7 +89,7 @@
   justify-content: center;
   width: 60px;
   height: 60px;
-  background: rgba(88, 166, 255, 0.1);
+  background: var(--accent-blue-bg);
   border-radius: 12px;
 }
 
@@ -97,7 +97,7 @@
   font-size: 28px;
   font-weight: 700;
   margin: 0;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .statInfo p {
@@ -133,8 +133,8 @@
 }
 
 .searchBox:focus-within {
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .searchIcon {
@@ -175,19 +175,19 @@
   max-width: 1280px;
   margin: 16px auto 0;
   padding: 12px 20px;
-  background: rgba(88, 166, 255, 0.1);
-  border: 1px solid rgba(88, 166, 255, 0.3);
+  background: var(--accent-blue-bg);
+  border: 1px solid var(--accent-blue);
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .activeFilter button {
   background: none;
-  border: 1px solid #58a6ff;
-  color: #58a6ff;
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
   padding: 6px 16px;
   border-radius: 6px;
   font-size: 14px;
@@ -196,7 +196,7 @@
 }
 
 .activeFilter button:hover {
-  background: rgba(88, 166, 255, 0.1);
+  background: var(--accent-blue-bg);
 }
 
 .coursesSection {
@@ -243,9 +243,9 @@
 }
 
 .courseCard:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
+  box-shadow: 0 8px 24px var(--accent-blue-bg);
 }
 
 .cursorPointer {
@@ -314,7 +314,7 @@
 }
 
 .fullBadge {
-  color: #f85149;
+  color: var(--error);
   font-weight: 600;
 }
 
@@ -322,7 +322,7 @@
   position: absolute;
   top: 50px;
   left: 12px;
-  background: #3fb950;
+  background: var(--success);
   color: white;
   padding: 6px 12px;
   border-radius: 6px;
@@ -341,13 +341,13 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   line-height: 1.4;
 }
 
 .courseInstructor {
   font-size: 14px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   margin: 0 0 12px;
   display: flex;
   align-items: center;
@@ -367,8 +367,8 @@
 }
 
 .scheduleInfo {
-  background: rgba(88, 166, 255, 0.05);
-  border: 1px solid rgba(88, 166, 255, 0.2);
+  background: var(--accent-blue-bg);
+  border: 1px solid var(--accent-blue-bg);
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 16px;
@@ -378,7 +378,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 8px;
@@ -399,7 +399,7 @@
 }
 
 .dayName {
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-weight: 500;
 }
 
@@ -412,9 +412,9 @@
 .startDate {
   margin-top: 8px;
   padding-top: 8px;
-  border-top: 1px solid rgba(88, 166, 255, 0.2);
+  border-top: 1px solid var(--accent-blue-bg);
   font-size: 13px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   text-align: center;
 }
 
@@ -461,7 +461,7 @@
 .currentPrice {
   font-size: 20px;
   font-weight: 700;
-  color: #3fb950;
+  color: var(--success);
 }
 
 .enrollButton {
@@ -480,7 +480,7 @@
 }
 
 .enrollButton:hover {
-  background: #388bfd;
+  background: var(--accent-blue-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(31, 111, 235, 0.3);
 }
@@ -501,7 +501,7 @@
 .noResults h3 {
   font-size: 24px;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .noResults p {
@@ -511,7 +511,7 @@
 }
 
 .exploreButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -523,7 +523,7 @@
 }
 
 .exploreButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-1px);
 }
 
@@ -651,7 +651,7 @@
 
 button:focus,
 input:focus {
-  outline: 2px solid #58a6ff;
+  outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
 

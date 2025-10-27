@@ -25,7 +25,7 @@
   width: 48px;
   height: 48px;
   border: 4px solid #30363d;
-  border-top-color: #58a6ff;
+  border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -58,8 +58,8 @@
 }
 
 .backButton:hover {
-  border-color: #58a6ff;
-  color: #58a6ff;
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
 }
 
 .headerActions {
@@ -82,12 +82,12 @@
 }
 
 .editButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
 }
 
 .editButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 .previewButton {
@@ -97,13 +97,13 @@
 }
 
 .previewButton:hover {
-  border-color: #58a6ff;
-  color: #58a6ff;
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
 }
 
 .courseInfo {
   padding: 32px 24px;
-  background: linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(121, 192, 255, 0.05) 100%);
+  background: linear-gradient(135deg, var(--accent-blue-bg) 0%, rgba(121, 192, 255, 0.05) 100%);
   border-bottom: 1px solid #30363d;
 }
 
@@ -136,7 +136,7 @@
   font-size: 28px;
   font-weight: 700;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .courseDetails p {
@@ -159,11 +159,11 @@
 }
 
 .active {
-  color: #3fb950 !important;
+  color: var(--success) !important;
 }
 
 .inactive {
-  color: #f85149 !important;
+  color: var(--error) !important;
 }
 
 .lessonsSection {
@@ -186,14 +186,14 @@
   font-size: 24px;
   font-weight: 600;
   margin: 0;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .addButton {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 10px 24px;
@@ -205,7 +205,7 @@
 }
 
 .addButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-1px);
 }
 
@@ -223,7 +223,7 @@
 .noLessons h3 {
   font-size: 20px;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .noLessons p {
@@ -248,8 +248,8 @@
 }
 
 .lessonItem:hover {
-  border-color: #58a6ff;
-  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 4px 12px var(--accent-blue-bg);
 }
 
 .lessonHandle {
@@ -270,7 +270,7 @@
 .lessonNumber {
   font-size: 18px;
   font-weight: 600;
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .lessonContent {
@@ -290,7 +290,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .lessonInfo p {
@@ -320,8 +320,8 @@
 }
 
 .previewBadge {
-  background: rgba(63, 185, 80, 0.1);
-  color: #3fb950 !important;
+  background: var(--success-bg);
+  color: var(--success) !important;
   padding: 4px 8px;
   border-radius: 4px;
 }
@@ -346,15 +346,15 @@
 }
 
 .actionButton:hover {
-  border-color: #58a6ff;
-  color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .actionButton:hover:last-child {
-  border-color: #f85149;
-  color: #f85149;
-  background: rgba(248, 81, 73, 0.05);
+  border-color: var(--error);
+  color: var(--error);
+  background: var(--error-bg);
 }
 
 /* Modal Styles */
@@ -394,7 +394,7 @@
   font-size: 20px;
   font-weight: 600;
   margin: 0;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .closeButton {
@@ -413,9 +413,9 @@
 }
 
 .closeButton:hover {
-  border-color: #f85149;
-  color: #f85149;
-  background: rgba(248, 81, 73, 0.05);
+  border-color: var(--error);
+  color: var(--error);
+  background: var(--error-bg);
 }
 
 .modalContent form {
@@ -430,7 +430,7 @@
   display: block;
   font-size: 14px;
   font-weight: 500;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   margin-bottom: 8px;
 }
 
@@ -451,8 +451,8 @@
 .formGroup input[type="url"]:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .formGroup textarea {
@@ -489,14 +489,14 @@
 }
 
 .videoTypeButtons button:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .videoTypeButtons button.active {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
-  color: #58a6ff;
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
 }
 
 .videoTypeButtons svg {
@@ -534,7 +534,7 @@
 }
 
 .checkboxLabel span {
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .checkboxLabel small {
@@ -555,7 +555,7 @@
 
 .submitButton {
   flex: 1;
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 10px 24px;
@@ -567,7 +567,7 @@
 }
 
 .submitButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 /* app/teacher/courses/[id]/CourseDetail.module.css (continued) */
@@ -585,8 +585,8 @@
 }
 
 .cancelButton:hover {
-  border-color: #f85149;
-  color: #f85149;
+  border-color: var(--error);
+  color: var(--error);
 }
 
 @media (max-width: 768px) {
@@ -677,8 +677,8 @@
 }
 
 .uploadButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .uploadSection {

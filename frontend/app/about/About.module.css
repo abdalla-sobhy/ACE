@@ -21,7 +21,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: radial-gradient(circle at 20% 50%, rgba(88, 166, 255, 0.1) 0%, transparent 50%),
+  background-image: radial-gradient(circle at 20% 50%, var(--accent-blue-bg) 0%, transparent 50%),
                     radial-gradient(circle at 80% 80%, rgba(121, 192, 255, 0.1) 0%, transparent 50%);
   pointer-events: none;
 }
@@ -36,7 +36,7 @@
   font-size: 56px;
   font-weight: 800;
   margin: 0 0 24px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.2;
@@ -97,7 +97,7 @@
 .point h3 {
   font-size: 20px;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .point p {
@@ -128,7 +128,7 @@
   display: block;
   font-size: 48px;
   font-weight: 800;
-  background: linear-gradient(to bottom, #58a6ff, #79c0ff);
+  background: linear-gradient(to bottom, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 8px;
@@ -155,7 +155,7 @@
   font-weight: 700;
   text-align: center;
   margin: 0 0 64px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -190,7 +190,7 @@
   top: 8px;
   width: 14px;
   height: 14px;
-  background: #58a6ff;
+  background: var(--accent-blue);
   border-radius: 50%;
   box-shadow: 0 0 0 4px var(--input-color);
 }
@@ -202,7 +202,7 @@
 .timelineContent h3 {
   font-size: 20px;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .timelineContent p {
@@ -228,7 +228,7 @@
   font-weight: 700;
   text-align: center;
   margin: 0 0 16px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -257,7 +257,7 @@
 
 .teamCard:hover {
   transform: translateY(-4px);
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
 }
 
 .cardImage {
@@ -310,7 +310,7 @@
 }
 
 .cardOverlay a:hover {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .teamCard h3 {
@@ -321,7 +321,7 @@
 
 .role {
   display: block;
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 16px;
@@ -350,7 +350,7 @@
   font-weight: 700;
   text-align: center;
   margin: 0 0 64px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -416,7 +416,7 @@
 }
 
 .primaryButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   padding: 16px 32px;
   text-decoration: none;
@@ -427,12 +427,12 @@
 }
 
 .primaryButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 .secondaryButton {
   background: transparent;
-  color: #58a6ff;
+  color: var(--accent-blue);
   padding: 16px 32px;
   text-decoration: none;
   border: 1px solid #30363d;
@@ -443,8 +443,8 @@
 }
 
 .secondaryButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .tertiaryButton {
@@ -592,7 +592,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, rgba(88, 166, 255, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle at center, var(--accent-blue-bg) 0%, transparent 70%);
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -606,6 +606,6 @@ html {
 }
 
 button:focus {
-  outline: 2px solid #58a6ff;
+  outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }

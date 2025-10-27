@@ -26,7 +26,7 @@
   width: 48px;
   height: 48px;
   border: 4px solid #30363d;
-  border-top-color: #58a6ff;
+  border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -80,7 +80,7 @@
 
 .alertText h3 {
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-size: 18px;
 }
 
@@ -129,7 +129,7 @@
   padding: 48px 24px;
   background: linear-gradient(
     135deg,
-    rgba(88, 166, 255, 0.1) 0%,
+    var(--accent-blue-bg) 0%,
     rgba(121, 192, 255, 0.05) 100%
   );
   border-bottom: 1px solid #30363d;
@@ -148,7 +148,7 @@
   font-size: 36px;
   font-weight: 700;
   margin: 0 0 8px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -184,7 +184,7 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #58a6ff, #79c0ff);
+  background: linear-gradient(90deg, var(--gradient-blue-start), var(--gradient-blue-end));
   transition: width 0.5s ease;
   border-radius: 4px;
 }
@@ -208,24 +208,24 @@
 }
 
 .primaryButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
 }
 
 .primaryButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
 }
 
 .secondaryButton {
   background: transparent;
-  color: #58a6ff;
+  color: var(--accent-blue);
   border: 1px solid #30363d;
 }
 
 .secondaryButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 /* Stats Grid */
@@ -247,27 +247,27 @@
 }
 
 .statCard:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-2px);
 }
 
 .statIcon {
   width: 48px;
   height: 48px;
-  background: rgba(88, 166, 255, 0.1);
+  background: var(--accent-blue-bg);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .statContent h3 {
   font-size: 24px;
   font-weight: 700;
   margin: 0;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .statContent p {
@@ -295,7 +295,7 @@
 
 .goalIcon {
   font-size: 48px;
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .goalContent {
@@ -304,7 +304,7 @@
 
 .goalContent h3 {
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .goalContent p {
@@ -314,7 +314,7 @@
 }
 
 .lookingBadge {
-  background: #3fb950;
+  background: var(--success);
   color: white;
   padding: 8px 16px;
   border-radius: 20px;
@@ -341,7 +341,7 @@
 .searchHeader h2 {
   font-size: 28px;
   margin: 0 0 8px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -368,8 +368,8 @@
 }
 
 .searchBox:focus-within {
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .searchIcon {
@@ -431,14 +431,14 @@
 }
 
 .categoryButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .categoryButton.active {
-  background: rgba(88, 166, 255, 0.1);
-  border-color: #58a6ff;
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
 }
 
 .categoryIcon {
@@ -475,8 +475,8 @@
   max-width: 1400px;
   margin: 0 auto 32px;
   padding: 16px 24px;
-  background: linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(121, 192, 255, 0.05) 100%);
-  border: 1px solid rgba(88, 166, 255, 0.3);
+  background: linear-gradient(135deg, var(--accent-blue-bg) 0%, rgba(121, 192, 255, 0.05) 100%);
+  border: 1px solid var(--accent-blue);
   border-radius: 12px;
   text-align: center;
 }
@@ -488,7 +488,7 @@
 }
 
 .goalBasedInfo strong {
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-weight: 600;
 }
 
@@ -513,9 +513,9 @@
 }
 
 .courseCard:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
+  box-shadow: 0 8px 24px var(--accent-blue-bg);
 }
 
 .courseThumbnail {
@@ -552,7 +552,7 @@
   position: absolute;
   top: 12px;
   left: 12px;
-  background: #3fb950;
+  background: var(--success);
   color: white;
   padding: 6px 12px;
   border-radius: 6px;
@@ -571,13 +571,13 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   line-height: 1.4;
 }
 
 .courseInstructor {
   font-size: 14px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   margin: 0 0 12px;
 }
 
@@ -631,11 +631,11 @@
 .currentPrice {
   font-size: 20px;
   font-weight: 700;
-  color: #3fb950;
+  color: var(--success);
 }
 
 .enrollButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -650,9 +650,9 @@
 }
 
 .enrollButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 4px 12px var(--success-bg);
 }
 
 .enrollButton.enrolled {
@@ -660,7 +660,7 @@
 }
 
 .enrollButton.enrolled:hover {
-  background: #388bfd;
+  background: var(--accent-blue-hover);
 }
 
 /* No Results */
@@ -680,7 +680,7 @@
 .noResults h3 {
   font-size: 24px;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .noResults p {
@@ -742,9 +742,9 @@
 }
 
 .paginationButton:hover:not(:disabled) {
-  background: rgba(88, 166, 255, 0.1);
-  border-color: #58a6ff;
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
 }
 
 .paginationButton:disabled {
@@ -771,14 +771,14 @@
 }
 
 .paginationNumber:hover {
-  background: rgba(88, 166, 255, 0.1);
-  border-color: #58a6ff;
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
 }
 
 .paginationNumber.active {
-  background: #58a6ff;
-  border-color: #58a6ff;
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
   color: #0d1117;
   font-weight: 600;
 }

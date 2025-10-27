@@ -22,7 +22,7 @@
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 20% 50%, rgba(88, 166, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 20% 50%, var(--accent-blue-bg) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(121, 192, 255, 0.1) 0%, transparent 50%);
   animation: float 20s ease-in-out infinite;
 }
@@ -46,7 +46,7 @@
 }
 
 .gradient {
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -72,7 +72,7 @@
 .statNumber {
   font-size: 36px;
   font-weight: 700;
-  color: #58a6ff;
+  color: var(--accent-blue);
   margin-bottom: 8px;
 }
 
@@ -118,13 +118,13 @@
 
 .categoryCard:hover,
 .categoryCard.active {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(88, 166, 255, 0.2);
+  box-shadow: 0 8px 24px var(--accent-blue-bg);
 }
 
 .categoryCard.active {
-  background: rgba(88, 166, 255, 0.05);
+  background: var(--accent-blue-bg);
 }
 
 .categoryIcon {
@@ -219,8 +219,8 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .formGroup input::placeholder,
@@ -234,7 +234,7 @@
 }
 
 .submitButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 16px 32px;
@@ -252,9 +252,9 @@
 }
 
 .submitButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 8px 16px var(--success-bg);
 }
 
 .sendIcon {
@@ -338,8 +338,8 @@
 }
 
 .socialLink:hover {
-  background: rgba(88, 166, 255, 0.1);
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
   transform: translateX(-4px);
 }
 
@@ -355,7 +355,7 @@
 }
 
 .chatButton {
-  background: #58a6ff;
+  background: var(--accent-blue);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -372,9 +372,9 @@
 }
 
 .chatButton:hover {
-  background: #388bfd;
+  background: var(--accent-blue-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(88, 166, 255, 0.3);
+  box-shadow: 0 8px 16px var(--accent-blue);
 }
 
 /* FAQ Section */
@@ -418,7 +418,7 @@
 }
 
 .faqItem[open] {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
 }
 
 .faqQuestion {
@@ -434,7 +434,7 @@
 }
 
 .faqQuestion:hover {
-  background: rgba(88, 166, 255, 0.05);
+  background: var(--accent-blue-bg);
 }
 
 .faqIcon {
@@ -478,14 +478,14 @@
 }
 
 .faqLink {
-  color: #58a6ff;
+  color: var(--accent-blue);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s;
 }
 
 .faqLink:hover {
-  color: #388bfd;
+  color: var(--accent-blue-hover);
 }
 
 /* Emergency Section */
@@ -503,7 +503,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, rgba(248, 81, 73, 0.05) 0%, transparent 50%);
+  background: radial-gradient(circle at center, var(--error-bg) 0%, transparent 50%);
 }
 
 .emergencyContainer {
@@ -561,24 +561,24 @@
 }
 
 .emergencyButton {
-  background: #f85149;
+  background: var(--error);
   color: white;
 }
 
 .emergencyButton:hover {
   background: #da3633;
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(248, 81, 73, 0.3);
+  box-shadow: 0 8px 16px var(--error);
 }
 
 .emergencyChat {
   background: transparent;
-  color: #f85149;
-  border: 2px solid #f85149;
+  color: var(--error);
+  border: 2px solid var(--error);
 }
 
 .emergencyChat:hover {
-  background: rgba(248, 81, 73, 0.1);
+  background: var(--error-bg);
   transform: translateY(-2px);
 }
 
@@ -705,15 +705,15 @@
 .contactForm.loading::before {
   display: flex;
   content: 'جاري الإرسال...';
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-size: 18px;
   font-weight: 500;
 }
 
 /* Success message */
 .successMessage {
-  background: rgba(63, 185, 80, 0.1);
-  border: 1px solid rgba(63, 185, 80, 0.3);
+  background: var(--success-bg);
+  border: 1px solid var(--success);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 24px;
@@ -740,17 +740,17 @@
 
 .successMessage p {
   margin: 0;
-  color: #3fb950;
+  color: var(--success);
 }
 
 /* Error state */
 .formGroup.error input,
 .formGroup.error textarea {
-  border-color: #f85149;
+  border-color: var(--error);
 }
 
 .errorMessage {
-  color: #f85149;
+  color: var(--error);
   font-size: 14px;
   margin-top: 4px;
 }
@@ -911,7 +911,7 @@ input:focus,
 select:focus,
 textarea:focus,
 details:focus {
-  outline: 2px solid #58a6ff;
+  outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
 
@@ -937,13 +937,13 @@ html {
 }
 
 ::selection {
-  background: rgba(88, 166, 255, 0.3);
-  color: #f0f6fc;
+  background: var(--accent-blue);
+  color: var(--main-text-white-lighter);
 }
 
 ::-moz-selection {
-  background: rgba(88, 166, 255, 0.3);
-  color: #f0f6fc;
+  background: var(--accent-blue);
+  color: var(--main-text-white-lighter);
 }
 
 .submitButton,

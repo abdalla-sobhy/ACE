@@ -30,7 +30,7 @@
 }
 
 .heroGradient {
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -49,8 +49,8 @@
 }
 
 .primaryButton {
-  background: #238636;
-  color: white;
+  background: var(--btn-primary);
+  color: var(--white);
   padding: 16px 32px;
   text-decoration: none;
   border-radius: 6px;
@@ -60,12 +60,12 @@
 }
 
 .primaryButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 .secondaryButton {
   background: transparent;
-  color: #58a6ff;
+  color: var(--accent-blue);
   padding: 16px 32px;
   text-decoration: none;
   border: 1px solid var(--input-border-color);
@@ -76,8 +76,8 @@
 }
 
 .secondaryButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 /* User Types */
@@ -145,9 +145,9 @@
   align-items: center;
   padding: 16px;
   margin-bottom: 12px;
-  background: rgba(56, 139, 253, 0.1);
+  background: var(--accent-blue-bg);
   border-radius: 6px;
-  border-right: 4px solid #58a6ff;
+  border-right: 4px solid var(--accent-blue);
 }
 
 .scheduleLine:last-child {
@@ -155,7 +155,7 @@
 }
 
 .time {
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-weight: 600;
   min-width: 80px;
 }
@@ -167,13 +167,13 @@
 }
 
 .seats {
-  color: #3fb950;
+  color: var(--success);
   font-size: 14px;
   font-weight: 500;
 }
 
 .scheduleLine:last-child .seats {
-  color: #f85149;
+  color: var(--error);
 }
 
 /* Features Section */
@@ -193,7 +193,7 @@
   font-size: 48px;
   font-weight: 700;
   margin: 0 0 64px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -214,7 +214,7 @@
 
 .feature:hover {
   transform: translateY(-4px);
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
 }
 
 .featureIcon {
@@ -256,7 +256,7 @@
   font-size: 48px;
   font-weight: 700;
   margin: 0 0 8px;
-  background: linear-gradient(to bottom, #58a6ff, #79c0ff);
+  background: linear-gradient(to bottom, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -289,8 +289,8 @@
 }
 
 .ctaButton {
-  background: #238636;
-  color: white;
+  background: var(--btn-primary);
+  color: var(--white);
   padding: 16px 48px;
   text-decoration: none;
   border-radius: 6px;
@@ -301,7 +301,7 @@
 }
 
 .ctaButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 /* Footer */
@@ -347,7 +347,7 @@
 }
 
 .footerSection a:hover {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .footerBottom {
@@ -470,7 +470,7 @@
 }
 
 .scheduleLine:hover {
-  background: rgba(56, 139, 253, 0.2);
+  background: var(--accent-blue-bg);
   transform: translateX(-4px);
 }
 

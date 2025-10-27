@@ -20,7 +20,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 20% 30%, rgba(88, 166, 255, 0.1) 0%, transparent 50%),
+  background: radial-gradient(circle at 20% 30%, var(--accent-blue-bg) 0%, transparent 50%),
               radial-gradient(circle at 80% 70%, rgba(121, 192, 255, 0.1) 0%, transparent 50%);
   animation: float 20s ease-in-out infinite;
 }
@@ -40,7 +40,7 @@
   padding: 48px;
   box-shadow: 
     0 16px 64px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(88, 166, 255, 0.1);
+    0 0 0 1px var(--accent-blue-bg);
   position: relative;
   z-index: 1;
 }
@@ -53,7 +53,7 @@
 
 .headerIcon {
   font-size: 56px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   margin-bottom: 24px;
 }
 
@@ -61,7 +61,7 @@
   font-size: 32px;
   font-weight: 700;
   margin: 0 0 12px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -74,9 +74,9 @@
 
 /* Error Message */
 .error {
-  background: rgba(248, 81, 73, 0.1);
-  border: 1px solid rgba(248, 81, 73, 0.3);
-  color: #f85149;
+  background: var(--error-bg);
+  border: 1px solid var(--error);
+  color: var(--error);
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 24px;
@@ -104,7 +104,7 @@
   font-size: 20px;
   font-weight: 600;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   padding-bottom: 12px;
   border-bottom: 1px solid #30363d;
 }
@@ -166,8 +166,8 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .formGroup input::placeholder,
@@ -187,7 +187,7 @@
 
 /* Submit Button */
 .submitButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 16px 32px;
@@ -213,9 +213,9 @@
 }
 
 .submitButton:hover:not(:disabled) {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 8px 16px var(--success-bg);
 }
 
 .submitButton:hover:not(:disabled)::before {
@@ -242,7 +242,7 @@
 }
 
 .loginPrompt a {
-  color: #58a6ff;
+  color: var(--accent-blue);
   text-decoration: none;
   font-weight: 500;
   margin-right: 8px;
@@ -250,17 +250,17 @@
 }
 
 .loginPrompt a:hover {
-  color: #79c0ff;
+  color: var(--blue-lighter);
   text-decoration: underline;
 }
 
 /* Validation feedback */
 .formGroup input:invalid:not(:focus):not(:placeholder-shown) {
-  border-color: #f85149;
+  border-color: var(--error);
 }
 
 .formGroup input:valid:not(:focus):not(:placeholder-shown) {
-  border-color: #3fb950;
+  border-color: var(--success);
 }
 
 /* Loading state */
@@ -356,7 +356,7 @@
 
 .successIcon {
   font-size: 80px;
-  color: #3fb950;
+  color: var(--success);
   margin-bottom: 32px;
   animation: successPop 0.5s ease-out;
 }
@@ -379,7 +379,7 @@
   font-size: 36px;
   font-weight: 700;
   margin: 0 0 16px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .successContainer p {
@@ -404,22 +404,22 @@
 }
 
 .primarySuccessButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
 }
 
 .primarySuccessButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
 }
 
 .secondarySuccessButton {
   background: transparent;
-  color: #58a6ff;
+  color: var(--accent-blue);
   border: 1px solid #30363d;
 }
 
 .secondarySuccessButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }

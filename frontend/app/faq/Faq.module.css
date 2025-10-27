@@ -44,7 +44,7 @@
   font-size: 48px;
   font-weight: 800;
   margin: 0 0 16px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -75,8 +75,8 @@
 }
 
 .searchBox:focus-within {
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .searchIcon {
@@ -164,8 +164,8 @@
 }
 
 .categoryButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .categoryButton.active {
@@ -215,8 +215,8 @@
 }
 
 .faqItem.open {
-  border-color: #58a6ff;
-  box-shadow: 0 4px 16px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 4px 16px var(--accent-blue-bg);
 }
 
 .faqQuestion {
@@ -236,7 +236,7 @@
 }
 
 .faqQuestion:hover {
-  background: rgba(88, 166, 255, 0.05);
+  background: var(--accent-blue-bg);
 }
 
 .questionText {
@@ -246,7 +246,7 @@
 
 .expandIcon {
   font-size: 24px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   transition: transform 0.3s;
 }
 
@@ -317,13 +317,13 @@
 }
 
 .helpfulButton:hover {
-  border-color: #3fb950;
-  background: rgba(63, 185, 80, 0.1);
+  border-color: var(--success);
+  background: var(--success-bg);
 }
 
 .notHelpfulButton:hover {
-  border-color: #f85149;
-  background: rgba(248, 81, 73, 0.1);
+  border-color: var(--error);
+  background: var(--error-bg);
 }
 
 .noResults {
@@ -351,14 +351,14 @@
 }
 
 .contactLink {
-  color: #58a6ff;
+  color: var(--accent-blue);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s;
 }
 
 .contactLink:hover {
-  color: #388bfd;
+  color: var(--accent-blue-hover);
 }
 
 .needHelp {
@@ -400,7 +400,7 @@
 }
 
 .helpCard:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-4px);
 }
 
@@ -413,7 +413,7 @@
 .helpCard h3 {
   font-size: 20px;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .helpCard p {
@@ -423,7 +423,7 @@
 }
 
 .helpButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -439,9 +439,9 @@
 }
 
 .helpButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 4px 12px var(--success-bg);
 }
 
 .popularTopics {
@@ -480,9 +480,9 @@
 }
 
 .topicTag:hover {
-  background: rgba(88, 166, 255, 0.1);
-  border-color: #58a6ff;
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
   transform: translateY(-2px);
 }
 
@@ -497,7 +497,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-blue-bg), transparent);
   animation: loading 1.5s infinite;
 }
 
@@ -681,7 +681,7 @@
 
 button:focus,
 input:focus {
-  outline: 2px solid #58a6ff;
+  outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
 
@@ -735,7 +735,7 @@ html {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.05), transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-blue-bg), transparent);
   transition: left 0.5s;
 }
 

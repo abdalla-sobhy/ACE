@@ -23,7 +23,7 @@
   width: 48px;
   height: 48px;
   border: 4px solid var(--borders);
-  border-top-color: #58a6ff;
+  border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -55,7 +55,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -71,7 +71,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -81,9 +81,9 @@
 }
 
 .createButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 4px 12px var(--success-bg);
 }
 
 /* Stats Grid */
@@ -106,16 +106,16 @@
 }
 
 .statCard:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
+  box-shadow: 0 8px 24px var(--accent-blue-bg);
 }
 
 .statIcon {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #58a6ff, #79c0ff);
+  background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,8 +167,8 @@
 }
 
 .searchBox:focus-within {
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .searchBox svg {
@@ -208,13 +208,13 @@
 }
 
 .filterSelect:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
 }
 
 .filterSelect:focus {
   outline: none;
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 /* Jobs Grid */
@@ -236,9 +236,9 @@
 }
 
 .jobCard:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
+  box-shadow: 0 8px 24px var(--accent-blue-bg);
 }
 
 .jobHeader {
@@ -266,15 +266,15 @@
 }
 
 .statusBadge.active {
-  background: rgba(63, 185, 80, 0.1);
-  color: #3fb950;
-  border: 1px solid rgba(63, 185, 80, 0.3);
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success);
 }
 
 .statusBadge.inactive {
-  background: rgba(248, 81, 73, 0.1);
-  color: #f85149;
-  border: 1px solid rgba(248, 81, 73, 0.3);
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid var(--error);
 }
 
 .jobDescription {
@@ -299,7 +299,7 @@
 }
 
 .metadataItem svg {
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-size: 14px;
 }
 
@@ -311,9 +311,9 @@
 
 .skillBadge {
   padding: 4px 12px;
-  background: rgba(88, 166, 255, 0.1);
-  color: #58a6ff;
-  border: 1px solid rgba(88, 166, 255, 0.3);
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-blue);
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
@@ -337,7 +337,7 @@
 }
 
 .applicationsCount svg {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .jobActions {
@@ -362,14 +362,14 @@
 }
 
 .actionButton:hover {
-  border-color: #58a6ff;
-  color: #58a6ff;
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
   transform: translateY(-2px);
 }
 
 .deleteButton:hover {
-  border-color: #f85149;
-  color: #f85149;
+  border-color: var(--error);
+  color: var(--error);
 }
 
 .jobDate {
@@ -424,7 +424,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -434,16 +434,16 @@
 }
 
 .createButtonAlt:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 4px 12px var(--success-bg);
 }
 
 .errorMessage {
   padding: 20px;
-  background: rgba(248, 81, 73, 0.1);
-  border: 1px solid rgba(248, 81, 73, 0.3);
-  color: #f85149;
+  background: var(--error-bg);
+  border: 1px solid var(--error);
+  color: var(--error);
   border-radius: 12px;
   text-align: center;
 }

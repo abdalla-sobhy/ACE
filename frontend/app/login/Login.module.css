@@ -14,9 +14,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: 
-    linear-gradient(rgba(88, 166, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(88, 166, 255, 0.1) 1px, transparent 1px);
+  background-image:
+    linear-gradient(var(--accent-blue-bg) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent-blue-bg) 1px, transparent 1px);
   background-size: 100px 100px;
   animation: gridMove 8000ms linear infinite;
 }
@@ -32,7 +32,7 @@
   transform: translate(-50%, -50%);
   width: 800px;
   height: 800px;
-  background: radial-gradient(circle, rgba(88, 166, 255, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--accent-blue-bg) 0%, transparent 70%);
   filter: blur(100px);
   animation: pulse 8s ease-in-out infinite;
 }
@@ -77,9 +77,9 @@
   border: 1px solid var(--borders);
   border-radius: 16px;
   padding: 48px;
-  box-shadow: 
+  box-shadow:
     0 16px 64px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(88, 166, 255, 0.1);
+    0 0 0 1px var(--accent-blue-bg);
   animation: fadeInUp 0.6s ease-out;
   position: relative;
   overflow: hidden;
@@ -92,7 +92,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, #58a6ff, #79c0ff, #58a6ff);
+  background: linear-gradient(45deg, var(--gradient-blue-start), var(--gradient-blue-end), var(--gradient-blue-start));
   border-radius: 16px;
   opacity: 0;
   z-index: -1;
@@ -126,7 +126,7 @@
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: rgba(88, 166, 255, 0.1);
+  background: var(--accent-blue-bg);
   border-radius: 50%;
   margin-bottom: 24px;
   position: relative;
@@ -136,7 +136,7 @@
   content: '';
   position: absolute;
   inset: -8px;
-  background: radial-gradient(circle, rgba(88, 166, 255, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--accent-blue-bg) 0%, transparent 70%);
   border-radius: 50%;
   animation: iconPulse 2s ease-in-out infinite;
 }
@@ -156,7 +156,7 @@
   font-size: 32px;
   font-weight: 700;
   margin: 0 0 12px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -169,9 +169,9 @@
 
 /* Error Message */
 .errorMessage {
-  background: rgba(248, 81, 73, 0.1);
-  border: 1px solid rgba(248, 81, 73, 0.3);
-  color: #f85149;
+  background: var(--error-bg);
+  border: 1px solid var(--error);
+  color: var(--error);
   padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 24px;
@@ -239,8 +239,8 @@
 
 .input:focus {
   outline: none;
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .input::placeholder {
@@ -291,27 +291,27 @@
 .rememberMe input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #58a6ff;
+  accent-color: var(--accent-blue);
   cursor: pointer;
 }
 
 .forgotPassword {
-  color: #58a6ff;
+  color: var(--accent-blue);
   text-decoration: none;
   font-size: 14px;
   transition: all 0.2s;
 }
 
 .forgotPassword:hover {
-  color: #79c0ff;
+  color: var(--accent-blue-hover);
   text-decoration: underline;
 }
 
 /* Submit Button */
 .submitButton {
   width: 100%;
-  background: #238636;
-  color: white;
+  background: var(--btn-primary);
+  color: var(--white);
   padding: 14px 24px;
   border: none;
   border-radius: 8px;
@@ -339,9 +339,9 @@
 }
 
 .submitButton:hover:not(:disabled) {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 8px 16px var(--success-bg);
 }
 
 .submitButton:hover:not(:disabled)::before {
@@ -423,9 +423,9 @@
 
 .socialButton:hover {
   background: var(--form-color);
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+  box-shadow: 0 4px 12px var(--accent-blue-bg);
 }
 
 /* Signup Prompt */
@@ -441,7 +441,7 @@
 }
 
 .signupLink {
-  color: #58a6ff;
+  color: var(--accent-blue);
   text-decoration: none;
   font-weight: 500;
   margin-right: 8px;
@@ -449,7 +449,7 @@
 }
 
 .signupLink:hover {
-  color: #79c0ff;
+  color: var(--accent-blue-hover);
   text-decoration: underline;
 }
 
@@ -555,7 +555,7 @@
 .passwordToggle:focus,
 .forgotPassword:focus,
 .signupLink:focus {
-  outline: 2px solid #58a6ff;
+  outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
 
@@ -601,9 +601,9 @@
 
 /* Success Message */
 .successMessage {
-  background: rgba(63, 185, 80, 0.1);
-  border: 1px solid rgba(63, 185, 80, 0.3);
-  color: #3fb950;
+  background: var(--success-bg);
+  border: 1px solid var(--success);
+  color: var(--success);
   padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 24px;
@@ -621,12 +621,12 @@
 
 /* Field Error Styles */
 .inputError {
-  border-color: #f85149 !important;
+  border-color: var(--error) !important;
 }
 
 .fieldError {
   display: block;
-  color: #f85149;
+  color: var(--error);
   font-size: 12px;
   margin-top: 4px;
   margin-right: 8px;

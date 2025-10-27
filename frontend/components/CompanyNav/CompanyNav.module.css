@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   text-decoration: none;
   font-size: 20px;
   font-weight: 700;
@@ -37,7 +37,7 @@
 }
 
 .logo:hover {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .logo svg {
@@ -63,13 +63,13 @@
 }
 
 .navLink:hover {
-  color: #f0f6fc;
-  background: rgba(88, 166, 255, 0.1);
+  color: var(--main-text-white-lighter);
+  background: var(--accent-blue-bg);
 }
 
 .navLink.active {
-  color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
+  color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .navLink svg {
@@ -94,14 +94,14 @@
 }
 
 .notificationButton:hover {
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .notificationBadge {
   position: absolute;
   top: 0;
   right: 0;
-  background: #f85149;
+  background: var(--error);
   color: white;
   font-size: 11px;
   font-weight: 600;
@@ -126,7 +126,7 @@
 }
 
 .profileButton:hover {
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .dropdown {
@@ -160,8 +160,8 @@
 }
 
 .dropdownItem:hover {
-  background: rgba(88, 166, 255, 0.1);
-  color: #f0f6fc;
+  background: var(--accent-blue-bg);
+  color: var(--main-text-white-lighter);
 }
 
 .dropdownItem svg {
