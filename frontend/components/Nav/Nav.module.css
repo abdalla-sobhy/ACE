@@ -149,7 +149,7 @@
     top: 65px;
     left: 0;
     right: 0;
-    background: var(--main-color-transparent);
+    background: var(--main-color);
     backdrop-filter: blur(10px);
     flex-direction: column;
     padding: 20px 24px;

@@ -367,7 +367,7 @@ export default function UniversityStudentDashboard() {
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeGrid}>
             <div className={styles.welcomeContent}>
-              <h1>مرحباً {user?.first_name} 👋</h1>
+              <h1>مرحباً {user?.first_name}</h1>
               <p className={styles.welcomeSubtitle}>
                 {user?.universityStudentProfile?.faculty || "طالب جامعي"} •
                 {user?.universityStudentProfile?.university || "الجامعة"}

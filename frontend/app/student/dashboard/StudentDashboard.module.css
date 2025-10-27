@@ -35,7 +35,7 @@
 .welcomeSection {
   padding: 48px 24px;
   background: linear-gradient(135deg, var(--accent-blue-bg) 0%, rgba(121, 192, 255, 0.05) 100%);
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--borders);
 }
 
 .welcomeContent {
@@ -108,7 +108,7 @@
 
 .searchSection {
   padding: 32px 24px;
-  background: #010409;
+  background: var(--main-color);
   border-bottom: 1px solid var(--borders);
 }
 
@@ -365,7 +365,7 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(13, 17, 23, 0.9);
+  background: var(--main-color);
   backdrop-filter: blur(10px);
   padding: 6px 12px;
   border-radius: 6px;

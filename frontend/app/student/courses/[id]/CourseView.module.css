@@ -197,7 +197,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+  background: var(--main-color);
   color: var(--p-text);
 }
 

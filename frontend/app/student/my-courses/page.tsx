@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./MyCourses.module.css";
 import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaCalendarAlt, FaChalkboardTeacher, FaTimes } from "react-icons/fa";
-import Image from "next/image";
-
 interface Teacher {
   id: number;
   first_name: string;
@@ -289,13 +287,7 @@ export default function MyCourses() {
                       onClick={() => router.push(`/student/courses/${course.id}`)} 
                       className={`${styles.courseThumbnail} ${styles.cursorPointer}`}
                     >
-                      <Image
-                        src={course.thumbnail || "/api/placeholder/320/180"}
-                        alt={course.title}
-                        width={320}
-                        height={180}
-                        
-                      />
+                      <img src={course.thumbnail || "/api/placeholder/320/180"}/>
                       <div className={styles.courseCategory}>
                         {category.icon} {category.label}
                       </div>

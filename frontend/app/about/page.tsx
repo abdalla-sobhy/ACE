@@ -152,7 +152,7 @@ export default function AboutPage() {
             {developers.map((dev, index) => (
               <div key={index} className={styles.teamCard}>
                 <div className={styles.cardImage}>
-                  <Image src={dev.image} alt={dev.name} />
+                  <img src={dev.image} alt={dev.name} />
                   <div className={styles.cardOverlay}>
                     <a href={dev.github} target="_blank" rel="noopener noreferrer">
                       <svg viewBox="0 0 24 24" width="24" height="24">

@@ -286,7 +286,7 @@ export default function TeacherDashboard() {
         {/* Welcome Section */}
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeContent}>
-            <h1>أهلاً {user?.name?.split(' ')[0]} 👋</h1>
+            <h1>أهلاً {user?.name?.split(' ')[0]}</h1>
             <p>إليك نظرة عامة على أداء كورساتك</p>
           </div>
           

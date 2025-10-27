@@ -166,6 +166,24 @@ export default function StudentProfile() {
     );
   }
 
+  const getGradeLabel = (grade: string) => {
+    const gradeLabels: { [key: string]: string } = {
+      primary_1: "الصف الأول الابتدائي",
+      primary_2: "الصف الثاني الابتدائي",
+      primary_3: "الصف الثالث الابتدائي",
+      primary_4: "الصف الرابع الابتدائي",
+      primary_5: "الصف الخامس الابتدائي",
+      primary_6: "الصف السادس الابتدائي",
+      prep_1: "الصف الأول الإعدادي",
+      prep_2: "الصف الثاني الإعدادي",
+      prep_3: "الصف الثالث الإعدادي",
+      secondary_1: "الصف الأول الثانوي",
+      secondary_2: "الصف الثاني الثانوي",
+      secondary_3: "الصف الثالث الثانوي",
+    };
+    return gradeLabels[grade] || grade;
+  };
+
   return (
     <div className={styles.container}>
       <StudentNav />
@@ -183,7 +201,7 @@ export default function StudentProfile() {
                 {user?.first_name} {user?.last_name}
               </h1>
               <p className={styles.profileTitle}>
-                {profile.grade || "طالب"} • منصة Edvance
+                {getGradeLabel(profile.grade)} • منصة Edvance
               </p>
               <div className={styles.profileMeta}>
                 <span>
@@ -238,7 +256,7 @@ export default function StudentProfile() {
             {isEditing ? (
               <select
                 className={styles.input}
-                value={profile.grade || ""}
+                value={getGradeLabel(profile.grade)}
                 onChange={(e) =>
                   setProfile({ ...profile, grade: e.target.value })
                 }
@@ -258,7 +276,7 @@ export default function StudentProfile() {
                 <option value="secondary_3">الصف الثالث الثانوي</option>
               </select>
             ) : (
-              <p>{profile.grade || "لم يتم تحديد المرحلة الدراسية"}</p>
+              <p>{getGradeLabel(profile.grade) || "لم يتم تحديد المرحلة الدراسية"}</p>
             )}
           </div>
 
@@ -277,7 +295,15 @@ export default function StudentProfile() {
                 }
               />
             ) : (
-              <p>{profile.birth_date || "لم يتم التحديد"}</p>
+              <p>
+                {profile.birth_date
+                  ? new Date(profile.birth_date).toLocaleDateString("ar-EG", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : "لم يتم التحديد"}
+              </p>
             )}
           </div>
 

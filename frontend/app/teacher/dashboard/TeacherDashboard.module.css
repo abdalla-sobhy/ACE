@@ -35,7 +35,7 @@
 .welcomeSection {
   padding: 48px 24px;
   background: linear-gradient(135deg, var(--accent-blue-bg) 0%, rgba(121, 192, 255, 0.05) 100%);
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--borders);
 }
 
 .welcomeContent {
@@ -130,11 +130,24 @@
   gap: 16px;
 }
 
-.createButton,
+.createButton{
+  background: var(--btn-primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .scheduleButton,
 .studentsButton {
   background: var(--btn-primary);
-  color: white;
+  color: var(--main-text-white);
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -330,7 +343,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 12px;
-  color: var(--main-text-white-lighter);
+  color: white;
   line-height: 1.4;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -347,7 +360,7 @@
   padding: 4px 8px;
   border-radius: 4px;
   background: var(--accent-blue-bg);
-  color: var(--main-text-white-lighter);
+  color: white;
   backdrop-filter: blur(10px);
   border: 1px solid var(--accent-blue);
 }
@@ -370,7 +383,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--main-text-white);
+  color: white;
   transition: all 0.2s;
   backdrop-filter: blur(10px);
 }

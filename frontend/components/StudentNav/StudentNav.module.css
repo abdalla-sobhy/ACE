@@ -2,9 +2,9 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(13, 17, 23, 0.95);
+  background: var(--main-color);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--borders);
   z-index: 1000;
   padding: 12px 0;
 }
@@ -50,7 +50,7 @@
 }
 
 .navLeft a:not(.logoDesktop) {
-  color: #c9d1d9;
+  color: var(--main-text-white);
   text-decoration: none;
   font-size: 15px;
   display: flex;
@@ -144,7 +144,7 @@
 }
 
 .userName {
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 15px;
   font-weight: 500;
 }
@@ -153,12 +153,13 @@
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--dropdown-bg);
+  border: 1px solid var(--borders);
   border-radius: 12px;
-  min-width: 240px;
+  min-width: 280px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   animation: dropdownOpen 0.2s ease-out;
+  overflow: hidden;
 }
 
 @keyframes dropdownOpen {
@@ -177,6 +178,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  background: var(--main-color);
+  border-bottom: 1px solid var(--borders);
 }
 
 .dropdownAvatar {
@@ -210,7 +213,7 @@
 
 .dropdownDivider {
   height: 1px;
-  background: #30363d;
+  background: var(--borders);
   margin: 0;
 }
 
@@ -220,9 +223,9 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: none;
+  background: var(--main-color);
   border: none;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 14px;
   text-decoration: none;
   cursor: pointer;
@@ -231,8 +234,7 @@
 }
 
 .dropdownItem:hover {
-  background: var(--accent-blue-bg);
-  color: var(--accent-blue);
+  background: var(--accent-blue);
 }
 
 .dropdownItem svg {
@@ -273,13 +275,13 @@
     top: 65px;
     right: 0;
     left: 0;
-    background: rgba(13, 17, 23, 0.98);
+    background: var(--main-color);
     backdrop-filter: blur(10px);
     flex-direction: column;
     padding: 20px 24px;
     transform: translateX(100%);
     transition: transform 0.3s ease;
-    border-bottom: 1px solid #30363d;
+    border-bottom: 1px solid var(--borders);
     max-height: calc(100vh - 65px);
     overflow-y: auto;
   }
@@ -310,7 +312,6 @@
     width: 100%;
     justify-content: space-between;
     padding-top: 20px;
-    border-top: 1px solid #30363d;
   }
   
   .dropdownMenu {

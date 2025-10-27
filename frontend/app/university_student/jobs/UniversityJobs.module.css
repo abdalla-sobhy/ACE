@@ -64,7 +64,7 @@
 /* Search Section */
 .searchSection {
   padding: 32px 24px;
-  background: #010409;
+  background: var(--main-color);
   border-bottom: 1px solid var(--borders);
 }
 

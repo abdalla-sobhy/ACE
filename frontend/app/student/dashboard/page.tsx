@@ -391,7 +391,7 @@ const findNextSessionFromSchedule = (
         {/* Welcome Section */}
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeContent}>
-            <h1>مرحباً {user?.name?.split(' ')[0]} 👋</h1>
+            <h1>مرحباً {user?.name?.split(' ')[0]}</h1>
             <p>استكشف الكورسات المتاحة لـ{getGradeLabel(user?.profile?.grade || "")}</p>
           </div>
           <div className={styles.statsCards}>
@@ -539,9 +539,7 @@ const findNextSessionFromSchedule = (
                           style={{ objectFit: 'cover' }}
                         />
                       ) : (
-                        <div className={styles.placeholderImage}>
-                          <span>{category.icon}</span>
-                        </div>
+                        ``
                       )}
                       <div className={styles.courseCategory}>
                         {category.icon} {category.label}
