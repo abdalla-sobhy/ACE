@@ -11,6 +11,7 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 export default function ParentNav() {
   const pathname = usePathname();
