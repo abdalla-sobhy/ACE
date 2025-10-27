@@ -16,6 +16,7 @@ import {
   FaMoneyBillWave,
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 interface User {
   name: string;
@@ -131,6 +132,7 @@ export default function TeacherNav() {
           </div>
 
           <div className={styles.navRight}>
+            <ThemeToggle />
             <NotificationDropdown />
 
             <div className={styles.profileDropdown} ref={profileRef}>

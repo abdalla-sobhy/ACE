@@ -54,6 +54,7 @@ export default function ParentNav() {
         </div>
 
         <div className={styles.navRight}>
+            <ThemeToggle />
           <NotificationDropdown />
 
           <div className={styles.profileMenu}>

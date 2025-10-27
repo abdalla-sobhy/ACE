@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--main-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
   direction: rtl;
 }
@@ -55,8 +55,8 @@
 }
 
 .statCard {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   padding: 24px;
   display: flex;
@@ -91,14 +91,14 @@
 
 .statContent p {
   font-size: 14px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 4px 0 0;
 }
 
 /* Recent Applications Section */
 .recentSection {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   padding: 24px;
 }
@@ -139,8 +139,8 @@
 .applicationsTable th {
   text-align: right;
   padding: 12px;
-  border-bottom: 1px solid #30363d;
-  color: #8b949e;
+  border-bottom: 1px solid var(--borders);
+  color: var(--p-text);
   font-weight: 500;
   font-size: 14px;
 }
@@ -164,7 +164,7 @@
 .viewButton {
   background: var(--accent-blue-bg);
   color: var(--accent-blue);
-  border: 1px solid #30363d;
+  border: 1px solid var(--borders);
   padding: 6px 16px;
   border-radius: 6px;
   font-size: 14px;
@@ -185,7 +185,7 @@
 .emptyState {
   text-align: center;
   padding: 60px 24px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .emptyState p {
@@ -205,7 +205,7 @@
 .loader {
   width: 48px;
   height: 48px;
-  border: 4px solid #30363d;
+  border: 4px solid var(--borders);
   border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;

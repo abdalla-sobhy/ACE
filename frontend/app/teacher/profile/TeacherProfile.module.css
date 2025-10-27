@@ -2,8 +2,8 @@
 
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--main-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans Arabic",
     sans-serif;
   direction: rtl;
@@ -26,7 +26,7 @@
 .loader {
   width: 48px;
   height: 48px;
-  border: 4px solid #30363d;
+  border: 4px solid var(--borders);
   border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -41,8 +41,8 @@
 /* Profile Header */
 .profileHeader {
   position: relative;
-  background: #161b22;
-  border-bottom: 1px solid #30363d;
+  background: var(--sections-color);
+  border-bottom: 1px solid var(--borders);
 }
 
 .headerBackground {
@@ -87,7 +87,7 @@
 
 .profileTitle {
   font-size: 18px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0 0 12px;
 }
 
@@ -96,7 +96,7 @@
   gap: 24px;
   flex-wrap: wrap;
   font-size: 14px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .profileMeta span {
@@ -152,8 +152,8 @@
 
 .cancelButton {
   background: transparent;
-  color: #c9d1d9;
-  border: 1px solid #30363d;
+  color: var(--main-text-white);
+  border: 1px solid var(--borders);
 }
 
 .cancelButton:hover {
@@ -169,7 +169,7 @@
 
 .statBox {
   background: #21262d;
-  border: 1px solid #30363d;
+  border: 1px solid var(--borders);
   border-radius: 8px;
   padding: 16px;
   text-align: center;
@@ -185,7 +185,7 @@
 .statBox p {
   margin: 0;
   font-size: 12px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 /* Profile Content */
@@ -197,8 +197,8 @@
 
 /* Sections */
 .section {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 24px;
@@ -214,18 +214,18 @@
 }
 
 .section p {
-  color: #8b949e;
+  color: var(--p-text);
   line-height: 1.6;
 }
 
 /* Form Elements */
 .input {
   width: 100%;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--main-color);
+  border: 1px solid var(--borders);
   border-radius: 6px;
   padding: 10px 12px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 14px;
   transition: all 0.3s;
 }
@@ -239,9 +239,9 @@
 /* CV Section */
 .cvSection {
   padding: 20px;
-  background: #0d1117;
+  background: var(--main-color);
   border-radius: 8px;
-  border: 2px dashed #30363d;
+  border: 2px dashed var(--borders);
   transition: all 0.3s;
 }
 
