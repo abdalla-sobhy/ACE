@@ -28,7 +28,7 @@
   width: 50px;
   height: 50px;
   border: 4px solid #30363d;
-  border-top-color: #58a6ff;
+  border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -55,7 +55,7 @@
 
 .courseSummary h2 {
   margin-bottom: 1.5rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-size: 1.5rem;
 }
 
@@ -78,11 +78,11 @@
 .courseInfo h3 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .teacherName {
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
@@ -97,11 +97,11 @@
 .courseType {
   display: inline-block;
   padding: 0.4rem 0.8rem;
-  background: rgba(88, 166, 255, 0.1);
-  border: 1px solid rgba(88, 166, 255, 0.3);
+  background: var(--accent-blue-bg);
+  border: 1px solid var(--accent-blue);
   border-radius: 20px;
   font-size: 0.85rem;
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .priceBreakdown {
@@ -111,7 +111,7 @@
 
 .priceBreakdown h4 {
   margin-bottom: 1rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-size: 1.1rem;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .discount {
-  color: #3fb950;
+  color: var(--success);
   font-weight: 600;
 }
 
@@ -140,11 +140,11 @@
   padding: 0.5rem 0;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .totalPrice {
-  color: #3fb950;
+  color: var(--success);
   font-size: 1.3rem;
 }
 
@@ -159,7 +159,7 @@
 
 .paymentForm h2 {
   margin-bottom: 1.5rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-size: 1.5rem;
 }
 
@@ -186,14 +186,14 @@
 }
 
 .tabButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .tabButton.active {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
-  color: #58a6ff;
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
 }
 
 .paymentContent {
@@ -215,12 +215,12 @@
 }
 
 .cardElementWrapper:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
 }
 
 .cardElementWrapper:focus-within {
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .errorMessage,
@@ -235,21 +235,21 @@
 }
 
 .errorMessage {
-  background: rgba(248, 81, 73, 0.1);
-  color: #f85149;
-  border: 1px solid rgba(248, 81, 73, 0.3);
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid var(--error);
 }
 
 .successMessage {
-  background: rgba(63, 185, 80, 0.1);
-  color: #3fb950;
-  border: 1px solid rgba(63, 185, 80, 0.3);
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success);
 }
 
 .payButton {
   width: 100%;
   padding: 1.2rem;
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -264,9 +264,9 @@
 }
 
 .payButton:hover:not(:disabled) {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 10px 30px var(--success-bg);
 }
 
 .payButton:disabled {
@@ -296,15 +296,15 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
-  background: rgba(88, 166, 255, 0.05);
-  border: 1px solid rgba(88, 166, 255, 0.2);
+  background: var(--accent-blue-bg);
+  border: 1px solid var(--accent-blue-bg);
   border-radius: 8px;
   color: #8b949e;
   font-size: 0.9rem;
 }
 
 .securityNotice svg {
-  color: #3fb950;
+  color: var(--success);
 }
 
 /* Responsive Design */

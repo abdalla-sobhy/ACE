@@ -23,7 +23,7 @@
 }
 
 .breadcrumb a {
-  color: #58a6ff;
+  color: var(--accent-blue);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -32,7 +32,7 @@
 }
 
 .breadcrumb a:hover {
-  color: #79c0ff;
+  color: var(--blue-lighter);
 }
 
 /* Content Layout */
@@ -60,7 +60,7 @@
   font-size: 32px;
   font-weight: 700;
   margin: 0 0 24px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .companyInfo {
@@ -99,7 +99,7 @@
 }
 
 .verifiedIcon {
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-size: 18px;
 }
 
@@ -142,10 +142,10 @@
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  background: rgba(248, 81, 73, 0.1);
-  border: 1px solid rgba(248, 81, 73, 0.3);
+  background: var(--error-bg);
+  border: 1px solid var(--error);
   border-radius: 8px;
-  color: #f85149;
+  color: var(--error);
   margin-bottom: 24px;
 }
 
@@ -155,7 +155,7 @@
 }
 
 .applyButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 14px 32px;
@@ -167,7 +167,7 @@
 }
 
 .applyButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
 }
 
@@ -176,10 +176,10 @@
   align-items: center;
   gap: 8px;
   padding: 14px 24px;
-  background: rgba(63, 185, 80, 0.1);
-  border: 1px solid rgba(63, 185, 80, 0.3);
+  background: var(--success-bg);
+  border: 1px solid var(--success);
   border-radius: 8px;
-  color: #3fb950;
+  color: var(--success);
   font-weight: 600;
 }
 
@@ -201,7 +201,7 @@
   font-size: 20px;
   font-weight: 600;
   margin: 0 0 16px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .section h4 {
@@ -233,7 +233,7 @@
   content: "•";
   position: absolute;
   right: 0;
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-weight: bold;
 }
 
@@ -245,8 +245,8 @@
 }
 
 .skill {
-  background: rgba(88, 166, 255, 0.1);
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
   padding: 6px 16px;
   border-radius: 20px;
   font-size: 14px;
@@ -255,7 +255,7 @@
 
 .skillPreferred {
   background: rgba(121, 192, 255, 0.1);
-  color: #79c0ff;
+  color: var(--blue-lighter);
   padding: 6px 16px;
   border-radius: 20px;
   font-size: 14px;
@@ -311,7 +311,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   text-decoration: none;
   font-weight: 500;
   margin-top: 16px;
@@ -319,7 +319,7 @@
 }
 
 .companyWebsite:hover {
-  color: #79c0ff;
+  color: var(--blue-lighter);
 }
 
 /* Application Modal */
@@ -373,7 +373,7 @@
 
 .coverLetterInput:focus {
   outline: none;
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
 }
 
 .charCount {
@@ -390,7 +390,7 @@
 }
 
 .submitButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -401,7 +401,7 @@
 }
 
 .submitButton:hover:not(:disabled) {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 .submitButton:disabled {
@@ -440,7 +440,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   text-decoration: none;
   font-weight: 500;
 }

@@ -22,8 +22,8 @@
   right: 0;
   bottom: 0;
   background-image: 
-    linear-gradient(rgba(88, 166, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(88, 166, 255, 0.1) 1px, transparent 1px);
+    linear-gradient(var(--accent-blue-bg) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent-blue-bg) 1px, transparent 1px);
   background-size: 100px 100px;
   animation: gridMove 20s linear infinite;
 }
@@ -41,14 +41,14 @@
 
 .badge {
   display: inline-block;
-  background: rgba(88, 166, 255, 0.1);
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 24px;
-  border: 1px solid rgba(88, 166, 255, 0.3);
+  border: 1px solid var(--accent-blue);
 }
 
 .hero h1 {
@@ -59,7 +59,7 @@
 }
 
 .gradient {
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -114,9 +114,9 @@
 }
 
 .featureCard:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(88, 166, 255, 0.1);
+  box-shadow: 0 12px 32px var(--accent-blue-bg);
 }
 
 .featureHeader {
@@ -158,7 +158,7 @@
 }
 
 .checkIcon {
-  color: #3fb950;
+  color: var(--success);
   font-weight: bold;
   flex-shrink: 0;
 }
@@ -180,14 +180,14 @@
 
 .showcaseBadge {
   display: inline-block;
-  background: rgba(63, 185, 80, 0.1);
-  color: #3fb950;
+  background: var(--success-bg);
+  color: var(--success);
   padding: 6px 12px;
   border-radius: 16px;
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 16px;
-  border: 1px solid rgba(63, 185, 80, 0.3);
+  border: 1px solid var(--success);
 }
 
 .showcaseContent h2 {
@@ -298,7 +298,7 @@
 .videoPlayer::before {
   content: '▶';
   font-size: 48px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   opacity: 0.5;
 }
 
@@ -312,7 +312,7 @@
 }
 
 .liveIndicator {
-  background: #f85149;
+  background: var(--error);
   color: white;
   padding: 4px 12px;
   border-radius: 4px;
@@ -347,7 +347,7 @@
 }
 
 .chatMessage strong {
-  color: #58a6ff;
+  color: var(--accent-blue);
   display: block;
   margin-bottom: 4px;
 }
@@ -388,7 +388,7 @@
 
 .additionalCard:hover {
   transform: translateY(-4px);
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
 }
 
 .additionalIcon {
@@ -426,7 +426,7 @@
   font-weight: 700;
   text-align: center;
   margin: 0 0 16px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -460,7 +460,7 @@
 .comparisonCell h3 {
   margin: 0;
   font-size: 18px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .comparisonRow {
@@ -477,7 +477,7 @@
   padding: 20px;
   font-weight: 500;
   color: var(--main-text-white);
-  background: rgba(88, 166, 255, 0.05);
+  background: var(--accent-blue-bg);
   display: flex;
   align-items: center;
 }
@@ -491,13 +491,13 @@
 }
 
 .checkMark {
-  color: #3fb950;
+  color: var(--success);
   font-size: 20px;
   font-weight: bold;
 }
 
 .crossMark {
-  color: #f85149;
+  color: var(--error);
   font-size: 20px;
   font-weight: bold;
 }
@@ -544,7 +544,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(88, 166, 255, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--accent-blue-bg) 0%, transparent 70%);
   animation: pulse 3s ease-in-out infinite;
 }
 
@@ -565,7 +565,7 @@
   font-weight: 800;
   margin: 0 0 8px;
   position: relative;
-  background: linear-gradient(to bottom, #58a6ff, #79c0ff);
+  background: linear-gradient(to bottom, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -593,7 +593,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, rgba(88, 166, 255, 0.05) 0%, transparent 50%);
+  background: radial-gradient(circle at center, var(--accent-blue-bg) 0%, transparent 50%);
 }
 
 .ctaContainer {
@@ -622,7 +622,7 @@
 }
 
 .primaryButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   padding: 16px 48px;
   text-decoration: none;
@@ -646,9 +646,9 @@
 }
 
 .primaryButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 8px 16px var(--success-bg);
 }
 
 .primaryButton:hover::before {
@@ -657,10 +657,10 @@
 
 .secondaryButton {
   background: transparent;
-  color: #58a6ff;
+  color: var(--accent-blue);
   padding: 16px 48px;
   text-decoration: none;
-  border: 2px solid #58a6ff;
+  border: 2px solid var(--accent-blue);
   border-radius: 6px;
   font-size: 20px;
   font-weight: 600;
@@ -668,9 +668,9 @@
 }
 
 .secondaryButton:hover {
-  background: rgba(88, 166, 255, 0.1);
+  background: var(--accent-blue-bg);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(88, 166, 255, 0.2);
+  box-shadow: 0 8px 16px var(--accent-blue-bg);
 }
 
 .ctaNote {
@@ -788,6 +788,6 @@
 }
 
 button:focus {
-  outline: 2px solid #58a6ff;
+  outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }

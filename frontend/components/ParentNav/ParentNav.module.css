@@ -34,7 +34,7 @@
 .logo {
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(to right, #58a6ff, #79c0ff);
+  background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: none;
@@ -43,7 +43,7 @@
 .logoDesktop {
   font-size: 28px;
   font-weight: 700;
-  background: linear-gradient(to right, #58a6ff, #79c0ff);
+  background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: none;
@@ -62,13 +62,13 @@
 }
 
 .navLeft a:not(.logoDesktop):hover {
-  background: rgba(88, 166, 255, 0.1);
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
 }
 
 .navLeft a.active {
-  background: rgba(88, 166, 255, 0.1);
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
 }
 
 .navIcon {
@@ -93,14 +93,14 @@
 }
 
 .notificationButton:hover {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .notificationBadge {
   position: absolute;
   top: 0;
   right: 0;
-  background: #f85149;
+  background: var(--error);
   color: white;
   font-size: 10px;
   font-weight: 600;
@@ -133,7 +133,7 @@
 .avatar {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, #58a6ff, #79c0ff);
+  background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -182,7 +182,7 @@
 .dropdownAvatar {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #58a6ff, #79c0ff);
+  background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -197,7 +197,7 @@
 }
 
 .dropdownName {
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-weight: 600;
   margin: 0 0 2px;
 }
@@ -231,8 +231,8 @@
 }
 
 .dropdownItem:hover {
-  background: rgba(88, 166, 255, 0.05);
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
 }
 
 .dropdownItem svg {

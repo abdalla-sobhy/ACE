@@ -30,8 +30,8 @@
 }
 
 .backLink:hover {
-  border-color: #58a6ff;
-  color: #58a6ff;
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
   transform: translateX(4px);
 }
 
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -63,9 +63,9 @@
 
 .errorMessage {
   padding: 16px 20px;
-  background: rgba(248, 81, 73, 0.1);
-  border: 1px solid rgba(248, 81, 73, 0.3);
-  color: #f85149;
+  background: var(--error-bg);
+  border: 1px solid var(--error);
+  color: var(--error);
   border-radius: 8px;
   font-size: 14px;
 }
@@ -109,7 +109,7 @@
 }
 
 .required {
-  color: #f85149;
+  color: var(--error);
 }
 
 .input,
@@ -130,8 +130,8 @@
 .select:focus,
 .textarea:focus {
   outline: none;
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .input::placeholder,
@@ -161,7 +161,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -173,7 +173,7 @@
 }
 
 .addButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 .tagsList {
@@ -187,9 +187,9 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: rgba(88, 166, 255, 0.1);
-  border: 1px solid rgba(88, 166, 255, 0.3);
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
@@ -201,8 +201,8 @@
   justify-content: center;
   width: 18px;
   height: 18px;
-  background: rgba(248, 81, 73, 0.1);
-  color: #f85149;
+  background: var(--error-bg);
+  color: var(--error);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -211,7 +211,7 @@
 }
 
 .removeTag:hover {
-  background: #f85149;
+  background: var(--error);
   color: white;
 }
 
@@ -236,7 +236,7 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
-  accent-color: #238636;
+  accent-color: var(--btn-primary);
 }
 
 /* Form Actions */
@@ -254,7 +254,7 @@
 .submitButton {
   flex: 1;
   padding: 14px 24px;
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -265,9 +265,9 @@
 }
 
 .submitButton:hover:not(:disabled) {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 4px 12px var(--success-bg);
 }
 
 .submitButton:disabled {
@@ -294,8 +294,8 @@
 }
 
 .cancelButton:hover {
-  border-color: #f85149;
-  color: #f85149;
+  border-color: var(--error);
+  color: var(--error);
 }
 
 /* Responsive Design */

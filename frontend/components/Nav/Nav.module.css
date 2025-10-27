@@ -36,7 +36,7 @@
   font-size: 24px;
   font-weight: 700;
   margin: 0;
-  background: linear-gradient(to right, #58a6ff, #79c0ff);
+  background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -45,7 +45,7 @@
   font-size: 34px !important;
   font-weight: 700;
   margin: 0;
-  background: linear-gradient(to right, #58a6ff, #79c0ff);
+  background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: none;
@@ -59,7 +59,7 @@
 }
 
 .navLeft a:hover {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .navRight {
@@ -76,15 +76,15 @@
 }
 
 .signIn:hover {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .signInActive {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .signUp, .signUpActive {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   text-decoration: none;
   padding: 8px 16px;
@@ -93,15 +93,15 @@
 }
 
 .signUp:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 .signUpActive {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 .navLeft a.active {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 /* Hamburger button */

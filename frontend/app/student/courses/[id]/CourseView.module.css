@@ -35,21 +35,21 @@
 }
 
 .header button:hover {
-  background: rgba(88, 166, 255, 0.05);
-  border-color: #58a6ff;
+  background: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
 }
 
 .header h1 {
   flex: 1;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-size: 2rem;
   margin: 0;
 }
 
 /* Enrollment Banner */
 .enrollmentBanner {
-  background: linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(121, 192, 255, 0.05) 100%);
-  border: 1px solid rgba(88, 166, 255, 0.3);
+  background: linear-gradient(135deg, var(--accent-blue-bg) 0%, rgba(121, 192, 255, 0.05) 100%);
+  border: 1px solid var(--accent-blue);
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -69,7 +69,7 @@
 .bannerInfo h2 {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .bannerInfo p {
@@ -86,7 +86,7 @@
   border-radius: 6px;
   display: inline-block;
   font-weight: 600;
-  color: #f85149;
+  color: var(--error);
 }
 
 .seatsNotice {
@@ -124,7 +124,7 @@
 .currentPrice {
   font-size: 2rem;
   font-weight: bold;
-  color: #3fb950;
+  color: var(--success);
 }
 
 .enrollButton {
@@ -132,7 +132,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 2.5rem;
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 50px;
@@ -140,11 +140,11 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(35, 134, 54, 0.3);
+  box-shadow: 0 4px 15px var(--success-bg);
 }
 
 .enrollButton:hover:not(:disabled) {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(35, 134, 54, 0.4);
 }
@@ -180,7 +180,7 @@
 .videoSection h2 {
   padding: 1.5rem;
   margin: 0;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-size: 1.5rem;
   border-bottom: 1px solid #30363d;
 }
@@ -210,7 +210,7 @@
 .locked h3 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .locked p {
@@ -220,7 +220,7 @@
 
 .unlockButton {
   padding: 1rem 2rem;
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 50px;
@@ -231,7 +231,7 @@
 }
 
 .unlockButton:hover:not(:disabled) {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(35, 134, 54, 0.4);
 }
@@ -275,7 +275,7 @@
 
 .lessonsList h3 {
   margin-bottom: 1.5rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
   font-size: 1.3rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid #30363d;
@@ -295,14 +295,14 @@
 }
 
 .lessonItem:hover {
-  background: rgba(88, 166, 255, 0.05);
-  border-color: rgba(88, 166, 255, 0.2);
+  background: var(--accent-blue-bg);
+  border-color: var(--accent-blue-bg);
 }
 
 .lessonItem.active {
-  background: rgba(88, 166, 255, 0.1);
-  border-color: #58a6ff;
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
 }
 
 .lessonItem.locked {
@@ -321,18 +321,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(88, 166, 255, 0.1);
-  border: 1px solid rgba(88, 166, 255, 0.3);
+  background: var(--accent-blue-bg);
+  border: 1px solid var(--accent-blue);
   border-radius: 50%;
   font-weight: 600;
   font-size: 0.9rem;
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .lessonItem.active .lessonNumber {
-  background: #58a6ff;
+  background: var(--accent-blue);
   color: white;
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
 }
 
 .lessonItem.locked .lessonNumber {
@@ -348,11 +348,11 @@
 .lessonInfo h4 {
   margin: 0 0 0.3rem 0;
   font-size: 1rem;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .lessonItem.active .lessonInfo h4 {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .lessonMeta {
@@ -373,8 +373,8 @@
 .previewBadge {
   padding: 0.2rem 0.5rem;
   background: rgba(63, 185, 80, 0.2);
-  color: #3fb950;
-  border: 1px solid rgba(63, 185, 80, 0.3);
+  color: var(--success);
+  border: 1px solid var(--success);
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -386,7 +386,7 @@
 }
 
 .lessonItem.active svg {
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 /* Loader */

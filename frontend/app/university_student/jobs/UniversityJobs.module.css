@@ -24,7 +24,7 @@
   width: 48px;
   height: 48px;
   border: 4px solid #30363d;
-  border-top-color: #58a6ff;
+  border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -35,7 +35,7 @@
 
 /* Header Section */
 .headerSection {
-  background: linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(121, 192, 255, 0.05) 100%);
+  background: linear-gradient(135deg, var(--accent-blue-bg) 0%, rgba(121, 192, 255, 0.05) 100%);
   padding: 48px 24px;
   border-bottom: 1px solid #30363d;
 }
@@ -50,7 +50,7 @@
   font-size: 36px;
   font-weight: 700;
   margin: 0 0 12px;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -89,8 +89,8 @@
 }
 
 .searchBox:focus-within {
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .searchIcon {
@@ -128,7 +128,7 @@
 }
 
 .searchButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 14px 28px;
@@ -139,7 +139,7 @@
 }
 
 .searchButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-2px);
 }
 
@@ -158,8 +158,8 @@
 }
 
 .filterToggle:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 /* Filters Panel */
@@ -201,7 +201,7 @@
 
 .filterGroup select:hover,
 .filterGroup select:focus {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
 }
 
 .checkboxLabel {
@@ -216,7 +216,7 @@
 .checkboxLabel input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #58a6ff;
+  accent-color: var(--accent-blue);
 }
 
 /* Jobs Section */
@@ -242,9 +242,9 @@
 }
 
 .jobCard:hover {
-  border-color: #58a6ff;
+  border-color: var(--accent-blue);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
+  box-shadow: 0 8px 24px var(--accent-blue-bg);
 }
 
 .jobHeader {
@@ -283,7 +283,7 @@
   font-size: 20px;
   font-weight: 600;
   margin: 0 0 8px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .companyDetails {
@@ -301,7 +301,7 @@
 }
 
 .verifiedIcon {
-  color: #58a6ff;
+  color: var(--accent-blue);
   font-size: 16px;
 }
 
@@ -314,7 +314,7 @@
   border-radius: 20px;
   font-size: 14px;
   font-weight: 600;
-  background: rgba(88, 166, 255, 0.1);
+  background: var(--accent-blue-bg);
 }
 
 /* Job Details */
@@ -354,8 +354,8 @@
 }
 
 .skillTag {
-  background: rgba(88, 166, 255, 0.1);
-  color: #58a6ff;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
   padding: 4px 12px;
   border-radius: 16px;
   font-size: 13px;
@@ -386,11 +386,11 @@
 }
 
 .deadline {
-  color: #f85149;
+  color: var(--error);
 }
 
 .viewButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   padding: 10px 24px;
@@ -403,7 +403,7 @@
 }
 
 .viewButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-1px);
 }
 
@@ -427,7 +427,7 @@
 .emptyState h3 {
   font-size: 24px;
   margin: 0 0 12px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .emptyState p {
@@ -457,8 +457,8 @@
 }
 
 .pageButton:hover:not(:disabled) {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .pageButton:disabled {

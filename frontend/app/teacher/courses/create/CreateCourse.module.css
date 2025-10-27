@@ -23,7 +23,7 @@
   font-size: 32px;
   font-weight: 700;
   margin: 0;
-  background: linear-gradient(to left, #58a6ff, #79c0ff);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -43,8 +43,8 @@
 }
 
 .backButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .formContainer {
@@ -84,7 +84,7 @@
 }
 
 .step.active .stepNumber {
-  background: #58a6ff;
+  background: var(--accent-blue);
   color: white;
 }
 
@@ -113,7 +113,7 @@
   font-size: 24px;
   font-weight: 600;
   margin: 0 0 32px;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .courseTypeSelection {
@@ -149,24 +149,24 @@
 }
 
 .typeButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .typeButton.active {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .typeButton svg {
   font-size: 32px;
-  color: #58a6ff;
+  color: var(--accent-blue);
 }
 
 .typeButton span {
   display: block;
   font-weight: 600;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .typeButton small {
@@ -214,14 +214,14 @@
 .formGroup textarea:focus,
 .formGroup select:focus {
   outline: none;
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
 }
 
 .formGroup input.error,
 .formGroup textarea.error,
 .formGroup select.error {
-  border-color: #f85149;
+  border-color: var(--error);
 }
 
 .formGroup textarea {
@@ -232,7 +232,7 @@
 .errorMessage {
   display: block;
   font-size: 12px;
-  color: #f85149;
+  color: var(--error);
   margin-top: 6px;
 }
 
@@ -263,13 +263,13 @@
 }
 
 .categoryButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .categoryButton.active {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.1);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .categoryIcon {
@@ -300,8 +300,8 @@
 }
 
 .uploadArea:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .uploadArea svg {
@@ -351,12 +351,12 @@
 }
 
 .removeThumbnail:hover {
-  background: #f85149;
+  background: var(--error);
 }
 
 .liveSettings {
-  background: rgba(88, 166, 255, 0.05);
-  border: 1px solid rgba(88, 166, 255, 0.2);
+  background: var(--accent-blue-bg);
+  border: 1px solid var(--accent-blue-bg);
   border-radius: 8px;
   padding: 24px;
   margin-bottom: 24px;
@@ -366,7 +366,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 24px;
-  color: #58a6ff;
+  color: var(--accent-blue);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -387,11 +387,11 @@
   font-size: 16px;
   font-weight: 600;
   margin: 0;
-  color: #f0f6fc;
+  color: var(--main-text-white-lighter);
 }
 
 .addSessionButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -405,7 +405,7 @@
 }
 
 .addSessionButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
 }
 
 .sessionRow {
@@ -419,7 +419,7 @@
 .sessionNumber {
   font-size: 14px;
   font-weight: 600;
-  color: #58a6ff;
+  color: var(--accent-blue);
   margin-bottom: 12px;
 }
 
@@ -440,8 +440,8 @@
 
 .removeSessionButton {
   background: none;
-  border: 1px solid #f85149;
-  color: #f85149;
+  border: 1px solid var(--error);
+  color: var(--error);
   border-radius: 6px;
   width: 36px;
   height: 36px;
@@ -453,7 +453,7 @@
 }
 
 .removeSessionButton:hover {
-  background: rgba(248, 81, 73, 0.1);
+  background: var(--error-bg);
 }
 
 .checkboxLabel {
@@ -483,11 +483,11 @@
 }
 
 .submitError {
-  background: rgba(248, 81, 73, 0.1);
-  border: 1px solid rgba(248, 81, 73, 0.3);
+  background: var(--error-bg);
+  border: 1px solid var(--error);
   border-radius: 6px;
   padding: 12px 16px;
-  color: #f85149;
+  color: var(--error);
   font-size: 14px;
   margin-top: 24px;
 }
@@ -523,20 +523,20 @@
 }
 
 .previousButton:hover {
-  border-color: #58a6ff;
-  background: rgba(88, 166, 255, 0.05);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-bg);
 }
 
 .nextButton,
 .submitButton {
-  background: #238636;
+  background: var(--btn-primary);
   color: white;
   margin-right: auto;
 }
 
 .nextButton:hover,
 .submitButton:hover {
-  background: #2ea043;
+  background: var(--btn-primary-hover);
   transform: translateY(-1px);
 }
 
