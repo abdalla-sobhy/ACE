@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--main-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
   direction: rtl;
 }
@@ -19,7 +19,7 @@
   gap: 12px;
   margin-bottom: 32px;
   font-size: 14px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .breadcrumb a {
@@ -44,14 +44,14 @@
 
 /* Main Content */
 .mainContent {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   padding: 32px;
 }
 
 .jobHeader {
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--borders);
   padding-bottom: 24px;
   margin-bottom: 32px;
 }
@@ -104,7 +104,7 @@
 }
 
 .companyInfo p {
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0;
 }
 
@@ -119,7 +119,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .metaItem svg {
@@ -130,11 +130,11 @@
   display: flex;
   gap: 24px;
   padding: 16px;
-  background: #0d1117;
+  background: var(--main-color);
   border-radius: 8px;
   margin-bottom: 20px;
   font-size: 14px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .deadline {
@@ -208,12 +208,12 @@
   font-size: 16px;
   font-weight: 600;
   margin: 16px 0 12px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .section p {
   line-height: 1.8;
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .section ul {
@@ -270,8 +270,8 @@
 }
 
 .companyCard {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   padding: 24px;
 }
@@ -283,7 +283,7 @@
 }
 
 .companyCard p {
-  color: #8b949e;
+  color: var(--p-text);
   line-height: 1.6;
   margin: 0 0 20px;
 }
@@ -298,7 +298,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 14px;
 }
 
@@ -338,8 +338,8 @@
 }
 
 .modalContent {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   padding: 32px;
   max-width: 600px;
@@ -355,18 +355,18 @@
 }
 
 .modalContent p {
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0 0 24px;
 }
 
 .coverLetterInput {
   width: 100%;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--main-color);
+  border: 1px solid var(--borders);
   border-radius: 8px;
   padding: 16px;
   font-size: 16px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   resize: vertical;
   font-family: inherit;
 }
@@ -379,7 +379,7 @@
 .charCount {
   text-align: left;
   font-size: 14px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 8px 0 24px;
 }
 
@@ -411,8 +411,8 @@
 
 .cancelButton {
   background: transparent;
-  color: #c9d1d9;
-  border: 1px solid #30363d;
+  color: var(--main-text-white);
+  border: 1px solid var(--borders);
   padding: 12px 24px;
   border-radius: 6px;
   font-weight: 600;

@@ -11,6 +11,7 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 export default function ParentNav() {
   const pathname = usePathname();
@@ -54,6 +55,7 @@ export default function ParentNav() {
         </div>
 
         <div className={styles.navRight}>
+            <ThemeToggle />
           <NotificationDropdown />
 
           <div className={styles.profileMenu}>

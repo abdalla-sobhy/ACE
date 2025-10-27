@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--main-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
   direction: rtl;
 }
@@ -29,11 +29,11 @@
 }
 
 .backButton {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 8px;
   padding: 10px 20px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s;
@@ -48,8 +48,8 @@
 }
 
 .formContainer {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -59,8 +59,8 @@
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
-  background: #0d1117;
-  border-bottom: 1px solid #30363d;
+  background: var(--main-color);
+  border-bottom: 1px solid var(--borders);
 }
 
 .step {
@@ -74,7 +74,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #30363d;
+  background: var(--borders);
   color: #6e7681;
   display: flex;
   align-items: center;
@@ -95,13 +95,13 @@
 }
 
 .step.active .stepLabel {
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .stepLine {
   width: 100px;
   height: 2px;
-  background: #30363d;
+  background: var(--borders);
   margin: 0 20px;
 }
 
@@ -124,7 +124,7 @@
   display: block;
   font-size: 14px;
   font-weight: 500;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   margin-bottom: 12px;
 }
 
@@ -135,8 +135,8 @@
 }
 
 .typeButton {
-  background: #0d1117;
-  border: 2px solid #30363d;
+  background: var(--main-color);
+  border: 2px solid var(--borders);
   border-radius: 8px;
   padding: 24px;
   cursor: pointer;
@@ -171,7 +171,7 @@
 
 .typeButton small {
   font-size: 12px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .liveIcon {
@@ -193,7 +193,7 @@
   display: block;
   font-size: 14px;
   font-weight: 500;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   margin-bottom: 8px;
 }
 
@@ -201,12 +201,12 @@
 .formGroup textarea,
 .formGroup select {
   width: 100%;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--main-color);
+  border: 1px solid var(--borders);
   border-radius: 6px;
   padding: 12px 16px;
   font-size: 16px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   transition: all 0.2s;
 }
 
@@ -250,8 +250,8 @@
 }
 
 .categoryButton {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--main-color);
+  border: 1px solid var(--borders);
   border-radius: 8px;
   padding: 16px;
   cursor: pointer;
@@ -278,7 +278,7 @@
 
 .categoryButton span:last-child {
   font-size: 14px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .thumbnailUpload {
@@ -292,8 +292,8 @@
   justify-content: center;
   gap: 8px;
   padding: 40px;
-  background: #0d1117;
-  border: 2px dashed #30363d;
+  background: var(--main-color);
+  border: 2px dashed var(--borders);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
@@ -310,7 +310,7 @@
 }
 
 .uploadArea span {
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 16px;
 }
 
@@ -409,8 +409,8 @@
 }
 
 .sessionRow {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--main-color);
+  border: 1px solid var(--borders);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
@@ -472,7 +472,7 @@
 
 .checkboxLabel span {
   display: block;
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .checkboxLabel small {
@@ -498,7 +498,7 @@
   align-items: center;
   margin-top: 40px;
   padding-top: 40px;
-  border-top: 1px solid #30363d;
+  border-top: 1px solid var(--borders);
 }
 
 .previousButton,
@@ -517,9 +517,9 @@
 }
 
 .previousButton {
-  background: #161b22;
-  border: 1px solid #30363d;
-  color: #c9d1d9;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
+  color: var(--main-text-white);
 }
 
 .previousButton:hover {

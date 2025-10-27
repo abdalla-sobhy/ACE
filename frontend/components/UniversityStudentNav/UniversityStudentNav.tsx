@@ -165,6 +165,7 @@ export default function UniversityStudentNav() {
               <ThemeToggle />
             </div>
           <div className={styles.navRight}>
+            <ThemeToggle />
             <NotificationDropdown />
 
             <div className={styles.profileDropdown} ref={profileRef}>

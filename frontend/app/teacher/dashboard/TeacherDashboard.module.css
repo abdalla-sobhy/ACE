@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--main-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
   direction: rtl;
 }
@@ -54,7 +54,7 @@
 
 .welcomeContent p {
   font-size: 18px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0;
 }
 
@@ -67,8 +67,8 @@
 }
 
 .statCard {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   padding: 24px;
   display: flex;
@@ -107,7 +107,7 @@
 
 .statInfo p {
   font-size: 14px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0;
 }
 
@@ -149,8 +149,8 @@
 
 .scheduleButton,
 .studentsButton {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
 }
 
 .createButton:hover {
@@ -166,7 +166,7 @@
 
 .coursesSection {
   padding: 48px 24px;
-  background: #0d1117;
+  background: var(--main-color);
 }
 
 .coursesHeader {
@@ -189,11 +189,11 @@
 }
 
 .tabButton {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 8px;
   padding: 10px 20px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s;
@@ -221,7 +221,7 @@
 
 .noCoursesIcon {
   font-size: 64px;
-  color: #30363d;
+  color: var(--borders);
   margin-bottom: 24px;
 }
 
@@ -232,7 +232,7 @@
 }
 
 .noCourses p {
-  color: #8b949e;
+  color: var(--p-text);
   font-size: 16px;
   margin: 0 0 32px;
 }
@@ -266,8 +266,8 @@
 }
 
 .courseCard {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.3s;
@@ -370,7 +370,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   transition: all 0.2s;
   backdrop-filter: blur(10px);
 }
@@ -392,7 +392,7 @@
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--borders);
 }
 
 .courseStat {
@@ -400,7 +400,7 @@
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .courseStat svg {
@@ -434,12 +434,12 @@
   display: flex;
   justify-content: space-between;
   font-size: 13px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .moreSchedule {
   font-size: 12px;
-  color: #8b949e;
+  color: var(--p-text);
   font-style: italic;
 }
 
@@ -481,18 +481,18 @@
 
 .revenueLabel {
   font-size: 12px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .seatsBar {
   padding: 16px 20px;
-  background: #0d1117;
-  border-top: 1px solid #30363d;
+  background: var(--main-color);
+  border-top: 1px solid var(--borders);
 }
 
 .seatsInfo {
   font-size: 13px;
-  color: #8b949e;
+  color: var(--p-text);
   margin-bottom: 8px;
   text-align: center;
 }
@@ -500,7 +500,7 @@
 .seatsProgress {
   width: 100%;
   height: 8px;
-  background: #30363d;
+  background: var(--borders);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -702,11 +702,11 @@ button:focus {
 }
 
 ::-webkit-scrollbar-track {
-  background: #161b22;
+  background: var(--sections-color);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #30363d;
+  background: var(--borders);
   border-radius: 6px;
 }
 

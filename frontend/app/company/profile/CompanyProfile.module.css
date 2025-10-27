@@ -2,8 +2,8 @@
 
 .container {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--main-color);
+  color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans Arabic",
     sans-serif;
   direction: rtl;
@@ -41,8 +41,8 @@
 /* Profile Header */
 .profileHeader {
   position: relative;
-  background: #161b22;
-  border-bottom: 1px solid #30363d;
+  background: var(--sections-color);
+  border-bottom: 1px solid var(--borders);
 }
 
 .headerBackground {
@@ -110,7 +110,7 @@
 
 .profileTitle {
   font-size: 18px;
-  color: #8b949e;
+  color: var(--p-text);
   margin: 0 0 12px;
 }
 
@@ -119,7 +119,7 @@
   gap: 24px;
   flex-wrap: wrap;
   font-size: 14px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 .profileMeta span {
@@ -175,8 +175,8 @@
 
 .cancelButton {
   background: transparent;
-  color: #c9d1d9;
-  border: 1px solid #30363d;
+  color: var(--main-text-white);
+  border: 1px solid var(--borders);
 }
 
 .cancelButton:hover {
@@ -192,7 +192,7 @@
 
 .statBox {
   background: #21262d;
-  border: 1px solid #30363d;
+  border: 1px solid var(--borders);
   border-radius: 8px;
   padding: 16px;
   text-align: center;
@@ -207,7 +207,7 @@
 .statBox p {
   margin: 0;
   font-size: 12px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 /* Profile Tabs */
@@ -217,13 +217,13 @@
   padding: 0 24px;
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--borders);
 }
 
 .tab {
   background: none;
   border: none;
-  color: #8b949e;
+  color: var(--p-text);
   padding: 12px 24px;
   cursor: pointer;
   font-size: 14px;
@@ -233,7 +233,7 @@
 }
 
 .tab:hover {
-  color: #c9d1d9;
+  color: var(--main-text-white);
 }
 
 .tab.active {
@@ -264,8 +264,8 @@
 
 /* Sections */
 .section {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 24px;
@@ -284,11 +284,11 @@
 .input,
 .bioInput {
   width: 100%;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--main-color);
+  border: 1px solid var(--borders);
   border-radius: 6px;
   padding: 10px 12px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 14px;
   margin-bottom: 12px;
   transition: all 0.3s;
@@ -307,7 +307,7 @@
 }
 
 .bio {
-  color: #8b949e;
+  color: var(--p-text);
   line-height: 1.6;
 }
 
@@ -322,7 +322,7 @@
   display: grid;
   gap: 12px;
   padding: 16px;
-  background: #0d1117;
+  background: var(--main-color);
   border-radius: 8px;
 }
 
@@ -331,15 +331,15 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #8b949e;
+  color: var(--p-text);
 }
 
 /* Logo Section */
 .logoSection {
   padding: 20px;
-  background: #0d1117;
+  background: var(--main-color);
   border-radius: 8px;
-  border: 2px dashed #30363d;
+  border: 2px dashed var(--borders);
   transition: all 0.3s;
 }
 
@@ -354,7 +354,7 @@
   height: 100px;
   border-radius: 8px;
   object-fit: cover;
-  border: 1px solid #30363d;
+  border: 1px solid var(--borders);
 }
 
 .logoInfo {
@@ -414,8 +414,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--main-color);
+  border: 1px solid var(--borders);
   border-radius: 6px;
   padding: 4px 12px;
 }
@@ -430,7 +430,7 @@
   background: none;
   border: none;
   padding: 10px 0;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 14px;
   outline: none;
 }
@@ -444,7 +444,7 @@
 .socialButton {
   padding: 8px 16px;
   background: #21262d;
-  border: 1px solid #30363d;
+  border: 1px solid var(--borders);
   border-radius: 6px;
   color: var(--accent-blue);
   text-decoration: none;
@@ -494,9 +494,9 @@
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: #0d1117;
+  background: var(--main-color);
   border-radius: 8px;
-  border: 1px solid #30363d;
+  border: 1px solid var(--borders);
 }
 
 .removeButton {
