@@ -61,7 +61,8 @@
     "add": "Add",
     "and": "and",
     "viewAll": "View All",
-    "loadingData": "Loading data..."
+    "loadingData": "Loading data...",
+    "updating": "Updating..."
   },
   "nav": {
     "features": "Features",

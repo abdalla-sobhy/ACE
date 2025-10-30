@@ -610,7 +610,7 @@ const handleRemoveCertification = (index: number) => {
                     <div className={styles.cvUploaded}>
                       <FaFilePdf className={styles.cvIcon} />
                       <div className={styles.cvInfo}>
-                        <p>{profile.cv_filename || {t("company.resume")}}</p>
+                        <p>{profile.cv_filename || t("company.resume")}</p>
                         <div className={styles.cvActions}>
                           
                           {isEditing && (

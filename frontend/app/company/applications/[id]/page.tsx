@@ -860,7 +860,7 @@ export default function ApplicationDetailsPage() {
                   disabled={updating || !selectedStatus}
                   className={styles.submitButton}
                 >
-                  {updating ? "جاري التحديث..." : {t("common.update")}}
+                  {updating ? t("common.updating") : t("common.update")}
                 </button>
                 <button
                   onClick={() => setShowStatusModal(false)}
