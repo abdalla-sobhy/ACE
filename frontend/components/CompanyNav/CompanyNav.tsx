@@ -14,8 +14,11 @@ import {
 } from "react-icons/fa";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
+import { useLanguage } from "@/hooks/useLanguage";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 export default function CompanyNav() {
+  const { t } = useLanguage();
   const router = useRouter();
   const pathname = usePathname();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -37,7 +40,7 @@ export default function CompanyNav() {
         <div className={styles.navLeft}>
           <Link href="/company/dashboard" className={styles.logo}>
             <FaBuilding />
-            <span>Edvance Business</span>
+            <span>{t("common.edvance")} Business</span>
           </Link>
 
           <div className={styles.navLinks}>
@@ -48,7 +51,7 @@ export default function CompanyNav() {
               }`}
             >
               <FaTachometerAlt />
-              <span>لوحة التحكم</span>
+              <span>{t("common.dashboard")}</span>
             </Link>
 
             <Link
@@ -58,7 +61,7 @@ export default function CompanyNav() {
               }`}
             >
               <FaBriefcase />
-              <span>الوظائف</span>
+              <span>{t("company.myJobs")}</span>
             </Link>
 
             <Link
@@ -68,7 +71,7 @@ export default function CompanyNav() {
               }`}
             >
               <FaUsers />
-              <span>الطلبات</span>
+              <span>{t("company.applications")}</span>
             </Link>
 
             <div id="themeIcon">
@@ -78,6 +81,7 @@ export default function CompanyNav() {
         </div>
 
         <div className={styles.navRight}>
+          <LanguageSwitcher />
           <NotificationDropdown />
 
           <div className={styles.profileMenu}>
@@ -92,11 +96,11 @@ export default function CompanyNav() {
               <div className={styles.dropdown}>
                 <Link href="/company/profile" className={styles.dropdownItem}>
                   <FaUserCircle />
-                  <span>الملف الشخصي</span>
+                  <span>{t("common.profile")}</span>
                 </Link>
                 <button className={styles.dropdownItem} onClick={handleLogout}>
                   <FaSignOutAlt />
-                  <span>تسجيل الخروج</span>
+                  <span>{t("common.logout")}</span>
                 </button>
               </div>
             )}

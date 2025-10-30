@@ -1,54 +1,56 @@
+"use client";
+
 import styles from "./Features.module.css";
 import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function FeaturesPage() {
+  const { t } = useLanguage();
+
   const mainFeatures = [
     {
       icon: "📺",
-      title: "بث مباشر تفاعلي",
-      description:
-        "احضر المحاضرات بث مباشر بجودة عالية مع إمكانية التفاعل المباشر مع المحاضر",
+      title: t("features.feature1"),
+      description: t("features.feature1Description"),
       details: [
-        "جودة فيديو HD",
-        "تفاعل مباشر بالصوت والصورة",
-        "مشاركة الشاشة والملفات",
-        "تسجيل المحاضرات للمراجعة",
+        t("features.feature1Detail1"),
+        t("features.feature1Detail2"),
+        t("features.feature1Detail3"),
+        t("features.feature1Detail4"),
       ],
     },
     {
       icon: "🪑",
-      title: "نظام حجز المقاعد",
-      description:
-        "احجز مقعدك في المحاضرة مسبقاً لضمان حضورك وتنظيم أفضل للفصول",
+      title: t("features.feature2"),
+      description: t("features.feature2Description"),
       details: [
-        "حجز مسبق للمحاضرات",
-        "إشعارات تذكيرية",
-        "قائمة انتظار ذكية",
-        "إلغاء مرن للحجز",
+        t("features.feature2Detail1"),
+        t("features.feature2Detail2"),
+        t("features.feature2Detail3"),
+        t("features.feature2Detail4"),
       ],
     },
     {
       icon: "🏆",
-      title: "نظام النقاط والمكافآت",
-      description: "اكسب نقاط مع كل حضور ومشاركة واستبدلها بمزايا إضافية",
+      title: t("features.feature3"),
+      description: t("features.feature3Description"),
       details: [
-        "نقاط للحضور المنتظم",
-        "مكافآت للمشاركة الفعالة",
-        "شارات الإنجاز",
-        "لوحة المتصدرين",
+        t("features.feature3Detail1"),
+        t("features.feature3Detail2"),
+        t("features.feature3Detail3"),
+        t("features.feature3Detail4"),
       ],
     },
     {
       icon: "📝",
-      title: "امتحانات شاملة",
-      description:
-        "اختبر معلوماتك بامتحانات معتمدة مع تقييم فوري وتقارير مفصلة",
+      title: t("features.feature4"),
+      description: t("features.feature4Description"),
       details: [
-        "امتحانات تجريبية",
-        "تصحيح فوري",
-        "تقارير الأداء المفصلة",
-        "شهادات معتمدة",
+        t("features.feature4Detail1"),
+        t("features.feature4Detail2"),
+        t("features.feature4Detail3"),
+        t("features.feature4Detail4"),
       ],
     },
   ];
@@ -56,33 +58,33 @@ export default function FeaturesPage() {
   const additionalFeatures = [
     {
       icon: "👨‍👩‍👧",
-      title: "لوحة تحكم أولياء الأمور",
-      description: "متابعة دقيقة لتقدم الأبناء وحضورهم",
+      title: t("features.additionalFeature1"),
+      description: t("features.additionalFeature1Description"),
     },
     {
       icon: "📊",
-      title: "تقارير تفصيلية",
-      description: "احصائيات شاملة عن الأداء والتقدم الدراسي",
+      title: t("features.additionalFeature2"),
+      description: t("features.additionalFeature2Description"),
     },
     {
       icon: "💬",
-      title: "منتدى نقاش",
-      description: "تواصل مع زملائك والمعلمين خارج وقت المحاضرة",
+      title: t("features.additionalFeature3"),
+      description: t("features.additionalFeature3Description"),
     },
     {
       icon: "📚",
-      title: "مكتبة رقمية",
-      description: "مصادر تعليمية وملخصات وكتب رقمية",
+      title: t("features.additionalFeature4"),
+      description: t("features.additionalFeature4Description"),
     },
     {
       icon: "📱",
-      title: "تطبيق موبايل",
-      description: "تعلم في أي وقت ومن أي مكان",
+      title: t("features.additionalFeature5"),
+      description: t("features.additionalFeature5Description"),
     },
     {
       icon: "🔔",
-      title: "إشعارات ذكية",
-      description: "لا تفوت أي محاضرة أو موعد مهم",
+      title: t("features.additionalFeature6"),
+      description: t("features.additionalFeature6Description"),
     },
   ];
 
@@ -94,12 +96,12 @@ export default function FeaturesPage() {
       <section className={styles.hero}>
         <div className={styles.heroGrid}></div>
         <div className={styles.heroContent}>
-          <span className={styles.badge}>المنصة الأولى في مصر</span>
+          <span className={styles.badge}>{t("features.heroBadge")}</span>
           <h1>
-            مميزات تجعل التعلم{" "}
-            <span className={styles.gradient}>أسهل وأمتع</span>
+            {t("features.heroTitle")}{" "}
+            <span className={styles.gradient}>{t("features.heroTitleGradient")}</span>
           </h1>
-          <p>منصة متكاملة مصممة خصيصاً لتلبية احتياجات الطالب المصري</p>
+          <p>{t("features.heroSubtitle")}</p>
         </div>
       </section>
 
@@ -107,8 +109,8 @@ export default function FeaturesPage() {
       <section className={styles.mainFeatures}>
         <div className={styles.featuresContainer}>
           <div className={styles.sectionHeader}>
-            <h2>المميزات الأساسية</h2>
-            <p>كل ما تحتاجه للتفوق الدراسي في مكان واحد</p>
+            <h2>{t("features.mainFeaturesTitle")}</h2>
+            <p>{t("features.mainFeaturesSubtitle")}</p>
           </div>
 
           <div className={styles.featuresGrid}>
@@ -139,32 +141,29 @@ export default function FeaturesPage() {
       <section className={styles.showcase}>
         <div className={styles.showcaseContainer}>
           <div className={styles.showcaseContent}>
-            <span className={styles.showcaseBadge}>الأكثر طلباً</span>
-            <h2>نظام البث المباشر المتطور</h2>
-            <p>
-              تقنية بث عالية الجودة تضمن تجربة تعليمية سلسة ومتواصلة مع إمكانيات
-              تفاعل متقدمة تجعلك تشعر وكأنك في فصل دراسي حقيقي
-            </p>
+            <span className={styles.showcaseBadge}>{t("features.showcaseBadge")}</span>
+            <h2>{t("features.showcaseTitle")}</h2>
+            <p>{t("features.showcaseDescription")}</p>
             <div className={styles.showcaseFeatures}>
               <div className={styles.showcaseFeature}>
                 <span className={styles.showcaseIcon}>👥</span>
                 <div>
-                  <h4>فصول صغيرة</h4>
-                  <p>15-20 طالب فقط لضمان التفاعل</p>
+                  <h4>{t("features.showcaseFeature1Title")}</h4>
+                  <p>{t("features.showcaseFeature1Description")}</p>
                 </div>
               </div>
               <div className={styles.showcaseFeature}>
                 <span className={styles.showcaseIcon}>🎥</span>
                 <div>
-                  <h4>تسجيل تلقائي</h4>
-                  <p>جميع المحاضرات متاحة للمراجعة</p>
+                  <h4>{t("features.showcaseFeature2Title")}</h4>
+                  <p>{t("features.showcaseFeature2Description")}</p>
                 </div>
               </div>
               <div className={styles.showcaseFeature}>
                 <span className={styles.showcaseIcon}>💭</span>
                 <div>
-                  <h4>دردشة مباشرة</h4>
-                  <p>اسأل واحصل على إجابات فورية</p>
+                  <h4>{t("features.showcaseFeature3Title")}</h4>
+                  <p>{t("features.showcaseFeature3Description")}</p>
                 </div>
               </div>
             </div>
@@ -178,14 +177,14 @@ export default function FeaturesPage() {
                   <span></span>
                 </div>
                 <span className={styles.browserTitle}>
-                  محاضرة الفيزياء - بث مباشر
+                  محاضرة الفيزياء - {t("features.liveIndicator")}
                 </span>
               </div>
               <div className={styles.browserContent}>
                 <div className={styles.videoPlayer}>
                   <div className={styles.videoOverlay}>
-                    <span className={styles.liveIndicator}>● مباشر</span>
-                    <span className={styles.viewerCount}>👥 18 طالب</span>
+                    <span className={styles.liveIndicator}>● {t("features.liveIndicator")}</span>
+                    <span className={styles.viewerCount}>👥 18 {t("features.viewerCount")}</span>
                   </div>
                 </div>
                 <div className={styles.chatPanel}>
@@ -208,7 +207,7 @@ export default function FeaturesPage() {
       {/* Additional Features */}
       <section className={styles.additionalFeatures}>
         <div className={styles.additionalContainer}>
-          <h2>مميزات إضافية تثري تجربتك</h2>
+          <h2>{t("features.additionalFeaturesTitle")}</h2>
           <div className={styles.additionalGrid}>
             {additionalFeatures.map((feature, index) => (
               <div key={index} className={styles.additionalCard}>
@@ -224,62 +223,62 @@ export default function FeaturesPage() {
       {/* Comparison Section */}
       <section className={styles.comparison}>
         <div className={styles.comparisonContainer}>
-          <h2>لماذا Edvance؟</h2>
-          <p className={styles.comparisonSubtitle}>مقارنة سريعة توضح الفرق</p>
+          <h2>{t("features.comparisonTitle")}</h2>
+          <p className={styles.comparisonSubtitle}>{t("features.comparisonSubtitle")}</p>
           <div className={styles.comparisonTable}>
             <div className={styles.comparisonHeader}>
               <div className={styles.comparisonCell}></div>
               <div className={styles.comparisonCell}>
-                <h3>Edvance</h3>
+                <h3>{t("features.comparisonEdvance")}</h3>
               </div>
               <div className={styles.comparisonCell}>
-                <h3>المنصات الأخرى</h3>
+                <h3>{t("features.comparisonOthers")}</h3>
               </div>
             </div>
             <div className={styles.comparisonRow}>
-              <div className={styles.comparisonFeature}>التكلفة</div>
+              <div className={styles.comparisonFeature}>{t("features.comparisonCost")}</div>
               <div className={styles.comparisonValue}>
                 <span className={styles.checkMark}>✓</span>
-                <span>مجاني 100%</span>
+                <span>{t("features.comparisonCostEdvance")}</span>
               </div>
               <div className={styles.comparisonValue}>
                 <span className={styles.crossMark}>✗</span>
-                <span>اشتراكات شهرية</span>
+                <span>{t("features.comparisonCostOthers")}</span>
               </div>
             </div>
             <div className={styles.comparisonRow}>
-              <div className={styles.comparisonFeature}>بث مباشر تفاعلي</div>
+              <div className={styles.comparisonFeature}>{t("features.comparisonLive")}</div>
               <div className={styles.comparisonValue}>
                 <span className={styles.checkMark}>✓</span>
-                <span>متاح لجميع الكورسات</span>
+                <span>{t("features.comparisonLiveEdvance")}</span>
               </div>
               <div className={styles.comparisonValue}>
                 <span className={styles.crossMark}>✗</span>
-                <span>فيديوهات مسجلة فقط</span>
+                <span>{t("features.comparisonLiveOthers")}</span>
               </div>
             </div>
             <div className={styles.comparisonRow}>
-              <div className={styles.comparisonFeature}>نظام النقاط</div>
+              <div className={styles.comparisonFeature}>{t("features.comparisonPoints")}</div>
               <div className={styles.comparisonValue}>
                 <span className={styles.checkMark}>✓</span>
-                <span>نظام متكامل</span>
+                <span>{t("features.comparisonPointsEdvance")}</span>
               </div>
               <div className={styles.comparisonValue}>
                 <span className={styles.crossMark}>✗</span>
-                <span>غير متوفر</span>
+                <span>{t("features.comparisonPointsOthers")}</span>
               </div>
             </div>
             <div className={styles.comparisonRow}>
               <div className={styles.comparisonFeature}>
-                متابعة أولياء الأمور
+                {t("features.comparisonParents")}
               </div>
               <div className={styles.comparisonValue}>
                 <span className={styles.checkMark}>✓</span>
-                <span>لوحة تحكم مخصصة</span>
+                <span>{t("features.comparisonParentsEdvance")}</span>
               </div>
               <div className={styles.comparisonValue}>
                 <span className={styles.crossMark}>✗</span>
-                <span>محدود أو غير متاح</span>
+                <span>{t("features.comparisonParentsOthers")}</span>
               </div>
             </div>
           </div>
@@ -289,27 +288,27 @@ export default function FeaturesPage() {
       {/* Stats Section */}
       <section className={styles.stats}>
         <div className={styles.statsContainer}>
-          <h2>أرقام تتحدث عن النجاح</h2>
+          <h2>{t("features.statsTitle")}</h2>
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
               <span className={styles.statIcon}>📈</span>
               <h3>98%</h3>
-              <p>نسبة تحسن الطلاب</p>
+              <p>{t("features.statImprovement")}</p>
             </div>
             <div className={styles.statCard}>
               <span className={styles.statIcon}>⏰</span>
               <h3>24/7</h3>
-              <p>دعم فني متواصل</p>
+              <p>{t("features.statSupport")}</p>
             </div>
             <div className={styles.statCard}>
               <span className={styles.statIcon}>🎯</span>
               <h3>95%</h3>
-              <p>نسبة رضا الطلاب</p>
+              <p>{t("features.statSatisfaction")}</p>
             </div>
             <div className={styles.statCard}>
               <span className={styles.statIcon}>🚀</span>
-              <h3>0.5 ثانية</h3>
-              <p>زمن تأخير البث</p>
+              <h3>0.5 {t("common.time")}</h3>
+              <p>{t("features.statLatency")}</p>
             </div>
           </div>
         </div>
@@ -318,19 +317,19 @@ export default function FeaturesPage() {
       {/* CTA Section */}
       <section className={styles.cta}>
         <div className={styles.ctaContainer}>
-          <h2>ابدأ رحلتك التعليمية اليوم</h2>
-          <p>انضم لآلاف الطلاب الذين يحققون أحلامهم معنا</p>
+          <h2>{t("features.ctaTitle")}</h2>
+          <p>{t("features.ctaDescription")}</p>
           <div className={styles.ctaButtons}>
             <Link href="/signup" className={styles.primaryButton}>
-              سجل مجاناً الآن
+              {t("features.ctaRegisterButton")}
             </Link>
             <Link href="/demo" className={styles.secondaryButton}>
-              جرب عرض تجريبي
+              {t("features.ctaDemoButton")}
             </Link>
           </div>
           <p className={styles.ctaNote}>
             <span className={styles.ctaIcon}>🎁</span>
-            احصل على 100 نقطة ترحيبية عند التسجيل
+            {t("features.ctaNote")}
           </p>
         </div>
       </section>

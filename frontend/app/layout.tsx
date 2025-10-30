@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 import ClientBody from "../components/ClientBody";
 import AuthExpirationChecker from '@/components/AuthExpirationChecker';
 import { AuthProvider } from '@/context/AuthContext';
@@ -63,13 +64,15 @@ export default async function RootLayout({
       <ClientBody
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <AuthExpirationChecker>
-            <ThemeProvider initialTheme={theme}>
-              {children}
-            </ThemeProvider>
-          </AuthExpirationChecker>
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <AuthExpirationChecker>
+              <ThemeProvider initialTheme={theme}>
+                {children}
+              </ThemeProvider>
+            </AuthExpirationChecker>
+          </AuthProvider>
+        </LanguageProvider>
       </ClientBody>
     </html>
   );

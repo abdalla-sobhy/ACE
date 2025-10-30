@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const verifyAcademicEmail = async (email: string) => {
   try {
@@ -244,6 +245,7 @@ const universityStudentSchema = z.object({
 });
 
 function SignupContent() {
+  const { t } = useLanguage();
   const [step, setStep] = useState(1);
   const [userType, setUserType] = useState<UserType>(null);
   const [diditVerified, setDiditVerified] = useState(false);
@@ -444,29 +446,29 @@ function SignupContent() {
     {
       type: "student" as UserType,
       icon: <FaUser />,
-      title: "طالب",
-      description: "احضر المحاضرات وتفاعل مع المعلمين",
+      title: t("auth.student"),
+      description: t("landing.heroDescription"),
       color: "#58a6ff",
     },
     {
       type: "teacher" as UserType,
       icon: <FaChalkboardTeacher />,
-      title: "محاضر",
-      description: "شارك علمك وساعد الطلاب على التفوق",
+      title: t("auth.teacher"),
+      description: t("landing.joinAsTeacher"),
       color: "#3fb950",
     },
     {
       type: "parent" as UserType,
       icon: <FaUserFriends />,
-      title: "ولي أمر",
-      description: "تابع تقدم أبنائك وأدائهم الدراسي",
+      title: t("auth.parent"),
+      description: t("parent.viewProgress"),
       color: "#f85149",
     },
     {
       type: "university_student" as UserType,
       icon: <FaUserGraduate />,
-      title: "طالب جامعي",
-      description: "احصل علي افضل الكورسات لتطوير مسارك المهني",
+      title: t("auth.universityStudent"),
+      description: t("universityStudent.browseJobs"),
       color: "#fff",
     },
   ];
@@ -999,9 +1001,9 @@ function SignupContent() {
             Edvance
           </Link>
           <div className={styles.navRight}>
-            <span className={styles.navText}>لديك حساب بالفعل؟</span>
+            <span className={styles.navText}>{t("auth.haveAccount")}</span>
             <Link href="/login" className={styles.loginLink}>
-              تسجيل الدخول
+              {t("auth.loginLink")}
             </Link>
           </div>
         </div>
@@ -1023,8 +1025,8 @@ function SignupContent() {
           {/* Step 1: User Type Selection */}
           {step === 1 && (
             <div className={styles.stepContent}>
-              <h1 className={styles.title}>أهلاً بك في Edvance</h1>
-              <p className={styles.subtitle}>اختر نوع حسابك للبدء</p>
+              <h1 className={styles.title}>{t("auth.signupTitle")}</h1>
+              <p className={styles.subtitle}>{t("auth.selectUserType")}</p>
 
               <div className={styles.userTypeGrid}>
                 {userTypes.map((type) => (
@@ -1045,7 +1047,7 @@ function SignupContent() {
 
               <div className={styles.adminLink}>
                 <p>
-                  مسؤول النظام؟ <Link href="/admin/login">دخول الإدارة</Link>
+                  {t("common.settings")}? <Link href="/admin/login">{t("nav.login")}</Link>
                 </p>
               </div>
             </div>
@@ -1054,18 +1056,18 @@ function SignupContent() {
           {/* Step 2: Basic Information */}
           {step === 2 && (
             <div className={styles.stepContent}>
-              <h2 className={styles.stepTitle}>المعلومات الأساسية</h2>
-              <p className={styles.subtitle}>أدخل بياناتك الشخصية</p>
+              <h2 className={styles.stepTitle}>{t("profile.personalInfo")}</h2>
+              <p className={styles.subtitle}>{t("auth.signupDescription")}</p>
 
               <form onSubmit={handleBasicInfoSubmit} className={styles.form}>
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
-                    <label htmlFor="firstName">الاسم الأول</label>
+                    <label htmlFor="firstName">{t("auth.firstName")}</label>
                     <input
                       type="text"
                       id="firstName"
                       {...getFormField("firstName").register}
-                      placeholder="أحمد"
+                      placeholder={t("auth.firstName")}
                       className={
                         getFormField("firstName").error ? styles.inputError : ""
                       }
@@ -1077,12 +1079,12 @@ function SignupContent() {
                     )}
                   </div>
                   <div className={styles.formGroup}>
-                    <label htmlFor="lastName">اسم العائلة</label>
+                    <label htmlFor="lastName">{t("auth.lastName")}</label>
                     <input
                       type="text"
                       id="lastName"
                       {...getFormField("lastName").register}
-                      placeholder="محمد"
+                      placeholder={t("auth.lastName")}
                       className={
                         getFormField("lastName").error ? styles.inputError : ""
                       }
@@ -1098,9 +1100,9 @@ function SignupContent() {
                 <div className={styles.formGroup}>
                   <label htmlFor="email">
                     {userType === "university_student" ? (
-                      <>البريد الالكتروني الاكاديمي</>
+                      <>{t("universityStudent.academicEmail")}</>
                     ) : (
-                      <>البريد الإلكتروني</>
+                      <>{t("auth.emailPlaceholder")}</>
                     )}
                   </label>
                   <div className={styles.emailInputWrapper}>
@@ -1132,7 +1134,7 @@ function SignupContent() {
 
                 {/* Phone field for all users */}
                 <div className={styles.formGroup}>
-                  <label htmlFor="phone">رقم الهاتف</label>
+                  <label htmlFor="phone">{t("common.phone")}</label>
                   <PhoneInput
                     international
                     defaultCountry="EG"
@@ -1161,7 +1163,7 @@ function SignupContent() {
                         ? styles.phoneInputError
                         : ""
                     }`}
-                    placeholder="أدخل رقم هاتفك"
+                    placeholder={t("common.phone")}
                     countries={["EG"]}
                   />
                   {userType === "student"
@@ -1181,7 +1183,7 @@ function SignupContent() {
                 {userType === "student" && (
                   <div className={styles.formRow}>
                     <div className={styles.formGroup}>
-                      <label htmlFor="grade">المرحلة الدراسية</label>
+                      <label htmlFor="grade">{t("parent.childGrade")}</label>
                       <select
                         id="grade"
                         {...studentForm.register("grade")}
@@ -1191,7 +1193,7 @@ function SignupContent() {
                             : ""
                         }
                       >
-                        <option value="">اختر المرحلة</option>
+                        <option value="">{t("auth.selectUserType")}</option>
                         <option value="primary-1">الصف الأول الابتدائي</option>
                         <option value="primary-2">الصف الثاني الابتدائي</option>
                         <option value="primary-3">الصف الثالث الابتدائي</option>
@@ -1212,7 +1214,7 @@ function SignupContent() {
                       )}
                     </div>
                     <div className={styles.formGroup}>
-                      <label htmlFor="birthDate">تاريخ الميلاد</label>
+                      <label htmlFor="birthDate">{t("profile.dateOfBirth")}</label>
                       <input
                         type="date"
                         id="birthDate"
@@ -1234,12 +1236,12 @@ function SignupContent() {
 
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
-                    <label htmlFor="password">كلمة المرور</label>
+                    <label htmlFor="password">{t("auth.passwordPlaceholder")}</label>
                     <input
                       type="password"
                       id="password"
                       {...getFormField("password").register}
-                      placeholder="8 أحرف على الأقل"
+                      placeholder={t("auth.passwordTooShort")}
                       className={
                         getFormField("password").error ? styles.inputError : ""
                       }
@@ -1251,12 +1253,12 @@ function SignupContent() {
                     )}
                   </div>
                   <div className={styles.formGroup}>
-                    <label htmlFor="confirmPassword">تأكيد كلمة المرور</label>
+                    <label htmlFor="confirmPassword">{t("auth.confirmPassword")}</label>
                     <input
                       type="password"
                       id="confirmPassword"
                       {...getFormField("confirmPassword").register}
-                      placeholder="أعد كتابة كلمة المرور"
+                      placeholder={t("auth.confirmPassword")}
                       className={
                         getFormField("confirmPassword").error
                           ? styles.inputError
@@ -1277,14 +1279,14 @@ function SignupContent() {
                     className={styles.backButton}
                     onClick={handleBack}
                   >
-                    رجوع
+                    {t("common.back")}
                   </button>
                   <button
                     type="submit"
                     className={styles.nextButton}
                     disabled={emailVerificationLoading}
                   >
-                    {emailVerificationLoading ? "جاري التحقق..." : "التالي"}
+                    {emailVerificationLoading ? t("common.loading") : t("common.next")}
                   </button>
                 </div>
               </form>
@@ -1296,9 +1298,9 @@ function SignupContent() {
             <div className={styles.stepContent}>
               {userType === "teacher" || userType === "parent" ? (
                 <>
-                  <h2 className={styles.stepTitle}>التحقق من الهوية</h2>
+                  <h2 className={styles.stepTitle}>{t("universityStudent.verifyAcademicEmail")}</h2>
                   <p className={styles.subtitle}>
-                    نحتاج للتحقق من هويتك لضمان أمان المنصة
+                    {t("universityStudent.verifyAcademicEmail")}
                   </p>
 
                   {!diditVerified ? (
@@ -1335,8 +1337,8 @@ function SignupContent() {
                               disabled={verificationLoading}
                             >
                               {verificationLoading
-                                ? "جاري التحويل..."
-                                : "بدء التحقق"}
+                                ? t("common.loading")
+                                : t("auth.verifyButton")}
                             </button>
                           </>
                         )}
@@ -1372,8 +1374,8 @@ function SignupContent() {
                               }}
                             >
                               {verificationMessage.includes("مصري الجنسية")
-                                ? "العودة للرئيسية"
-                                : "حاول مرة أخرى"}
+                                ? t("errors.goHome")
+                                : t("errors.tryAgain")}
                             </button>
                           </div>
                         )}
@@ -1565,10 +1567,10 @@ function SignupContent() {
                             className={styles.backButton}
                             onClick={handleBack}
                           >
-                            رجوع
+                            {t("common.back")}
                           </button>
                           <button type="submit" className={styles.nextButton}>
-                            التالي
+                            {t("common.next")}
                           </button>
                         </div>
                       </form>
@@ -1577,9 +1579,9 @@ function SignupContent() {
                 </>
               ) : userType === "university_student" ? (
                 <>
-                  <h2 className={styles.stepTitle}>معلومات إضافية</h2>
+                  <h2 className={styles.stepTitle}>{t("profile.personalInfo")}</h2>
                   <p className={styles.subtitle}>
-                    ساعدنا في تخصيص تجربتك التعليمية
+                    {t("auth.signupDescription")}
                   </p>
 
                   <form
@@ -1661,10 +1663,10 @@ function SignupContent() {
                         className={styles.backButton}
                         onClick={handleBack}
                       >
-                        رجوع
+                        {t("common.back")}
                       </button>
                       <button type="submit" className={styles.nextButton}>
-                        التالي
+                        {t("common.next")}
                       </button>
                     </div>
                   </form>
@@ -1672,9 +1674,9 @@ function SignupContent() {
               ) : (
                 /* Additional info for students */
                 <>
-                  <h2 className={styles.stepTitle}>معلومات إضافية</h2>
+                  <h2 className={styles.stepTitle}>{t("profile.personalInfo")}</h2>
                   <p className={styles.subtitle}>
-                    ساعدنا في تخصيص تجربتك التعليمية
+                    {t("auth.signupDescription")}
                   </p>
 
                   <div className={styles.preferencesCard}>
@@ -1719,14 +1721,14 @@ function SignupContent() {
                       className={styles.backButton}
                       onClick={handleBack}
                     >
-                      رجوع
+                      {t("common.back")}
                     </button>
                     <button
                       type="button"
                       className={styles.nextButton}
                       onClick={() => setStep(4)}
                     >
-                      التالي
+                      {t("common.next")}
                     </button>
                   </div>
                 </>
@@ -1737,9 +1739,9 @@ function SignupContent() {
           {/* Step 4: Terms and Submit */}
           {step === 4 && (
             <div className={styles.stepContent}>
-              <h2 className={styles.stepTitle}>الشروط والأحكام</h2>
+              <h2 className={styles.stepTitle}>{t("auth.agreeToTerms")}</h2>
               <p className={styles.subtitle}>
-                آخر خطوة قبل الانضمام لعائلة Edvance
+                {t("auth.signupDescription")}
               </p>
 
               <div className={styles.termsCard}>
@@ -1769,8 +1771,7 @@ function SignupContent() {
                     required
                   />
                   <span>
-                    أوافق على <Link href="/terms">الشروط والأحكام</Link> و
-                    <Link href="/privacy">سياسة الخصوصية</Link>
+                    {t("auth.agreeToTerms")}
                   </span>
                 </label>
               </div>
@@ -1788,7 +1789,7 @@ function SignupContent() {
                   className={styles.backButton}
                   onClick={handleBack}
                 >
-                  رجوع
+                  {t("common.back")}
                 </button>
                 <button
                   type="button"
@@ -1799,13 +1800,13 @@ function SignupContent() {
                     ) as HTMLInputElement;
                     if (!termsCheckbox.checked) {
                       termsCheckbox.classList.add(styles.checkboxError);
-                      alert("يجب الموافقة على الشروط والأحكام للمتابعة");
+                      alert(t("auth.agreeToTerms"));
                       return;
                     }
                     handleFinalSubmit();
                   }}
                 >
-                  إنشاء الحساب
+                  {t("auth.signupButton")}
                 </button>
               </div>
             </div>
@@ -1823,14 +1824,14 @@ function SignupContent() {
                 </div>
               </div>
               <h1 className={styles.successTitle}>
-                مرحباً بك في عائلة Edvance!
+                {t("common.welcome")} {t("common.edvance")}!
               </h1>
-              <p className={styles.successText}>تم إنشاء حسابك بنجاح</p>
+              <p className={styles.successText}>{t("common.success")}</p>
               <p className={styles.successSubtext}>
-                تم إرسال رسالة تأكيد إلى بريدك الإلكتروني
+                {t("auth.emailVerified")}
               </p>
               <Link href="/login" className={styles.loginButton}>
-                تسجيل الدخول
+                {t("auth.loginButton")}
               </Link>
             </div>
           )}
@@ -1840,12 +1841,12 @@ function SignupContent() {
               <div className={styles.pendingAnimation}>
                 <div className={styles.pendingIcon}>⏳</div>
               </div>
-              <h1 className={styles.successTitle}>تم إرسال طلبك بنجاح!</h1>
+              <h1 className={styles.successTitle}>{t("common.success")}</h1>
               <p className={styles.successText}>
-                سيراجع فريقنا سيرتك الذاتية وسيتم إخطارك عند الموافقة
+                {t("auth.emailVerified")}
               </p>
               <p className={styles.successSubtext}>
-                يستغرق هذا عادة من 1-2 يوم عمل
+                {t("common.loading")}
               </p>
               <div className={styles.pendingInfo}>
                 <h3>ماذا بعد؟</h3>

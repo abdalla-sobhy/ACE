@@ -6,6 +6,7 @@ import styles from "./StudentDashboard.module.css";
 import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaShoppingCart, FaTimes, FaVideo, FaCalendarAlt, FaBroadcastTower } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface Course {
   id: number;
@@ -55,6 +56,7 @@ interface User {
 
 export default function StudentDashboard() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
@@ -172,7 +174,7 @@ export default function StudentDashboard() {
 
   const handleCourseAction = async (course: Course) => {
   if (course.is_full && !course.is_enrolled) {
-    alert("عذراً، هذا الكورس مكتمل العدد");
+    alert(t("student.courseFull"));
     return;
   }
 
@@ -181,7 +183,7 @@ export default function StudentDashboard() {
       const authData = JSON.parse(localStorage.getItem("authData") || "{}");
       
       if (!authData.token) {
-        alert("لم يتم العثور على رمز المصادقة. يرجى تسجيل الدخول مرة أخرى.");
+        alert(t("student.authTokenNotFound"));
         router.push("/login");
         return;
       }
@@ -189,7 +191,7 @@ export default function StudentDashboard() {
       console.log(course)
 
       if (!course.schedule || course.schedule.length === 0) {
-        alert("لا توجد جلسات مجدولة لهذا الكورس");
+        alert(t("student.noScheduledSessions"));
         return;
       }
 
@@ -205,7 +207,7 @@ export default function StudentDashboard() {
       });
 
       if (response.status === 401) {
-        alert("انتهت صلاحية جلسة الدخول. يرجى تسجيل الدخول مرة أخرى.");
+        alert(t("auth.sessionExpired"));
         localStorage.removeItem("authData");
         localStorage.removeItem("user");
         router.push("/login");
@@ -218,7 +220,7 @@ export default function StudentDashboard() {
         if (nextSession) {
           router.push(`/student/live-class/course/${course.id}`);
         } else {
-          alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
+          alert(t("student.noUpcomingLiveSessions"));
         }
         return;
       }
@@ -247,31 +249,31 @@ export default function StudentDashboard() {
     const hoursUntil = Math.floor(totalMinutes / 60);
     const minutesUntil = totalMinutes % 60;
     
-    let message = 'الجلسة ستبدأ بعد ';
+    let message = t('student.sessionStartsIn') + ' ';
     if (hoursUntil > 0) {
-      message += `${hoursUntil} ساعة`;
+      message += `${hoursUntil} ${t('student.hours')}`;
       if (minutesUntil > 0) {
-        message += ` و ${minutesUntil} دقيقة`;
+        message += ` ${t('common.and')} ${minutesUntil} ${t('student.minutes')}`;
       }
     } else {
-      message += `${minutesUntil} دقيقة`;
+      message += `${minutesUntil} ${t('student.minutes')}`;
     }
-    message += '\n\nيمكنك الانضمام قبل 15 دقيقة من موعد البدء';
-    
+    message += '\n\n' + t('student.canJoin15MinsBefore');
+
     alert(message);
   } else if (data.session.minutes_until_start < -120) {
-    alert("انتهت الجلسة المباشرة");
+    alert(t("student.sessionEnded"));
   } else {
-    alert("لا يمكن الانضمام للجلسة حالياً");
+    alert(t("student.cannotJoinNow"));
   }
 } else {
-  alert("لا توجد جلسات مباشرة قادمة لهذا الكورس");
+  alert(t("student.noUpcomingLiveSessions"));
   router.push(`/student/courses/${course.id}`);
 }
     } catch (error) {
       console.error("Error in handleCourseAction:", error);
-      
-      alert("حدث خطأ. سيتم توجيهك لصفحة الكورس");
+
+      alert(t("student.errorRedirectingToCourse"));
       router.push(`/student/courses/${course.id}`);
     }
   } else if (course.is_enrolled) {
@@ -339,36 +341,37 @@ const findNextSessionFromSchedule = (
   return null;
 };
 
-  const getGradeLabel = (grade: string) => {
-    const gradeLabels: { [key: string]: string } = {
-      primary_1: "الصف الأول الابتدائي",
-      primary_2: "الصف الثاني الابتدائي",
-      primary_3: "الصف الثالث الابتدائي",
-      primary_4: "الصف الرابع الابتدائي",
-      primary_5: "الصف الخامس الابتدائي",
-      primary_6: "الصف السادس الابتدائي",
-      prep_1: "الصف الأول الإعدادي",
-      prep_2: "الصف الثاني الإعدادي",
-      prep_3: "الصف الثالث الإعدادي",
-      secondary_1: "الصف الأول الثانوي",
-      secondary_2: "الصف الثاني الثانوي",
-      secondary_3: "الصف الثالث الثانوي",
+    const getGradeLabel = (grade: string) => {
+    const gradeKeys: { [key: string]: string } = {
+      primary_1: "grades.primary_1",
+      primary_2: "grades.primary_2",
+      primary_3: "grades.primary_3",
+      primary_4: "grades.primary_4",
+      primary_5: "grades.primary_5",
+      primary_6: "grades.primary_6",
+      prep_1: "grades.prep_1",
+      prep_2: "grades.prep_2",
+      prep_3: "grades.prep_3",
+      secondary_1: "grades.secondary_1",
+      secondary_2: "grades.secondary_2",
+      secondary_3: "grades.secondary_3",
     };
-    return gradeLabels[grade] || grade;
+    return t(gradeKeys[grade] || grade);
   };
 
-  const getCategoryLabel = (category: string) => {
-    const categoryLabels: { [key: string]: { label: string; icon: string } } = {
-      arabic: { label: "اللغة العربية", icon: "📝" },
-      english: { label: "اللغة الإنجليزية", icon: "🌍" },
-      math: { label: "الرياضيات", icon: "🔢" },
-      science: { label: "العلوم", icon: "🔬" },
-      social: { label: "الدراسات الاجتماعية", icon: "🗺️" },
-      religion: { label: "التربية الدينية", icon: "🕌" },
-      french: { label: "اللغة الفرنسية", icon: "🇫🇷" },
-      german: { label: "اللغة الألمانية", icon: "🇩🇪" },
+    const getCategoryLabel = (category: string) => {
+    const categoryData: { [key: string]: { labelKey: string; icon: string } } = {
+      arabic: { labelKey: "categories.arabic", icon: "📝" },
+      english: { labelKey: "categories.english", icon: "🌍" },
+      math: { labelKey: "categories.math", icon: "🔢" },
+      science: { labelKey: "categories.science", icon: "🔬" },
+      social: { labelKey: "categories.social", icon: "🗺️" },
+      religion: { labelKey: "categories.religion", icon: "🕌" },
+      french: { labelKey: "categories.french", icon: "🇫🇷" },
+      german: { labelKey: "categories.german", icon: "🇩🇪" },
     };
-    return categoryLabels[category] || { label: category, icon: "📚" };
+    const data = categoryData[category] || { labelKey: category, icon: "📚" };
+    return { label: t(data.labelKey), icon: data.icon };
   };
 
   if (loading) {
@@ -377,7 +380,7 @@ const findNextSessionFromSchedule = (
         <StudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل الكورسات...</p>
+          <p>{t("student.loadingCourses")}</p>
         </div>
       </div>
     );
@@ -391,7 +394,7 @@ const findNextSessionFromSchedule = (
         {/* Welcome Section */}
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeContent}>
-            <h1>مرحباً {user?.name?.split(' ')[0]}</h1>
+            <h1>{t("common.welcome")} {user?.name?.split(' ')[0]}</h1>
             <p>استكشف الكورسات المتاحة لـ{getGradeLabel(user?.profile?.grade || "")}</p>
           </div>
           <div className={styles.statsCards}>
@@ -399,21 +402,21 @@ const findNextSessionFromSchedule = (
               <div className={styles.statIcon}>📚</div>
               <div className={styles.statInfo}>
                 <h3>{courses.length}</h3>
-                <p>كورس متاح</p>
+                <p>{t("student.coursesAvailable")}</p>
               </div>
             </div>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>🎯</div>
               <div className={styles.statInfo}>
                 <h3>{enrolledCount}</h3>
-                <p>كورس مسجل</p>
+                <p>{t("student.coursesEnrolled")}</p>
               </div>
             </div>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>👨‍🏫</div>
               <div className={styles.statInfo}>
                 <h3>{new Set(courses.map(c => c.teacher_id)).size}</h3>
-                <p>مدرس متاح</p>
+                <p>{t("student.teachersAvailable")}</p>
               </div>
             </div>
           </div>
@@ -427,7 +430,7 @@ const findNextSessionFromSchedule = (
               <FaSearch className={styles.searchIcon} />
               <input
                 type="text"
-                placeholder="ابحث عن كورس أو موضوع..."
+                placeholder={t("student.searchCourseOrTopic")}
                 className={styles.searchInput}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -447,7 +450,7 @@ const findNextSessionFromSchedule = (
               <div className={styles.teacherSearchBox}>
                 <input
                   type="text"
-                  placeholder="البحث باسم المدرس..."
+                  placeholder={t("student.searchByTeacherName")}
                   className={styles.teacherInput}
                   value={teacherNameFilter}
                   onChange={(e) => setTeacherNameFilter(e.target.value)}
@@ -502,7 +505,7 @@ const findNextSessionFromSchedule = (
           {teacherNameFilter && (
             <div className={styles.activeFilter}>
               <span>النتائج للمدرس: &quot;{teacherNameFilter}&quot;</span>
-              <button onClick={clearTeacherFilter}>إلغاء التصفية</button>
+              <button onClick={clearTeacherFilter}>{t("student.clearFilter")}</button>
             </div>
           )}
         </section>
@@ -510,15 +513,15 @@ const findNextSessionFromSchedule = (
         {/* Courses Grid */}
         <section className={styles.coursesSection}>
           <div className={styles.coursesHeader}>
-            <h2>الكورسات المتاحة</h2>
+            <h2>{t("student.availableCourses")}</h2>
             <p>{filteredCourses.length} كورس</p>
           </div>
 
           {filteredCourses.length === 0 ? (
             <div className={styles.noResults}>
               <span className={styles.noResultsIcon}>🔍</span>
-              <h3>لا توجد كورسات</h3>
-              <p>جرب البحث باسم مدرس آخر أو تغيير كلمات البحث</p>
+              <h3>{t("student.noCoursesFound")}</h3>
+              <p>{t("student.tryDifferentSearch")}</p>
             </div>
           ) : (
             <div className={styles.coursesGrid}>
@@ -550,7 +553,7 @@ const findNextSessionFromSchedule = (
   <div className={styles.scheduleInfo}>
     <div className={styles.scheduleHeader}>
       <FaCalendarAlt />
-      <span>جدول المحاضرات</span>
+      <span>{t("student.lectureSchedule")}</span>
     </div>
     <div className={styles.sessionsList}>
       {course.schedule.map((session, index) => (
@@ -575,7 +578,7 @@ const findNextSessionFromSchedule = (
 )}
                       
                       {course.is_enrolled && (
-                        <div className={styles.enrolledBadge}>مسجل</div>
+                        <div className={styles.enrolledBadge}>{t("student.enrolled")}</div>
                       )}
                     </div>
                     
@@ -589,7 +592,7 @@ const findNextSessionFromSchedule = (
                         <div className={styles.scheduleInfo}>
                           <div className={styles.scheduleHeader}>
                             <FaCalendarAlt />
-                            <span>جدول المحاضرات</span>
+                            <span>{t("student.lectureSchedule")}</span>
                           </div>
                           <div className={styles.sessionsList}>
                             {course.schedule.map((session, index) => (
@@ -646,22 +649,22 @@ const findNextSessionFromSchedule = (
                           {course.is_enrolled && course.course_type === 'live' ? (
                             <>
                               <FaBroadcastTower />
-                              <span>دخول البث المباشر</span>
+                              <span>{t("student.enterLiveStream")}</span>
                             </>
                           ) : course.is_enrolled ? (
                             <>
                               <FaBook />
-                              <span>متابعة الدراسة</span>
+                              <span>{t("student.continueStudy")}</span>
                             </>
                           ) : course.is_full ? (
                             <>
                               <FaTimes />
-                              <span>مكتمل العدد</span>
+                              <span>{t("landing.full")}</span>
                             </>
                           ) : (
                             <>
                               <FaShoppingCart />
-                              <span>تسجيل الآن</span>
+                              <span>{t("landing.registerNow")}</span>
                             </>
                           )}
                         </button>

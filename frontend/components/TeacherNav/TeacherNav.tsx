@@ -17,6 +17,8 @@ import {
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import { useLanguage } from "@/hooks/useLanguage";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 interface User {
   name: string;
@@ -24,6 +26,7 @@ interface User {
 }
 
 export default function TeacherNav() {
+  const { t } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -83,12 +86,12 @@ export default function TeacherNav() {
   }, [isMenuOpen, isProfileOpen]);
 
   const navItems = [
-    { href: "/teacher/dashboard", label: "الرئيسية", icon: <FaHome /> },
-    { href: "/teacher/courses", label: "كورساتي", icon: <FaBook /> },
-    { href: "/teacher/students", label: "الطلاب", icon: <FaUsers /> },
-    { href: "/teacher/schedule", label: "الجدول", icon: <FaCalendarAlt /> },
-    { href: "/teacher/analytics", label: "الإحصائيات", icon: <FaChartBar /> },
-    { href: "/teacher/earnings", label: "الأرباح", icon: <FaMoneyBillWave /> },
+    { href: "/teacher/dashboard", label: t("common.dashboard"), icon: <FaHome /> },
+    { href: "/teacher/courses", label: t("teacher.myCourses"), icon: <FaBook /> },
+    { href: "/teacher/students", label: t("teacher.students"), icon: <FaUsers /> },
+    { href: "/teacher/schedule", label: t("landing.schedule"), icon: <FaCalendarAlt /> },
+    { href: "/teacher/analytics", label: t("teacher.statistics"), icon: <FaChartBar /> },
+    { href: "/teacher/earnings", label: t("teacher.earnings"), icon: <FaMoneyBillWave /> },
   ];
 
   return (
@@ -100,7 +103,7 @@ export default function TeacherNav() {
             className={styles.logo}
             onClick={closeMenu}
           >
-            Edvance <span className={styles.teacherBadge}>محاضر</span>
+            {t("common.edvance")} <span className={styles.teacherBadge}>{t("auth.teacher")}</span>
           </Link>
           <button
             className={styles.hamburger}
@@ -116,7 +119,7 @@ export default function TeacherNav() {
         >
           <div className={styles.navLeft}>
             <Link href="/teacher/dashboard" className={styles.logoDesktop}>
-              Edvance <span className={styles.teacherBadge}>محاضر</span>
+              {t("common.edvance")} <span className={styles.teacherBadge}>{t("auth.teacher")}</span>
             </Link>
             {navItems.map((item) => (
               <Link
@@ -133,6 +136,7 @@ export default function TeacherNav() {
 
           <div className={styles.navRight}>
             <ThemeToggle />
+            <LanguageSwitcher />
             <NotificationDropdown />
 
             <div className={styles.profileDropdown} ref={profileRef}>
@@ -163,14 +167,14 @@ export default function TeacherNav() {
                   <div className={styles.dropdownDivider}></div>
                   <Link href="/teacher/profile" className={styles.dropdownItem}>
                     <FaUser />
-                    <span>الملف الشخصي</span>
+                    <span>{t("common.profile")}</span>
                   </Link>
                   <button
                     className={styles.dropdownItem}
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt />
-                    <span>تسجيل الخروج</span>
+                    <span>{t("common.logout")}</span>
                   </button>
                 </div>
               )}
