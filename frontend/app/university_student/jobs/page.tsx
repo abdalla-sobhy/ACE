@@ -233,7 +233,7 @@ export default function UniversityJobs() {
           {showFilters && (
             <div className={styles.filtersPanel}>
               <div className={styles.filterGroup}>
-                <label>نوع الوظيفة</label>
+                <label>{t("company.jobType")}</label>
                 <select
                   value={filters.job_type}
                   onChange={(e) =>

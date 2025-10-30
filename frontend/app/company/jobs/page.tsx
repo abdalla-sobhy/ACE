@@ -285,7 +285,7 @@ export default function CompanyJobsPage() {
               >
                 <option value="all">كل الحالات</option>
                 <option value="active">{t("common.active")}</option>
-                <option value="inactive">غير نشط</option>
+                <option value="inactive">{t("common.inactive")}</option>
               </select>
             </div>
           </div>
@@ -381,21 +381,21 @@ export default function CompanyJobsPage() {
                     <Link
                       href={`/company/jobs/${job.id}`}
                       className="w-9 h-9 flex items-center justify-center bg-[var(--input-color)] hover:bg-[#58a6ff] hover:text-white border border-[var(--input-border-color)] hover:border-[#58a6ff] rounded-lg transition-all"
-                      title="عرض"
+                      title={t("common.view")}
                     >
                       <FaEye className="text-sm" />
                     </Link>
                     <Link
                       href={`/company/jobs/${job.id}/edit`}
                       className="w-9 h-9 flex items-center justify-center bg-[var(--input-color)] hover:bg-[#58a6ff] hover:text-white border border-[var(--input-border-color)] hover:border-[#58a6ff] rounded-lg transition-all"
-                      title="تعديل"
+                      title={t("common.edit")}
                     >
                       <FaEdit className="text-sm" />
                     </Link>
                     <button
                       onClick={() => handleDeleteJob(job.id)}
                       className="w-9 h-9 flex items-center justify-center bg-[var(--input-color)] hover:bg-red-500 hover:text-white border border-[var(--input-border-color)] hover:border-red-500 rounded-lg transition-all"
-                      title="حذف"
+                      title={t("common.delete")}
                     >
                       <FaTrash className="text-sm" />
                     </button>

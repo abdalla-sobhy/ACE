@@ -5,152 +5,40 @@ import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import NavigationBar from '@/components/Nav/Nav';
 import { useLanguage } from '@/hooks/useLanguage';
+import arTranslations from '@/locales/ar.json';
+import enTranslations from '@/locales/en.json';
+
+interface FAQItem {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+  helpful: number;
+  notHelpful: number;
+}
 
 export default function FAQPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [openItems, setOpenItems] = useState<string[]>([]);
 
-  const faqCategories = [
-    { id: 'all', name: t('faq.categoryAll'), icon: '📋', count: 25 },
-    { id: 'general', name: t('faq.categoryGeneral'), icon: '💭', count: 8 },
-    { id: 'registration', name: t('faq.categoryRegistration'), icon: '👤', count: 6 },
-    { id: 'technical', name: t('faq.categoryTechnical'), icon: '⚙️', count: 5 },
-    { id: 'educational', name: t('faq.categoryEducational'), icon: '📚', count: 4 },
-    { id: 'payment', name: t('faq.categoryPayment'), icon: '💰', count: 2 }
-  ];
+  // Get FAQ items from translations
+  const translations = language === 'ar' ? arTranslations : enTranslations;
+  const faqs: FAQItem[] = translations.faq.faqItems.map((item) => ({
+    ...item,
+    helpful: 0,
+    notHelpful: 0
+  }));
 
-  const faqs = [
-    {
-      id: '1',
-      category: 'general',
-      question: 'هل المنصة مجانية بالفعل؟',
-      answer: 'نعم، المنصة مجانية 100% ولا توجد أي رسوم خفية أو اشتراكات مدفوعة. نحن ملتزمون بتوفير التعليم المجاني لجميع الطلاب المصريين.',
-      helpful: 234,
-      notHelpful: 12
-    },
-    {
-      id: '2',
-      category: 'general',
-      question: 'ما الفرق بين الطالب والمعلم وولي الأمر؟',
-      answer: 'الطالب: يمكنه حضور المحاضرات وحل الامتحانات وكسب النقاط.\nالمعلم: يمكنه إنشاء وإدارة المحاضرات والامتحانات.\nولي الأمر: يمكنه متابعة أداء وحضور أبنائه.',
-      helpful: 189,
-      notHelpful: 8
-    },
-    {
-      id: '3',
-      category: 'general',
-      question: 'هل يمكنني استخدام المنصة على الهاتف المحمول؟',
-      answer: 'نعم، المنصة متوافقة تماماً مع جميع الأجهزة. يمكنك الوصول إليها من خلال المتصفح على هاتفك، وقريباً سيتوفر تطبيق مخصص للأندرويد و iOS.',
-      helpful: 156,
-      notHelpful: 5
-    },
-    {
-      id: '4',
-      category: 'registration',
-      question: 'كيف يمكنني التسجيل في المنصة؟',
-      answer: 'يمكنك التسجيل بسهولة من خلال:\n1. الضغط على زر "انضم مجاناً"\n2. اختيار نوع الحساب (طالب/معلم/ولي أمر)\n3. إدخال البيانات المطلوبة\n4. تأكيد البريد الإلكتروني',
-      helpful: 298,
-      notHelpful: 15
-    },
-    {
-      id: '5',
-      category: 'registration',
-      question: 'نسيت كلمة المرور، ماذا أفعل؟',
-      answer: 'لا تقلق! يمكنك استعادة كلمة المرور من خلال:\n1. الضغط على "نسيت كلمة المرور" في صفحة تسجيل الدخول\n2. إدخال بريدك الإلكتروني\n3. ستصلك رسالة بها رابط لإعادة تعيين كلمة المرور',
-      helpful: 167,
-      notHelpful: 7
-    },
-    {
-      id: '6',
-      category: 'registration',
-      question: 'هل يمكنني تغيير نوع حسابي من طالب إلى معلم؟',
-      answer: 'نعم، يمكنك التقديم لتغيير نوع الحساب من خلال إعدادات الحساب. سيتم مراجعة طلبك والتحقق من المستندات المطلوبة للمعلمين.',
-      helpful: 89,
-      notHelpful: 3
-    },
-    {
-      id: '7',
-      category: 'technical',
-      question: 'ما هي متطلبات الإنترنت للبث المباشر؟',
-      answer: 'للحصول على أفضل تجربة:\n• الحد الأدنى: 2 ميجابت/ثانية للمشاهدة بجودة عادية\n• الموصى به: 5 ميجابت/ثانية للمشاهدة بجودة HD\n• للمعلمين: 10 ميجابت/ثانية للبث',
-      helpful: 245,
-      notHelpful: 18
-    },
-    {
-      id: '8',
-      category: 'technical',
-      question: 'المحاضرة لا تعمل بشكل جيد، ما الحل؟',
-      answer: 'جرب الخطوات التالية:\n1. تحقق من سرعة الإنترنت\n2. أغلق التطبيقات الأخرى\n3. استخدم متصفح Chrome أو Firefox\n4. قلل جودة البث من الإعدادات\n5. اتصل بالدعم الفني إذا استمرت المشكلة',
-      helpful: 198,
-      notHelpful: 12
-    },
-    {
-      id: '9',
-      category: 'educational',
-      question: 'كيف يعمل نظام النقاط؟',
-      answer: 'تحصل على نقاط من خلال:\n• حضور المحاضرات: 10 نقاط\n• المشاركة الفعالة: 5 نقاط\n• حل الواجبات: 15 نقطة\n• النجاح في الامتحانات: 20-50 نقطة\nيمكن استبدال النقاط بمزايا إضافية مثل جلسات خاصة أو مواد تعليمية إضافية.',
-      helpful: 312,
-      notHelpful: 22
-    },
-    {
-      id: '10',
-      category: 'educational',
-      question: 'هل يمكنني مشاهدة المحاضرات المسجلة؟',
-      answer: 'نعم، جميع المحاضرات المباشرة يتم تسجيلها تلقائياً وتكون متاحة للمشاهدة لمدة 30 يوماً بعد البث. يمكنك الوصول إليها من قسم "محاضراتي".',
-      helpful: 267,
-      notHelpful: 14
-    },
-    {
-      id: '11',
-      category: 'general',
-      question: 'ما هي المراحل التعليمية المتاحة؟',
-      answer: 'نغطي جميع المراحل التعليمية:\n• المرحلة الابتدائية (1-6)\n• المرحلة الإعدادية (1-3)\n• المرحلة الثانوية (1-3)\n• دورات تحضيرية للجامعة',
-      helpful: 145,
-      notHelpful: 6
-    },
-    {
-      id: '12',
-      category: 'registration',
-      question: 'هل يمكن لولي الأمر متابعة أكثر من طالب؟',
-      answer: 'نعم، يمكن لولي الأمر ربط حسابه بعدة حسابات طلاب (أبنائه) ومتابعة أداء كل منهم بشكل منفصل من لوحة تحكم واحدة.',
-      helpful: 123,
-      notHelpful: 4
-    },
-    {
-      id: '13',
-      category: 'technical',
-      question: 'هل يمكنني تحميل المحاضرات للمشاهدة بدون إنترنت؟',
-      answer: 'حالياً لا يمكن تحميل المحاضرات، ولكن نعمل على إضافة هذه الميزة قريباً للطلاب المميزين الذين يجمعون عدد معين من النقاط.',
-      helpful: 87,
-      notHelpful: 34
-    },
-    {
-      id: '14',
-      category: 'educational',
-      question: 'كيف يتم تقييم الامتحانات؟',
-      answer: 'الامتحانات لها أنواع مختلفة:\n• اختيار من متعدد: تصحيح فوري\n• أسئلة مقالية: يراجعها المعلم خلال 48 ساعة\n• مشاريع: تقييم شامل خلال أسبوع',
-      helpful: 178,
-      notHelpful: 9
-    },
-    {
-      id: '15',
-      category: 'payment',
-      question: 'هل هناك أي مصاريف مخفية؟',
-      answer: 'لا، المنصة مجانية تماماً. لا توجد أي رسوم للتسجيل أو حضور المحاضرات أو الامتحانات. حتى الشهادات مجانية!',
-            helpful: 289,
-      notHelpful: 11
-    },
-    {
-      id: '16',
-      category: 'payment',
-      question: 'كيف يمكنني دعم المنصة إذا أردت؟',
-      answer: 'نقدر رغبتك في الدعم! يمكنك:\n• نشر المنصة بين أصدقائك\n• التطوع كمعلم إذا كنت مؤهلاً\n• التبرع من خلال صفحة الدعم (اختياري تماماً)',
-      helpful: 156,
-      notHelpful: 5
-    }
+  const faqCategories = [
+    { id: 'all', name: t('faq.categoryAll'), icon: '📋', count: 16 },
+    { id: 'general', name: t('faq.categoryGeneral'), icon: '💭', count: 4 },
+    { id: 'registration', name: t('faq.categoryRegistration'), icon: '👤', count: 4 },
+    { id: 'technical', name: t('faq.categoryTechnical'), icon: '⚙️', count: 3 },
+    { id: 'educational', name: t('faq.categoryEducational'), icon: '📚', count: 3 },
+    { id: 'payment', name: t('faq.categoryPayment'), icon: '💰', count: 2 }
   ];
 
   const filteredFAQs = useMemo(() => {
@@ -164,11 +52,11 @@ export default function FAQPage() {
       return matchesSearch && matchesCategory;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory, language]);
 
   const toggleItem = (id: string) => {
-    setOpenItems(prev => 
-      prev.includes(id) 
+    setOpenItems(prev =>
+      prev.includes(id)
         ? prev.filter(item => item !== id)
         : [...prev, id]
     );
@@ -253,8 +141,8 @@ export default function FAQPage() {
           ) : (
             <div className={styles.faqGrid}>
               {filteredFAQs.map((faq) => (
-                <div 
-                  key={faq.id} 
+                <div
+                  key={faq.id}
                   className={`${styles.faqItem} ${openItems.includes(faq.id) ? styles.open : ''}`}
                 >
                   <button
@@ -266,7 +154,7 @@ export default function FAQPage() {
                       {openItems.includes(faq.id) ? '−' : '+'}
                     </span>
                   </button>
-                  
+
                   {openItems.includes(faq.id) && (
                     <div className={styles.faqAnswer}>
                       <div className={styles.answerContent}>
@@ -274,7 +162,7 @@ export default function FAQPage() {
                           <p key={index}>{line}</p>
                         ))}
                       </div>
-                      
+
                       <div className={styles.helpfulness}>
                         <p>{t('faq.helpfulQuestion')}</p>
                         <div className={styles.helpfulnessButtons}>

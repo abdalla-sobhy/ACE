@@ -341,7 +341,7 @@ export default function EditJobPage() {
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">نوع الوظيفة</label>
+                  <label className="block text-sm font-medium mb-2">{t("company.jobType")}</label>
                   <select
                     value={jobType}
                     onChange={(e) => setJobType(e.target.value)}

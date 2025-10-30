@@ -177,7 +177,7 @@ export default function FeaturesPage() {
                   <span></span>
                 </div>
                 <span className={styles.browserTitle}>
-                  محاضرة الفيزياء - {t("features.liveIndicator")}
+                  {t("features.demoTitle")} - {t("features.liveIndicator")}
                 </span>
               </div>
               <div className={styles.browserContent}>
@@ -189,13 +189,13 @@ export default function FeaturesPage() {
                 </div>
                 <div className={styles.chatPanel}>
                   <div className={styles.chatMessage}>
-                    <strong>أحمد:</strong> هل يمكن إعادة الشرح؟
+                    <strong>{t("features.demoChat.message1.user")}:</strong> {t("features.demoChat.message1.text")}
                   </div>
                   <div className={styles.chatMessage}>
-                    <strong>المعلم:</strong> بالتأكيد! دعني أوضح أكثر
+                    <strong>{t("features.demoChat.message2.user")}:</strong> {t("features.demoChat.message2.text")}
                   </div>
                   <div className={styles.chatMessage}>
-                    <strong>سارة:</strong> شكراً، واضح الآن!
+                    <strong>{t("features.demoChat.message3.user")}:</strong> {t("features.demoChat.message3.text")}
                   </div>
                 </div>
               </div>
