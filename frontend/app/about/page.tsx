@@ -5,29 +5,44 @@ import Image from 'next/image';
 import Link from 'next/link';
 import NavigationBar from '@/components/Nav/Nav';
 import { useLanguage } from '@/hooks/useLanguage';
-import arTranslations from '@/locales/ar.json';
-import enTranslations from '@/locales/en.json';
-
-interface Developer {
-  name: string;
-  role: string;
-  bio: string;
-  github: string;
-  linkedin: string;
-  image: string;
-}
 
 export default function AboutPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
-  // Get developers from translations
-  const translations = language === 'ar' ? arTranslations : enTranslations;
-  const developers: Developer[] = translations.about.developers.map((dev) => ({
-    ...dev,
-    github: "https://github.com",
-    linkedin: "https://linkedin.com",
-    image: ""
-  }));
+  const developers = [
+    {
+      name: "ملك  مجدي",
+      role: "Full Stack Developer",
+      bio: "مطورة متخصص في Next.js و Node.js، شغوفة بتطوير حلول تعليمية مبتكرة",
+      github: "https://github.com",
+      linkedin: "https://linkedin.com",
+      image: ""
+    },
+    {
+      name: "زياد محمود",
+      role: "Full Stack Developer",
+      bio: "متخصصة في تصميم واجهات المستخدم وتجربة المستخدم، خبرة في React و TypeScript",
+      github: "https://github.com",
+      linkedin: "https://linkedin.com",
+      image: ""
+    },
+    {
+      name: "سلسبيل شحاته",
+      role: "frontend Developer",
+      bio: "مطورة فرونت إند متخصصة في React وواجهات المستخدم",
+      github: "https://github.com",
+      linkedin: "https://linkedin.com",
+      image: ""
+    },
+    {
+      name: "محمود محمد",
+      role: "full stack Designer",
+      bio: "مطورة فلستاك بخبرة في Laravel و React لبناء تطبيقات ويب متكاملة",
+      github: "https://github.com",
+      linkedin: "https://linkedin.com",
+      image: ""
+    }
+  ];
 
   return (
     <div className={styles.container}>

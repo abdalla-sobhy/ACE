@@ -177,7 +177,7 @@ export default function FeaturesPage() {
                   <span></span>
                 </div>
                 <span className={styles.browserTitle}>
-                  {t("features.demoTitle")} - {t("features.liveIndicator")}
+                  محاضرة الفيزياء - {t("features.liveIndicator")}
                 </span>
               </div>
               <div className={styles.browserContent}>

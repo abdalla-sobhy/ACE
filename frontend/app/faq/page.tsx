@@ -5,32 +5,22 @@ import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import NavigationBar from '@/components/Nav/Nav';
 import { useLanguage } from '@/hooks/useLanguage';
-import arTranslations from '@/locales/ar.json';
-import enTranslations from '@/locales/en.json';
-
-interface FAQItem {
-  id: string;
-  category: string;
-  question: string;
-  answer: string;
-  helpful: number;
-  notHelpful: number;
-}
 
 export default function FAQPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [openItems, setOpenItems] = useState<string[]>([]);
 
-  // Get FAQ items from translations
-  const translations = language === 'ar' ? arTranslations : enTranslations;
-  const faqs: FAQItem[] = translations.faq.faqItems.map((item) => ({
-    ...item,
-    helpful: 0,
-    notHelpful: 0
-  }));
+  const faqCategories = [
+    { id: 'all', name: t('faq.categoryAll'), icon: '📋', count: 25 },
+    { id: 'general', name: t('faq.categoryGeneral'), icon: '💭', count: 8 },
+    { id: 'registration', name: t('faq.categoryRegistration'), icon: '👤', count: 6 },
+    { id: 'technical', name: t('faq.categoryTechnical'), icon: '⚙️', count: 5 },
+    { id: 'educational', name: t('faq.categoryEducational'), icon: '📚', count: 4 },
+    { id: 'payment', name: t('faq.categoryPayment'), icon: '💰', count: 2 }
+  ];
 
   const faqCategories = [
     { id: 'all', name: t('faq.categoryAll'), icon: '📋', count: 16 },
