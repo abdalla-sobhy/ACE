@@ -20,6 +20,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface Course {
   id: number;
   title: string;
@@ -75,6 +76,7 @@ interface User {
 }
 
 export default function TeacherDashboard() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
@@ -350,7 +352,7 @@ export default function TeacherDashboard() {
         <section className={styles.quickActions}>
           <button className={styles.createButton} onClick={handleCreateCourse}>
             <FaPlus />
-            <span>إنشاء كورس جديد</span>
+            <span>{t("teacher.createCourse")}</span>
           </button>
           <button className={styles.scheduleButton}>
             <FaCalendarAlt />
@@ -365,7 +367,7 @@ export default function TeacherDashboard() {
         {/* Courses Section */}
         <section className={styles.coursesSection}>
           <div className={styles.coursesHeader}>
-            <h2>كورساتي</h2>
+            <h2>{t("student.myCourses")}</h2>
             <div className={styles.tabButtons}>
               <button 
                 className={`${styles.tabButton} ${activeTab === 'all' ? styles.active : ''}`}

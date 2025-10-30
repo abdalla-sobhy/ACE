@@ -1,0 +1,38 @@
+.languageSwitcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.languageSwitcher:hover {
+  background: var(--background-hover);
+  transform: translateY(-1px);
+}
+
+.languageSwitcher:active {
+  transform: translateY(0);
+}
+
+.languageText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .languageSwitcher {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+}

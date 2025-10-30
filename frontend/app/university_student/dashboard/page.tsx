@@ -23,6 +23,7 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface Course {
   id: number;
   title: string;
@@ -93,6 +94,7 @@ interface ProfileStats {
 }
 
 export default function UniversityStudentDashboard() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [, setCourses] = useState<Course[]>([]);

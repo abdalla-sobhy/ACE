@@ -5,9 +5,12 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import styles from "./Nav.module.css";
 import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function Nav() {
   const pathname = usePathname();
+  const { t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
@@ -53,12 +56,12 @@ export default function Nav() {
       <div className={styles.navContainer}>
         <div className={styles.navHeader}>
           <Link href="/" className={styles.logo} onClick={closeMenu}>
-            Edvance
+            {t("common.edvance")}
           </Link>
           <button
             className={styles.hamburger}
             onClick={toggleMenu}
-            aria-label="Toggle menu"
+            aria-label={t("nav.menu")}
           >
             <span></span>
             <span></span>
@@ -71,31 +74,34 @@ export default function Nav() {
         >
           <div className={styles.navLeft}>
             <Link href="/" className={styles.logoDesktop} onClick={closeMenu}>
-              Edvance
+              {t("common.edvance")}
             </Link>
             <Link
               href="/features"
               className={pathname === "/features" ? styles.active : ""}
               onClick={closeMenu}
             >
-              المميزات
+              {t("nav.features")}
             </Link>
             <Link
               href="/about"
               className={pathname === "/about" ? styles.active : ""}
               onClick={closeMenu}
             >
-              من نحن
+              {t("nav.about")}
             </Link>
             <Link
               href="/contact"
               className={pathname === "/contact" ? styles.active : ""}
               onClick={closeMenu}
             >
-              تواصل معنا
+              {t("nav.contact")}
             </Link>
             <div id="themeIcon">
               <ThemeToggle />
+            </div>
+            <div id="languageIcon">
+              <LanguageSwitcher />
             </div>
           </div>
           <div className={styles.navRight}>
@@ -106,7 +112,7 @@ export default function Nav() {
               }
               onClick={closeMenu}
             >
-              تسجيل الدخول
+              {t("nav.login")}
             </Link>
             <Link
               href="/signup"
@@ -115,7 +121,7 @@ export default function Nav() {
               }
               onClick={closeMenu}
             >
-              انضم مجاناً
+              {t("nav.signup")}
             </Link>
           </div>
         </div>

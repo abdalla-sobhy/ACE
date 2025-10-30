@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 import { FaBell, FaTimes, FaCheckDouble } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
@@ -11,6 +12,8 @@ export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+    const { t } = useLanguage();
 
   const {
     notifications,
@@ -47,64 +50,61 @@ export default function NotificationDropdown() {
     switch (notification.type) {
       case "App\\Notifications\\NewJobApplication":
         return {
-          title: "طلب توظيف جديد",
+          title: t("notifications.newApplication"),
           message: `تقدم ${data.student_name} لوظيفة ${data.job_title}`,
           link: `/company/applications/${data.application_id}`,
         };
 
       case "App\\Notifications\\ApplicationStatusUpdated":
         return {
-          title: "تحديث حالة الطلب",
+          title: t("notifications.applicationUpdate"),
           message: `تم تحديث حالة طلبك في ${data.job_title} إلى: ${getStatusText(data.new_status)}`,
           link: `/university_student/applications`,
         };
 
       case "App\\Notifications\\NewJobPosted":
         return {
-          title: "وظيفة جديدة",
+          title: t("notifications.newJob"),
           message: `${data.company_name} نشرت وظيفة جديدة: ${data.job_title}`,
           link: `/university_student/jobs/${data.job_id}`,
         };
 
       case "App\\Notifications\\WelcomeNotification":
         return {
-          title: data.title || "مرحباً",
+          title: data.title || t("common.welcome"),
           message: data.message,
           link: null,
         };
 
       case "App\\Notifications\\FollowRequestNotification":
         return {
-          title: "طلب متابعة جديد",
+          title: t("notifications.newFollowRequest"),
           message: `${data.parent_name} يريد متابعة تقدمك`,
           link: `/student/follow-requests`,
         };
 
       case "App\\Notifications\\FollowRequestApprovedNotification":
         return {
-          title: "تمت الموافقة على الطلب",
+          title: t("notifications.requestApproved"),
           message: data.message,
           link: `/parent/students`,
         };
 
       default:
         return {
-          title: "إشعار",
-          message: data.message || "لديك إشعار جديد",
+          title: t("notifications.notifications"),
+          message: data.message || t("notifications.newNotification"),
           link: null,
         };
     }
   };
 
   const getStatusText = (status: string) => {
-    const statusMap: Record<string, string> = {
-      pending: "قيد الانتظار",
-      reviewing: "قيد المراجعة",
-      shortlisted: "في القائمة المختصرة",
-      interviewed: "تمت المقابلة",
-      accepted: "مقبول",
-      rejected: "مرفوض",
-      withdrawn: "منسحب",
+        const statusMap: Record<string, string> = {
+      pending: t("common.pending"),
+      approved: t("common.approved"),
+      rejected: t("common.rejected"),
+      under_review: t("student.underReview"),
     };
     return statusMap[status] || status;
   };

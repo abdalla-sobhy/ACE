@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import TeacherNav from "@/components/TeacherNav/TeacherNav";
 import styles from "./TeacherProfile.module.css";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   FaUser,
   FaEdit,
@@ -34,6 +35,7 @@ interface User {
 }
 
 export default function TeacherProfile() {
+  const { t } = useLanguage();
   const router = useRouter();
   const cvInputRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState<User | null>(null);

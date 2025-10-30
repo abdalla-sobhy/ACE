@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import styles from "./LiveClass.module.css";
 
+import { useLanguage } from "@/hooks/useLanguage";
 declare global {
   interface Window {
     jitsiApi: any;
@@ -13,6 +14,7 @@ declare global {
 }
 
 export default function LiveClassPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const params = useParams();
   const sessionId = params?.sessionId as string | undefined;

@@ -11,7 +11,9 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 
+import { useLanguage } from "@/hooks/useLanguage";
 export default function CreateJobPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

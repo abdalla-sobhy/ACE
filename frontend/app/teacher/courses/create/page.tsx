@@ -16,6 +16,7 @@ import {
 import { useDropzone } from 'react-dropzone';
 import Image from "next/image";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface Session {
   day_of_week: string;
   start_time: string;
@@ -83,6 +84,7 @@ const DAYS_OF_WEEK = [
 ];
 
 export default function CreateCoursePage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -713,7 +715,7 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
       
       <main className={styles.main}>
         <div className={styles.header}>
-          <h1>إنشاء كورس جديد</h1>
+          <h1>{t("teacher.createCourse")}</h1>
           <button 
             className={styles.backButton}
             onClick={() => router.push('/teacher/dashboard')}
@@ -748,7 +750,7 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
                   onClick={handlePrevious}
                 >
                   <FaArrowRight />
-                  <span>السابق</span>
+                  <span>{t("common.previous")}</span>
                 </button>
               )}
               
@@ -758,7 +760,7 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
                   className={styles.nextButton}
                   onClick={handleNext}
                 >
-                  <span>التالي</span>
+                  <span>{t("common.next")}</span>
                   <FaArrowLeft />
                 </button>
               ) : (

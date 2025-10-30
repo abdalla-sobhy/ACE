@@ -18,6 +18,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface JobDetails {
   id: number;
   title: string;
@@ -59,6 +60,7 @@ interface JobDetails {
 }
 
 export default function JobDetailsPage() {
+  const { t } = useLanguage();
   const params = useParams();
   const jobId = params? params.id as string:null;
   

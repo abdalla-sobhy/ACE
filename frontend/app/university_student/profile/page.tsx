@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import UniversityStudentNav from "@/components/UniversityStudentNav/UniversityStudentNav";
 import styles from "./UniversityProfile.module.css";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   FaUser,
   FaEdit,
@@ -77,6 +78,7 @@ interface User {
 }
 
 export default function UniversityStudentProfile() {
+  const { t } = useLanguage();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState<User | null>(null);

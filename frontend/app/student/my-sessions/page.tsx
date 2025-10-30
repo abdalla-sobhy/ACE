@@ -6,6 +6,7 @@ import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./MySessions.module.css";
 import { FaVideo, FaCalendarAlt, FaClock } from "react-icons/fa";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface LiveSession {
   id: number;
   course_title: string;
@@ -17,6 +18,7 @@ interface LiveSession {
 }
 
 export default function MySessionsPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [sessions, setSessions] = useState<LiveSession[]>([]);
   const [loading, setLoading] = useState(true);

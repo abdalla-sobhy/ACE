@@ -5,6 +5,7 @@ import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
 import { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface StudentProfile {
   id: number;
@@ -63,6 +64,7 @@ interface ValidationErrors {
 
 export default function LoginPage() {
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -86,15 +88,15 @@ export default function LoginPage() {
     const errors: ValidationErrors = {};
 
     if (!email) {
-      errors.email = "البريد الإلكتروني مطلوب";
+      errors.email = t("auth.requiredField");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errors.email = "البريد الإلكتروني غير صالح";
+      errors.email = t("auth.invalidEmail");
     }
 
     if (!password) {
-      errors.password = "كلمة المرور مطلوبة";
+      errors.password = t("auth.requiredField");
     } else if (password.length < 6) {
-      errors.password = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
+      errors.password = t("auth.passwordTooShort");
     }
 
     setFieldErrors(errors);
@@ -149,25 +151,25 @@ export default function LoginPage() {
       if (!response.ok) {
         switch (response.status) {
           case 400:
-            setError("البيانات المدخلة غير صحيحة");
+            setError(t("auth.invalidEmail"));
             break;
           case 401:
-            setError("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+            setError(t("auth.loginFailed"));
             break;
           case 403:
-            setError("تم حظر حسابك. يرجى التواصل مع الدعم");
+            setError(t("auth.loginFailed"));
             break;
           case 404:
-            setError("لا يوجد حساب بهذا البريد الإلكتروني");
+            setError(t("auth.loginFailed"));
             break;
           case 429:
-            setError("محاولات تسجيل دخول كثيرة. حاول مرة أخرى بعد قليل");
+            setError(t("auth.loginFailed"));
             break;
           case 500:
-            setError("خطأ في الخادم. يرجى المحاولة مرة أخرى");
+            setError(t("auth.loginFailed"));
             break;
           default:
-            setError(data.message || "حدث خطأ غير متوقع");
+            setError(data.message || t("auth.loginFailed"));
         }
         return;
       }
@@ -221,9 +223,9 @@ export default function LoginPage() {
       }
     } catch (err) {
       if (err instanceof TypeError && err.message === "Failed to fetch") {
-        setError("خطأ في الاتصال. تحقق من اتصالك بالإنترنت");
+        setError(t("errors.networkError"));
       } else {
-        setError("حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى");
+        setError(t("auth.loginFailed"));
       }
       console.error("Login error:", err);
     } finally {
@@ -267,8 +269,8 @@ export default function LoginPage() {
                 </defs>
               </svg>
             </div>
-            <h1>مرحباً بعودتك</h1>
-            <p>سجل دخولك للوصول إلى منصتك التعليمية</p>
+            <h1>{t("auth.loginTitle")}</h1>
+            <p>{t("auth.loginDescription")}</p>
           </div>
 
           {isSuccess && (
@@ -284,7 +286,7 @@ export default function LoginPage() {
                   fill="#3fb950"
                 />
               </svg>
-              تم تسجيل الدخول بنجاح! جاري التحويل...
+              {t("auth.emailVerified")} {t("common.loading")}
             </div>
           )}
 
@@ -307,7 +309,7 @@ export default function LoginPage() {
             )}
 
             <div className={styles.formGroup}>
-              <label htmlFor="email">البريد الإلكتروني</label>
+              <label htmlFor="email">{t("auth.emailPlaceholder")}</label>
               <div className={styles.inputWrapper}>
                 <svg
                   className={styles.inputIcon}
@@ -340,7 +342,7 @@ export default function LoginPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="password">كلمة المرور</label>
+              <label htmlFor="password">{t("auth.passwordPlaceholder")}</label>
               <div className={styles.inputWrapper}>
                 <svg
                   className={styles.inputIcon}
@@ -356,7 +358,7 @@ export default function LoginPage() {
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  placeholder="أدخل كلمة المرور"
+                  placeholder={t("auth.passwordPlaceholder")}
                   value={password}
                   onChange={(e) => handlePasswordChange(e.target.value)}
                   required
@@ -370,9 +372,7 @@ export default function LoginPage() {
                   type="button"
                   className={styles.passwordToggle}
                   onClick={() => setShowPassword(!showPassword)}
-                  aria-label={
-                    showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"
-                  }
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   disabled={isLoading}
                 >
                   {showPassword ? (
@@ -415,10 +415,10 @@ export default function LoginPage() {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   disabled={isLoading}
                 />
-                <span>تذكرني</span>
+                <span>{t("common.yes")}</span>
               </label>
               <Link href="/forgot-password" className={styles.forgotPassword}>
-                نسيت كلمة المرور؟
+                {t("auth.forgotPassword")}
               </Link>
             </div>
 
@@ -446,16 +446,16 @@ export default function LoginPage() {
                   />
                 </svg>
               ) : (
-                "تسجيل الدخول"
+                t("auth.loginButton")
               )}
             </button>
           </form>
 
           <div className={styles.signupPrompt}>
             <p>
-              ليس لديك حساب؟
+              {t("auth.noAccount")}
               <Link href="/signup" className={styles.signupLink}>
-                سجل الآن مجاناً
+                {t("auth.signupLink")}
               </Link>
             </p>
           </div>

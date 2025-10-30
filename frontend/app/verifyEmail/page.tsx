@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./verifyEmail.module.css";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function VerifyEmailPage({
   searchParams,
@@ -10,6 +11,7 @@ export default function VerifyEmailPage({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
@@ -67,7 +69,7 @@ export default function VerifyEmailPage({
     const otpString = otp.join("");
 
     if (otpString.length !== 6) {
-      setError("يجب إدخال رمز التحقق كاملاً");
+      setError(t("auth.requiredField"));
       return;
     }
 
@@ -111,10 +113,10 @@ export default function VerifyEmailPage({
 
         router.push(`/signup?${params.toString()}`);
       } else {
-        setError(data.message || "رمز التحقق غير صحيح");
+        setError(data.message || t("auth.invalidCode"));
       }
     } catch {
-      setError("حدث خطأ في التحقق. حاول مرة أخرى.");
+      setError(t("errors.tryAgain"));
     } finally {
       setLoading(false);
     }
@@ -146,14 +148,14 @@ export default function VerifyEmailPage({
       const data = await response.json();
 
       if (data.success) {
-        setMessage("تم إرسال رمز تحقق جديد إلى بريدك الإلكتروني");
+        setMessage(t("auth.emailVerified"));
         setResendTimer(60);
         setOtp(["", "", "", "", "", ""]);
       } else {
-        setError(data.message || "حدث خطأ في إرسال رمز التحقق");
+        setError(data.message || t("errors.tryAgain"));
       }
     } catch {
-      setError("حدث خطأ في إرسال رمز التحقق");
+      setError(t("errors.tryAgain"));
     } finally {
       setLoading(false);
     }
@@ -176,8 +178,8 @@ export default function VerifyEmailPage({
             <span className={styles.emailIcon}>✉️</span>
           </div>
 
-          <h1 className={styles.title}>التحقق من البريد الإلكتروني</h1>
-          <p className={styles.subtitle}>تم إرسال رمز التحقق إلى</p>
+          <h1 className={styles.title}>{t("auth.verifyEmailTitle")}</h1>
+          <p className={styles.subtitle}>{t("auth.verifyEmailDescription")}</p>
           <p className={styles.email}>{email}</p>
           {institutionName && (
             <p className={styles.institution}>{institutionName}</p>
@@ -185,7 +187,7 @@ export default function VerifyEmailPage({
 
           <div className={styles.otpSection}>
             <label className={styles.otpLabel}>
-              أدخل رمز التحقق المكون من 6 أرقام
+              {t("auth.verificationCode")}
             </label>
 
             <div className={styles.otpInputs} dir="ltr">
@@ -230,16 +232,16 @@ export default function VerifyEmailPage({
             {loading ? (
               <span className={styles.loadingSpinner}></span>
             ) : (
-              "تحقق من الرمز"
+              t("auth.verifyButton")
             )}
           </button>
 
           <div className={styles.resendSection}>
             <p className={styles.resendText}>
-              لم تستلم الرمز؟{" "}
+              {t("auth.resendCode")}?{" "}
               {resendTimer > 0 ? (
                 <span className={styles.timer}>
-                  يمكنك إعادة الإرسال بعد {resendTimer} ثانية
+                  {resendTimer}s
                 </span>
               ) : (
                 <button
@@ -247,14 +249,14 @@ export default function VerifyEmailPage({
                   disabled={loading}
                   className={styles.resendButton}
                 >
-                  إعادة إرسال الرمز
+                  {t("auth.resendCode")}
                 </button>
               )}
             </p>
           </div>
 
           <Link href="/signup" className={styles.backLink}>
-            العودة للتسجيل
+            {t("common.back")}
           </Link>
         </div>
       </div>

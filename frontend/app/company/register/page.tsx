@@ -6,6 +6,7 @@ import Link from "next/link";
 import styles from "./CompanyRegister.module.css";
 import { FaBuilding, FaEnvelope, FaLock, FaPhone, FaUser, FaGlobe, FaIndustry, FaUsers, FaMapMarkerAlt } from "react-icons/fa";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface FormData {
   firstName: string;
   lastName: string;
@@ -23,6 +24,7 @@ interface FormData {
 }
 
 export default function CompanyRegister() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -160,7 +162,7 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>البريد الإلكتروني</label>
+                <label>{t("common.email")}</label>
                 <div className={styles.inputWrapper}>
                   <FaEnvelope className={styles.inputIcon} />
                   <input
@@ -175,7 +177,7 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>رقم الهاتف</label>
+                <label>{t("common.phone")}</label>
                 <div className={styles.inputWrapper}>
                   <FaPhone className={styles.inputIcon} />
                   <input

@@ -17,6 +17,8 @@ import {
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import { useLanguage } from "@/hooks/useLanguage";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 interface User {
   name: string;
@@ -28,6 +30,7 @@ interface User {
 }
 
 export default function UniversityStudentNav() {
+  const { t } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -89,27 +92,27 @@ export default function UniversityStudentNav() {
   const navItems = [
     {
       href: "/university_student/dashboard",
-      label: "الرئيسية",
+      label: t("common.dashboard"),
       icon: <FaHome />,
     },
     {
       href: "/university_student/jobs",
-      label: "فرص العمل",
+      label: t("universityStudent.browseJobs"),
       icon: <FaBriefcase />,
     },
     {
       href: "/university_student/applications",
-      label: "طلباتي",
+      label: t("universityStudent.myApplications"),
       icon: <FaClipboardList />,
     },
     {
       href: "/university_student/my-courses",
-      label: "كورساتي",
+      label: t("student.myCourses"),
       icon: <FaGraduationCap />,
     },
     {
       href: "/university_student/profile",
-      label: "ملفي الشخصي",
+      label: t("universityStudent.myProfile"),
       icon: <FaFileAlt />,
     },
   ];
@@ -124,7 +127,7 @@ export default function UniversityStudentNav() {
             onClick={closeMenu}
           >
             <FaGraduationCap className={styles.logoIcon} />
-            <span>Edvance</span>
+            <span>{t("common.edvance")}</span>
             <span className={styles.logoSubtitle}>University</span>
           </Link>
           <button
@@ -145,7 +148,7 @@ export default function UniversityStudentNav() {
               className={styles.logoDesktop}
             >
               <FaGraduationCap className={styles.logoIcon} />
-              <span>Edvance</span>
+              <span>{t("common.edvance")}</span>
               <span className={styles.logoSubtitle}>University</span>
             </Link>
             {navItems.map((item) => (
@@ -163,6 +166,7 @@ export default function UniversityStudentNav() {
 
           <div className={styles.navRight}>
             <ThemeToggle />
+            <LanguageSwitcher />
             <NotificationDropdown />
 
             <div className={styles.profileDropdown} ref={profileRef}>
@@ -201,21 +205,21 @@ export default function UniversityStudentNav() {
                     className={styles.dropdownItem}
                   >
                     <FaUser />
-                    <span>الملف الشخصي</span>
+                    <span>{t("common.profile")}</span>
                   </Link>
                   <Link
                     href="/university_student/applications"
                     className={styles.dropdownItem}
                   >
                     <FaClipboardList />
-                    <span>طلباتي الوظيفية</span>
+                    <span>{t("universityStudent.myApplications")}</span>
                   </Link>
                   <button
                     className={styles.dropdownItem}
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt />
-                    <span>تسجيل الخروج</span>
+                    <span>{t("common.logout")}</span>
                   </button>
                 </div>
               )}

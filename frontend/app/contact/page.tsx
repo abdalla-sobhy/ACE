@@ -4,8 +4,11 @@ import styles from "./Contact.module.css";
 import Link from "next/link";
 import { useState } from "react";
 import NavigationBar from "@/components/Nav/Nav";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function ContactPage() {
+  const { t } = useLanguage();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,15 +20,15 @@ export default function ContactPage() {
   const [activeCategory, setActiveCategory] = useState("general");
 
   const contactCategories = [
-    { id: "general", icon: "💬", title: "استفسارات عامة", response: "24 ساعة" },
-    { id: "technical", icon: "🛠️", title: "دعم فني", response: "2-4 ساعات" },
+    { id: "general", icon: "💬", title: t("contact.categoryGeneral"), response: t("contact.categoryGeneralResponse") },
+    { id: "technical", icon: "🛠️", title: t("contact.categoryTechnical"), response: t("contact.categoryTechnicalResponse") },
     {
       id: "educational",
       icon: "📚",
-      title: "أسئلة تعليمية",
-      response: "12 ساعة",
+      title: t("contact.categoryEducational"),
+      response: t("contact.categoryEducationalResponse"),
     },
-    { id: "partnership", icon: "🤝", title: "شراكات", response: "48 ساعة" },
+    { id: "partnership", icon: "🤝", title: t("contact.categoryPartnership"), response: t("contact.categoryPartnershipResponse") },
   ];
 
   const faqs = [
@@ -56,11 +59,11 @@ export default function ContactPage() {
   ];
 
   const socialLinks = [
-    { icon: "📘", name: "Facebook", url: "#" },
-    { icon: "🐦", name: "Twitter", url: "#" },
-    { icon: "📷", name: "Instagram", url: "#" },
-    { icon: "📺", name: "YouTube", url: "#" },
-    { icon: "💼", name: "LinkedIn", url: "#" },
+    { icon: "📘", name: t("contact.facebook"), url: "#" },
+    { icon: "🐦", name: t("contact.twitter"), url: "#" },
+    { icon: "📷", name: t("contact.instagram"), url: "#" },
+    { icon: "📺", name: t("contact.youtube"), url: "#" },
+    { icon: "💼", name: t("contact.linkedin"), url: "#" },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -88,21 +91,21 @@ export default function ContactPage() {
         <div className={styles.heroPattern}></div>
         <div className={styles.heroContent}>
           <h1>
-            نحن هنا <span className={styles.gradient}>لمساعدتك</span>
+            {t("contact.heroTitle")} <span className={styles.gradient}>{t("contact.heroTitleGradient")}</span>
           </h1>
-          <p>فريق الدعم متواجد على مدار الساعة للإجابة على استفساراتك</p>
+          <p>{t("contact.heroSubtitle")}</p>
           <div className={styles.heroStats}>
             <div className={styles.heroStat}>
               <span className={styles.statNumber}>2-4</span>
-              <span className={styles.statLabel}>ساعات متوسط الرد</span>
+              <span className={styles.statLabel}>{t("contact.heroStat1")}</span>
             </div>
             <div className={styles.heroStat}>
               <span className={styles.statNumber}>98%</span>
-              <span className={styles.statLabel}>نسبة رضا العملاء</span>
+              <span className={styles.statLabel}>{t("contact.heroStat2")}</span>
             </div>
             <div className={styles.heroStat}>
               <span className={styles.statNumber}>24/7</span>
-              <span className={styles.statLabel}>دعم متواصل</span>
+              <span className={styles.statLabel}>{t("contact.heroStat3")}</span>
             </div>
           </div>
         </div>
@@ -111,7 +114,7 @@ export default function ContactPage() {
       {/* Contact Categories */}
       <section className={styles.categories}>
         <div className={styles.categoriesContainer}>
-          <h2>اختر نوع الاستفسار</h2>
+          <h2>{t("contact.categoriesTitle")}</h2>
           <div className={styles.categoriesGrid}>
             {contactCategories.map((category) => (
               <div
@@ -125,7 +128,7 @@ export default function ContactPage() {
                 <h3>{category.title}</h3>
                 <p className={styles.responseTime}>
                   <span className={styles.clockIcon}>⏰</span>
-                  وقت الرد: {category.response}
+                  {t("contact.responseTime")} {category.response}
                 </p>
               </div>
             ))}
@@ -139,11 +142,11 @@ export default function ContactPage() {
           <div className={styles.contactGrid}>
             {/* Contact Form */}
             <div className={styles.formSection}>
-              <h2>أرسل رسالتك</h2>
+              <h2>{t("contact.formTitle")}</h2>
               <form onSubmit={handleSubmit} className={styles.contactForm}>
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
-                    <label htmlFor="name">الاسم الكامل</label>
+                    <label htmlFor="name">{t("contact.fullName")}</label>
                     <input
                       type="text"
                       id="name"
@@ -151,11 +154,11 @@ export default function ContactPage() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      placeholder="أدخل اسمك الكامل"
+                      placeholder={t("contact.fullNamePlaceholder")}
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label htmlFor="email">البريد الإلكتروني</label>
+                    <label htmlFor="email">{t("contact.yourEmail")}</label>
                     <input
                       type="email"
                       id="email"
@@ -163,28 +166,28 @@ export default function ContactPage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      placeholder="example@email.com"
+                      placeholder={t("contact.emailPlaceholder")}
                     />
                   </div>
                 </div>
 
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
-                    <label htmlFor="userType">نوع المستخدم</label>
+                    <label htmlFor="userType">{t("contact.userType")}</label>
                     <select
                       id="userType"
                       name="userType"
                       value={formData.userType}
                       onChange={handleChange}
                     >
-                      <option value="student">طالب</option>
-                      <option value="teacher">معلم</option>
-                      <option value="parent">ولي أمر</option>
-                      <option value="other">آخر</option>
+                      <option value="student">{t("contact.userTypeStudent")}</option>
+                      <option value="teacher">{t("contact.userTypeTeacher")}</option>
+                      <option value="parent">{t("contact.userTypeParent")}</option>
+                      <option value="other">{t("contact.userTypeOther")}</option>
                     </select>
                   </div>
                   <div className={styles.formGroup}>
-                    <label htmlFor="subject">الموضوع</label>
+                    <label htmlFor="subject">{t("contact.subject")}</label>
                     <input
                       type="text"
                       id="subject"
@@ -192,26 +195,26 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      placeholder="موضوع الرسالة"
+                      placeholder={t("contact.subjectPlaceholder")}
                     />
                   </div>
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label htmlFor="message">الرسالة</label>
+                  <label htmlFor="message">{t("contact.message")}</label>
                   <textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    placeholder="اكتب رسالتك هنا..."
+                    placeholder={t("contact.messagePlaceholder")}
                     rows={6}
                   />
                 </div>
 
                 <button type="submit" className={styles.submitButton}>
-                  <span>إرسال الرسالة</span>
+                  <span>{t("contact.sendMessage")}</span>
                   <span className={styles.sendIcon}>📤</span>
                 </button>
               </form>
@@ -220,40 +223,40 @@ export default function ContactPage() {
             {/* Contact Info */}
             <div className={styles.infoSection}>
               <div className={styles.infoCard}>
-                <h3>معلومات التواصل</h3>
+                <h3>{t("contact.contactInfoTitle")}</h3>
                 <div className={styles.infoItem}>
                   <span className={styles.infoIcon}>📧</span>
                   <div>
-                    <h4>البريد الإلكتروني</h4>
-                    <p>support@Edvance.com</p>
+                    <h4>{t("contact.emailLabel")}</h4>
+                    <p>{t("contact.emailValue")}</p>
                   </div>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoIcon}>📱</span>
                   <div>
-                    <h4>الواتساب</h4>
-                    <p>+20 123 456 7890</p>
+                    <h4>{t("contact.whatsappLabel")}</h4>
+                    <p>{t("contact.whatsappValue")}</p>
                   </div>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoIcon}>📍</span>
                   <div>
-                    <h4>العنوان</h4>
-                    <p>القاهرة، مصر</p>
+                    <h4>{t("contact.addressLabel")}</h4>
+                    <p>{t("contact.addressValue")}</p>
                   </div>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoIcon}>🕐</span>
                   <div>
-                    <h4>ساعات العمل</h4>
-                    <p>24/7 دعم متواصل</p>
+                    <h4>{t("contact.officeHoursLabel")}</h4>
+                    <p>{t("contact.officeHoursValue")}</p>
                   </div>
                 </div>
               </div>
 
               {/* Social Media */}
               <div className={styles.socialCard}>
-                <h3>تابعنا على</h3>
+                <h3>{t("contact.followUsTitle")}</h3>
                 <div className={styles.socialLinks}>
                   {socialLinks.map((link, index) => (
                     <a
@@ -272,13 +275,11 @@ export default function ContactPage() {
 
               {/* Quick Response */}
               <div className={styles.quickResponse}>
-                <h3>للرد السريع</h3>
-                <p>
-                  استخدم الدردشة المباشرة في أسفل الصفحة للحصول على إجابة فورية
-                </p>
+                <h3>{t("contact.quickResponseTitle")}</h3>
+                <p>{t("contact.quickResponseDescription")}</p>
                 <button className={styles.chatButton}>
                   <span>💬</span>
-                  <span>ابدأ محادثة</span>
+                  <span>{t("contact.startChatButton")}</span>
                 </button>
               </div>
             </div>
@@ -289,9 +290,9 @@ export default function ContactPage() {
       {/* FAQ Section */}
       <section className={styles.faq}>
         <div className={styles.faqContainer}>
-          <h2>الأسئلة الشائعة</h2>
+          <h2>{t("contact.faqTitle")}</h2>
           <p className={styles.faqSubtitle}>
-            إجابات سريعة للأسئلة الأكثر شيوعاً
+            {t("contact.faqSubtitle")}
           </p>
           <div className={styles.faqGrid}>
             {faqs.map((faq, index) => (
@@ -307,9 +308,9 @@ export default function ContactPage() {
             ))}
           </div>
           <div className={styles.faqFooter}>
-            <p>لم تجد إجابة لسؤالك؟</p>
+            <p>{t("contact.faqFooterText")}</p>
             <Link href="/faq" className={styles.faqLink}>
-              عرض جميع الأسئلة الشائعة ←
+              {t("contact.faqFooterLink")}
             </Link>
           </div>
         </div>
@@ -319,16 +320,16 @@ export default function ContactPage() {
       <section className={styles.emergency}>
         <div className={styles.emergencyContainer}>
           <div className={styles.emergencyIcon}>🚨</div>
-          <h3>للحالات الطارئة</h3>
-          <p>إذا كنت تواجه مشكلة تقنية عاجلة أثناء محاضرة مباشرة</p>
+          <h3>{t("contact.emergencyTitle")}</h3>
+          <p>{t("contact.emergencyDescription")}</p>
           <div className={styles.emergencyActions}>
             <button className={styles.emergencyButton}>
               <span>📞</span>
-              <span>اتصل الآن: 15555</span>
+              <span>{t("contact.emergencyCallButton")}</span>
             </button>
             <button className={styles.emergencyChat}>
               <span>💬</span>
-              <span>دردشة طارئة</span>
+              <span>{t("contact.emergencyChatButton")}</span>
             </button>
           </div>
         </div>
@@ -338,13 +339,13 @@ export default function ContactPage() {
       <section className={styles.map}>
         <div className={styles.mapContainer}>
           <div className={styles.mapContent}>
-            <h2>موقعنا</h2>
-            <p>يمكنك زيارتنا في مقرنا الرئيسي</p>
+            <h2>{t("contact.mapTitle")}</h2>
+            <p>{t("contact.mapDescription")}</p>
             <div className={styles.mapPlaceholder}>
               <div className={styles.mapOverlay}>
                 <span className={styles.mapIcon}>📍</span>
-                <h3>القاهرة، مصر</h3>
-                <p>شارع التعليم، مبنى رقم 10</p>
+                <h3>{t("contact.mapLocation")}</h3>
+                <p>{t("contact.mapAddress")}</p>
               </div>
             </div>
           </div>

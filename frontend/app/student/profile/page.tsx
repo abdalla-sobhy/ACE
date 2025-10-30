@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./StudentProfile.module.css";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   FaUser,
   FaEdit,
@@ -35,6 +36,7 @@ interface User {
 }
 
 export default function StudentProfile() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<StudentProfile>({

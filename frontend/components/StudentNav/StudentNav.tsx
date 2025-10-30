@@ -15,6 +15,8 @@ import {
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import { useLanguage } from "@/hooks/useLanguage";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 interface User {
   name: string;
@@ -22,6 +24,7 @@ interface User {
 }
 
 export default function StudentNav() {
+  const { t } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -81,10 +84,10 @@ export default function StudentNav() {
   }, [isMenuOpen, isProfileOpen]);
 
   const navItems = [
-    { href: "/student/dashboard", label: "الرئيسية", icon: <FaHome /> },
-    { href: "/student/my-courses", label: "كورساتي", icon: <FaBook /> },
-    { href: "/student/exams", label: "الامتحانات", icon: <FaGraduationCap /> },
-    { href: "/student/progress", label: "التقدم", icon: <FaChartLine /> },
+    { href: "/student/dashboard", label: t("common.dashboard"), icon: <FaHome /> },
+    { href: "/student/my-courses", label: t("student.myCourses"), icon: <FaBook /> },
+    { href: "/student/exams", label: t("landing.exams"), icon: <FaGraduationCap /> },
+    { href: "/student/progress", label: t("student.myProgress"), icon: <FaChartLine /> },
   ];
 
   return (
@@ -96,7 +99,7 @@ export default function StudentNav() {
             className={styles.logo}
             onClick={closeMenu}
           >
-            Edvance
+            {t("common.edvance")}
           </Link>
           <button
             className={styles.hamburger}
@@ -112,7 +115,7 @@ export default function StudentNav() {
         >
           <div className={styles.navLeft}>
             <Link href="/student/dashboard" className={styles.logoDesktop}>
-              Edvance
+              {t("common.edvance")}
             </Link>
             {navItems.map((item) => (
               <Link
@@ -129,6 +132,7 @@ export default function StudentNav() {
 
           <div className={styles.navRight}>
             <ThemeToggle />
+            <LanguageSwitcher />
             <NotificationDropdown />
 
             <div className={styles.profileDropdown} ref={profileRef}>
@@ -159,14 +163,14 @@ export default function StudentNav() {
                   <div className={styles.dropdownDivider}></div>
                   <Link href="/student/profile" className={styles.dropdownItem}>
                     <FaUser />
-                    <span>الملف الشخصي</span>
+                    <span>{t("common.profile")}</span>
                   </Link>
                   <button
                     className={styles.dropdownItem}
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt />
-                    <span>تسجيل الخروج</span>
+                    <span>{t("common.logout")}</span>
                   </button>
                 </div>
               )}

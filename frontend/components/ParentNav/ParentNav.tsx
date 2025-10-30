@@ -12,8 +12,11 @@ import {
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import { useLanguage } from "@/hooks/useLanguage";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 export default function ParentNav() {
+  const { t } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -30,7 +33,7 @@ export default function ParentNav() {
       <div className={styles.navContainer}>
         <div className={styles.navLeft}>
           <Link href="/parent/dashboard" className={styles.logo}>
-            Edvance
+            {t("common.edvance")}
           </Link>
           <div className={styles.navLinks}>
             <Link
@@ -40,7 +43,7 @@ export default function ParentNav() {
               }`}
             >
               <FaHome />
-              <span>الرئيسية</span>
+              <span>{t("common.dashboard")}</span>
             </Link>
             <Link
               href="/parent/students"
@@ -49,13 +52,14 @@ export default function ParentNav() {
               }`}
             >
               <FaUsers />
-              <span>الطلاب</span>
+              <span>{t("teacher.students")}</span>
             </Link>
           </div>
         </div>
 
         <div className={styles.navRight}>
             <ThemeToggle />
+            <LanguageSwitcher />
           <NotificationDropdown />
 
           <div className={styles.profileMenu}>
@@ -70,11 +74,11 @@ export default function ParentNav() {
               <div className={styles.dropdown}>
                 <Link href="/parent/profile" className={styles.dropdownItem}>
                   <FaUser />
-                  <span>الملف الشخصي</span>
+                  <span>{t("common.profile")}</span>
                 </Link>
                 <button className={styles.dropdownItem} onClick={handleLogout}>
                   <FaSignOutAlt />
-                  <span>تسجيل الخروج</span>
+                  <span>{t("common.logout")}</span>
                 </button>
               </div>
             )}

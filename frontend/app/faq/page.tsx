@@ -4,19 +4,22 @@ import styles from './Faq.module.css';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import NavigationBar from '@/components/Nav/Nav';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function FAQPage() {
+  const { t } = useLanguage();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const faqCategories = [
-    { id: 'all', name: 'جميع الأسئلة', icon: '📋', count: 25 },
-    { id: 'general', name: 'عامة', icon: '💭', count: 8 },
-    { id: 'registration', name: 'التسجيل والحساب', icon: '👤', count: 6 },
-    { id: 'technical', name: 'تقنية', icon: '⚙️', count: 5 },
-    { id: 'educational', name: 'تعليمية', icon: '📚', count: 4 },
-    { id: 'payment', name: 'المدفوعات والنقاط', icon: '💰', count: 2 }
+    { id: 'all', name: t('faq.categoryAll'), icon: '📋', count: 25 },
+    { id: 'general', name: t('faq.categoryGeneral'), icon: '💭', count: 8 },
+    { id: 'registration', name: t('faq.categoryRegistration'), icon: '👤', count: 6 },
+    { id: 'technical', name: t('faq.categoryTechnical'), icon: '⚙️', count: 5 },
+    { id: 'educational', name: t('faq.categoryEducational'), icon: '📚', count: 4 },
+    { id: 'payment', name: t('faq.categoryPayment'), icon: '💰', count: 2 }
   ];
 
   const faqs = [
@@ -186,22 +189,22 @@ export default function FAQPage() {
           <div className={styles.heroPattern}></div>
         </div>
         <div className={styles.heroContent}>
-          <h1>مركز المساعدة</h1>
-          <p>إجابات شاملة لجميع أسئلتك</p>
-          
+          <h1>{t('faq.heroTitle')}</h1>
+          <p>{t('faq.heroSubtitle')}</p>
+
           {/* Search Bar */}
           <div className={styles.searchContainer}>
             <div className={styles.searchBox}>
               <span className={styles.searchIcon}>🔍</span>
               <input
                 type="text"
-                placeholder="ابحث عن سؤال أو موضوع..."
+                placeholder={t('faq.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={styles.searchInput}
               />
               {searchQuery && (
-                <button 
+                <button
                   className={styles.clearButton}
                   onClick={() => setSearchQuery('')}
                 >
@@ -211,7 +214,7 @@ export default function FAQPage() {
             </div>
             {searchQuery && (
               <p className={styles.searchResults}>
-                {filteredFAQs.length} نتيجة لـ &quot;{searchQuery}&quot;
+                {filteredFAQs.length} {t('faq.searchResults')} &quot;{searchQuery}&quot;
               </p>
             )}
           </div>
@@ -241,10 +244,10 @@ export default function FAQPage() {
           {filteredFAQs.length === 0 ? (
             <div className={styles.noResults}>
               <span className={styles.noResultsIcon}>🔍</span>
-              <h3>لم نجد أي نتائج</h3>
-              <p>جرب البحث بكلمات مختلفة أو تصفح الفئات</p>
+              <h3>{t('faq.noResultsTitle')}</h3>
+              <p>{t('faq.noResultsDescription')}</p>
               <Link href="/contact" className={styles.contactLink}>
-                أو اسألنا مباشرة ←
+                {t('faq.noResultsLink')}
               </Link>
             </div>
           ) : (
@@ -273,7 +276,7 @@ export default function FAQPage() {
                       </div>
                       
                       <div className={styles.helpfulness}>
-                        <p>هل كانت هذه الإجابة مفيدة؟</p>
+                        <p>{t('faq.helpfulQuestion')}</p>
                         <div className={styles.helpfulnessButtons}>
                           <button
                             className={styles.helpfulButton}
@@ -303,28 +306,28 @@ export default function FAQPage() {
       {/* Still Need Help */}
       <section className={styles.needHelp}>
         <div className={styles.needHelpContainer}>
-          <h2>لم تجد ما تبحث عنه؟</h2>
-          <p>فريق الدعم جاهز لمساعدتك</p>
+          <h2>{t('faq.needHelpTitle')}</h2>
+          <p>{t('faq.needHelpSubtitle')}</p>
           <div className={styles.helpOptions}>
             <div className={styles.helpCard}>
               <span className={styles.helpIcon}>💬</span>
-              <h3>دردشة مباشرة</h3>
-              <p>تحدث مع أحد ممثلي الدعم</p>
-              <button className={styles.helpButton}>ابدأ المحادثة</button>
+              <h3>{t('faq.helpLiveChat')}</h3>
+              <p>{t('faq.helpLiveChatDescription')}</p>
+              <button className={styles.helpButton}>{t('faq.helpLiveChatButton')}</button>
             </div>
             <div className={styles.helpCard}>
               <span className={styles.helpIcon}>📧</span>
-              <h3>راسلنا</h3>
-              <p>سنرد خلال 24 ساعة</p>
+              <h3>{t('faq.helpEmail')}</h3>
+              <p>{t('faq.helpEmailDescription')}</p>
               <Link href="/contact" className={styles.helpButton}>
-                أرسل رسالة
+                {t('faq.helpEmailButton')}
               </Link>
             </div>
             <div className={styles.helpCard}>
               <span className={styles.helpIcon}>📞</span>
-              <h3>اتصل بنا</h3>
-              <p>متاحين من 9ص - 9م</p>
-              <button className={styles.helpButton}>15555</button>
+              <h3>{t('faq.helpPhone')}</h3>
+              <p>{t('faq.helpPhoneDescription')}</p>
+              <button className={styles.helpButton}>{t('faq.helpPhoneButton')}</button>
             </div>
           </div>
         </div>
@@ -333,16 +336,16 @@ export default function FAQPage() {
       {/* Popular Topics */}
       <section className={styles.popularTopics}>
         <div className={styles.topicsContainer}>
-          <h2>المواضيع الأكثر بحثاً</h2>
+          <h2>{t('faq.popularTopicsTitle')}</h2>
           <div className={styles.topicsGrid}>
-            <Link href="#" className={styles.topicTag}>كيفية التسجيل</Link>
-            <Link href="#" className={styles.topicTag}>نظام النقاط</Link>
-            <Link href="#" className={styles.topicTag}>استعادة كلمة المرور</Link>
-            <Link href="#" className={styles.topicTag}>حجز المقاعد</Link>
-            <Link href="#" className={styles.topicTag}>البث المباشر</Link>
-            <Link href="#" className={styles.topicTag}>الامتحانات</Link>
-            <Link href="#" className={styles.topicTag}>شهادات الإتمام</Link>
-            <Link href="#" className={styles.topicTag}>متطلبات النظام</Link>
+            <Link href="#" className={styles.topicTag}>{t('faq.topicRegistration')}</Link>
+            <Link href="#" className={styles.topicTag}>{t('faq.topicPoints')}</Link>
+            <Link href="#" className={styles.topicTag}>{t('faq.topicPassword')}</Link>
+            <Link href="#" className={styles.topicTag}>{t('faq.topicSeats')}</Link>
+            <Link href="#" className={styles.topicTag}>{t('faq.topicLive')}</Link>
+            <Link href="#" className={styles.topicTag}>{t('faq.topicExams')}</Link>
+            <Link href="#" className={styles.topicTag}>{t('faq.topicCertificates')}</Link>
+            <Link href="#" className={styles.topicTag}>{t('faq.topicSystemRequirements')}</Link>
           </div>
         </div>
       </section>
