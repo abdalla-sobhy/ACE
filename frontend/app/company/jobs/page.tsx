@@ -328,7 +328,7 @@ export default function CompanyJobsPage() {
                         : "bg-red-500/10 text-red-500 border border-red-500/30"
                     }`}
                   >
-                    {job.is_active ? {t("common.active")} : "غير نشط"}
+                    {job.is_active ? t("common.active") : t("common.inactive")}
                   </span>
                 </div>
 

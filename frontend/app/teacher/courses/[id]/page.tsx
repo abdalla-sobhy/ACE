@@ -432,7 +432,7 @@ export default function CourseDetailPage() {
                     course?.is_active ? styles.active : styles.inactive
                   }
                 >
-                  {course?.is_active ? {t("common.active")} : "غير نشط"}
+                  {course?.is_active ? t("common.active") : t("common.inactive")}
                 </span>
               </div>
             </div>
