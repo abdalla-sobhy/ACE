@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import CompanyNav from "@/components/CompanyNav/CompanyNav";
 import Link from "next/link";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   FaBriefcase,
   FaMapMarkerAlt,
@@ -57,6 +58,7 @@ interface JobPosting {
 }
 
 export default function JobDetailPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const params = useParams();
   const jobId = (params?.id as string) || "";
@@ -232,7 +234,7 @@ export default function JobDetailPage() {
                       : "bg-red-500/10 text-red-500 border border-red-500/30"
                   }`}
                 >
-                  {job.is_active ? "نشط" : "غير نشط"}
+                  {job.is_active ? {t("common.active")} : "غير نشط"}
                 </span>
                 {job.is_expired && (
                   <span className="px-4 py-1 rounded-full text-sm font-medium bg-orange-500/10 text-orange-500 border border-orange-500/30">
@@ -275,14 +277,14 @@ export default function JobDetailPage() {
                 className="px-4 py-2 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg transition-all flex items-center gap-2"
               >
                 <FaEdit />
-                <span>تعديل</span>
+                <span>{t("common.edit")}</span>
               </Link>
               <button
                 onClick={handleDeleteJob}
                 className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/30 rounded-lg transition-all flex items-center gap-2"
               >
                 <FaTrash />
-                <span>حذف</span>
+                <span>{t("common.delete")}</span>
               </button>
             </div>
           </div>

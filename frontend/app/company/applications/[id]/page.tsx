@@ -24,6 +24,7 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface Student {
   id: number;
   name: string;
@@ -82,6 +83,7 @@ interface Application {
 }
 
 export default function ApplicationDetailsPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const params = useParams();
   const applicationId = params?.id as string;

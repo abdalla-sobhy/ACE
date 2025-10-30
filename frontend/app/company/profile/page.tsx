@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import CompanyNav from "@/components/CompanyNav/CompanyNav";
 import styles from "./CompanyProfile.module.css";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   FaBuilding,
   FaEdit,
@@ -45,6 +46,7 @@ interface User {
 }
 
 export default function CompanyProfile() {
+  const { t } = useLanguage();
   const router = useRouter();
   const logoInputRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState<User | null>(null);

@@ -501,7 +501,10 @@
     "certificateReady": "Certificate Ready",
     "newReview": "New Review",
     "systemUpdate": "System Update",
-    "maintenanceScheduled": "Maintenance Scheduled"
+    "maintenanceScheduled": "Maintenance Scheduled",
+    "newFollowRequest": "New Follow Request",
+    "requestApproved": "Request Approved",
+    "newNotification": "You have a new notification"
   },
   "features": {
     "title": "Features",

@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface Job {
   id: number;
   title: string;
@@ -35,6 +36,7 @@ interface Job {
 }
 
 export default function CompanyJobsPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
@@ -282,7 +284,7 @@ export default function CompanyJobsPage() {
                 className="flex-1 lg:flex-none lg:min-w-[150px] px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] cursor-pointer hover:border-[#58a6ff] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
               >
                 <option value="all">كل الحالات</option>
-                <option value="active">نشط</option>
+                <option value="active">{t("common.active")}</option>
                 <option value="inactive">غير نشط</option>
               </select>
             </div>
@@ -326,7 +328,7 @@ export default function CompanyJobsPage() {
                         : "bg-red-500/10 text-red-500 border border-red-500/30"
                     }`}
                   >
-                    {job.is_active ? "نشط" : "غير نشط"}
+                    {job.is_active ? {t("common.active")} : "غير نشط"}
                   </span>
                 </div>
 

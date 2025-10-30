@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import TeacherNav from "@/components/TeacherNav/TeacherNav";
 import styles from "./CourseDetail.module.css";
 import Image from "next/image";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   FaArrowRight,
   FaPlus,
@@ -55,6 +56,7 @@ interface Course {
 }
 
 export default function CourseDetailPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const params = useParams();
   const courseId = params?.id;
@@ -430,7 +432,7 @@ export default function CourseDetailPage() {
                     course?.is_active ? styles.active : styles.inactive
                   }
                 >
-                  {course?.is_active ? "نشط" : "غير نشط"}
+                  {course?.is_active ? {t("common.active")} : "غير نشط"}
                 </span>
               </div>
             </div>

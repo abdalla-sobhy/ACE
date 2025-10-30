@@ -19,6 +19,7 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface Application {
   id: number;
   status: string;
@@ -40,6 +41,7 @@ interface Application {
 }
 
 export default function CompanyApplicationsPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);

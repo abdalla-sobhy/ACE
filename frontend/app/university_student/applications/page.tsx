@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface Application {
   id: number;
   job: {
@@ -53,6 +54,7 @@ interface ApplicationStats {
 }
 
 export default function MyApplications() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [applications, setApplications] = useState<Application[]>([]);
   const [stats, setStats] = useState<ApplicationStats>({

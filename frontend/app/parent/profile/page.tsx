@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ParentNav from "@/components/ParentNav/ParentNav";
 import styles from "./ParentProfile.module.css";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   FaUser,
   FaEdit,
@@ -29,6 +30,7 @@ interface User {
 }
 
 export default function ParentProfile() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<ParentProfile>({

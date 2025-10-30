@@ -657,7 +657,10 @@
     "certificateReady": "الشهادة جاهزة",
     "newReview": "تقييم جديد",
     "systemUpdate": "تحديث النظام",
-    "maintenanceScheduled": "صيانة مجدولة"
+    "maintenanceScheduled": "صيانة مجدولة",
+    "newFollowRequest": "طلب متابعة جديد",
+    "requestApproved": "تمت الموافقة على الطلب",
+    "newNotification": "لديك إشعار جديد"
   },
   "features": {
     "title": "المميزات",

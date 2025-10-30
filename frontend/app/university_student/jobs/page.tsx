@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface Company {
   id: number;
   name: string;
@@ -47,6 +48,7 @@ interface Job {
 }
 
 export default function UniversityJobs() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
@@ -238,7 +240,7 @@ export default function UniversityJobs() {
                     setFilters({ ...filters, job_type: e.target.value })
                   }
                 >
-                  <option value="all">الكل</option>
+                  <option value="all">{t("common.all")}</option>
                   <option value="full_time">دوام كامل</option>
                   <option value="part_time">دوام جزئي</option>
                   <option value="internship">تدريب</option>
@@ -254,7 +256,7 @@ export default function UniversityJobs() {
                     setFilters({ ...filters, work_location: e.target.value })
                   }
                 >
-                  <option value="all">الكل</option>
+                  <option value="all">{t("common.all")}</option>
                   <option value="onsite">حضور مكتبي</option>
                   <option value="remote">عن بُعد</option>
                   <option value="hybrid">هجين</option>
@@ -269,7 +271,7 @@ export default function UniversityJobs() {
                     setFilters({ ...filters, experience_level: e.target.value })
                   }
                 >
-                  <option value="all">الكل</option>
+                  <option value="all">{t("common.all")}</option>
                   <option value="entry">مبتدئ</option>
                   <option value="junior">خبرة قليلة</option>
                   <option value="mid">متوسط</option>

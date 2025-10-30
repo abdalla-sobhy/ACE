@@ -6,9 +6,11 @@ import { useRouter, useParams } from "next/navigation";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import styles from "./TeacherLiveClass.module.css";
 
+import { useLanguage } from "@/hooks/useLanguage";
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
 export default function TeacherLiveClassPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const params = useParams();
   const sessionId = params?.sessionId as string;

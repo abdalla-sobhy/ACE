@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./MyCourses.module.css";
 import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaCalendarAlt, FaChalkboardTeacher, FaTimes } from "react-icons/fa";
+import { useLanguage } from "@/hooks/useLanguage";
 interface Teacher {
   id: number;
   first_name: string;
@@ -53,6 +54,7 @@ interface User {
 }
 
 export default function MyCourses() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
@@ -194,7 +196,7 @@ export default function MyCourses() {
         {/* Welcome Section */}
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeContent}>
-            <h1>كورساتي</h1>
+            <h1>{t("student.myCourses")}</h1>
             <p>الكورسات المسجلة لـ{getGradeLabel(user?.profile?.grade || "")}</p>
           </div>
           <div className={styles.statsCards}>

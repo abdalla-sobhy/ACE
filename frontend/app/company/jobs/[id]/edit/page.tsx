@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import CompanyNav from "@/components/CompanyNav/CompanyNav";
 import Link from "next/link";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   FaBriefcase,
   FaArrowLeft,
@@ -12,6 +13,7 @@ import {
 } from "react-icons/fa";
 
 export default function EditJobPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const params = useParams();
   const jobId = (params?.id as string) || "";

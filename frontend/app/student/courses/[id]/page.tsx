@@ -6,6 +6,7 @@ import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./CourseView.module.css";
 import { FaPlay, FaLock, FaClock, FaArrowRight, FaShoppingCart, FaCreditCard } from "react-icons/fa";
 
+import { useLanguage } from "@/hooks/useLanguage";
 interface Lesson {
   id: number;
   title: string;
@@ -33,6 +34,7 @@ interface Course {
 }
 
 export default function StudentCourseView() {
+  const { t } = useLanguage();
   const router = useRouter();
   const params = useParams();
   const courseId = params?.id;
