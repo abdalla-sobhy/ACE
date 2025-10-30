@@ -384,7 +384,7 @@ export default function JobDetailPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Description */}
             <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
-              <h2 className="text-xl font-bold mb-4">وصف الوظيفة</h2>
+              <h2 className="text-xl font-bold mb-4">{t("company.jobDescription")}</h2>
               <p className="text-[var(--p-text)] leading-relaxed whitespace-pre-wrap">
                 {job.description}
               </p>

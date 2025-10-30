@@ -331,13 +331,13 @@ export default function TeacherProfile() {
 
           {/* CV Upload Section */}
           <div className={styles.section}>
-            <h2>السيرة الذاتية</h2>
+            <h2>{t("company.resume")}</h2>
             <div className={styles.cvSection}>
               {profile.cv_path ? (
                 <div className={styles.cvUploaded}>
                   <FaFilePdf className={styles.cvIcon} />
                   <div className={styles.cvInfo}>
-                    <p>السيرة الذاتية</p>
+                    <p>{t("company.resume")}</p>
                     <div className={styles.cvActions}>
                       {isEditing && (
                         <button
