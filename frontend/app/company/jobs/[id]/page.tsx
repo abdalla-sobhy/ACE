@@ -234,7 +234,7 @@ export default function JobDetailPage() {
                       : "bg-red-500/10 text-red-500 border border-red-500/30"
                   }`}
                 >
-                  {job.is_active ? {t("common.active")} : "غير نشط"}
+                  {job.is_active ? t("common.active") : t("common.inactive")}
                 </span>
                 {job.is_expired && (
                   <span className="px-4 py-1 rounded-full text-sm font-medium bg-orange-500/10 text-orange-500 border border-orange-500/30">

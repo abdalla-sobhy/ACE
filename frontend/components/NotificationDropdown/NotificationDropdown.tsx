@@ -1,7 +1,7 @@
-import { useLanguage } from "@/hooks/useLanguage";
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 import { FaBell, FaTimes, FaCheckDouble } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
