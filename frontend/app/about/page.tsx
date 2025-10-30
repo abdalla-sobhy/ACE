@@ -8,12 +8,21 @@ import { useLanguage } from '@/hooks/useLanguage';
 import arTranslations from '@/locales/ar.json';
 import enTranslations from '@/locales/en.json';
 
+interface Developer {
+  name: string;
+  role: string;
+  bio: string;
+  github: string;
+  linkedin: string;
+  image: string;
+}
+
 export default function AboutPage() {
   const { t, language } = useLanguage();
 
   // Get developers from translations
   const translations = language === 'ar' ? arTranslations : enTranslations;
-  const developers = translations.about.developers.map((dev: any, index: number) => ({
+  const developers: Developer[] = translations.about.developers.map((dev) => ({
     ...dev,
     github: "https://github.com",
     linkedin: "https://linkedin.com",

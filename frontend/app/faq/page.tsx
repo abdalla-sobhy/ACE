@@ -8,6 +8,15 @@ import { useLanguage } from '@/hooks/useLanguage';
 import arTranslations from '@/locales/ar.json';
 import enTranslations from '@/locales/en.json';
 
+interface FAQItem {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+  helpful: number;
+  notHelpful: number;
+}
+
 export default function FAQPage() {
   const { t, language } = useLanguage();
 
@@ -17,7 +26,7 @@ export default function FAQPage() {
 
   // Get FAQ items from translations
   const translations = language === 'ar' ? arTranslations : enTranslations;
-  const faqs = translations.faq.faqItems.map((item: any) => ({
+  const faqs: FAQItem[] = translations.faq.faqItems.map((item) => ({
     ...item,
     helpful: 0,
     notHelpful: 0
