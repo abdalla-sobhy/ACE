@@ -702,7 +702,22 @@
     "ctaDescription": "Join thousands of students achieving their dreams with us",
     "ctaRegisterButton": "Register for Free Now",
     "ctaDemoButton": "Try a Demo",
-    "ctaNote": "Get 100 welcome points upon registration"
+    "ctaNote": "Get 100 welcome points upon registration",
+    "demoTitle": "Physics Lecture",
+    "demoChat": {
+      "message1": {
+        "user": "Ahmed",
+        "text": "Can you explain again?"
+      },
+      "message2": {
+        "user": "Teacher",
+        "text": "Of course! Let me clarify more"
+      },
+      "message3": {
+        "user": "Sara",
+        "text": "Thanks, it's clear now!"
+      }
+    }
   },
   "about": {
     "title": "About Us",
@@ -744,7 +759,29 @@
     "ctaDescription": "Whether you're a student, teacher, or parent, you can be part of this journey",
     "ctaStudentButton": "Join as Student",
     "ctaTeacherButton": "Join as Teacher",
-    "ctaContactButton": "Contact Us"
+    "ctaContactButton": "Contact Us",
+    "developers": [
+      {
+        "name": "Malak Magdy",
+        "role": "Full Stack Developer",
+        "bio": "Full stack developer specialized in Next.js and Node.js, passionate about developing innovative educational solutions"
+      },
+      {
+        "name": "Ziad Mahmoud",
+        "role": "Full Stack Developer",
+        "bio": "Specialized in UI/UX design, experienced in React and TypeScript"
+      },
+      {
+        "name": "Salsabeel Shehata",
+        "role": "frontend Developer",
+        "bio": "Frontend developer specialized in React and user interfaces"
+      },
+      {
+        "name": "Mahmoud Mohamed",
+        "role": "full stack Designer",
+        "bio": "Full stack developer with experience in Laravel and React for building complete web applications"
+      }
+    ]
   },
   "contact": {
     "title": "Contact Us",
@@ -851,7 +888,105 @@
     "topicCertificates": "Completion Certificates",
     "topicSystemRequirements": "System Requirements",
     "stillHaveQuestions": "Still have questions?",
-    "contactSupport": "Contact Support"
+    "contactSupport": "Contact Support",
+    "faqItems": [
+      {
+        "id": "1",
+        "category": "general",
+        "question": "Is the platform really free?",
+        "answer": "Yes, the platform is 100% free with no hidden fees or paid subscriptions. We are committed to providing free education to all Egyptian students."
+      },
+      {
+        "id": "2",
+        "category": "general",
+        "question": "What's the difference between student, teacher, and parent?",
+        "answer": "Student: Can attend lectures, take exams, and earn points.\nTeacher: Can create and manage lectures and exams.\nParent: Can monitor their children's performance and attendance."
+      },
+      {
+        "id": "3",
+        "category": "general",
+        "question": "Can I use the platform on mobile?",
+        "answer": "Yes, the platform is fully compatible with all devices. You can access it through your phone's browser, and soon there will be dedicated Android and iOS apps."
+      },
+      {
+        "id": "4",
+        "category": "registration",
+        "question": "How do I register on the platform?",
+        "answer": "You can easily register by:\n1. Clicking the \"Join for Free\" button\n2. Selecting your account type (student/teacher/parent)\n3. Entering the required information\n4. Confirming your email"
+      },
+      {
+        "id": "5",
+        "category": "registration",
+        "question": "I forgot my password, what should I do?",
+        "answer": "Don't worry! You can recover your password by:\n1. Clicking \"Forgot Password\" on the login page\n2. Entering your email\n3. You'll receive a message with a link to reset your password"
+      },
+      {
+        "id": "6",
+        "category": "registration",
+        "question": "Can I change my account type from student to teacher?",
+        "answer": "Yes, you can apply to change your account type through account settings. Your request will be reviewed and required documents for teachers will be verified."
+      },
+      {
+        "id": "7",
+        "category": "technical",
+        "question": "What are the internet requirements for live streaming?",
+        "answer": "For the best experience:\n• Minimum: 2 Mbps for standard quality viewing\n• Recommended: 5 Mbps for HD viewing\n• For teachers: 10 Mbps for streaming"
+      },
+      {
+        "id": "8",
+        "category": "technical",
+        "question": "The lecture isn't working well, what's the solution?",
+        "answer": "Try the following steps:\n1. Check your internet speed\n2. Close other applications\n3. Use Chrome or Firefox browser\n4. Lower the stream quality in settings\n5. Contact technical support if the problem persists"
+      },
+      {
+        "id": "9",
+        "category": "educational",
+        "question": "How does the points system work?",
+        "answer": "You earn points through:\n• Attending lectures: 10 points\n• Active participation: 5 points\n• Completing assignments: 15 points\n• Passing exams: 20-50 points\nPoints can be redeemed for additional benefits like private sessions or extra learning materials."
+      },
+      {
+        "id": "10",
+        "category": "educational",
+        "question": "Can I watch recorded lectures?",
+        "answer": "Yes, all live lectures are automatically recorded and available for viewing for 30 days after broadcast. You can access them from the \"My Lectures\" section."
+      },
+      {
+        "id": "11",
+        "category": "general",
+        "question": "What educational stages are available?",
+        "answer": "We cover all educational stages:\n• Primary school (1-6)\n• Preparatory school (1-3)\n• Secondary school (1-3)\n• University preparation courses"
+      },
+      {
+        "id": "12",
+        "category": "registration",
+        "question": "Can a parent monitor more than one student?",
+        "answer": "Yes, a parent can link their account to multiple student accounts (their children) and monitor each one's performance separately from one control panel."
+      },
+      {
+        "id": "13",
+        "category": "technical",
+        "question": "Can I download lectures for offline viewing?",
+        "answer": "Currently, lectures cannot be downloaded, but we're working on adding this feature soon for premium students who collect a certain number of points."
+      },
+      {
+        "id": "14",
+        "category": "educational",
+        "question": "How are exams graded?",
+        "answer": "Exams have different types:\n• Multiple choice: Instant grading\n• Essay questions: Reviewed by teacher within 48 hours\n• Projects: Comprehensive evaluation within one week"
+      },
+      {
+        "id": "15",
+        "category": "payment",
+        "question": "Are there any hidden costs?",
+        "answer": "No, the platform is completely free. There are no fees for registration, attending lectures, or taking exams. Even certificates are free!"
+      },
+      {
+        "id": "16",
+        "category": "payment",
+        "question": "How can I support the platform if I want to?",
+        "answer": "We appreciate your willingness to support! You can:\n• Share the platform with your friends\n• Volunteer as a teacher if qualified\n• Donate through the support page (completely optional)"
+      }
+    ]
   },
   "errors": {
     "404": "Page Not Found",
@@ -923,5 +1058,15 @@
     "religion": "Religious Education",
     "french": "French Language",
     "german": "German Language"
+  },
+  "validation": {
+    "firstNameMin": "First name must be at least 2 characters",
+    "lastNameMin": "Last name must be at least 2 characters",
+    "emailInvalid": "Invalid email address",
+    "phoneInvalid": "Phone number must be a valid Egyptian number",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordUppercase": "Must contain at least one uppercase letter",
+    "passwordNumber": "Must contain at least one number",
+    "passwordMismatch": "Passwords do not match"
   }
 }
