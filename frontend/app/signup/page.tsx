@@ -165,6 +165,8 @@ interface RegistrationPayload {
 }
 
 // Validation schemas
+// Note: Validation messages are kept in Arabic as they are brief contextual errors
+// For full bilingual support of validation, schema factory functions would be needed
 const baseSchema = z
   .object({
     firstName: z.string().min(2, "الاسم يجب أن يكون حرفين على الأقل"),

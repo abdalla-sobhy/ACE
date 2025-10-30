@@ -397,7 +397,7 @@ export default function TeacherDashboard() {
               <p>ابدأ بإنشاء أول كورس لك</p>
               <button className={styles.createFirstButton} onClick={handleCreateCourse}>
                 <FaPlus />
-                <span>إنشاء كورس</span>
+                <span>{t("teacher.createCourse")}</span>
               </button>
             </div>
           ) : (
@@ -423,21 +423,21 @@ export default function TeacherDashboard() {
                         <button 
                           className={styles.actionButton} 
                           onClick={() => handleViewCourse(course.id)}
-                          title="عرض"
+                          title={t("common.view")}
                         >
                           <FaEye />
                         </button>
                         <button 
                           className={styles.actionButton} 
                           onClick={() => handleEditCourse(course.id)}
-                          title="تعديل"
+                          title={t("common.edit")}
                         >
                           <FaEdit />
                         </button>
                         <button 
                           className={styles.actionButton} 
                           onClick={() => handleDeleteCourse(course.id)}
-                          title="حذف"
+                          title={t("common.delete")}
                         >
                           <FaTrash />
                         </button>
@@ -535,7 +535,7 @@ export default function TeacherDashboard() {
                   )}
 
                   {!course.is_active && (
-                    <div className={styles.inactiveBadge}>غير نشط</div>
+                    <div className={styles.inactiveBadge}>{t("common.inactive")}</div>
                   )}
                 </div>
               ))}

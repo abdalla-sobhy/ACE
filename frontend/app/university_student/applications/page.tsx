@@ -261,7 +261,7 @@ export default function MyApplications() {
           {applications.length === 0 ? (
             <div className={styles.emptyState}>
               <FaBriefcase className={styles.emptyIcon} />
-              <h3>لا توجد طلبات</h3>
+              <h3>{t("company.noApplications")}</h3>
               <p>لم تتقدم لأي وظيفة بعد</p>
               <Link href="/university_student/jobs" className={styles.browseLink}>
                 تصفح الوظائف المتاحة
@@ -389,7 +389,7 @@ export default function MyApplications() {
           <div className={styles.modal}>
             <div className={styles.modalContent}>
               <div className={styles.modalHeader}>
-                <h2>تفاصيل الطلب</h2>
+                <h2>{t("company.applicationDetails")}</h2>
                 <button
                   className={styles.closeButton}
                   onClick={() => setSelectedApplication(null)}
@@ -399,7 +399,7 @@ export default function MyApplications() {
               </div>
 
               <div className={styles.modalBody}>
-                <h3>خطاب التقديم</h3>
+                <h3>{t("company.coverLetter")}</h3>
                 <p className={styles.coverLetter}>{selectedApplication.cover_letter}</p>
 
                 <h3>سجل الحالة</h3>

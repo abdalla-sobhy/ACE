@@ -692,7 +692,7 @@ export default function ApplicationDetailsPage() {
             {/* Job Info */}
             <div className={styles.card}>
               <div className={styles.cardHeader}>
-                <h3>تفاصيل الوظيفة</h3>
+                <h3>{t("company.jobDetails")}</h3>
               </div>
               <div className={styles.cardContent}>
                 <div className={styles.jobInfo}>
@@ -860,7 +860,7 @@ export default function ApplicationDetailsPage() {
                   disabled={updating || !selectedStatus}
                   className={styles.submitButton}
                 >
-                  {updating ? "جاري التحديث..." : "تحديث"}
+                  {updating ? t("common.updating") : t("common.update")}
                 </button>
                 <button
                   onClick={() => setShowStatusModal(false)}

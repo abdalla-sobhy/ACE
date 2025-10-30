@@ -362,7 +362,7 @@ export default function CompanyApplicationsPage() {
         ) : filteredApplications.length === 0 ? (
           <div className={styles.emptyState}>
             <FaUser />
-            <h3>لا توجد طلبات</h3>
+            <h3>{t("company.noApplications")}</h3>
             <p>
               {searchTerm || filterStatus !== "all" || filterFavorite
                 ? "لا توجد طلبات تطابق معايير البحث"
