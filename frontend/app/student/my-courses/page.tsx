@@ -146,34 +146,34 @@ export default function MyCourses() {
 
   const getGradeLabel = (grade: string) => {
     const gradeLabels: { [key: string]: string } = {
-      primary_1: "الصف الأول الابتدائي",
-      primary_2: "الصف الثاني الابتدائي",
-      primary_3: "الصف الثالث الابتدائي",
-      primary_4: "الصف الرابع الابتدائي",
-      primary_5: "الصف الخامس الابتدائي",
-      primary_6: "الصف السادس الابتدائي",
-      prep_1: "الصف الأول الإعدادي",
-      prep_2: "الصف الثاني الإعدادي",
-      prep_3: "الصف الثالث الإعدادي",
-      secondary_1: "الصف الأول الثانوي",
-      secondary_2: "الصف الثاني الثانوي",
-      secondary_3: "الصف الثالث الثانوي",
+      primary_1: t("grades.primary_1"),
+      primary_2: t("grades.primary_2"),
+      primary_3: t("grades.primary_3"),
+      primary_4: t("grades.primary_4"),
+      primary_5: t("grades.primary_5"),
+      primary_6: t("grades.primary_6"),
+      prep_1: t("grades.prep_1"),
+      prep_2: t("grades.prep_2"),
+      prep_3: t("grades.prep_3"),
+      secondary_1: t("grades.secondary_1"),
+      secondary_2: t("grades.secondary_2"),
+      secondary_3: t("grades.secondary_3"),
     };
     return gradeLabels[grade] || grade;
   };
 
   const getCategoryLabel = (category: string) => {
     const categoryLabels: { [key: string]: { label: string; icon: string } } = {
-      arabic: { label: "اللغة العربية", icon: "📝" },
-      english: { label: "اللغة الإنجليزية", icon: "🌍" },
-      math: { label: "الرياضيات", icon: "🔢" },
-      science: { label: "العلوم", icon: "🔬" },
-      social: { label: "الدراسات الاجتماعية", icon: "🗺️" },
-      religion: { label: "التربية الدينية", icon: "🕌" },
-      french: { label: "اللغة الفرنسية", icon: "🇫🇷" },
-      german: { label: "اللغة الألمانية", icon: "🇩🇪" },
+      arabic: { label: t("subjects.arabic"), icon: "📝" },
+      english: { label: t("subjects.english"), icon: "🌍" },
+      math: { label: t("subjects.math"), icon: "🔢" },
+      science: { label: t("subjects.science"), icon: "🔬" },
+      social: { label: t("subjects.social"), icon: "🗺️" },
+      religion: { label: t("subjects.religion"), icon: "🕌" },
+      french: { label: t("subjects.french"), icon: "🇫🇷" },
+      german: { label: t("subjects.german"), icon: "🇩🇪" },
     };
-    return categoryLabels[category || ''] || { label: category || "عام", icon: "📚" };
+    return categoryLabels[category || ''] || { label: category || t("subjects.general"), icon: "📚" };
   };
 
   if (loading) {
@@ -182,7 +182,7 @@ export default function MyCourses() {
         <StudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل الكورسات...</p>
+          <p>{t("student.loadingCourses")}</p>
         </div>
       </div>
     );
@@ -197,21 +197,21 @@ export default function MyCourses() {
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeContent}>
             <h1>{t("student.myCourses")}</h1>
-            <p>الكورسات المسجلة لـ{getGradeLabel(user?.profile?.grade || "")}</p>
+            <p>{t("student.coursesEnrolled")} {getGradeLabel(user?.profile?.grade || "")}</p>
           </div>
           <div className={styles.statsCards}>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>📚</div>
               <div className={styles.statInfo}>
                 <h3>{courses.length}</h3>
-                <p>كورس مسجل</p>
+                <p>{t("student.coursesEnrolled")}</p>
               </div>
             </div>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>👨‍🏫</div>
               <div className={styles.statInfo}>
                 <h3>{new Set(courses.map(c => c.teacher.id)).size}</h3>
-                <p>مدرس مختلف</p>
+                <p>{t("student.teachersAvailable")}</p>
               </div>
             </div>
             <div className={styles.statCard}>
@@ -220,7 +220,7 @@ export default function MyCourses() {
                 <h3>
                   {courses.filter(course => course.course_type === 'live').length}
                 </h3>
-                <p>كورس مباشر</p>
+                <p>{t("student.liveStream")}</p>
               </div>
             </div>
           </div>
@@ -234,7 +234,7 @@ export default function MyCourses() {
               <FaSearch className={styles.searchIcon} />
               <input
                 type="text"
-                placeholder="ابحث في كورساتك..."
+                placeholder={t("student.searchCourseOrTopic")}
                 className={styles.searchInput}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -254,26 +254,25 @@ export default function MyCourses() {
         {/* Courses Grid */}
         <section className={styles.coursesSection}>
           <div className={styles.coursesHeader}>
-            <h2>الكورسات المسجلة</h2>
-            <p>{filteredCourses.length} كورس</p>
+            <h2>{t("student.enrolledCourses")}</h2>
+            <p>{filteredCourses.length} {t("student.courses")}</p>
           </div>
 
           {filteredCourses.length === 0 ? (
             <div className={styles.noResults}>
               <span className={styles.noResultsIcon}>📚</span>
-              <h3>لا توجد كورسات مسجلة</h3>
+              <h3>{t("student.noCourses")}</h3>
               <p>
-                {searchQuery 
-                  ? "لم نعثر على كورسات تطابق بحثك"
-                  : "لم تقم بالتسجيل في أي كورس حتى الآن"
-                }
+                {searchQuery
+                  ? t("student.noCoursesFound")
+                  : t("student.noCourses")}
               </p>
               {!searchQuery && (
-                <button 
+                <button
                   className={styles.exploreButton}
                   onClick={() => router.push("/student/dashboard")}
                 >
-                  استكشف الكورسات المتاحة
+                  {t("student.exploreCourses")}
                 </button>
               )}
             </div>
@@ -298,17 +297,17 @@ export default function MyCourses() {
                       {course.course_type === 'live' && (
                         <>
                           <div className={styles.liveBadge}>
-                            <span>🔴</span> بث مباشر
+                            <span>🔴</span> {t("student.liveStream")}
                           </div>
                           {course.is_full && (
                             <div className={styles.seatsInfo}>
-                              <span className={styles.fullBadge}>مكتمل العدد</span>
+                              <span className={styles.fullBadge}>{t("student.courseFull")}</span>
                             </div>
                           )}
                         </>
                       )}
-                      
-                      <div className={styles.enrolledBadge}>مسجل</div>
+
+                      <div className={styles.enrolledBadge}>{t("student.enrolled")}</div>
                     </div>
                     
                     <div className={styles.courseContent}>
@@ -323,7 +322,7 @@ export default function MyCourses() {
                         <div className={styles.scheduleInfo}>
                           <div className={styles.scheduleHeader}>
                             <FaCalendarAlt />
-                            <span>جدول المحاضرات</span>
+                            <span>{t("student.lectureSchedule")}</span>
                           </div>
                           <div className={styles.sessionsList}>
                             {course.schedule.map((session, index) => (
@@ -335,7 +334,7 @@ export default function MyCourses() {
                           </div>
                           {course.start_date && (
                             <p className={styles.startDate}>
-                              تبدأ في: {new Date(course.start_date).toLocaleDateString('ar-EG')}
+                              {t("student.startsOn")} {new Date(course.start_date).toLocaleDateString('ar-EG')}
                             </p>
                           )}
                         </div>
@@ -351,13 +350,13 @@ export default function MyCourses() {
                         {course.lessons_count !== undefined && (
                           <div className={styles.courseStat}>
                             <FaBook />
-                            <span>{course.lessons_count} درس</span>
+                            <span>{course.lessons_count} {t("student.lesson")}</span>
                           </div>
                         )}
                         {course.students_count !== undefined && (
                           <div className={styles.courseStat}>
                             <FaUsers />
-                            <span>{course.students_count} طالب</span>
+                            <span>{course.students_count} {t("student.student")}</span>
                           </div>
                         )}
                         {course.rating !== undefined && (
@@ -372,11 +371,11 @@ export default function MyCourses() {
                         <div className={styles.coursePrice}>
                           {course.original_price && course.original_price > course.price && (
                             <span className={styles.originalPrice}>
-                              {course.original_price} جنيه
+                              {course.original_price} {t("student.currency")}
                             </span>
                           )}
                           <span className={styles.currentPrice}>
-                            {course.price === 0 ? "مجاني" : `${course.price} جنيه`}
+                            {course.price === 0 ? t("student.free") : `${course.price} ${t("student.currency")}`}
                           </span>
                         </div>
                         <button
@@ -384,7 +383,7 @@ export default function MyCourses() {
                           onClick={() => router.push(`/student/courses/${course.id}`)}
                         >
                           <FaBook />
-                          <span>متابعة الدراسة</span>
+                          <span>{t("student.continueStudy")}</span>
                         </button>
                       </div>
                     </div>

@@ -128,13 +128,13 @@ export default function TeacherProfile() {
 
       if (response.ok) {
         setIsEditing(false);
-        alert("تم حفظ الملف الشخصي بنجاح");
+        alert(t("profilePage.profileSaveSuccess"));
       } else {
-        alert("حدث خطأ في حفظ الملف الشخصي");
+        alert(t("profilePage.profileSaveError"));
       }
     } catch (error) {
       console.error("Error saving profile:", error);
-      alert("حدث خطأ في حفظ الملف الشخصي");
+      alert(t("profilePage.profileSaveError"));
     } finally {
       setSaving(false);
     }
@@ -151,12 +151,12 @@ export default function TeacherProfile() {
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ].includes(file.type)
     ) {
-      alert("يرجى رفع ملف PDF أو Word");
+      alert(t("teacher.uploadPDForWord"));
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert("حجم الملف يجب أن يكون أقل من 5 ميجابايت");
+      alert(t("teacher.fileSizeLimit"));
       return;
     }
 
@@ -185,11 +185,11 @@ export default function TeacherProfile() {
           cv_path: data.cv_path,
         });
       } else {
-        alert("حدث خطأ في رفع السيرة الذاتية");
+        alert(t("teacher.uploadCVError"));
       }
     } catch (error) {
       console.error("Error uploading CV:", error);
-      alert("حدث خطأ في رفع السيرة الذاتية");
+      alert(t("teacher.uploadCVError"));
     } finally {
       setUploadingCV(false);
     }
@@ -201,7 +201,7 @@ export default function TeacherProfile() {
         <TeacherNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل الملف الشخصي...</p>
+          <p>{t("profilePage.loadingProfile")}</p>
         </div>
       </div>
     );
@@ -224,14 +224,14 @@ export default function TeacherProfile() {
                 {user?.first_name} {user?.last_name}
               </h1>
               <p className={styles.profileTitle}>
-                {profile.specialization || "مدرس"} •{" "}
+                {profile.specialization || t("auth.teacher")} •{" "}
                 {profile.years_of_experience
-                  ? `${profile.years_of_experience} سنوات خبرة`
-                  : "مدرس"}
+                  ? `${profile.years_of_experience} ${t("profilePage.years")} ${t("profilePage.yearsOfExperience").toLowerCase()}`
+                  : t("auth.teacher")}
               </p>
               <div className={styles.profileMeta}>
                 <span>
-                  <FaMapMarkerAlt /> مصر
+                  <FaMapMarkerAlt /> {t("profilePage.egypt")}
                 </span>
                 <span>
                   <FaEnvelope /> {user?.email}
@@ -248,7 +248,7 @@ export default function TeacherProfile() {
                     className={styles.editButton}
                     onClick={() => setIsEditing(true)}
                   >
-                    <FaEdit /> تعديل الملف الشخصي
+                    <FaEdit /> {t("profilePage.editProfile")}
                   </button>
                 ) : (
                   <>
@@ -257,13 +257,13 @@ export default function TeacherProfile() {
                       onClick={handleSaveProfile}
                       disabled={saving}
                     >
-                      <FaSave /> {saving ? "جاري الحفظ..." : "حفظ التغييرات"}
+                      <FaSave /> {saving ? t("profilePage.saving") : t("profilePage.saveChanges")}
                     </button>
                     <button
                       className={styles.cancelButton}
                       onClick={() => setIsEditing(false)}
                     >
-                      <FaTimes /> إلغاء
+                      <FaTimes /> {t("profilePage.cancel")}
                     </button>
                   </>
                 )}
@@ -273,7 +273,7 @@ export default function TeacherProfile() {
               <div className={styles.profileStats}>
                 <div className={styles.statBox}>
                   <h3>{profile.years_of_experience}</h3>
-                  <p>سنوات الخبرة</p>
+                  <p>{t("profilePage.yearsOfExperience")}</p>
                 </div>
               </div>
             )}
@@ -285,32 +285,32 @@ export default function TeacherProfile() {
           {/* Specialization Section */}
           <div className={styles.section}>
             <h2>
-              <FaGraduationCap /> التخصص
+              <FaGraduationCap /> {t("profilePage.teacherSpecialization")}
             </h2>
             {isEditing ? (
               <input
                 className={styles.input}
-                placeholder="التخصص (مثال: رياضيات، علوم، لغة عربية...)"
+                placeholder={t("profilePage.specializationPlaceholder")}
                 value={profile.specialization || ""}
                 onChange={(e) =>
                   setProfile({ ...profile, specialization: e.target.value })
                 }
               />
             ) : (
-              <p>{profile.specialization || "لم يتم تحديد التخصص"}</p>
+              <p>{profile.specialization || t("profilePage.specializationNotSet")}</p>
             )}
           </div>
 
           {/* Experience Section */}
           <div className={styles.section}>
             <h2>
-              <FaBriefcase /> سنوات الخبرة
+              <FaBriefcase /> {t("profilePage.yearsOfExperience")}
             </h2>
             {isEditing ? (
               <input
                 className={styles.input}
                 type="number"
-                placeholder="عدد سنوات الخبرة"
+                placeholder={t("profilePage.yearsExperiencePlaceholder")}
                 min="0"
                 value={profile.years_of_experience || ""}
                 onChange={(e) =>
@@ -323,28 +323,28 @@ export default function TeacherProfile() {
             ) : (
               <p>
                 {profile.years_of_experience
-                  ? `${profile.years_of_experience} سنوات`
-                  : "لم يتم التحديد"}
+                  ? `${profile.years_of_experience} ${t("profilePage.years")}`
+                  : t("profilePage.notSet")}
               </p>
             )}
           </div>
 
           {/* CV Upload Section */}
           <div className={styles.section}>
-            <h2>{t("company.resume")}</h2>
+            <h2>{t("profilePage.cvSection")}</h2>
             <div className={styles.cvSection}>
               {profile.cv_path ? (
                 <div className={styles.cvUploaded}>
                   <FaFilePdf className={styles.cvIcon} />
                   <div className={styles.cvInfo}>
-                    <p>{t("company.resume")}</p>
+                    <p>{t("profilePage.cvUploaded")}</p>
                     <div className={styles.cvActions}>
                       {isEditing && (
                         <button
                           className={styles.replaceButton}
                           onClick={() => cvInputRef.current?.click()}
                         >
-                          <FaUpload /> استبدال
+                          <FaUpload /> {t("profilePage.replace")}
                         </button>
                       )}
                     </div>
@@ -353,14 +353,14 @@ export default function TeacherProfile() {
               ) : (
                 <div className={styles.cvUpload}>
                   <FaUpload className={styles.uploadIcon} />
-                  <p>لم يتم رفع سيرة ذاتية بعد</p>
+                  <p>{t("profilePage.noCVUploaded")}</p>
                   {isEditing && (
                     <button
                       className={styles.uploadButton}
                       onClick={() => cvInputRef.current?.click()}
                       disabled={uploadingCV}
                     >
-                      {uploadingCV ? "جاري الرفع..." : "رفع السيرة الذاتية"}
+                      {uploadingCV ? t("profilePage.uploading") : t("profilePage.uploadCV")}
                     </button>
                   )}
                 </div>

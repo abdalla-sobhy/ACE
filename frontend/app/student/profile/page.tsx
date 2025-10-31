@@ -128,13 +128,13 @@ export default function StudentProfile() {
 
       if (response.ok) {
         setIsEditing(false);
-        alert("تم حفظ الملف الشخصي بنجاح");
+        alert(t("profilePage.profileSaveSuccess"));
       } else {
-        alert("حدث خطأ في حفظ الملف الشخصي");
+        alert(t("profilePage.profileSaveError"));
       }
     } catch (error) {
       console.error("Error saving profile:", error);
-      alert("حدث خطأ في حفظ الملف الشخصي");
+      alert(t("profilePage.profileSaveError"));
     } finally {
       setSaving(false);
     }
@@ -162,7 +162,7 @@ export default function StudentProfile() {
         <StudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل الملف الشخصي...</p>
+          <p>{t("profilePage.loadingProfile")}</p>
         </div>
       </div>
     );
@@ -170,18 +170,18 @@ export default function StudentProfile() {
 
   const getGradeLabel = (grade: string) => {
     const gradeLabels: { [key: string]: string } = {
-      primary_1: "الصف الأول الابتدائي",
-      primary_2: "الصف الثاني الابتدائي",
-      primary_3: "الصف الثالث الابتدائي",
-      primary_4: "الصف الرابع الابتدائي",
-      primary_5: "الصف الخامس الابتدائي",
-      primary_6: "الصف السادس الابتدائي",
-      prep_1: "الصف الأول الإعدادي",
-      prep_2: "الصف الثاني الإعدادي",
-      prep_3: "الصف الثالث الإعدادي",
-      secondary_1: "الصف الأول الثانوي",
-      secondary_2: "الصف الثاني الثانوي",
-      secondary_3: "الصف الثالث الثانوي",
+      primary_1: t("grades.primary_1"),
+      primary_2: t("grades.primary_2"),
+      primary_3: t("grades.primary_3"),
+      primary_4: t("grades.primary_4"),
+      primary_5: t("grades.primary_5"),
+      primary_6: t("grades.primary_6"),
+      prep_1: t("grades.prep_1"),
+      prep_2: t("grades.prep_2"),
+      prep_3: t("grades.prep_3"),
+      secondary_1: t("grades.secondary_1"),
+      secondary_2: t("grades.secondary_2"),
+      secondary_3: t("grades.secondary_3"),
     };
     return gradeLabels[grade] || grade;
   };
@@ -203,11 +203,11 @@ export default function StudentProfile() {
                 {user?.first_name} {user?.last_name}
               </h1>
               <p className={styles.profileTitle}>
-                {getGradeLabel(profile.grade)} • منصة Edvance
+                {getGradeLabel(profile.grade)} • {t("profilePage.platform")} {t("common.edvance")}
               </p>
               <div className={styles.profileMeta}>
                 <span>
-                  <FaMapMarkerAlt /> مصر
+                  <FaMapMarkerAlt /> {t("profilePage.egypt")}
                 </span>
                 <span>
                   <FaEnvelope /> {user?.email}
@@ -224,7 +224,7 @@ export default function StudentProfile() {
                     className={styles.editButton}
                     onClick={() => setIsEditing(true)}
                   >
-                    <FaEdit /> تعديل الملف الشخصي
+                    <FaEdit /> {t("profilePage.editProfile")}
                   </button>
                 ) : (
                   <>
@@ -233,13 +233,13 @@ export default function StudentProfile() {
                       onClick={handleSaveProfile}
                       disabled={saving}
                     >
-                      <FaSave /> {saving ? "جاري الحفظ..." : "حفظ التغييرات"}
+                      <FaSave /> {saving ? t("profilePage.saving") : t("profilePage.saveChanges")}
                     </button>
                     <button
                       className={styles.cancelButton}
                       onClick={() => setIsEditing(false)}
                     >
-                      <FaTimes /> إلغاء
+                      <FaTimes /> {t("profilePage.cancel")}
                     </button>
                   </>
                 )}
@@ -253,39 +253,39 @@ export default function StudentProfile() {
           {/* Grade Section */}
           <div className={styles.section}>
             <h2>
-              <FaGraduationCap /> المرحلة الدراسية
+              <FaGraduationCap /> {t("profilePage.gradeLevel")}
             </h2>
             {isEditing ? (
               <select
                 className={styles.input}
-                value={getGradeLabel(profile.grade)}
+                value={profile.grade}
                 onChange={(e) =>
                   setProfile({ ...profile, grade: e.target.value })
                 }
               >
-                <option value="">اختر المرحلة الدراسية</option>
-                <option value="primary_1">الصف الأول الابتدائي</option>
-                <option value="primary_2">الصف الثاني الابتدائي</option>
-                <option value="primary_3">الصف الثالث الابتدائي</option>
-                <option value="primary_4">الصف الرابع الابتدائي</option>
-                <option value="primary_5">الصف الخامس الابتدائي</option>
-                <option value="primary_6">الصف السادس الابتدائي</option>
-                <option value="preparatory_1">الصف الأول الإعدادي</option>
-                <option value="preparatory_2">الصف الثاني الإعدادي</option>
-                <option value="preparatory_3">الصف الثالث الإعدادي</option>
-                <option value="secondary_1">الصف الأول الثانوي</option>
-                <option value="secondary_2">الصف الثاني الثانوي</option>
-                <option value="secondary_3">الصف الثالث الثانوي</option>
+                <option value="">{t("grades.selectGrade")}</option>
+                <option value="primary_1">{t("grades.primary_1")}</option>
+                <option value="primary_2">{t("grades.primary_2")}</option>
+                <option value="primary_3">{t("grades.primary_3")}</option>
+                <option value="primary_4">{t("grades.primary_4")}</option>
+                <option value="primary_5">{t("grades.primary_5")}</option>
+                <option value="primary_6">{t("grades.primary_6")}</option>
+                <option value="prep_1">{t("grades.prep_1")}</option>
+                <option value="prep_2">{t("grades.prep_2")}</option>
+                <option value="prep_3">{t("grades.prep_3")}</option>
+                <option value="secondary_1">{t("grades.secondary_1")}</option>
+                <option value="secondary_2">{t("grades.secondary_2")}</option>
+                <option value="secondary_3">{t("grades.secondary_3")}</option>
               </select>
             ) : (
-              <p>{getGradeLabel(profile.grade) || "لم يتم تحديد المرحلة الدراسية"}</p>
+              <p>{getGradeLabel(profile.grade) || t("profilePage.gradeNotSet")}</p>
             )}
           </div>
 
           {/* Birth Date Section */}
           <div className={styles.section}>
             <h2>
-              <FaCalendar /> تاريخ الميلاد
+              <FaCalendar /> {t("profilePage.birthDateLabel")}
             </h2>
             {isEditing ? (
               <input
@@ -304,7 +304,7 @@ export default function StudentProfile() {
                       month: "long",
                       day: "numeric",
                     })
-                  : "لم يتم التحديد"}
+                  : t("profilePage.notSet")}
               </p>
             )}
           </div>
@@ -312,13 +312,13 @@ export default function StudentProfile() {
           {/* Preferred Subjects Section */}
           <div className={styles.section}>
             <h2>
-              <FaBook /> المواد المفضلة
+              <FaBook /> {t("profilePage.preferredSubjects")}
             </h2>
             {isEditing && (
               <div className={styles.addItem}>
                 <input
                   className={styles.input}
-                  placeholder="أضف مادة..."
+                  placeholder={t("profilePage.addSubject")}
                   value={newSubject}
                   onChange={(e) => setNewSubject(e.target.value)}
                   onKeyPress={(e) =>
@@ -347,19 +347,19 @@ export default function StudentProfile() {
                 ))}
               </div>
             ) : (
-              <p>لم يتم إضافة مواد مفضلة بعد</p>
+              <p>{t("profilePage.noSubjectsAdded")}</p>
             )}
           </div>
 
           {/* Goal Section */}
           <div className={styles.section}>
             <h2>
-              <FaBullseye /> الهدف التعليمي
+              <FaBullseye /> {t("profilePage.learningGoal")}
             </h2>
             {isEditing ? (
               <textarea
                 className={styles.input}
-                placeholder="ما هو هدفك من التعليم؟"
+                placeholder={t("profilePage.goalPlaceholder")}
                 value={profile.goal || ""}
                 onChange={(e) =>
                   setProfile({ ...profile, goal: e.target.value })
@@ -367,7 +367,7 @@ export default function StudentProfile() {
                 rows={3}
               />
             ) : (
-              <p>{profile.goal || "لم يتم تحديد هدف بعد"}</p>
+              <p>{profile.goal || t("profilePage.noGoalSet")}</p>
             )}
           </div>
         </div>
