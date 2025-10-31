@@ -147,14 +147,14 @@ export default function StudentCourseView() {
 
         if (response.ok) {
           await fetchCourseData();
-          alert("تم التسجيل في الكورس بنجاح!");
+          alert(t("validation.enrollmentSuccess"));
         } else {
           const data = await response.json();
-          alert(data.message || "حدث خطأ في التسجيل");
+          alert(data.message || t("validation.enrollmentError"));
         }
       } catch (error) {
         console.error("Error enrolling:", error);
-        alert("حدث خطأ في التسجيل");
+        alert(t("validation.enrollmentError"));
       } finally {
         setEnrolling(false);
       }
@@ -185,7 +185,7 @@ export default function StudentCourseView() {
     return (
       <div className={styles.container}>
         <StudentNav />
-        <div className={styles.loader}>جاري التحميل...</div>
+        <div className={styles.loader}>{t("courseView.loading")}</div>
       </div>
     );
   }
@@ -198,7 +198,7 @@ export default function StudentCourseView() {
         {/* Header */}
         <div className={styles.header}>
           <button onClick={() => router.push('/student/dashboard')}>
-            <FaArrowRight /> رجوع
+            <FaArrowRight /> {t("courseView.back")}
           </button>
           <h1>{course?.title}</h1>
         </div>
@@ -208,37 +208,37 @@ export default function StudentCourseView() {
           <div className={styles.enrollmentBanner}>
             <div className={styles.bannerContent}>
               <div className={styles.bannerInfo}>
-                <h2>احصل على الوصول الكامل للكورس</h2>
-                <p>شاهد جميع الدروس وابدأ رحلة التعلم الآن</p>
+                <h2>{t("courseView.getFullAccess")}</h2>
+                <p>{t("courseView.watchAllLessons")}</p>
                 {course?.course_type === 'live' && course.is_full ? (
-                  <p className={styles.fullNotice}>عذراً، هذا الكورس مكتمل العدد</p>
+                  <p className={styles.fullNotice}>{t("courseView.courseFull")}</p>
                 ) : course?.course_type === 'live' && course.seats_left ? (
-                  <p className={styles.seatsNotice}>متبقي {course.seats_left} مقاعد فقط!</p>
+                  <p className={styles.seatsNotice}>{t("courseView.seatsLeft")} {course.seats_left} {t("courseView.seatsLeftSuffix")}</p>
                 ) : null}
               </div>
               <div className={styles.bannerActions}>
                 <div className={styles.priceInfo}>
                   {course?.original_price && course.original_price > course.price && (
-                    <span className={styles.originalPrice}>{course.original_price} جنيه</span>
+                    <span className={styles.originalPrice}>{course.original_price} {t("courseView.egp")}</span>
                   )}
-                  <span className={styles.currentPrice}>{course?.price} جنيه</span>
+                  <span className={styles.currentPrice}>{course?.price} {t("courseView.egp")}</span>
                 </div>
-                <button 
+                <button
                   className={styles.enrollButton}
                   onClick={handleEnroll}
                   disabled={enrolling || (course?.course_type === 'live' && course?.is_full)}
                 >
                   {enrolling ? (
-                    "جاري المعالجة..."
+                    t("courseView.processing")
                   ) : course?.price === 0 ? (
                     <>
-                      <FaShoppingCart /> سجل مجاناً
+                      <FaShoppingCart /> {t("courseView.registerFree")}
                     </>
                   ) : course?.course_type === 'live' && course?.is_full ? (
-                    "مكتمل العدد"
+                    t("courseView.full")
                   ) : (
                     <>
-                      <FaCreditCard /> اشترك الآن
+                      <FaCreditCard /> {t("courseView.subscribeNow")}
                     </>
                   )}
                 </button>
@@ -280,23 +280,23 @@ export default function StudentCourseView() {
               <div className={styles.locked}>
                 {course?.is_enrolled? (
                   <>
-                    <h3>لا يوجد دروس حتي الآن</h3>
-                    <p>في حالة رفع أي درس جديد سيصلك أشعار علي البريد الألكتروني</p>
+                    <h3>{t("courseView.noLessons")}</h3>
+                    <p>{t("courseView.emailNotification")}</p>
                   </>
                 ):(<>
                   <FaLock />
-                  <h3>محتوى مغلق</h3>
-                  <p>يجب الاشتراك في الكورس لمشاهدة هذا الدرس</p>
+                  <h3>{t("courseView.lockedContent")}</h3>
+                  <p>{t("courseView.mustSubscribe")}</p>
                   </>
                 )}
-                
+
                 {!course?.is_enrolled && (
-                  <button 
+                  <button
                     className={styles.unlockButton}
                     onClick={handleEnroll}
                     disabled={enrolling || (course?.course_type === 'live' && course?.is_full)}
                   >
-                    {course?.price === 0 ? "سجل مجاناً" : "اشترك للمشاهدة"}
+                    {course?.price === 0 ? t("courseView.registerFree") : t("courseView.registerToWatch")}
                   </button>
                 )}
               </div>
@@ -305,11 +305,11 @@ export default function StudentCourseView() {
 
           {/* Lessons List */}
           <div className={styles.lessonsList}>
-            <h3>الدروس ({course?.lessons?.length || 0})</h3>
-            
+            <h3>{t("courseView.lessons")} ({course?.lessons?.length || 0})</h3>
+
             {course?.lessons?.map((lesson, index) => {
               const isAccessible = course.is_enrolled || lesson.is_preview;
-              
+
               return (
                 <div
                   key={lesson.id}
@@ -324,7 +324,7 @@ export default function StudentCourseView() {
                     <div className={styles.lessonMeta}>
                       <span><FaClock /> {lesson.duration}</span>
                       {lesson.is_preview && !course.is_enrolled && (
-                        <span className={styles.previewBadge}>معاينة مجانية</span>
+                        <span className={styles.previewBadge}>{t("courseView.freePreview")}</span>
                       )}
                     </div>
                   </div>
