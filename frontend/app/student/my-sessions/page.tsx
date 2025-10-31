@@ -56,7 +56,7 @@ export default function MySessionsPage() {
     return (
       <div className={styles.container}>
         <StudentNav />
-        <div className={styles.loader}>جاري التحميل...</div>
+        <div className={styles.loader}>{t("common.loading")}</div>
       </div>
     );
   }
@@ -64,14 +64,14 @@ export default function MySessionsPage() {
   return (
     <div className={styles.container}>
       <StudentNav />
-      
+
       <main className={styles.main}>
-        <h1>الجلسات المباشرة القادمة</h1>
-        
+        <h1>{t("student.upcomingLiveSessions")}</h1>
+
         {sessions.length === 0 ? (
           <div className={styles.noSessions}>
             <FaVideo />
-            <p>لا توجد جلسات مباشرة قادمة</p>
+            <p>{t("student.noUpcomingLiveSessions")}</p>
           </div>
         ) : (
           <div className={styles.sessionsGrid}>
@@ -87,7 +87,7 @@ export default function MySessionsPage() {
                   disabled={!session.can_join}
                   className={session.can_join ? styles.joinButton : styles.disabledButton}
                 >
-                  {session.can_join ? "انضم الآن" : "الجلسة غير متاحة بعد"}
+                  {session.can_join ? t("student.joinNowButton") : t("student.sessionNotAvailable")}
                 </button>
               </div>
             ))}
