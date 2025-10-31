@@ -45,24 +45,24 @@ export default function CompanyRegister() {
   const [error, setError] = useState("");
 
   const industries = [
-    "تكنولوجيا المعلومات",
-    "التصنيع",
-    "الخدمات المالية",
-    "الرعاية الصحية",
-    "التعليم",
-    "البيع بالتجزئة",
-    "العقارات",
-    "السياحة والضيافة",
-    "الاستشارات",
-    "أخرى",
+    { value: "it", label: t("companyRegister.industries.it") },
+    { value: "manufacturing", label: t("companyRegister.industries.manufacturing") },
+    { value: "finance", label: t("companyRegister.industries.finance") },
+    { value: "healthcare", label: t("companyRegister.industries.healthcare") },
+    { value: "education", label: t("companyRegister.industries.education") },
+    { value: "retail", label: t("companyRegister.industries.retail") },
+    { value: "realestate", label: t("companyRegister.industries.realestate") },
+    { value: "tourism", label: t("companyRegister.industries.tourism") },
+    { value: "consulting", label: t("companyRegister.industries.consulting") },
+    { value: "other", label: t("companyRegister.industries.other") },
   ];
 
   const companySizes = [
-    { value: "1-10", label: "1-10 موظفين" },
-    { value: "11-50", label: "11-50 موظف" },
-    { value: "51-200", label: "51-200 موظف" },
-    { value: "201-500", label: "201-500 موظف" },
-    { value: "500+", label: "أكثر من 500 موظف" },
+    { value: "1-10", label: t("companyRegister.sizes.1-10") },
+    { value: "11-50", label: t("companyRegister.sizes.11-50") },
+    { value: "51-200", label: t("companyRegister.sizes.51-200") },
+    { value: "201-500", label: t("companyRegister.sizes.201-500") },
+    { value: "500+", label: t("companyRegister.sizes.500+") },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -70,7 +70,7 @@ export default function CompanyRegister() {
     setError("");
 
     if (formData.password !== formData.confirmPassword) {
-      setError("كلمة المرور غير متطابقة");
+      setError(t("validation.passwordMismatch"));
       return;
     }
 
@@ -104,10 +104,10 @@ export default function CompanyRegister() {
       if (data.success) {
         router.push("/company/register-success");
       } else {
-        setError(data.message || "حدث خطأ في التسجيل");
+        setError(data.message || t("validation.registrationError"));
       }
     } catch {
-      setError("حدث خطأ في الاتصال بالخادم");
+      setError(t("validation.connectionError"));
     } finally {
       setLoading(false);
     }
@@ -118,8 +118,8 @@ export default function CompanyRegister() {
       <div className={styles.registerCard}>
         <div className={styles.header}>
           <FaBuilding className={styles.headerIcon} />
-          <h1>تسجيل شركة جديدة</h1>
-          <p>انضم إلى منصتنا للوصول إلى أفضل المواهب الجامعية</p>
+          <h1>{t("companyRegister.title")}</h1>
+          <p>{t("companyRegister.subtitle")}</p>
         </div>
 
         {error && (
@@ -130,10 +130,10 @@ export default function CompanyRegister() {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.section}>
-            <h2>معلومات المسؤول</h2>
+            <h2>{t("companyRegister.adminInfo")}</h2>
             <div className={styles.formGrid}>
               <div className={styles.formGroup}>
-                <label>الاسم الأول</label>
+                <label>{t("companyRegister.firstName")}</label>
                 <div className={styles.inputWrapper}>
                   <FaUser className={styles.inputIcon} />
                   <input
@@ -147,7 +147,7 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>الاسم الأخير</label>
+                <label>{t("companyRegister.lastName")}</label>
                 <div className={styles.inputWrapper}>
                   <FaUser className={styles.inputIcon} />
                   <input
@@ -193,7 +193,7 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>كلمة المرور</label>
+                <label>{t("companyRegister.password")}</label>
                 <div className={styles.inputWrapper}>
                   <FaLock className={styles.inputIcon} />
                   <input
@@ -209,7 +209,7 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>تأكيد كلمة المرور</label>
+                <label>{t("companyRegister.confirmPassword")}</label>
                 <div className={styles.inputWrapper}>
                   <FaLock className={styles.inputIcon} />
                   <input
@@ -226,10 +226,10 @@ export default function CompanyRegister() {
           </div>
 
           <div className={styles.section}>
-            <h2>معلومات الشركة</h2>
+            <h2>{t("companyRegister.companyInfo")}</h2>
             <div className={styles.formGrid}>
               <div className={styles.formGroup}>
-                <label>اسم الشركة</label>
+                <label>{t("companyRegister.companyName")}</label>
                 <div className={styles.inputWrapper}>
                   <FaBuilding className={styles.inputIcon} />
                   <input
@@ -244,7 +244,7 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>المجال</label>
+                <label>{t("companyRegister.industry")}</label>
                 <div className={styles.inputWrapper}>
                   <FaIndustry className={styles.inputIcon} />
                   <select
@@ -254,10 +254,10 @@ export default function CompanyRegister() {
                       setFormData({ ...formData, industry: e.target.value })
                     }
                   >
-                    <option value="">اختر المجال</option>
+                    <option value="">{t("companyRegister.selectIndustry")}</option>
                     {industries.map((industry) => (
-                      <option key={industry} value={industry}>
-                        {industry}
+                      <option key={industry.value} value={industry.value}>
+                        {industry.label}
                       </option>
                     ))}
                   </select>
@@ -265,7 +265,7 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>حجم الشركة</label>
+                <label>{t("companyRegister.companySize")}</label>
                 <div className={styles.inputWrapper}>
                   <FaUsers className={styles.inputIcon} />
                   <select
@@ -275,7 +275,7 @@ export default function CompanyRegister() {
                       setFormData({ ...formData, companySize: e.target.value })
                     }
                   >
-                    <option value="">اختر حجم الشركة</option>
+                    <option value="">{t("companyRegister.selectCompanySize")}</option>
                     {companySizes.map((size) => (
                       <option key={size.value} value={size.value}>
                         {size.label}
@@ -286,13 +286,13 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>الموقع</label>
+                <label>{t("companyRegister.location")}</label>
                 <div className={styles.inputWrapper}>
                   <FaMapMarkerAlt className={styles.inputIcon} />
                   <input
                     type="text"
                     required
-                    placeholder="القاهرة، مصر"
+                    placeholder={t("companyRegister.locationPlaceholder")}
                     value={formData.location}
                     onChange={(e) =>
                       setFormData({ ...formData, location: e.target.value })
@@ -302,12 +302,12 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>الموقع الإلكتروني</label>
+                <label>{t("companyRegister.website")}</label>
                 <div className={styles.inputWrapper}>
                   <FaGlobe className={styles.inputIcon} />
                   <input
                     type="url"
-                    placeholder="https://example.com"
+                    placeholder={t("companyRegister.websitePlaceholder")}
                     value={formData.website}
                     onChange={(e) =>
                       setFormData({ ...formData, website: e.target.value })
@@ -317,7 +317,7 @@ export default function CompanyRegister() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>رقم السجل التجاري (اختياري)</label>
+                <label>{t("companyRegister.registrationNumber")}</label>
                 <div className={styles.inputWrapper}>
                   <FaBuilding className={styles.inputIcon} />
                   <input
@@ -332,10 +332,10 @@ export default function CompanyRegister() {
             </div>
 
             <div className={styles.formGroup}>
-              <label>نبذة عن الشركة</label>
+              <label>{t("companyRegister.aboutCompany")}</label>
               <textarea
                 rows={4}
-                placeholder="اكتب نبذة مختصرة عن الشركة..."
+                placeholder={t("companyRegister.aboutPlaceholder")}
                 value={formData.description}
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
@@ -349,13 +349,13 @@ export default function CompanyRegister() {
             className={styles.submitButton}
             disabled={loading}
           >
-            {loading ? "جاري التسجيل..." : "إنشاء حساب الشركة"}
+            {loading ? t("companyRegister.creating") : t("companyRegister.createAccount")}
           </button>
 
           <div className={styles.loginPrompt}>
             <p>
-              لديك حساب بالفعل؟{" "}
-              <Link href="/login">تسجيل الدخول</Link>
+              {t("companyRegister.haveAccount")}{" "}
+              <Link href="/login">{t("auth.signIn")}</Link>
             </p>
           </div>
         </form>
