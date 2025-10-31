@@ -120,13 +120,13 @@ export default function ParentProfile() {
 
       if (response.ok) {
         setIsEditing(false);
-        alert("تم حفظ الملف الشخصي بنجاح");
+        alert(t("profilePage.profileSaveSuccess"));
       } else {
-        alert("حدث خطأ في حفظ الملف الشخصي");
+        alert(t("profilePage.profileSaveError"));
       }
     } catch (error) {
       console.error("Error saving profile:", error);
-      alert("حدث خطأ في حفظ الملف الشخصي");
+      alert(t("profilePage.profileSaveError"));
     } finally {
       setSaving(false);
     }
@@ -138,7 +138,7 @@ export default function ParentProfile() {
         <ParentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل الملف الشخصي...</p>
+          <p>{t("profilePage.loadingProfile")}</p>
         </div>
       </div>
     );
@@ -160,10 +160,10 @@ export default function ParentProfile() {
               <h1>
                 {user?.first_name} {user?.last_name}
               </h1>
-              <p className={styles.profileTitle}>ولي أمر • منصة Edvance</p>
+              <p className={styles.profileTitle}>{t("auth.parent")} • {t("profilePage.platform")} {t("common.edvance")}</p>
               <div className={styles.profileMeta}>
                 <span>
-                  <FaMapMarkerAlt /> مصر
+                  <FaMapMarkerAlt /> {t("profilePage.egypt")}
                 </span>
                 <span>
                   <FaEnvelope /> {user?.email}
@@ -180,7 +180,7 @@ export default function ParentProfile() {
                     className={styles.editButton}
                     onClick={() => setIsEditing(true)}
                   >
-                    <FaEdit /> تعديل الملف الشخصي
+                    <FaEdit /> {t("profilePage.editProfile")}
                   </button>
                 ) : (
                   <>
@@ -189,13 +189,13 @@ export default function ParentProfile() {
                       onClick={handleSaveProfile}
                       disabled={saving}
                     >
-                      <FaSave /> {saving ? "جاري الحفظ..." : "حفظ التغييرات"}
+                      <FaSave /> {saving ? t("profilePage.saving") : t("profilePage.saveChanges")}
                     </button>
                     <button
                       className={styles.cancelButton}
                       onClick={() => setIsEditing(false)}
                     >
-                      <FaTimes /> إلغاء
+                      <FaTimes /> {t("profilePage.cancel")}
                     </button>
                   </>
                 )}
@@ -205,7 +205,7 @@ export default function ParentProfile() {
               <div className={styles.profileStats}>
                 <div className={styles.statBox}>
                   <h3>{profile.children_count}</h3>
-                  <p>عدد الأبناء</p>
+                  <p>{t("signup.childrenCount")}</p>
                 </div>
               </div>
             )}
@@ -217,13 +217,13 @@ export default function ParentProfile() {
           {/* Children Count Section */}
           <div className={styles.section}>
             <h2>
-              <FaUsers /> عدد الأبناء
+              <FaUsers /> {t("signup.childrenCount")}
             </h2>
             {isEditing ? (
               <input
                 className={styles.input}
                 type="number"
-                placeholder="عدد الأبناء"
+                placeholder={t("signup.childrenCount")}
                 min="0"
                 value={profile.children_count || ""}
                 onChange={(e) =>
@@ -236,8 +236,8 @@ export default function ParentProfile() {
             ) : (
               <p>
                 {profile.children_count > 0
-                  ? `${profile.children_count} ${profile.children_count === 1 ? "ابن" : "أبناء"}`
-                  : "لم يتم التحديد"}
+                  ? `${profile.children_count}`
+                  : t("profilePage.notSet")}
               </p>
             )}
           </div>

@@ -144,13 +144,13 @@ export default function CompanyProfile() {
 
       if (response.ok) {
         setIsEditing(false);
-        alert("تم حفظ الملف الشخصي بنجاح");
+        alert(t("profilePage.profileSaveSuccess"));
       } else {
-        alert("حدث خطأ في حفظ الملف الشخصي");
+        alert(t("profilePage.profileSaveError"));
       }
     } catch (error) {
       console.error("Error saving profile:", error);
-      alert("حدث خطأ في حفظ الملف الشخصي");
+      alert(t("profilePage.profileSaveError"));
     } finally {
       setSaving(false);
     }
@@ -163,12 +163,12 @@ export default function CompanyProfile() {
     if (!file) return;
 
     if (!["image/jpeg", "image/png", "image/jpg", "image/gif"].includes(file.type)) {
-      alert("يرجى رفع ملف صورة (JPEG, PNG, GIF)");
+      alert(t("profilePage.uploadImageError"));
       return;
     }
 
     if (file.size > 2 * 1024 * 1024) {
-      alert("حجم الملف يجب أن يكون أقل من 2 ميجابايت");
+      alert(t("profilePage.imageSizeError"));
       return;
     }
 
@@ -197,11 +197,11 @@ export default function CompanyProfile() {
           logo_path: data.logo_path,
         });
       } else {
-        alert("حدث خطأ في رفع الشعار");
+        alert(t("profilePage.logoUploadError"));
       }
     } catch (error) {
       console.error("Error uploading logo:", error);
-      alert("حدث خطأ في رفع الشعار");
+      alert(t("profilePage.logoUploadError"));
     } finally {
       setUploadingLogo(false);
     }
@@ -251,7 +251,7 @@ export default function CompanyProfile() {
         <CompanyNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل الملف الشخصي...</p>
+          <p>{t("profilePage.loadingProfile")}</p>
         </div>
       </div>
     );
@@ -278,14 +278,14 @@ export default function CompanyProfile() {
             </div>
             <div className={styles.profileInfo}>
               <h1>
-                {profile.company_name || "اسم الشركة"}
+                {profile.company_name || t("profilePage.companyName")}
                 {profile.is_verified && (
-                  <span className={styles.verifiedBadge}>✓ موثق</span>
+                  <span className={styles.verifiedBadge}>✓ {t("profilePage.verified")}</span>
                 )}
               </h1>
               <p className={styles.profileTitle}>
-                {profile.industry || "الصناعة"} •{" "}
-                {profile.company_size || "حجم الشركة"}
+                {profile.industry || t("profilePage.industry")} •{" "}
+                {profile.company_size || t("profilePage.companySize")}
               </p>
               <div className={styles.profileMeta}>
                 {profile.location && (
@@ -308,7 +308,7 @@ export default function CompanyProfile() {
                     className={styles.editButton}
                     onClick={() => setIsEditing(true)}
                   >
-                    <FaEdit /> تعديل الملف الشخصي
+                    <FaEdit /> {t("profilePage.editProfile")}
                   </button>
                 ) : (
                   <>
@@ -317,13 +317,13 @@ export default function CompanyProfile() {
                       onClick={handleSaveProfile}
                       disabled={saving}
                     >
-                      <FaSave /> {saving ? "جاري الحفظ..." : "حفظ التغييرات"}
+                      <FaSave /> {saving ? t("profilePage.saving") : t("profilePage.saveChanges")}
                     </button>
                     <button
                       className={styles.cancelButton}
                       onClick={() => setIsEditing(false)}
                     >
-                      <FaTimes /> إلغاء
+                      <FaTimes /> {t("profilePage.cancel")}
                     </button>
                   </>
                 )}
@@ -332,12 +332,12 @@ export default function CompanyProfile() {
             <div className={styles.profileStats}>
               <div className={styles.statBox}>
                 <h3>{getProfileCompleteness()}%</h3>
-                <p>اكتمال الملف</p>
+                <p>{t("profilePage.profileCompleteness")}</p>
               </div>
               {profile.founded_year && (
                 <div className={styles.statBox}>
                   <h3>{profile.founded_year}</h3>
-                  <p>سنة التأسيس</p>
+                  <p>{t("profilePage.foundedYear")}</p>
                 </div>
               )}
             </div>
@@ -352,7 +352,7 @@ export default function CompanyProfile() {
             }`}
             onClick={() => setActiveTab("overview")}
           >
-            نظرة عامة
+            {t("profilePage.overview")}
           </button>
           <button
             className={`${styles.tab} ${
@@ -360,7 +360,7 @@ export default function CompanyProfile() {
             }`}
             onClick={() => setActiveTab("details")}
           >
-            التفاصيل
+            {t("profilePage.details")}
           </button>
         </div>
 
@@ -370,12 +370,12 @@ export default function CompanyProfile() {
             <div className={styles.overviewTab}>
               {/* Company Info Section */}
               <div className={styles.section}>
-                <h2>معلومات الشركة</h2>
+                <h2>{t("profilePage.companyInfo")}</h2>
                 {isEditing ? (
                   <div className={styles.companyForm}>
                     <input
                       className={styles.input}
-                      placeholder="اسم الشركة"
+                      placeholder={t("profilePage.companyName")}
                       value={profile.company_name || ""}
                       onChange={(e) =>
                         setProfile({ ...profile, company_name: e.target.value })
@@ -383,7 +383,7 @@ export default function CompanyProfile() {
                     />
                     <input
                       className={styles.input}
-                      placeholder="الصناعة"
+                      placeholder={t("profilePage.industry")}
                       value={profile.industry || ""}
                       onChange={(e) =>
                         setProfile({ ...profile, industry: e.target.value })
@@ -396,17 +396,17 @@ export default function CompanyProfile() {
                         setProfile({ ...profile, company_size: e.target.value })
                       }
                     >
-                      <option value="">اختر حجم الشركة</option>
-                      <option value="1-10">1-10 موظفين</option>
-                      <option value="11-50">11-50 موظف</option>
-                      <option value="51-200">51-200 موظف</option>
-                      <option value="201-500">201-500 موظف</option>
-                      <option value="501-1000">501-1000 موظف</option>
-                      <option value="1000+">أكثر من 1000 موظف</option>
+                      <option value="">{t("profilePage.selectCompanySize")}</option>
+                      <option value="1-10">{t("companyRegister.sizes.1-10")}</option>
+                      <option value="11-50">{t("companyRegister.sizes.11-50")}</option>
+                      <option value="51-200">{t("companyRegister.sizes.51-200")}</option>
+                      <option value="201-500">{t("companyRegister.sizes.201-500")}</option>
+                      <option value="501-1000">501-1000 {t("companyRegister.sizes.500+").split(" ")[1]}</option>
+                      <option value="1000+">{t("companyRegister.sizes.500+").replace("500", "1000")}</option>
                     </select>
                     <input
                       className={styles.input}
-                      placeholder="الموقع"
+                      placeholder={t("profilePage.location")}
                       value={profile.location || ""}
                       onChange={(e) =>
                         setProfile({ ...profile, location: e.target.value })
@@ -415,7 +415,7 @@ export default function CompanyProfile() {
                     <input
                       className={styles.input}
                       type="number"
-                      placeholder="سنة التأسيس"
+                      placeholder={t("profilePage.foundedYear")}
                       min="1800"
                       max={new Date().getFullYear()}
                       value={profile.founded_year || ""}
@@ -430,20 +430,20 @@ export default function CompanyProfile() {
                 ) : (
                   <div className={styles.companyInfo}>
                     <p>
-                      <FaIndustry /> الصناعة:{" "}
-                      {profile.industry || "لم يتم التحديد"}
+                      <FaIndustry /> {t("profilePage.industry")}:{" "}
+                      {profile.industry || t("profilePage.notSet")}
                     </p>
                     <p>
-                      <FaUsers /> حجم الشركة:{" "}
-                      {profile.company_size || "لم يتم التحديد"}
+                      <FaUsers /> {t("profilePage.companySize")}:{" "}
+                      {profile.company_size || t("profilePage.notSet")}
                     </p>
                     <p>
-                      <FaMapMarkerAlt /> الموقع:{" "}
-                      {profile.location || "لم يتم التحديد"}
+                      <FaMapMarkerAlt /> {t("profilePage.location")}:{" "}
+                      {profile.location || t("profilePage.notSet")}
                     </p>
                     <p>
-                      <FaCalendar /> سنة التأسيس:{" "}
-                      {profile.founded_year || "لم يتم التحديد"}
+                      <FaCalendar /> {t("profilePage.foundedYear")}:{" "}
+                      {profile.founded_year || t("profilePage.notSet")}
                     </p>
                   </div>
                 )}
@@ -451,11 +451,11 @@ export default function CompanyProfile() {
 
               {/* Description Section */}
               <div className={styles.section}>
-                <h2>نبذة عن الشركة</h2>
+                <h2>{t("profilePage.aboutCompany")}</h2>
                 {isEditing ? (
                   <textarea
                     className={styles.bioInput}
-                    placeholder="اكتب نبذة عن شركتك..."
+                    placeholder={t("profilePage.aboutPlaceholder")}
                     value={profile.description || ""}
                     onChange={(e) =>
                       setProfile({ ...profile, description: e.target.value })
@@ -464,30 +464,30 @@ export default function CompanyProfile() {
                   />
                 ) : (
                   <p className={styles.bio}>
-                    {profile.description || "لم يتم إضافة نبذة بعد"}
+                    {profile.description || t("profilePage.noAboutAdded")}
                   </p>
                 )}
               </div>
 
               {/* Logo Upload Section */}
               <div className={styles.section}>
-                <h2>شعار الشركة</h2>
+                <h2>{t("profilePage.companyLogo")}</h2>
                 <div className={styles.logoSection}>
                   {profile.logo_path ? (
                     <div className={styles.logoUploaded}>
                       <img
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${profile.logo_path}`}
-                        alt="شعار الشركة"
+                        alt={t("profilePage.companyLogo")}
                         className={styles.logoPreview}
                       />
                       <div className={styles.logoInfo}>
-                        <p>شعار الشركة</p>
+                        <p>{t("profilePage.companyLogo")}</p>
                         {isEditing && (
                           <button
                             className={styles.replaceButton}
                             onClick={() => logoInputRef.current?.click()}
                           >
-                            <FaUpload /> استبدال
+                            <FaUpload /> {t("profilePage.replace")}
                           </button>
                         )}
                       </div>
@@ -495,14 +495,14 @@ export default function CompanyProfile() {
                   ) : (
                     <div className={styles.logoUpload}>
                       <FaUpload className={styles.uploadIcon} />
-                      <p>لم يتم رفع شعار بعد</p>
+                      <p>{t("profilePage.noLogoUploaded")}</p>
                       {isEditing && (
                         <button
                           className={styles.uploadButton}
                           onClick={() => logoInputRef.current?.click()}
                           disabled={uploadingLogo}
                         >
-                          {uploadingLogo ? "جاري الرفع..." : "رفع الشعار"}
+                          {uploadingLogo ? t("profilePage.uploading") : t("profilePage.uploadLogo")}
                         </button>
                       )}
                     </div>
@@ -519,7 +519,7 @@ export default function CompanyProfile() {
 
               {/* Social Links */}
               <div className={styles.section}>
-                <h2>روابط التواصل</h2>
+                <h2>{t("profilePage.socialLinks")}</h2>
                 <div className={styles.socialLinks}>
                   {isEditing ? (
                     <>
@@ -527,7 +527,7 @@ export default function CompanyProfile() {
                         <FaGlobe />
                         <input
                           type="url"
-                          placeholder="رابط الموقع الإلكتروني"
+                          placeholder={t("profilePage.websitePlaceholder")}
                           value={profile.website || ""}
                           onChange={(e) =>
                             setProfile({ ...profile, website: e.target.value })
@@ -538,7 +538,7 @@ export default function CompanyProfile() {
                         <FaLinkedin />
                         <input
                           type="url"
-                          placeholder="رابط LinkedIn"
+                          placeholder={t("profilePage.linkedinPlaceholder")}
                           value={profile.linkedin_url || ""}
                           onChange={(e) =>
                             setProfile({
@@ -558,7 +558,7 @@ export default function CompanyProfile() {
                           rel="noopener noreferrer"
                           className={styles.socialButton}
                         >
-                          <FaGlobe /> الموقع الإلكتروني
+                          <FaGlobe /> {t("profilePage.website")}
                         </a>
                       )}
                       {profile.linkedin_url && (
@@ -572,7 +572,7 @@ export default function CompanyProfile() {
                         </a>
                       )}
                       {!profile.website && !profile.linkedin_url && (
-                        <p>لم يتم إضافة روابط بعد</p>
+                        <p>{t("profilePage.noLinksAdded")}</p>
                       )}
                     </div>
                   )}
@@ -585,12 +585,12 @@ export default function CompanyProfile() {
             <div className={styles.detailsTab}>
               {/* Benefits Section */}
               <div className={styles.section}>
-                <h2>المزايا والفوائد</h2>
+                <h2>{t("profilePage.benefits")}</h2>
                 {isEditing && (
                   <div className={styles.addItem}>
                     <input
                       className={styles.input}
-                      placeholder="أضف ميزة..."
+                      placeholder={t("profilePage.addBenefit")}
                       value={newBenefit}
                       onChange={(e) => setNewBenefit(e.target.value)}
                       onKeyPress={(e) =>
@@ -622,17 +622,17 @@ export default function CompanyProfile() {
                     ))}
                   </div>
                 ) : (
-                  <p>لم يتم إضافة مزايا بعد</p>
+                  <p>{t("profilePage.noBenefitsAdded")}</p>
                 )}
               </div>
 
               {/* Registration Info */}
               <div className={styles.section}>
-                <h2>معلومات التسجيل</h2>
+                <h2>{t("profilePage.registrationInfo")}</h2>
                 {isEditing ? (
                   <input
                     className={styles.input}
-                    placeholder="رقم التسجيل"
+                    placeholder={t("profilePage.registrationNumber")}
                     value={profile.registration_number || ""}
                     onChange={(e) =>
                       setProfile({
@@ -643,8 +643,8 @@ export default function CompanyProfile() {
                   />
                 ) : (
                   <p>
-                    رقم التسجيل:{" "}
-                    {profile.registration_number || "لم يتم التحديد"}
+                    {t("profilePage.registrationNumber")}:{" "}
+                    {profile.registration_number || t("profilePage.notSet")}
                   </p>
                 )}
               </div>
