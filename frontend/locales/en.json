@@ -424,7 +424,7 @@
     "newJob": "New Job",
     "postNewJob": "Post New Job",
     "newApplications": "New Applications",
-    "shortlistedCandidates": "Shortlisted Candidates",
+    "shortlistedCandidates": "Shortlisted",
     "interviewsScheduled": "Interviews Scheduled",
     "recentApplications": "Recent Applications",
     "job": "Job",
@@ -779,7 +779,6 @@
     "editProfile": "Edit Profile",
     "publicProfile": "Public Profile",
     "privateProfile": "Private Profile",
-    "profileCompleteness": "Profile Completeness",
     "yearOfStudy": "Year of Study",
     "cumulativeGPA": "Cumulative GPA",
     "lookingForWork": "Looking for work or training opportunities",
@@ -881,7 +880,16 @@
     "sendApplication": "Send Application",
     "applicationSent": "Application sent successfully!",
     "applicationError": "Error sending application",
-    "coverLetterMinLength": "Cover letter must be at least 50 characters"
+    "coverLetterMinLength": "Cover letter must be at least 50 characters",
+    "showDetails": "Show Details",
+    "status": {
+      "pending": "Pending",
+      "reviewing": "Under Review",
+      "shortlisted": "Shortlisted",
+      "interviewed": "Interviewed",
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    }
   },
   "parent": {
     "dashboard": "Parent Dashboard",
@@ -1426,7 +1434,11 @@
     "prep_3": "Third Grade Preparatory",
     "secondary_1": "First Grade Secondary",
     "secondary_2": "Second Grade Secondary",
-    "secondary_3": "Third Grade Secondary"
+    "secondary_3": "Third Grade Secondary",
+    "selectGrade": "Select grade",
+    "primary": "Primary",
+    "preparatory": "Preparatory",
+    "secondary": "Secondary"
   },
   "categories": {
     "arabic": "Arabic Language",
@@ -1462,12 +1474,6 @@
     "enrollmentError": "Error enrolling in course",
     "registrationError": "Registration error occurred",
     "connectionError": "Connection error occurred"
-  },
-  "grades": {
-    "selectGrade": "Select grade",
-    "primary": "Primary",
-    "preparatory": "Preparatory",
-    "secondary": "Secondary"
   },
   "subjects": {
     "selectSubject": "Select subject",
@@ -1715,7 +1721,6 @@
     "learnNew": "Learn new skills",
     "homeworkHelp": "Get help with homework",
     "academicSpecialization": "Academic Specialization",
-    "chooseSpecialization": "Choose your specialization",
     "engineering": "Engineering",
     "medicine": "Medicine",
     "sciences": "Sciences",

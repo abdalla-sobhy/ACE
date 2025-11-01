@@ -299,7 +299,7 @@ export default function MyApplications() {
                     style={{ backgroundColor: application.status_color + "20", color: application.status_color }}
                   >
                     {getStatusIcon(application.status)}
-                    <span>{application.status_label}</span>
+                    <span>{t(`universityStudent.status.${application.status}`)}</span>
                   </div>
                 </div>
 
@@ -345,7 +345,7 @@ export default function MyApplications() {
                     className={styles.detailsButton}
                     onClick={() => setSelectedApplication(application)}
                   >
-                    عرض التفاصيل
+                    {t("universityStudent.showDetails")}
                   </button>
                   {["pending", "reviewing"].includes(application.status) && (
                     <button

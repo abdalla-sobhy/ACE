@@ -202,7 +202,7 @@ export default function CompanyDashboard() {
             </div>
             <div className={styles.statContent}>
               <h3>{stats.interviews_scheduled}</h3>
-              <p>{t("company.interviewsScheduled")}</p>
+              <p className="whitespace-nowrap">{t("company.interviewsScheduled")}</p>
             </div>
           </div>
         </div>
