@@ -990,8 +990,8 @@ const handleRemoveCertification = (index: number) => {
                       <FaGraduationCap />{" "}
                       {profile.faculty || "لم يتم تحديد الكلية"}
                     </p>
-                    <p>{t("universityStudent.yearOfStudy"): {profile.year_of_study || "-"}</p>
-                    <p>{t("universityStudent.cumulativeGPA"): {profile.gpa || "-"}/4.0</p>
+                    <p>{t("universityStudent.yearOfStudy")}: {profile.year_of_study || "-"}</p>
+                    <p>{t("universityStudent.cumulativeGPA")}: {profile.gpa || "-"}/4.0</p>
                   </div>
                 )}
               </div>
