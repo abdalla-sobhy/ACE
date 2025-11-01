@@ -170,11 +170,11 @@ export default function ApplicationDetailsPage() {
 
         setApplication(data.application);
       } else {
-        setError("فشل في تحميل بيانات الطلب");
+        setError(t("companyApplications.loadError"));
       }
     } catch (error) {
       console.error("Error fetching application details:", error);
-      setError("حدث خطأ أثناء تحميل البيانات");
+      setError(t("companyApplications.loadError"));
     } finally {
       setLoading(false);
     }
@@ -200,7 +200,7 @@ export default function ApplicationDetailsPage() {
 
       if (selectedStatus === "interviewed") {
         if (!interviewDate || !interviewLocation) {
-          alert("يرجى إدخال تاريخ ومكان المقابلة");
+          alert(t("companyApplications.interviewDetailsRequired"));
           return;
         }
         payload.interview_date = interviewDate;
@@ -230,11 +230,11 @@ export default function ApplicationDetailsPage() {
         setInterviewNotes("");
         fetchApplicationDetails();
       } else {
-        alert("فشل في تحديث حالة الطلب");
+        alert(t("companyApplications.statusUpdateError"));
       }
     } catch (error) {
       console.error("Error updating status:", error);
-      alert("حدث خطأ أثناء تحديث الحالة");
+      alert(t("companyApplications.statusUpdateError"));
     } finally {
       setUpdating(false);
     }
@@ -296,41 +296,41 @@ export default function ApplicationDetailsPage() {
 
   const getStatusLabel = (status: string) => {
     const labels: { [key: string]: string } = {
-      pending: "قيد الانتظار",
-      reviewing: "قيد المراجعة",
-      shortlisted: "مرشح مبدئياً",
-      interviewed: "تمت المقابلة",
-      accepted: "مقبول",
-      rejected: "مرفوض",
+      pending: t("companyApplications.pending"),
+      reviewing: t("companyApplications.reviewing"),
+      shortlisted: t("companyApplications.shortlisted"),
+      interviewed: t("companyApplications.interviewed"),
+      accepted: t("companyApplications.accepted"),
+      rejected: t("companyApplications.rejected"),
     };
     return labels[status] || status;
   };
 
   const getJobTypeLabel = (type: string) => {
     const labels: { [key: string]: string } = {
-      full_time: "دوام كامل",
-      part_time: "دوام جزئي",
-      internship: "تدريب",
-      contract: "عقد",
+      full_time: t("companyJobs.fullTime"),
+      part_time: t("companyJobs.partTime"),
+      internship: t("companyJobs.internship"),
+      contract: t("companyJobs.contract"),
     };
     return labels[type] || type;
   };
 
   const getWorkLocationLabel = (location: string) => {
     const labels: { [key: string]: string } = {
-      onsite: "حضوري",
-      remote: "عن بعد",
-      hybrid: "مختلط",
+      onsite: t("companyJobs.onsite"),
+      remote: t("companyJobs.remote"),
+      hybrid: t("companyJobs.hybrid"),
     };
     return labels[location] || location;
   };
 
   const getExperienceLevelLabel = (level: string) => {
     const labels: { [key: string]: string } = {
-      entry: "مبتدئ",
-      junior: "متوسط",
-      mid: "متقدم",
-      senior: "خبير",
+      entry: t("companyJobs.entry"),
+      junior: t("companyJobs.junior"),
+      mid: t("companyJobs.mid"),
+      senior: t("companyJobs.senior"),
     };
     return labels[level] || level;
   };
@@ -341,7 +341,7 @@ export default function ApplicationDetailsPage() {
         <CompanyNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل البيانات...</p>
+          <p>{t("common.loading")}</p>
         </div>
       </div>
     );
@@ -352,9 +352,9 @@ export default function ApplicationDetailsPage() {
       <div className={styles.container}>
         <CompanyNav />
         <div className={styles.errorContainer}>
-          <p>{error || "الطلب غير موجود"}</p>
+          <p>{error || t("companyApplications.loadError")}</p>
           <Link href="/company/dashboard" className={styles.backButton}>
-            العودة للوحة التحكم
+            {t("companyApplications.backToDashboard")}
           </Link>
         </div>
       </div>
@@ -368,7 +368,7 @@ export default function ApplicationDetailsPage() {
       <main className={styles.main}>
         <div className={styles.header}>
           <Link href="/company/dashboard" className={styles.backLink}>
-            <FaArrowRight /> العودة
+            <FaArrowRight /> {t("common.back")}
           </Link>
           <div className={styles.headerActions}>
             <button
@@ -378,7 +378,7 @@ export default function ApplicationDetailsPage() {
               }`}
             >
               {application.is_favorite ? <FaStar /> : <FaRegStar />}
-              {application.is_favorite ? "إزالة من المفضلة" : "إضافة للمفضلة"}
+              {application.is_favorite ? t("companyApplications.removeFromFavorites") : t("companyApplications.addToFavorites")}
             </button>
           </div>
         </div>
@@ -389,7 +389,7 @@ export default function ApplicationDetailsPage() {
             {/* Student Card */}
             <div className={styles.card}>
               <div className={styles.cardHeader}>
-                <h2>معلومات المتقدم</h2>
+                <h2>{t("companyApplications.applicantInfo")}</h2>
               </div>
               <div className={styles.cardContent}>
                 <div className={styles.studentInfo}>
@@ -423,20 +423,20 @@ export default function ApplicationDetailsPage() {
                     {application.student.year_of_study && (
                       <div className={styles.infoItem}>
                         <FaClock />
-                        <span>السنة {application.student.year_of_study}</span>
+                        <span>{t("companyApplications.year")} {application.student.year_of_study}</span>
                       </div>
                     )}
                     {application.student.gpa && (
                       <div className={styles.infoItem}>
                         <FaCheckCircle />
-                        <span>المعدل: {application.student.gpa}</span>
+                        <span>{t("companyApplications.gpa")} {application.student.gpa}</span>
                       </div>
                     )}
                   </div>
 
                   {application.student.bio && (
                     <div className={styles.bioSection}>
-                      <h4>نبذة تعريفية</h4>
+                      <h4>{t("companyApplications.bio")}</h4>
                       <p>{application.student.bio}</p>
                     </div>
                   )}
@@ -479,7 +479,7 @@ export default function ApplicationDetailsPage() {
                       onClick={handleDownloadCV}
                       className={styles.downloadButton}
                     >
-                      <FaDownload /> تحميل السيرة الذاتية
+                      <FaDownload /> {t("companyApplications.downloadCV")}
                     </button>
                   )}
                 </div>
@@ -490,7 +490,7 @@ export default function ApplicationDetailsPage() {
             {application.student.skills && application.student.skills.length > 0 && (
               <div className={styles.card}>
                 <div className={styles.cardHeader}>
-                  <h3>المهارات</h3>
+                  <h3>{t("companyApplications.skills")}</h3>
                 </div>
                 <div className={styles.cardContent}>
                   <div className={styles.skillsGrid}>
@@ -508,7 +508,7 @@ export default function ApplicationDetailsPage() {
             {application.student.languages && application.student.languages.length > 0 && (
               <div className={styles.card}>
                 <div className={styles.cardHeader}>
-                  <h3>اللغات</h3>
+                  <h3>{t("companyApplications.languages")}</h3>
                 </div>
                 <div className={styles.cardContent}>
                   <div className={styles.languagesList}>
@@ -529,7 +529,7 @@ export default function ApplicationDetailsPage() {
             {application.student.experience && application.student.experience.length > 0 && (
               <div className={styles.card}>
                 <div className={styles.cardHeader}>
-                  <h3>الخبرة العملية</h3>
+                  <h3>{t("companyApplications.experience")}</h3>
                 </div>
                 <div className={styles.cardContent}>
                   <div className={styles.experienceList}>
@@ -550,7 +550,7 @@ export default function ApplicationDetailsPage() {
             {application.student.projects && application.student.projects.length > 0 && (
               <div className={styles.card}>
                 <div className={styles.cardHeader}>
-                  <h3>المشاريع</h3>
+                  <h3>{t("companyApplications.projects")}</h3>
                 </div>
                 <div className={styles.cardContent}>
                   <div className={styles.projectsList}>
@@ -565,7 +565,7 @@ export default function ApplicationDetailsPage() {
                             rel="noopener noreferrer"
                             className={styles.projectLink}
                           >
-                            عرض المشروع
+                            {t("companyApplications.viewProject")}
                           </a>
                         )}
                       </div>
@@ -580,7 +580,7 @@ export default function ApplicationDetailsPage() {
               application.student.certifications.length > 0 && (
                 <div className={styles.card}>
                   <div className={styles.cardHeader}>
-                    <h3>الشهادات</h3>
+                    <h3>{t("companyApplications.certifications")}</h3>
                   </div>
                   <div className={styles.cardContent}>
                     <div className={styles.certificationsList}>
@@ -602,7 +602,7 @@ export default function ApplicationDetailsPage() {
             {/* Status Card */}
             <div className={styles.card}>
               <div className={styles.cardHeader}>
-                <h3>حالة الطلب</h3>
+                <h3>{t("companyApplications.applicationStatus")}</h3>
               </div>
               <div className={styles.cardContent}>
                 <div className={styles.statusInfo}>
@@ -617,12 +617,12 @@ export default function ApplicationDetailsPage() {
                     onClick={() => setShowStatusModal(true)}
                     className={styles.updateStatusButton}
                   >
-                    تحديث الحالة
+                    {t("companyApplications.updateStatus")}
                   </button>
 
                   <div className={styles.statusMetadata}>
                     <div className={styles.metadataItem}>
-                      <strong>تاريخ التقديم:</strong>
+                      <strong>{t("companyApplications.applicationDate")}</strong>
                       <span>
                         {new Date(application.created_at).toLocaleDateString(
                           "ar-EG",
@@ -636,7 +636,7 @@ export default function ApplicationDetailsPage() {
                     </div>
                     {application.viewed_at && (
                       <div className={styles.metadataItem}>
-                        <strong>تاريخ الاطلاع:</strong>
+                        <strong>{t("companyApplications.viewedDate")}</strong>
                         <span>
                           {new Date(application.viewed_at).toLocaleDateString(
                             "ar-EG"
@@ -653,7 +653,7 @@ export default function ApplicationDetailsPage() {
             {application.interview_date && (
               <div className={styles.card}>
                 <div className={styles.cardHeader}>
-                  <h3>تفاصيل المقابلة</h3>
+                  <h3>{t("companyApplications.interviewDetails")}</h3>
                 </div>
                 <div className={styles.cardContent}>
                   <div className={styles.interviewDetails}>
@@ -680,7 +680,7 @@ export default function ApplicationDetailsPage() {
                     )}
                     {application.interview_notes && (
                       <div className={styles.notesSection}>
-                        <strong>ملاحظات:</strong>
+                        <strong>{t("companyApplications.notes")}</strong>
                         <p>{application.interview_notes}</p>
                       </div>
                     )}
@@ -727,7 +727,7 @@ export default function ApplicationDetailsPage() {
             {/* Cover Letter */}
             <div className={styles.card}>
               <div className={styles.cardHeader}>
-                <h3>رسالة التقديم</h3>
+                <h3>{t("companyApplications.coverLetter")}</h3>
               </div>
               <div className={styles.cardContent}>
                 <div className={styles.coverLetter}>
@@ -740,7 +740,7 @@ export default function ApplicationDetailsPage() {
             {application.status_history && application.status_history.length > 0 && (
               <div className={styles.card}>
                 <div className={styles.cardHeader}>
-                  <h3>سجل الحالات</h3>
+                  <h3>{t("companyApplications.statusHistory")}</h3>
                 </div>
                 <div className={styles.cardContent}>
                   <div className={styles.statusHistory}>
@@ -766,7 +766,7 @@ export default function ApplicationDetailsPage() {
             {application.company_notes && (
               <div className={styles.card}>
                 <div className={styles.cardHeader}>
-                  <h3>ملاحظات الشركة</h3>
+                  <h3>{t("companyApplications.companyNotes")}</h3>
                 </div>
                 <div className={styles.cardContent}>
                   <div className={styles.companyNotes}>
@@ -784,7 +784,7 @@ export default function ApplicationDetailsPage() {
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
-              <h3>تحديث حالة الطلب</h3>
+              <h3>{t("companyApplications.updateApplicationStatus")}</h3>
               <button
                 onClick={() => setShowStatusModal(false)}
                 className={styles.closeButton}
@@ -794,25 +794,25 @@ export default function ApplicationDetailsPage() {
             </div>
             <div className={styles.modalContent}>
               <div className={styles.formGroup}>
-                <label>الحالة الجديدة</label>
+                <label>{t("companyApplications.newStatus")}</label>
                 <select
                   value={selectedStatus}
                   onChange={(e) => setSelectedStatus(e.target.value)}
                   className={styles.select}
                 >
-                  <option value="">اختر الحالة</option>
-                  <option value="reviewing">قيد المراجعة</option>
-                  <option value="shortlisted">مرشح مبدئياً</option>
-                  <option value="interviewed">تمت المقابلة</option>
-                  <option value="accepted">مقبول</option>
-                  <option value="rejected">مرفوض</option>
+                  <option value="">{t("companyApplications.selectStatus")}</option>
+                  <option value="reviewing">{t("companyApplications.reviewing")}</option>
+                  <option value="shortlisted">{t("companyApplications.shortlisted")}</option>
+                  <option value="interviewed">{t("companyApplications.interviewed")}</option>
+                  <option value="accepted">{t("companyApplications.accepted")}</option>
+                  <option value="rejected">{t("companyApplications.rejected")}</option>
                 </select>
               </div>
 
               {selectedStatus === "interviewed" && (
                 <>
                   <div className={styles.formGroup}>
-                    <label>تاريخ ووقت المقابلة</label>
+                    <label>{t("companyApplications.interviewDateTime")}</label>
                     <input
                       type="datetime-local"
                       value={interviewDate}
@@ -821,22 +821,22 @@ export default function ApplicationDetailsPage() {
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label>مكان المقابلة</label>
+                    <label>{t("companyApplications.interviewLocation")}</label>
                     <input
                       type="text"
                       value={interviewLocation}
                       onChange={(e) => setInterviewLocation(e.target.value)}
                       className={styles.input}
-                      placeholder="مثال: المكتب الرئيسي - الدور الثاني"
+                      placeholder={t("companyApplications.interviewLocationPlaceholder")}
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label>ملاحظات المقابلة (اختياري)</label>
+                    <label>{t("companyApplications.interviewNotes")}</label>
                     <textarea
                       value={interviewNotes}
                       onChange={(e) => setInterviewNotes(e.target.value)}
                       className={styles.textarea}
-                      placeholder="أي ملاحظات إضافية..."
+                      placeholder={t("companyApplications.interviewNotesPlaceholder")}
                       rows={3}
                     />
                   </div>
@@ -844,12 +844,12 @@ export default function ApplicationDetailsPage() {
               )}
 
               <div className={styles.formGroup}>
-                <label>ملاحظات (اختياري)</label>
+                <label>{t("companyApplications.notesOptional")}</label>
                 <textarea
                   value={statusNotes}
                   onChange={(e) => setStatusNotes(e.target.value)}
                   className={styles.textarea}
-                  placeholder="أضف ملاحظاتك هنا..."
+                  placeholder={t("companyApplications.addNotesPlaceholder")}
                   rows={4}
                 />
               </div>
@@ -866,7 +866,7 @@ export default function ApplicationDetailsPage() {
                   onClick={() => setShowStatusModal(false)}
                   className={styles.cancelButton}
                 >
-                  إلغاء
+                  {t("common.cancel")}
                 </button>
               </div>
             </div>
