@@ -567,7 +567,7 @@ const handleRemoveCertification = (index: number) => {
                   />
                 ) : (
                   <p className={styles.bio}>
-                    {profile.bio || {t("universityStudent.notAddedYet")}
+                    {profile.bio || t("universityStudent.notAddedYet")}
                   </p>
                 )}
               </div>
