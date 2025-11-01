@@ -299,14 +299,14 @@ export default function JobDetailsPage() {
                   </div>
                 ) : job.is_expired ? (
                   <div className={styles.expiredStatus}>
-                    t("universityStudent.applicationPeriodEnded")
+                    {t("universityStudent.applicationPeriodEnded")}
                   </div>
                 ) : (
                   <button
                     className={styles.applyButton}
                     onClick={() => setShowApplicationForm(true)}
                   >
-                    t("universityStudent.submitApplication")
+                    {t("universityStudent.submitApplication")}
                   </button>
                 )}
               </div>
