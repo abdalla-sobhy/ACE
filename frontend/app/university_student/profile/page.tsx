@@ -745,7 +745,7 @@ const handleRemoveCertification = (index: number) => {
               {/* Experience Section */}
               <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                  <h2>{t("universityStudent.experience") العملية</h2>
+                  <h2>{t("universityStudent.workExperience")}</h2>
                   {isEditing && (
                     <button
                       className={styles.addButton}
