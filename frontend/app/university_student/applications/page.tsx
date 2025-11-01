@@ -189,7 +189,7 @@ export default function MyApplications() {
         <UniversityStudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>t("universityStudent.loadingApplications")</p>
+          <p>{t("universityStudent.loadingApplications")}</p>
         </div>
       </div>
     );
@@ -201,7 +201,7 @@ export default function MyApplications() {
 
       <main className={styles.main}>
         <div className={styles.header}>
-          <h1>t("universityStudent.myJobApplications")</h1>
+          <h1>{t("universityStudent.myJobApplications")}</h1>
           <Link href="/university_student/jobs" className={styles.browseButton}>
             <FaBriefcase /> تصفح الوظائف
           </Link>
@@ -216,7 +216,7 @@ export default function MyApplications() {
             onClick={() => setStatusFilter("all")}
           >
             <h3>{stats.total}</h3>
-            <p>t("universityStudent.totalApplications")</p>
+            <p>{t("universityStudent.totalApplications")}</p>
           </div>
           <div
             className={`${styles.statCard} ${
@@ -225,7 +225,7 @@ export default function MyApplications() {
             onClick={() => setStatusFilter("pending")}
           >
             <h3>{stats.pending}</h3>
-            <p>t("universityStudent.pending")</p>
+            <p>{t("universityStudent.pending")}</p>
           </div>
           <div
             className={`${styles.statCard} ${
@@ -234,7 +234,7 @@ export default function MyApplications() {
             onClick={() => setStatusFilter("shortlisted")}
           >
             <h3>{stats.shortlisted}</h3>
-            <p>t("universityStudent.shortlisted")</p>
+            <p>{t("universityStudent.shortlisted")}</p>
           </div>
           <div
             className={`${styles.statCard} ${
@@ -243,7 +243,7 @@ export default function MyApplications() {
             onClick={() => setStatusFilter("interviewed")}
           >
             <h3>{stats.interviewed}</h3>
-            <p>t("universityStudent.interviewed")</p>
+            <p>{t("universityStudent.interviewed")}</p>
           </div>
           <div
             className={`${styles.statCard} ${
@@ -252,7 +252,7 @@ export default function MyApplications() {
             onClick={() => setStatusFilter("accepted")}
           >
             <h3>{stats.accepted}</h3>
-            <p>t("universityStudent.accepted")</p>
+            <p>{t("universityStudent.accepted")}</p>
           </div>
         </div>
 
@@ -262,7 +262,7 @@ export default function MyApplications() {
             <div className={styles.emptyState}>
               <FaBriefcase className={styles.emptyIcon} />
               <h3>{t("company.noApplications")}</h3>
-              <p>t("universityStudent.noApplicationsYet")</p>
+              <p>{t("universityStudent.noApplicationsYet")}</p>
               <Link href="/university_student/jobs" className={styles.browseLink}>
                 t("universityStudent.browseAvailableJobs")
               </Link>
@@ -323,7 +323,7 @@ export default function MyApplications() {
                   {application.viewed_at && (
                     <div className={styles.detailItem}>
                       <FaEye />
-                      <span>t("universityStudent.viewed")</span>
+                      <span>{t("universityStudent.viewed")}</span>
                     </div>
                   )}
                 </div>
@@ -402,7 +402,7 @@ export default function MyApplications() {
                 <h3>{t("company.coverLetter")}</h3>
                 <p className={styles.coverLetter}>{selectedApplication.cover_letter}</p>
 
-                <h3>t("universityStudent.statusHistory")</h3>
+                <h3>{t("universityStudent.statusHistory")}</h3>
                 <div className={styles.statusHistory}>
                   {selectedApplication.status_history.map((history, index) => (
                     <div key={index} className={styles.historyItem}>
