@@ -202,7 +202,7 @@ export default function JobDetailsPage() {
         <div className={styles.notFound}>
           <h2>{t("universityStudent.jobNotFound")}</h2>
           <Link href="/university_student/jobs" className={styles.backButton}>
-            t("universityStudent.backToJobs")
+            {t("universityStudent.backToJobs")}
           </Link>
         </div>
       </div>
