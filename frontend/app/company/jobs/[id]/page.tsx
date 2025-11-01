@@ -110,18 +110,18 @@ export default function JobDetailPage() {
         const data = await response.json();
         setJob(data.job_posting);
       } else {
-        setError("فشل في تحميل بيانات الوظيفة");
+        setError(t("companyJobs.loadError"));
       }
     } catch (error) {
       console.error("Error fetching job details:", error);
-      setError("حدث خطأ أثناء تحميل البيانات");
+      setError(t("companyJobs.loadError"));
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteJob = async () => {
-    if (!confirm("هل أنت متأكد من حذف هذه الوظيفة؟")) {
+    if (!confirm(t("companyJobs.deleteConfirm"))) {
       return;
     }
 
@@ -143,39 +143,39 @@ export default function JobDetailPage() {
         router.push("/company/jobs");
       } else {
         const data = await response.json();
-        alert(data.message || "فشل في حذف الوظيفة");
+        alert(data.message || t("companyJobs.deleteError"));
       }
     } catch (error) {
       console.error("Error deleting job:", error);
-      alert("حدث خطأ أثناء حذف الوظيفة");
+      alert(t("companyJobs.deleteError"));
     }
   };
 
   const getJobTypeLabel = (type: string) => {
     const labels: { [key: string]: string } = {
-      full_time: "دوام كامل",
-      part_time: "دوام جزئي",
-      internship: "تدريب",
-      contract: "عقد",
+      full_time: t("companyJobs.fullTime"),
+      part_time: t("companyJobs.partTime"),
+      internship: t("companyJobs.internship"),
+      contract: t("companyJobs.contract"),
     };
     return labels[type] || type;
   };
 
   const getWorkLocationLabel = (location: string) => {
     const labels: { [key: string]: string } = {
-      onsite: "حضوري",
-      remote: "عن بعد",
-      hybrid: "مختلط",
+      onsite: t("companyJobs.onsite"),
+      remote: t("companyJobs.remote"),
+      hybrid: t("companyJobs.hybrid"),
     };
     return labels[location] || location;
   };
 
   const getExperienceLevelLabel = (level: string) => {
     const labels: { [key: string]: string } = {
-      entry: "مبتدئ",
-      junior: "مبتدئ متقدم",
-      mid: "متوسط الخبرة",
-      senior: "خبير",
+      entry: t("companyJobs.entry"),
+      junior: t("companyJobs.junior"),
+      mid: t("companyJobs.mid"),
+      senior: t("companyJobs.senior"),
     };
     return labels[level] || level;
   };
@@ -186,7 +186,7 @@ export default function JobDetailPage() {
         <CompanyNav />
         <div className="flex flex-col justify-center items-center min-h-[50vh] gap-4">
           <div className="w-12 h-12 border-4 border-[var(--borders)] border-t-[#58a6ff] rounded-full animate-spin"></div>
-          <p className="text-[var(--p-text)]">جاري تحميل البيانات...</p>
+          <p className="text-[var(--p-text)]">{t("common.loadingData")}</p>
         </div>
       </div>
     );
