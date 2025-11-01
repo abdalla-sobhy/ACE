@@ -29,7 +29,8 @@ class Course extends Model
         'start_date',
         'end_date',
         'sessions_per_week',
-        'is_active'
+        'is_active',
+        'status'
     ];
 
     protected $casts = [
