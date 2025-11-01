@@ -1,33 +1,38 @@
 .container {
   min-height: 100vh;
-  background: var(--main-background);
-  padding-top: 65px;
+  background: var(--main-color);
+  color: var(--main-text-white);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+  direction: rtl;
 }
 
 .main {
+  padding: 90px 24px 48px;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 24px;
 }
 
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
 
 .header h1 {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
-  color: var(--main-text-white-lighter);
-  margin-bottom: 8px;
+  margin: 0 0 8px 0;
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .header p {
-  color: var(--main-text-white);
+  color: var(--p-text);
   font-size: 16px;
+  margin: 0;
 }
 
 .section {
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
 
 .section h2 {
@@ -56,12 +61,12 @@
 }
 
 .viewAllLink:hover {
-  opacity: 0.8;
+  color: var(--blue-lighter);
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 24px;
 }
 
@@ -72,32 +77,31 @@
 }
 
 .statCard {
-  background: var(--main-color);
+  background: var(--sections-color);
   border: 1px solid var(--borders);
   border-radius: 12px;
   padding: 24px;
   display: flex;
   align-items: center;
   gap: 20px;
-  transition: transform 0.2s, border-color 0.2s;
+  transition: all 0.3s;
 }
 
 .statCard:hover {
-  transform: translateY(-2px);
   border-color: var(--accent-blue);
+  transform: translateY(-2px);
 }
 
 .statIcon {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
+  background: var(--accent-blue-bg);
   border-radius: 12px;
-  background: var(--accent-blue);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 28px;
-  color: white;
-  flex-shrink: 0;
+  color: var(--accent-blue);
 }
 
 .statContent h3 {
@@ -109,7 +113,8 @@
 
 .statContent p {
   font-size: 14px;
-  color: var(--main-text-white);
+  color: var(--p-text);
+  margin: 4px 0 0;
 }
 
 .activityGrid {
@@ -119,13 +124,19 @@
 }
 
 .activityCard {
-  background: var(--main-color);
+  background: var(--sections-color);
   border: 1px solid var(--borders);
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 12px;
+  padding: 24px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
+  transition: all 0.3s;
+}
+
+.activityCard:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
 }
 
 .activityIcon {
@@ -148,8 +159,9 @@
 }
 
 .activityContent p {
-  font-size: 13px;
-  color: var(--main-text-white);
+  font-size: 14px;
+  color: var(--p-text);
+  margin: 4px 0 0;
 }
 
 .quickLinks {
@@ -159,17 +171,17 @@
 }
 
 .quickLink {
-  background: var(--main-color);
+  background: var(--sections-color);
   border: 1px solid var(--borders);
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 12px;
+  padding: 24px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   color: var(--main-text-white-lighter);
   text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s;
+  font-weight: 600;
+  transition: all 0.3s;
 }
 
 .quickLink:hover {
@@ -194,9 +206,9 @@
 }
 
 .loader {
-  width: 50px;
-  height: 50px;
-  border: 4px solid var(--borders);
+  width: 48px;
+  height: 48px;
+  border: 4px solid #30363d;
   border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -218,13 +230,19 @@
   font-size: 16px;
 }
 
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .main {
-    padding: 24px 16px;
+    padding: 90px 16px 48px;
   }
 
   .header h1 {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .section h2 {
@@ -232,6 +250,14 @@
   }
 
   .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .activityGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .quickLinks {
     grid-template-columns: 1fr;
   }
 }
