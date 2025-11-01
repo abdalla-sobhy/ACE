@@ -459,7 +459,7 @@ const handleRemoveCertification = (index: number) => {
                       onClick={handleSaveProfile}
                       disabled={saving}
                     >
-                      <FaSave /> {saving ? {t("universityStudent.saving") : {t("universityStudent.saveChanges")}
+                      <FaSave /> {saving ? t("universityStudent.saving") : t("universityStudent.saveChanges")}
                     </button>
                     <button
                       className={styles.cancelButton}
