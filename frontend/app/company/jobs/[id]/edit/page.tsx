@@ -108,11 +108,11 @@ export default function EditJobPage() {
         setIsActive(job.is_active);
         setPositionsAvailable(job.positions_available || 1);
       } else {
-        setError("فشل في تحميل بيانات الوظيفة");
+        setError(t("companyJobs.loadError"));
       }
     } catch (error) {
       console.error("Error fetching job details:", error);
-      setError("حدث خطأ أثناء تحميل البيانات");
+      setError(t("companyJobs.loadError"));
     } finally {
       setFetchLoading(false);
     }
@@ -189,27 +189,27 @@ export default function EditJobPage() {
     setError("");
 
     if (!title.trim()) {
-      setError("يرجى إدخال عنوان الوظيفة");
+      setError(t("companyJobs.errorTitleRequired"));
       return;
     }
 
     if (!description.trim()) {
-      setError("يرجى إدخال وصف الوظيفة");
+      setError(t("companyJobs.errorDescriptionRequired"));
       return;
     }
 
     if (skillsRequired.length === 0) {
-      setError("يرجى إضافة مهارة واحدة على الأقل");
+      setError(t("companyJobs.errorSkillRequired"));
       return;
     }
 
     if (requirements.length === 0) {
-      setError("يرجى إضافة متطلب واحد على الأقل");
+      setError(t("companyJobs.errorRequirementRequired"));
       return;
     }
 
     if (responsibilities.length === 0) {
-      setError("يرجى إضافة مسؤولية واحدة على الأقل");
+      setError(t("companyJobs.errorResponsibilityRequired"));
       return;
     }
 
@@ -254,11 +254,11 @@ export default function EditJobPage() {
         router.push(`/company/jobs/${jobId}`);
       } else {
         const data = await response.json();
-        setError(data.message || "فشل في تحديث الوظيفة");
+        setError(data.message || t("companyJobs.updateError"));
       }
     } catch (error) {
       console.error("Error updating job:", error);
-      setError("حدث خطأ أثناء تحديث الوظيفة");
+      setError(t("companyJobs.updateError"));
     } finally {
       setLoading(false);
     }
