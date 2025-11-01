@@ -410,7 +410,7 @@ export default function JobDetailsPage() {
                     className={styles.companyWebsite}
                   >
                     <FaGlobe />
-                    t("universityStudent.visitWebsite")
+                    {t("universityStudent.visitWebsite")}
                   </a>
                 )}
               </div>
