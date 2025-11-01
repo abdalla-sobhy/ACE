@@ -310,14 +310,14 @@ export default function UniversityStudentDashboard() {
   };
 
   const categories = [
-    { value: "all", label: "جميع التخصصات", icon: "📚" },
-    { value: "programming", label: "البرمجة", icon: "💻" },
-    { value: "business", label: "إدارة الأعمال", icon: "💼" },
-    { value: "design", label: "التصميم", icon: "🎨" },
-    { value: "marketing", label: "التسويق", icon: "📈" },
-    { value: "data", label: "تحليل البيانات", icon: "📊" },
-    { value: "languages", label: "اللغات", icon: "🌍" },
-    { value: "soft_skills", label: "المهارات الشخصية", icon: "🤝" },
+    { value: "all", label: t("universityStudent.allSpecializations"), icon: "📚" },
+    { value: "programming", label: t("universityStudent.programming"), icon: "💻" },
+    { value: "business", label: t("universityStudent.business"), icon: "💼" },
+    { value: "design", label: t("universityStudent.design"), icon: "🎨" },
+    { value: "marketing", label: t("universityStudent.marketing"), icon: "📈" },
+    { value: "data", label: t("universityStudent.dataAnalysis"), icon: "📊" },
+    { value: "languages", label: t("universityStudent.languages"), icon: "🌍" },
+    { value: "soft_skills", label: t("universityStudent.softSkills"), icon: "🤝" },
   ];
 
   if (loading) {
@@ -326,7 +326,7 @@ export default function UniversityStudentDashboard() {
         <UniversityStudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل البيانات...</p>
+          <p>{t("universityStudent.loadingData")}</p>
         </div>
       </div>
     );
@@ -343,17 +343,16 @@ export default function UniversityStudentDashboard() {
             <div className={styles.alertContent}>
               <FaFileAlt className={styles.alertIcon} />
               <div className={styles.alertText}>
-                <h3>أكمل ملفك الشخصي لتحصل على فرص أفضل!</h3>
+                <h3>{t("universityStudent.completeProfile")}</h3>
                 <p>
-                  الشركات تبحث عن طلاب بملفات شخصية مكتملة. أضف سيرتك الذاتية
-                  ومهاراتك.
+                  {t("universityStudent.companiesLooking")}
                 </p>
               </div>
               <button
                 className={styles.alertButton}
                 onClick={() => router.push("/university_student/profile")}
               >
-                <FaEdit /> تحديث الملف الشخصي
+                <FaEdit /> {t("universityStudent.updateProfile")}
               </button>
               <button
                 className={styles.alertClose}
@@ -369,14 +368,14 @@ export default function UniversityStudentDashboard() {
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeGrid}>
             <div className={styles.welcomeContent}>
-              <h1>مرحباً {user?.first_name}</h1>
+              <h1>{t("universityStudent.hello")} {user?.first_name}</h1>
               <p className={styles.welcomeSubtitle}>
-                {user?.universityStudentProfile?.faculty || "طالب جامعي"} •
-                {user?.universityStudentProfile?.university || "الجامعة"}
+                {user?.universityStudentProfile?.faculty || t("universityStudent.student")} •
+                {user?.universityStudentProfile?.university || t("universityStudent.university")}
               </p>
               <div className={styles.profileProgress}>
                 <div className={styles.progressHeader}>
-                  <span>اكتمال الملف الشخصي</span>
+                  <span>{t("universityStudent.profileCompleteness")}</span>
                   <span>{getProfileCompleteness()}%</span>
                 </div>
                 <div className={styles.progressBar}>
@@ -391,7 +390,7 @@ export default function UniversityStudentDashboard() {
                   className={styles.primaryButton}
                   onClick={() => router.push("/university_student/profile")}
                 >
-                  <FaUserTie /> عرض الملف الشخصي
+                  <FaUserTie /> {t("universityStudent.viewProfile")}
                 </button>
                 <button
                   className={styles.secondaryButton}
@@ -399,7 +398,7 @@ export default function UniversityStudentDashboard() {
                     router.push("/university_student/jobs")
                   }
                 >
-                  <FaBriefcase /> فرص العمل
+                  <FaBriefcase /> {t("universityStudent.jobOpportunities")}
                 </button>
               </div>
             </div>
@@ -411,7 +410,7 @@ export default function UniversityStudentDashboard() {
                 </div>
                 <div className={styles.statContent}>
                   <h3>{profileStats.profile_views}</h3>
-                  <p>مشاهدة للملف</p>
+                  <p>{t("universityStudent.profileViews")}</p>
                 </div>
               </div>
               <div className={styles.statCard}>
@@ -420,7 +419,7 @@ export default function UniversityStudentDashboard() {
                 </div>
                 <div className={styles.statContent}>
                   <h3>{profileStats.cv_downloads}</h3>
-                  <p>تحميل للسيرة</p>
+                  <p>{t("universityStudent.cvDownloads")}</p>
                 </div>
               </div>
               <div className={styles.statCard}>
@@ -429,7 +428,7 @@ export default function UniversityStudentDashboard() {
                 </div>
                 <div className={styles.statContent}>
                   <h3>{profileStats.courses_completed}</h3>
-                  <p>كورس مكتمل</p>
+                  <p>{t("universityStudent.coursesCompleted")}</p>
                 </div>
               </div>
               <div className={styles.statCard}>
@@ -438,7 +437,7 @@ export default function UniversityStudentDashboard() {
                 </div>
                 <div className={styles.statContent}>
                   <h3>{profileStats.certificates_earned}</h3>
-                  <p>شهادة</p>
+                  <p>{t("universityStudent.certificates")}</p>
                 </div>
               </div>
             </div>
@@ -451,24 +450,24 @@ export default function UniversityStudentDashboard() {
             <div className={styles.goalCard}>
               <FaBuilding className={styles.goalIcon} />
               <div className={styles.goalContent}>
-                <h3>هدفي المهني</h3>
+                <h3>{t("universityStudent.myCareerGoal")}</h3>
                 <p>{user.universityStudentProfile.goal === "career_preparation"
-                    ? "الاستعداد المهني والتوظيف"
+                    ? t("universityDashboard.goals.career_preparation")
                     : user.universityStudentProfile.goal === "skill_development"
-                    ? "تطوير المهارات المهنية"
+                    ? t("universityDashboard.goals.skill_development")
                     : user.universityStudentProfile.goal === "academic_excellence"
-                    ? "التفوق الأكاديمي"
+                    ? t("universityDashboard.goals.academic_excellence")
                     : user.universityStudentProfile.goal === "research"
-                    ? "البحث العلمي"
+                    ? t("universityDashboard.goals.research")
                     : user.universityStudentProfile.goal === "entrepreneurship"
-                    ? "ريادة الأعمال"
+                    ? t("universityDashboard.goals.entrepreneurship")
                     : user.universityStudentProfile.goal === "graduate_studies"
-                    ? "التحضير للدراسات العليا"
+                    ? t("universityDashboard.goals.graduate_studies")
                     : user.universityStudentProfile.goal}</p>
               </div>
               {user?.universityStudentProfile?.looking_for_opportunities && (
                 <div className={styles.lookingBadge}>
-                  <FaCheckCircle /> أبحث عن فرص
+                  <FaCheckCircle /> {t("universityStudent.lookingForOpportunities")}
                 </div>
               )}
             </div>
@@ -478,8 +477,8 @@ export default function UniversityStudentDashboard() {
         {/* Search and Filter Section */}
         <section className={styles.searchSection}>
           <div className={styles.searchHeader}>
-            <h2>تطوير المهارات</h2>
-            <p>اكتسب المهارات المطلوبة في سوق العمل</p>
+            <h2>{t("universityStudent.skillDevelopment")}</h2>
+            <p>{t("universityStudent.acquireSkills")}</p>
           </div>
 
           <div className={styles.searchControls}>
@@ -487,7 +486,7 @@ export default function UniversityStudentDashboard() {
               <FaSearch className={styles.searchIcon} />
               <input
                 type="text"
-                placeholder="ابحث عن كورسات، مهارات، أو مدربين..."
+                placeholder={t("universityStudent.searchPlaceholder")}
                 className={styles.searchInput}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -522,27 +521,27 @@ export default function UniversityStudentDashboard() {
         {/* Courses Grid */}
         <section className={styles.coursesSection}>
           <div className={styles.coursesHeader}>
-            <h2>الكورسات المتاحة</h2>
-            <p>{pagination.total} كورس</p>
+            <h2>{t("universityStudent.availableCourses")}</h2>
+            <p>{pagination.total} {t("universityStudent.courses")}</p>
           </div>
 
           {user?.universityStudentProfile?.goal && (
             <div className={styles.goalBasedInfo}>
               <p>
-                الكورسات مرتبة حسب هدفك:{" "}
+                {t("universityStudent.sortedByGoal")}{" "}
                 <strong>
                   {user.universityStudentProfile.goal === "career_preparation"
-                    ? "الاستعداد المهني والتوظيف"
+                    ? t("universityDashboard.goals.career_preparation")
                     : user.universityStudentProfile.goal === "skill_development"
-                    ? "تطوير المهارات المهنية"
+                    ? t("universityDashboard.goals.skill_development")
                     : user.universityStudentProfile.goal === "academic_excellence"
-                    ? "التفوق الأكاديمي"
+                    ? t("universityDashboard.goals.academic_excellence")
                     : user.universityStudentProfile.goal === "research"
-                    ? "البحث العلمي"
+                    ? t("universityDashboard.goals.research")
                     : user.universityStudentProfile.goal === "entrepreneurship"
-                    ? "ريادة الأعمال"
+                    ? t("universityDashboard.goals.entrepreneurship")
                     : user.universityStudentProfile.goal === "graduate_studies"
-                    ? "التحضير للدراسات العليا"
+                    ? t("universityDashboard.goals.graduate_studies")
                     : user.universityStudentProfile.goal}
                 </strong>
               </p>
@@ -552,8 +551,8 @@ export default function UniversityStudentDashboard() {
           {filteredCourses.length === 0 ? (
             <div className={styles.noResults}>
               <span className={styles.noResultsIcon}>🔍</span>
-              <h3>لا توجد نتائج</h3>
-              <p>جرب البحث بكلمات مختلفة أو تغيير التصنيف</p>
+              <h3>{t("universityStudent.noResults")}</h3>
+              <p>{t("universityStudent.tryDifferentSearch")}</p>
             </div>
           ) : (
             <>
@@ -579,7 +578,7 @@ export default function UniversityStudentDashboard() {
                         </div>
                       )}
                       {course.is_enrolled && (
-                        <div className={styles.enrolledBadge}>مسجل</div>
+                        <div className={styles.enrolledBadge}>{t("universityStudent.enrolled")}</div>
                       )}
                     </div>
 
@@ -594,10 +593,10 @@ export default function UniversityStudentDashboard() {
 
                       <div className={styles.courseStats}>
                         <span>
-                          <FaBook /> {course.lessons_count} درس
+                          <FaBook /> {course.lessons_count} {t("universityStudent.lesson")}
                         </span>
                         <span>
-                          <FaUsers /> {course.students_count} طالب
+                          <FaUsers /> {course.students_count} {t("student.student")}
                         </span>
                         <span>
                           <FaStar /> {course.rating}
@@ -608,13 +607,13 @@ export default function UniversityStudentDashboard() {
                         <div className={styles.coursePrice}>
                           {course.original_price && (
                             <span className={styles.originalPrice}>
-                              {course.original_price} جنيه
+                              {course.original_price} {t("universityStudent.currency")}
                             </span>
                           )}
                           <span className={styles.currentPrice}>
                             {course.price === 0
-                              ? "مجاني"
-                              : `${course.price} جنيه`}
+                              ? t("universityStudent.free")
+                              : `${course.price} ${t("universityStudent.currency")}`}
                           </span>
                         </div>
                         <button
@@ -624,11 +623,11 @@ export default function UniversityStudentDashboard() {
                         >
                           {course.is_enrolled ? (
                             <>
-                              <FaBook /> متابعة
+                              <FaBook /> {t("universityStudent.continue")}
                             </>
                           ) : (
                             <>
-                              <FaShoppingCart /> تسجيل
+                              <FaShoppingCart /> {t("universityStudent.register")}
                             </>
                           )}
                         </button>
@@ -646,7 +645,7 @@ export default function UniversityStudentDashboard() {
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                   >
-                    السابق
+                    {t("universityStudent.previous")}
                   </button>
 
                   <div className={styles.paginationPages}>
@@ -685,7 +684,7 @@ export default function UniversityStudentDashboard() {
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === pagination.last_page}
                   >
-                    التالي
+                    {t("universityStudent.next")}
                   </button>
                 </div>
               )}
