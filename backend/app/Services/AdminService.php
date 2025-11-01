@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\Company;
-use App\Models\Enrollment;
+use App\Models\CourseEnrollment;
 use App\Models\JobPosting;
 use App\Models\JobApplication;
 use Illuminate\Support\Facades\DB;
@@ -41,9 +41,9 @@ class AdminService
                 'draft' => Course::where('status', 'draft')->count(),
             ],
             'enrollments' => [
-                'total' => Enrollment::count(),
-                'active' => Enrollment::where('status', 'active')->count(),
-                'completed' => Enrollment::where('status', 'completed')->count(),
+                'total' => CourseEnrollment::count(),
+                'active' => CourseEnrollment::where('status', 'active')->count(),
+                'completed' => CourseEnrollment::where('status', 'completed')->count(),
             ],
             'companies' => [
                 'total' => Company::count(),
@@ -58,7 +58,7 @@ class AdminService
             'recent_activity' => [
                 'new_users_today' => User::whereDate('created_at', today())->count(),
                 'new_courses_this_week' => Course::whereBetween('created_at', [now()->startOfWeek(), now()])->count(),
-                'new_enrollments_this_week' => Enrollment::whereBetween('created_at', [now()->startOfWeek(), now()])->count(),
+                'new_enrollments_this_week' => CourseEnrollment::whereBetween('created_at', [now()->startOfWeek(), now()])->count(),
             ],
         ];
     }
@@ -308,7 +308,7 @@ class AdminService
                 ->groupBy('date')
                 ->orderBy('date')
                 ->get(),
-            'enrollment_growth' => Enrollment::where('created_at', '>=', $startDate)
+            'enrollment_growth' => CourseEnrollment::where('created_at', '>=', $startDate)
                 ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
                 ->groupBy('date')
                 ->orderBy('date')
