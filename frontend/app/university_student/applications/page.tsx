@@ -264,7 +264,7 @@ export default function MyApplications() {
               <h3>{t("company.noApplications")}</h3>
               <p>{t("universityStudent.noApplicationsYet")}</p>
               <Link href="/university_student/jobs" className={styles.browseLink}>
-                t("universityStudent.browseAvailableJobs")
+                {t("universityStudent.browseAvailableJobs")}
               </Link>
             </div>
           ) : (
