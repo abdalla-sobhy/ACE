@@ -86,18 +86,18 @@ export default function CompanyJobsPage() {
         const data = await response.json();
         setJobs(data.job_postings || []);
       } else {
-        setError("فشل في تحميل الوظائف");
+        setError(t("companyJobs.loadError"));
       }
     } catch (error) {
       console.error("Error fetching jobs:", error);
-      setError("حدث خطأ أثناء تحميل البيانات");
+      setError(t("companyJobs.loadError"));
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteJob = async (jobId: number) => {
-    if (!confirm("هل أنت متأكد من حذف هذه الوظيفة؟")) {
+    if (!confirm(t("companyJobs.deleteConfirm"))) {
       return;
     }
 
@@ -119,29 +119,29 @@ export default function CompanyJobsPage() {
         fetchJobs();
       } else {
         const data = await response.json();
-        alert(data.message || "فشل في حذف الوظيفة");
+        alert(data.message || t("companyJobs.deleteError"));
       }
     } catch (error) {
       console.error("Error deleting job:", error);
-      alert("حدث خطأ أثناء حذف الوظيفة");
+      alert(t("companyJobs.deleteError"));
     }
   };
 
   const getJobTypeLabel = (type: string) => {
     const labels: { [key: string]: string } = {
-      full_time: "دوام كامل",
-      part_time: "دوام جزئي",
-      internship: "تدريب",
-      contract: "عقد",
+      full_time: t("companyJobs.fullTime"),
+      part_time: t("companyJobs.partTime"),
+      internship: t("companyJobs.internship"),
+      contract: t("companyJobs.contract"),
     };
     return labels[type] || type;
   };
 
   const getWorkLocationLabel = (location: string) => {
     const labels: { [key: string]: string } = {
-      onsite: "حضوري",
-      remote: "عن بعد",
-      hybrid: "مختلط",
+      onsite: t("companyJobs.onsite"),
+      remote: t("companyJobs.remote"),
+      hybrid: t("companyJobs.hybrid"),
     };
     return labels[location] || location;
   };
@@ -174,7 +174,7 @@ export default function CompanyJobsPage() {
         <CompanyNav />
         <div className="flex flex-col justify-center items-center min-h-[50vh] gap-4">
           <div className="w-12 h-12 border-4 border-[var(--borders)] border-t-[#58a6ff] rounded-full animate-spin"></div>
-          <p className="text-[var(--p-text)]">جاري تحميل البيانات...</p>
+          <p className="text-[var(--p-text)]">{t("common.loadingData")}</p>
         </div>
       </div>
     );
@@ -191,18 +191,18 @@ export default function CompanyJobsPage() {
             <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
               <FaBriefcase className="text-[#58a6ff]" />
               <span className="bg-gradient-to-l from-[#58a6ff] to-[#79c0ff] bg-clip-text text-transparent">
-                الوظائف المعلن عنها
+                {t("companyJobs.title")}
               </span>
             </h1>
             <p className="text-[var(--p-text)]">
-              إدارة جميع الوظائف والفرص المتاحة في شركتك
+              {t("companyJobs.description")}
             </p>
           </div>
           <Link
             href="/company/jobs/new"
             className="flex items-center gap-2 px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-500/30"
           >
-            <FaPlus /> إضافة وظيفة جديدة
+            <FaPlus /> {t("companyJobs.postNewJob")}
           </Link>
         </div>
 
@@ -214,7 +214,7 @@ export default function CompanyJobsPage() {
             </div>
             <div>
               <div className="text-3xl font-bold">{stats.total}</div>
-              <div className="text-sm text-[var(--p-text)]">إجمالي الوظائف</div>
+              <div className="text-sm text-[var(--p-text)]">{t("companyJobs.totalJobs")}</div>
             </div>
           </div>
 
@@ -224,7 +224,7 @@ export default function CompanyJobsPage() {
             </div>
             <div>
               <div className="text-3xl font-bold">{stats.active}</div>
-              <div className="text-sm text-[var(--p-text)]">وظائف نشطة</div>
+              <div className="text-sm text-[var(--p-text)]">{t("companyJobs.activeJobs")}</div>
             </div>
           </div>
 
@@ -234,7 +234,7 @@ export default function CompanyJobsPage() {
             </div>
             <div>
               <div className="text-3xl font-bold">{stats.inactive}</div>
-              <div className="text-sm text-[var(--p-text)]">وظائف غير نشطة</div>
+              <div className="text-sm text-[var(--p-text)]">{t("companyJobs.inactiveJobs")}</div>
             </div>
           </div>
 
@@ -244,7 +244,7 @@ export default function CompanyJobsPage() {
             </div>
             <div>
               <div className="text-3xl font-bold">{stats.totalApplications}</div>
-              <div className="text-sm text-[var(--p-text)]">إجمالي المتقدمين</div>
+              <div className="text-sm text-[var(--p-text)]">{t("companyJobs.totalApplicants")}</div>
             </div>
           </div>
         </div>
@@ -257,7 +257,7 @@ export default function CompanyJobsPage() {
                 <FaSearch className="text-[var(--p-text)]" />
                 <input
                   type="text"
-                  placeholder="ابحث عن وظيفة..."
+                  placeholder={t("companyJobs.searchJobs")}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="flex-1 bg-transparent border-none outline-none text-[var(--main-text-white)] placeholder:text-[var(--p-text)]"
@@ -271,11 +271,11 @@ export default function CompanyJobsPage() {
                 onChange={(e) => setFilterType(e.target.value)}
                 className="flex-1 lg:flex-none lg:min-w-[150px] px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] cursor-pointer hover:border-[#58a6ff] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
               >
-                <option value="all">كل الأنواع</option>
-                <option value="full_time">دوام كامل</option>
-                <option value="part_time">دوام جزئي</option>
-                <option value="internship">تدريب</option>
-                <option value="contract">عقد</option>
+                <option value="all">{t("common.all")}</option>
+                <option value="full_time">{t("companyJobs.fullTime")}</option>
+                <option value="part_time">{t("companyJobs.partTime")}</option>
+                <option value="internship">{t("companyJobs.internship")}</option>
+                <option value="contract">{t("companyJobs.contract")}</option>
               </select>
 
               <select
@@ -283,7 +283,7 @@ export default function CompanyJobsPage() {
                 onChange={(e) => setFilterStatus(e.target.value)}
                 className="flex-1 lg:flex-none lg:min-w-[150px] px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] cursor-pointer hover:border-[#58a6ff] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
               >
-                <option value="all">كل الحالات</option>
+                <option value="all">{t("common.all")}</option>
                 <option value="active">{t("common.active")}</option>
                 <option value="inactive">{t("common.inactive")}</option>
               </select>
@@ -299,15 +299,15 @@ export default function CompanyJobsPage() {
         ) : filteredJobs.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 px-5 text-center bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl">
             <FaBriefcase className="text-6xl text-[var(--p-text)] opacity-50 mb-5" />
-            <h3 className="text-2xl font-bold mb-3">لا توجد وظائف متاحة</h3>
+            <h3 className="text-2xl font-bold mb-3">{t("companyJobs.noJobsFound")}</h3>
             <p className="text-[var(--p-text)] mb-6 max-w-md">
-              ابدأ بإضافة وظيفة جديدة للعثور على أفضل المواهب
+              {t("companyJobs.createFirstJob")}
             </p>
             <Link
               href="/company/jobs/new"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-500/30"
             >
-              <FaPlus /> إضافة وظيفة جديدة
+              <FaPlus /> {t("companyJobs.postNewJob")}
             </Link>
           </div>
         ) : (
@@ -374,7 +374,7 @@ export default function CompanyJobsPage() {
                 <div className="flex justify-between items-center pt-4 border-t border-[var(--borders)]">
                   <div className="flex items-center gap-1.5 font-semibold text-sm">
                     <FaUsers className="text-[#58a6ff]" />
-                    <span>{job.applications_count} متقدم</span>
+                    <span>{job.applications_count} {t("companyJobs.applicants")}</span>
                   </div>
 
                   <div className="flex gap-2">
@@ -405,7 +405,7 @@ export default function CompanyJobsPage() {
                 <div className="flex items-center gap-1.5 text-xs text-[var(--p-text)] pt-3 border-t border-[var(--borders)]">
                   <FaClock />
                   <span>
-                    تم النشر {new Date(job.created_at).toLocaleDateString("ar-EG")}
+                    {t("companyJobs.postedOn")} {new Date(job.created_at).toLocaleDateString("ar-EG")}
                   </span>
                 </div>
               </div>
