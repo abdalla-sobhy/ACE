@@ -405,7 +405,7 @@ const handleRemoveCertification = (index: number) => {
         <UniversityStudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>t("universityStudent.loadingProfile")</p>
+          <p>{t("universityStudent.loadingProfile")}</p>
         </div>
       </div>
     );
@@ -450,7 +450,7 @@ const handleRemoveCertification = (index: number) => {
                     className={styles.editButton}
                     onClick={() => setIsEditing(true)}
                   >
-                    <FaEdit /> t("universityStudent.editProfile")
+                    <FaEdit /> {t("universityStudent.editProfile")}
                   </button>
                 ) : (
                   <>
@@ -459,13 +459,13 @@ const handleRemoveCertification = (index: number) => {
                       onClick={handleSaveProfile}
                       disabled={saving}
                     >
-                      <FaSave /> {saving ? "t("universityStudent.saving")" : "t("universityStudent.saveChanges")"}
+                      <FaSave /> {saving ? {t("universityStudent.saving") : {t("universityStudent.saveChanges")}
                     </button>
                     <button
                       className={styles.cancelButton}
                       onClick={() => setIsEditing(false)}
                     >
-                      <FaTimes /> t("universityStudent.cancel")
+                      <FaTimes /> {t("universityStudent.cancel")}
                     </button>
                   </>
                 )}
@@ -478,22 +478,22 @@ const handleRemoveCertification = (index: number) => {
                   }
                 >
                   {profile.is_public ? <FaEye /> : <FaEyeSlash />}
-                  {profile.is_public ? "t("universityStudent.publicProfile")" : "t("universityStudent.privateProfile")"}
+                  {profile.is_public ? {t("universityStudent.publicProfile") : {t("universityStudent.privateProfile")}
                 </button>
               </div>
             </div>
             <div className={styles.profileStats}>
               <div className={styles.statBox}>
                 <h3>{getProfileCompleteness()}%</h3>
-                <p>t("universityStudent.profileCompleteness")</p>
+                <p>{t("universityStudent.profileCompleteness")}</p>
               </div>
               <div className={styles.statBox}>
                 <h3>{profile.year_of_study || "-"}</h3>
-                <p>t("universityStudent.yearOfStudy")</p>
+                <p>{t("universityStudent.yearOfStudy")}</p>
               </div>
               <div className={styles.statBox}>
                 <h3>{profile.gpa || "-"}</h3>
-                <p>t("universityStudent.cumulativeGPA")</p>
+                <p>{t("universityStudent.cumulativeGPA")}</p>
               </div>
             </div>
           </div>
@@ -520,7 +520,7 @@ const handleRemoveCertification = (index: number) => {
             }`}
             onClick={() => setActiveTab("overview")}
           >
-            t("universityStudent.overview")
+            {t("universityStudent.overview")}
           </button>
           <button
             className={`${styles.tab} ${
@@ -528,7 +528,7 @@ const handleRemoveCertification = (index: number) => {
             }`}
             onClick={() => setActiveTab("experience")}
           >
-            t("universityStudent.experience")
+            {t("universityStudent.experience")}
           </button>
           <button
             className={`${styles.tab} ${
@@ -536,7 +536,7 @@ const handleRemoveCertification = (index: number) => {
             }`}
             onClick={() => setActiveTab("education")}
           >
-            t("universityStudent.education")
+            {t("universityStudent.education")}
           </button>
           <button
             className={`${styles.tab} ${
@@ -554,11 +554,11 @@ const handleRemoveCertification = (index: number) => {
             <div className={styles.overviewTab}>
               {/* Bio Section */}
               <div className={styles.section}>
-                <h2>t("universityStudent.aboutMe")</h2>
+                <h2>{t("universityStudent.aboutMe")}</h2>
                 {isEditing ? (
                   <textarea
                     className={styles.bioInput}
-                    placeholder="t("universityStudent.aboutMePlaceholder")"
+                    placeholder={t("universityStudent.aboutMePlaceholder")}
                     value={profile.bio || ""}
                     onChange={(e) =>
                       setProfile({ ...profile, bio: e.target.value })
@@ -567,14 +567,14 @@ const handleRemoveCertification = (index: number) => {
                   />
                 ) : (
                   <p className={styles.bio}>
-                    {profile.bio || "t("universityStudent.notAddedYet")"}
+                    {profile.bio || {t("universityStudent.notAddedYet")}
                   </p>
                 )}
               </div>
 
               {/* Career Goal Section */}
               <div className={styles.section}>
-                <h2>t("universityStudent.careerGoal")</h2>
+                <h2>{t("universityStudent.careerGoal")}</h2>
                 {isEditing ? (
                   <textarea
                     className={styles.input}
@@ -610,7 +610,7 @@ const handleRemoveCertification = (index: number) => {
                     <div className={styles.cvUploaded}>
                       <FaFilePdf className={styles.cvIcon} />
                       <div className={styles.cvInfo}>
-                        <p>{profile.cv_filename || t("company.resume")}</p>
+                        <p>{profile.cv_filename || {t("company.resume")}</p>
                         <div className={styles.cvActions}>
                           
                           {isEditing && (
@@ -618,7 +618,7 @@ const handleRemoveCertification = (index: number) => {
                               className={styles.replaceButton}
                               onClick={() => fileInputRef.current?.click()}
                             >
-                              <FaUpload /> t("universityStudent.replaceCV")
+                              <FaUpload /> {t("universityStudent.replaceCV")}
                             </button>
                           )}
                         </div>
@@ -627,14 +627,14 @@ const handleRemoveCertification = (index: number) => {
                   ) : (
                     <div className={styles.cvUpload}>
                       <FaUpload className={styles.uploadIcon} />
-                      <p>t("universityStudent.noCVUploaded")</p>
+                      <p>{t("universityStudent.noCVUploaded")}</p>
                       {isEditing && (
                         <button
                           className={styles.uploadButton}
                           onClick={() => fileInputRef.current?.click()}
                           disabled={uploadingCV}
                         >
-                          {uploadingCV ? "t("universityStudent.uploading")" : "t("universityStudent.uploadCVButton")"}
+                          {uploadingCV ? {t("universityStudent.uploading") : {t("universityStudent.uploadCVButton")}
                         </button>
                       )}
                     </div>
@@ -651,7 +651,7 @@ const handleRemoveCertification = (index: number) => {
 
               {/* Social Links */}
               <div className={styles.section}>
-                <h2>t("universityStudent.socialLinks")</h2>
+                <h2>{t("universityStudent.socialLinks")}</h2>
                 <div className={styles.socialLinks}>
                   {isEditing ? (
                     <>
@@ -732,7 +732,7 @@ const handleRemoveCertification = (index: number) => {
                       )}
                       {!profile.linkedin_url &&
                         !profile.github_url &&
-                        !profile.portfolio_url && <p>t("universityStudent.noLinksAdded")</p>}
+                        !profile.portfolio_url && <p>{t("universityStudent.noLinksAdded")}</p>}
                     </div>
                   )}
                 </div>
@@ -745,13 +745,13 @@ const handleRemoveCertification = (index: number) => {
               {/* Experience Section */}
               <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                  <h2>t("universityStudent.experience") العملية</h2>
+                  <h2>{t("universityStudent.experience") العملية</h2>
                   {isEditing && (
                     <button
                       className={styles.addButton}
                       onClick={handleAddExperience}
                     >
-                      <FaPlus /> t("universityStudent.addExperience")
+                      <FaPlus /> {t("universityStudent.addExperience")}
                     </button>
                   )}
                 </div>
@@ -833,20 +833,20 @@ const handleRemoveCertification = (index: number) => {
                     ))}
                   </div>
                 ) : (
-                  <p>t("universityStudent.noExperienceAdded")</p>
+                  <p>{t("universityStudent.noExperienceAdded")}</p>
                 )}
               </div>
 
               {/* Projects Section */}
               <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                  <h2>t("universityStudent.projects")</h2>
+                  <h2>{t("universityStudent.projects")}</h2>
                   {isEditing && (
                     <button
                       className={styles.addButton}
                       onClick={handleAddProject}
                     >
-                      <FaPlus /> t("universityStudent.addProject")
+                      <FaPlus /> {t("universityStudent.addProject")}
                     </button>
                   )}
                 </div>
@@ -921,7 +921,7 @@ const handleRemoveCertification = (index: number) => {
                     ))}
                   </div>
                 ) : (
-                  <p>t("universityStudent.noProjectsAdded")</p>
+                  <p>{t("universityStudent.noProjectsAdded")}</p>
                 )}
               </div>
             </div>
@@ -931,7 +931,7 @@ const handleRemoveCertification = (index: number) => {
             <div className={styles.educationTab}>
               {/* Education Info */}
               <div className={styles.section}>
-                <h2>t("universityStudent.academicInfo")</h2>
+                <h2>{t("universityStudent.academicInfo")}</h2>
                 {isEditing ? (
                   <div className={styles.educationForm}>
                     <input
@@ -953,7 +953,7 @@ const handleRemoveCertification = (index: number) => {
                     <input
                       className={styles.input}
                       type="number"
-                      placeholder="t("universityStudent.yearOfStudy")"
+                      placeholder={t("universityStudent.yearOfStudy")}
                       min="1"
                       max="7"
                       value={profile.year_of_study || ""}
@@ -967,7 +967,7 @@ const handleRemoveCertification = (index: number) => {
                     <input
                       className={styles.input}
                       type="number"
-                      placeholder="t("universityStudent.cumulativeGPA")"
+                      placeholder={t("universityStudent.cumulativeGPA")}
                       min="0"
                       max="4"
                       step="0.01"
@@ -990,15 +990,15 @@ const handleRemoveCertification = (index: number) => {
                       <FaGraduationCap />{" "}
                       {profile.faculty || "لم يتم تحديد الكلية"}
                     </p>
-                    <p>t("universityStudent.yearOfStudy"): {profile.year_of_study || "-"}</p>
-                    <p>t("universityStudent.cumulativeGPA"): {profile.gpa || "-"}/4.0</p>
+                    <p>{t("universityStudent.yearOfStudy"): {profile.year_of_study || "-"}</p>
+                    <p>{t("universityStudent.cumulativeGPA"): {profile.gpa || "-"}/4.0</p>
                   </div>
                 )}
               </div>
 
               {/* Achievements */}
               <div className={styles.section}>
-                <h2>t("universityStudent.achievements")</h2>
+                <h2>{t("universityStudent.achievements")}</h2>
                 {isEditing && (
                   <div className={styles.addItem}>
                     <input
@@ -1036,7 +1036,7 @@ const handleRemoveCertification = (index: number) => {
                     ))}
                   </div>
                 ) : (
-                  <p>t("universityStudent.noAchievementsAdded")</p>
+                  <p>{t("universityStudent.noAchievementsAdded")}</p>
                 )}
               </div>
 
@@ -1045,10 +1045,10 @@ const handleRemoveCertification = (index: number) => {
               {/* Certifications */}
 <div className={styles.section}>
   <div className={styles.sectionHeader}>
-    <h2>t("universityStudent.certifications")</h2>
+    <h2>{t("universityStudent.certifications")}</h2>
     {isEditing && (
       <button className={styles.addButton} onClick={handleAddCertification}>
-        <FaPlus /> t("universityStudent.addCertification")
+        <FaPlus /> {t("universityStudent.addCertification")}
       </button>
     )}
   </div>
@@ -1101,7 +1101,7 @@ const handleRemoveCertification = (index: number) => {
       ))}
     </div>
   ) : (
-    <p>t("universityStudent.noCertificationsAdded")</p>
+    <p>{t("universityStudent.noCertificationsAdded")}</p>
   )}
 </div>
 
@@ -1112,7 +1112,7 @@ const handleRemoveCertification = (index: number) => {
             <div className={styles.skillsTab}>
               {/* Technical Skills */}
               <div className={styles.section}>
-                <h2>t("universityStudent.technicalSkills")</h2>
+                <h2>{t("universityStudent.technicalSkills")}</h2>
                 {isEditing && (
                   <div className={styles.addItem}>
                     <input
@@ -1144,7 +1144,7 @@ const handleRemoveCertification = (index: number) => {
                     ))}
                   </div>
                 ) : (
-                  <p>t("universityStudent.noSkillsAdded")</p>
+                  <p>{t("universityStudent.noSkillsAdded")}</p>
                 )}
               </div>
 
@@ -1154,7 +1154,7 @@ const handleRemoveCertification = (index: number) => {
     <h2>اللغات</h2>
     {isEditing && (
       <button className={styles.addButton} onClick={handleAddLanguage}>
-        <FaPlus /> t("universityStudent.addLanguage")
+        <FaPlus /> {t("universityStudent.addLanguage")}
       </button>
     )}
   </div>
@@ -1203,7 +1203,7 @@ const handleRemoveCertification = (index: number) => {
       ))}
     </div>
   ) : (
-    <p>t("universityStudent.noLanguagesAdded")</p>
+    <p>{t("universityStudent.noLanguagesAdded")}</p>
   )}
 </div>
 
