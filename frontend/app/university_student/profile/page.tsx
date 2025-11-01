@@ -634,7 +634,7 @@ const handleRemoveCertification = (index: number) => {
                           onClick={() => fileInputRef.current?.click()}
                           disabled={uploadingCV}
                         >
-                          {uploadingCV ? {t("universityStudent.uploading") : {t("universityStudent.uploadCVButton")}
+                          {uploadingCV ? t("universityStudent.uploading") : t("universityStudent.uploadCVButton")}
                         </button>
                       )}
                     </div>
