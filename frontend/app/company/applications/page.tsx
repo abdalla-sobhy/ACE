@@ -92,11 +92,11 @@ export default function CompanyApplicationsPage() {
         const data = await response.json();
         setApplications(data.applications || []);
       } else {
-        setError("فشل في تحميل الطلبات");
+        setError(t("companyApplications.loadError"));
       }
     } catch (error) {
       console.error("Error fetching applications:", error);
-      setError("حدث خطأ أثناء تحميل البيانات");
+      setError(t("companyApplications.loadError"));
     } finally {
       setLoading(false);
     }
@@ -127,12 +127,12 @@ export default function CompanyApplicationsPage() {
 
   const getStatusLabel = (status: string) => {
     const labels: { [key: string]: string } = {
-      pending: "قيد الانتظار",
-      reviewing: "قيد المراجعة",
-      shortlisted: "مرشح مبدئياً",
-      interviewed: "تمت المقابلة",
-      accepted: "مقبول",
-      rejected: "مرفوض",
+      pending: t("companyApplications.pending"),
+      reviewing: t("companyApplications.reviewing"),
+      shortlisted: t("companyApplications.shortlisted"),
+      interviewed: t("companyApplications.interviewed"),
+      accepted: t("companyApplications.accepted"),
+      rejected: t("companyApplications.rejected"),
     };
     return labels[status] || status;
   };
@@ -201,7 +201,7 @@ export default function CompanyApplicationsPage() {
         <CompanyNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل البيانات...</p>
+          <p>{t("common.loadingData")}</p>
         </div>
       </div>
     );
@@ -216,10 +216,10 @@ export default function CompanyApplicationsPage() {
         <div className={styles.header}>
           <div className={styles.headerContent}>
             <h1 className={styles.title}>
-              <FaUser /> جميع الطلبات
+              <FaUser /> {t("companyApplications.allApplications")}
             </h1>
             <p className={styles.subtitle}>
-              إدارة ومراجعة جميع طلبات التوظيف المستلمة
+              {t("companyApplications.description")}
             </p>
           </div>
         </div>
@@ -232,7 +232,7 @@ export default function CompanyApplicationsPage() {
             </div>
             <div className={styles.statContent}>
               <div className={styles.statValue}>{stats.total}</div>
-              <div className={styles.statLabel}>إجمالي الطلبات</div>
+              <div className={styles.statLabel}>{t("companyApplications.totalApplications")}</div>
             </div>
           </div>
 
@@ -242,7 +242,7 @@ export default function CompanyApplicationsPage() {
             </div>
             <div className={styles.statContent}>
               <div className={styles.statValue}>{stats.pending}</div>
-              <div className={styles.statLabel}>قيد الانتظار</div>
+              <div className={styles.statLabel}>{t("companyApplications.pending")}</div>
             </div>
           </div>
 
@@ -252,7 +252,7 @@ export default function CompanyApplicationsPage() {
             </div>
             <div className={styles.statContent}>
               <div className={styles.statValue}>{stats.reviewing}</div>
-              <div className={styles.statLabel}>قيد المراجعة</div>
+              <div className={styles.statLabel}>{t("companyApplications.reviewing")}</div>
             </div>
           </div>
 
@@ -262,7 +262,7 @@ export default function CompanyApplicationsPage() {
             </div>
             <div className={styles.statContent}>
               <div className={styles.statValue}>{stats.shortlisted}</div>
-              <div className={styles.statLabel}>مرشح مبدئياً</div>
+              <div className={styles.statLabel}>{t("companyApplications.shortlisted")}</div>
             </div>
           </div>
 
@@ -272,7 +272,7 @@ export default function CompanyApplicationsPage() {
             </div>
             <div className={styles.statContent}>
               <div className={styles.statValue}>{stats.interviewed}</div>
-              <div className={styles.statLabel}>تمت المقابلة</div>
+              <div className={styles.statLabel}>{t("companyApplications.interviewed")}</div>
             </div>
           </div>
 
@@ -282,7 +282,7 @@ export default function CompanyApplicationsPage() {
             </div>
             <div className={styles.statContent}>
               <div className={styles.statValue}>{stats.accepted}</div>
-              <div className={styles.statLabel}>مقبول</div>
+              <div className={styles.statLabel}>{t("companyApplications.accepted")}</div>
             </div>
           </div>
 
@@ -292,7 +292,7 @@ export default function CompanyApplicationsPage() {
             </div>
             <div className={styles.statContent}>
               <div className={styles.statValue}>{stats.rejected}</div>
-              <div className={styles.statLabel}>مرفوض</div>
+              <div className={styles.statLabel}>{t("companyApplications.rejected")}</div>
             </div>
           </div>
 
@@ -302,7 +302,7 @@ export default function CompanyApplicationsPage() {
             </div>
             <div className={styles.statContent}>
               <div className={styles.statValue}>{stats.favorites}</div>
-              <div className={styles.statLabel}>المفضلة</div>
+              <div className={styles.statLabel}>{t("companyApplications.favorites")}</div>
             </div>
           </div>
         </div>
@@ -313,7 +313,7 @@ export default function CompanyApplicationsPage() {
             <FaSearch />
             <input
               type="text"
-              placeholder="ابحث باسم المتقدم، الوظيفة، أو البريد الإلكتروني..."
+              placeholder={t("companyApplications.searchApplications")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={styles.searchInput}
@@ -326,13 +326,13 @@ export default function CompanyApplicationsPage() {
               onChange={(e) => setFilterStatus(e.target.value)}
               className={styles.filterSelect}
             >
-              <option value="all">كل الحالات</option>
-              <option value="pending">قيد الانتظار</option>
-              <option value="reviewing">قيد المراجعة</option>
-              <option value="shortlisted">مرشح مبدئياً</option>
-              <option value="interviewed">تمت المقابلة</option>
-              <option value="accepted">مقبول</option>
-              <option value="rejected">مرفوض</option>
+              <option value="all">{t("common.all")}</option>
+              <option value="pending">{t("companyApplications.pending")}</option>
+              <option value="reviewing">{t("companyApplications.reviewing")}</option>
+              <option value="shortlisted">{t("companyApplications.shortlisted")}</option>
+              <option value="interviewed">{t("companyApplications.interviewed")}</option>
+              <option value="accepted">{t("companyApplications.accepted")}</option>
+              <option value="rejected">{t("companyApplications.rejected")}</option>
             </select>
 
             <select
@@ -340,9 +340,9 @@ export default function CompanyApplicationsPage() {
               onChange={(e) => setSortBy(e.target.value)}
               className={styles.filterSelect}
             >
-              <option value="newest">الأحدث أولاً</option>
-              <option value="oldest">الأقدم أولاً</option>
-              <option value="name">الاسم (أ-ي)</option>
+              <option value="newest">{t("common.next")}</option>
+              <option value="oldest">{t("common.previous")}</option>
+              <option value="name">{t("common.name")}</option>
             </select>
 
             <button
@@ -351,7 +351,7 @@ export default function CompanyApplicationsPage() {
                 filterFavorite ? styles.active : ""
               }`}
             >
-              <FaStar /> المفضلة فقط
+              <FaStar /> {t("companyApplications.favorites")}
             </button>
           </div>
         </div>
@@ -365,8 +365,8 @@ export default function CompanyApplicationsPage() {
             <h3>{t("company.noApplications")}</h3>
             <p>
               {searchTerm || filterStatus !== "all" || filterFavorite
-                ? "لا توجد طلبات تطابق معايير البحث"
-                : "لم يتم استلام أي طلبات حتى الآن"}
+                ? t("companyApplications.noApplicationsFound")
+                : t("companyApplications.noApplicationsReceived")}
             </p>
           </div>
         ) : (
@@ -407,8 +407,8 @@ export default function CompanyApplicationsPage() {
                     }`}
                     title={
                       application.is_favorite
-                        ? "إزالة من المفضلة"
-                        : "إضافة للمفضلة"
+                        ? t("companyApplications.removeFromFavorites")
+                        : t("companyApplications.addToFavorites")
                     }
                   >
                     {application.is_favorite ? <FaStar /> : <FaRegStar />}
@@ -445,7 +445,7 @@ export default function CompanyApplicationsPage() {
                     </div>
 
                     {!application.viewed_at && (
-                      <span className={styles.newBadge}>جديد</span>
+                      <span className={styles.newBadge}>{t("companyApplications.newApplications")}</span>
                     )}
                   </div>
                 </div>
@@ -455,7 +455,7 @@ export default function CompanyApplicationsPage() {
                     href={`/company/applications/${application.id}`}
                     className={styles.viewButton}
                   >
-                    <FaEye /> عرض التفاصيل
+                    <FaEye /> {t("companyApplications.viewDetails")}
                   </Link>
                 </div>
               </div>
