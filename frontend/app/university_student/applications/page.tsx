@@ -352,7 +352,7 @@ export default function MyApplications() {
                       className={styles.withdrawButton}
                       onClick={() => handleWithdraw(application.id)}
                     >
-                      t("universityStudent.withdrawApplication")
+                      {t("universityStudent.withdrawApplication")}
                     </button>
                   )}
                 </div>
