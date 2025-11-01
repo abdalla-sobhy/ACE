@@ -29,6 +29,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (pathname === "/company/register") {
+  return NextResponse.next();
+}
+
   if ((isProtectedRoute || isDashboard) && !token) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);

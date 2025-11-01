@@ -30,9 +30,7 @@ export default function LandingPage() {
             <Link href="/signup/student" className={styles.primaryButton}>
               {t("landing.registerAsStudent")}
             </Link>
-            <Link href="/signup/teacher" className={styles.secondaryButton}>
-              {t("landing.joinAsTeacher")}
-            </Link>
+            
             <Link href="/company/register" className={styles.secondaryButton}>
               {t("landing.joinAsCompany")}
             </Link>
