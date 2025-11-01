@@ -478,7 +478,7 @@ const handleRemoveCertification = (index: number) => {
                   }
                 >
                   {profile.is_public ? <FaEye /> : <FaEyeSlash />}
-                  {profile.is_public ? {t("universityStudent.publicProfile") : {t("universityStudent.privateProfile")}
+                  {profile.is_public ? t("universityStudent.publicProfile") : t("universityStudent.privateProfile")}
                 </button>
               </div>
             </div>
