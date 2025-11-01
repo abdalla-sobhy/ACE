@@ -1,0 +1,193 @@
+.container {
+  min-height: 100vh;
+  background: var(--main-background);
+  padding-top: 65px;
+}
+
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--main-text-white-lighter);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header p {
+  color: var(--main-text-white);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.searchBox {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--main-color);
+  border: 1px solid var(--borders);
+  border-radius: 6px;
+  padding: 0 16px;
+}
+
+.searchBox svg {
+  color: var(--main-text-white);
+}
+
+.searchBox input {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px 0;
+  color: var(--main-text-white-lighter);
+  font-size: 14px;
+}
+
+.searchBox input:focus {
+  outline: none;
+}
+
+.select {
+  padding: 10px 16px;
+  background: var(--main-color);
+  border: 1px solid var(--borders);
+  border-radius: 6px;
+  color: var(--main-text-white);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.companiesTable {
+  background: var(--main-color);
+  border: 1px solid var(--borders);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.companiesTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.companiesTable thead {
+  background: var(--main-background);
+  border-bottom: 1px solid var(--borders);
+}
+
+.companiesTable th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--main-text-white-lighter);
+  font-size: 14px;
+}
+
+.companiesTable td {
+  padding: 16px;
+  color: var(--main-text-white);
+  font-size: 14px;
+  border-bottom: 1px solid var(--borders);
+}
+
+.companiesTable tbody tr:hover {
+  background: var(--main-background);
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statusBadge.verified {
+  background: rgba(46, 160, 67, 0.2);
+  color: #3fb950;
+}
+
+.statusBadge.unverified {
+  background: rgba(251, 133, 0, 0.2);
+  color: #fb8500;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.actions button:hover {
+  opacity: 0.8;
+}
+
+.verifyBtn {
+  background: #2ea043;
+  color: white;
+}
+
+.unverifyBtn {
+  background: var(--error);
+  color: white;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 20px;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--borders);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1024px) {
+  .companiesTable {
+    overflow-x: auto;
+  }
+
+  .companiesTable table {
+    min-width: 800px;
+  }
+}

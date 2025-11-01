@@ -19,6 +19,11 @@ use App\Http\Controllers\Api\CompanyAuthController;
 use App\Http\Controllers\Api\CompanyJobController;
 use App\Http\Controllers\Api\UniversityJobController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminCourseController;
+use App\Http\Controllers\Admin\AdminCompanyController;
+use App\Http\Controllers\Admin\TeacherManagementController;
 
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -60,6 +65,39 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead']);
         Route::delete('/{id}', [NotificationController::class, 'destroy']);
         Route::delete('/read/all', [NotificationController::class, 'deleteAllRead']);
+    });
+
+    // Admin routes
+    Route::prefix('admin')->middleware(\App\Http\Middleware\UserTypeMiddleware::class . ':admin')->group(function () {
+        // Dashboard
+        Route::get('/dashboard/stats', [AdminDashboardController::class, 'getStats']);
+        Route::get('/analytics/{period?}', [AdminDashboardController::class, 'getAnalytics']);
+
+        // User management
+        Route::get('/users', [AdminUserController::class, 'index']);
+        Route::get('/users/{id}', [AdminUserController::class, 'show']);
+        Route::put('/users/{id}/status', [AdminUserController::class, 'updateStatus']);
+        Route::post('/users/{id}/suspend', [AdminUserController::class, 'suspend']);
+        Route::post('/users/{id}/activate', [AdminUserController::class, 'activate']);
+        Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);
+        Route::post('/users/create-admin', [AdminUserController::class, 'createAdmin']);
+
+        // Teacher management
+        Route::get('/teachers/pending', [TeacherManagementController::class, 'getPendingTeachers']);
+        Route::get('/teachers/{id}', [TeacherManagementController::class, 'getTeacherDetails']);
+        Route::post('/teachers/{id}/approve', [TeacherManagementController::class, 'approveTeacher']);
+        Route::post('/teachers/{id}/reject', [TeacherManagementController::class, 'rejectTeacher']);
+        Route::get('/teachers/{id}/cv', [TeacherManagementController::class, 'downloadCV']);
+
+        // Course management
+        Route::get('/courses', [AdminCourseController::class, 'index']);
+        Route::put('/courses/{id}/status', [AdminCourseController::class, 'updateStatus']);
+        Route::delete('/courses/{id}', [AdminCourseController::class, 'destroy']);
+
+        // Company management
+        Route::get('/companies', [AdminCompanyController::class, 'index']);
+        Route::post('/companies/{id}/verify', [AdminCompanyController::class, 'verify']);
+        Route::post('/companies/{id}/unverify', [AdminCompanyController::class, 'unverify']);
     });
 
         Route::get('/courses', [CourseController::class, 'index']);
