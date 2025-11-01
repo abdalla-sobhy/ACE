@@ -105,7 +105,7 @@ export default function JobDetailsPage() {
 
   const handleApply = async () => {
     if (!coverLetter.trim() || coverLetter.length < 50) {
-      alert("يجب كتابة خطاب تقديم لا يقل عن 50 حرف");
+      alert(t("universityStudent.coverLetterMinLength"));
       return;
     }
 
@@ -129,15 +129,15 @@ export default function JobDetailsPage() {
       const data = await response.json();
 
       if (data.success) {
-        alert("t("universityStudent.applicationSent")");
+        alert(t("universityStudent.applicationSent"));
         fetchJobDetails();
         setShowApplicationForm(false);
       } else {
-        alert(data.message || "حدث خطأ في t("universityStudent.sendApplication")");
+        alert(data.message || t("universityStudent.applicationError"));
       }
     } catch (error) {
       console.error("Error applying for job:", error);
-      alert("حدث خطأ في t("universityStudent.sendApplication")");
+      alert(t("universityStudent.applicationError"));
     } finally {
       setApplying(false);
     }

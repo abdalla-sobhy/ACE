@@ -126,7 +126,7 @@ export default function MyApplications() {
   };
 
   const handleWithdraw = async (applicationId: number) => {
-    if (!confirm("t("universityStudent.confirmWithdraw")")) {
+    if (!confirm(t("universityStudent.confirmWithdraw"))) {
       return;
     }
 
@@ -145,12 +145,12 @@ export default function MyApplications() {
       );
 
       if (response.ok) {
-        alert("t("universityStudent.withdrawSuccess")");
+        alert(t("universityStudent.withdrawSuccess"));
         fetchApplications();
       }
     } catch (error) {
       console.error("Error withdrawing application:", error);
-      alert("حدث خطأ في t("universityStudent.withdrawApplication")");
+      alert(t("universityStudent.withdrawError"));
     }
   };
 

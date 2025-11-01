@@ -185,13 +185,13 @@ export default function UniversityStudentProfile() {
 
       if (response.ok) {
         setIsEditing(false);
-        alert("t("universityStudent.profileSaved")");
+        alert(t("universityStudent.profileSaved"));
       } else {
-        alert("t("universityStudent.profileError")");
+        alert(t("universityStudent.profileError"));
       }
     } catch (error) {
       console.error("Error saving profile:", error);
-      alert("t("universityStudent.profileError")");
+      alert(t("universityStudent.profileError"));
     } finally {
       setSaving(false);
     }
@@ -208,12 +208,12 @@ export default function UniversityStudentProfile() {
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ].includes(file.type)
     ) {
-      alert("t("universityStudent.invalidFileType")");
+      alert(t("universityStudent.invalidFileType"));
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert("t("universityStudent.fileTooLarge")");
+      alert(t("universityStudent.fileTooLarge"));
       return;
     }
 
@@ -243,11 +243,11 @@ export default function UniversityStudentProfile() {
           cv_filename: file.name,
         });
       } else {
-        alert("حدث خطأ في t("universityStudent.uploadCVButton")");
+        alert(t("universityStudent.cvUploadError"));
       }
     } catch (error) {
       console.error("Error uploading CV:", error);
-      alert("حدث خطأ في t("universityStudent.uploadCVButton")");
+      alert(t("universityStudent.cvUploadError"));
     } finally {
       setUploadingCV(false);
     }
