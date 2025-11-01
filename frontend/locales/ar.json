@@ -62,7 +62,9 @@
     "and": "و",
     "viewAll": "عرض الكل",
     "loadingData": "جاري تحميل البيانات...",
-    "updating": "جاري التحديث..."
+    "updating": "جاري التحديث...",
+    "publicationDate": "تاريخ النشر",
+    "lastUpdated": "آخر تحديث"
   },
   "nav": {
     "features": "المميزات",
@@ -609,7 +611,8 @@
     "errorApplying": "حدث خطأ في تقديم الطلب",
     "errorSaving": "حدث خطأ في الحفظ",
     "pleaseSelectIndustry": "يرجى اختيار المجال",
-    "pleaseSelectSize": "يرجى اختيار حجم الشركة"
+    "pleaseSelectSize": "يرجى اختيار حجم الشركة",
+    "preferredSkillsNotOptional": "مهارات مفضلة"
   },
   "companyJobs": {
     "title": "الوظائف المعلن عنها",
@@ -700,7 +703,15 @@
     "errorSkillRequired": "يرجى إضافة مهارة واحدة على الأقل",
     "errorRequirementRequired": "يرجى إضافة متطلب واحد على الأقل",
     "errorResponsibilityRequired": "يرجى إضافة مسؤولية واحدة على الأقل",
-    "formDescription": "قم بملء البيانات التالية لإنشاء إعلان وظيفي جديد"
+    "formDescription": "قم بملء البيانات التالية لإنشاء إعلان وظيفي جديد",
+    "jobNotFound": "الوظيفة غير موجودة",
+    "jobExpired": "منتهي الصلاحية",
+    "numberOfPositions": "عدد المناصب",
+    "views": "المشاهدات",
+    "aplicationsDistribution": "توزيع حالات الطلبات",
+    "viewAllOrders": "عرض جميع الطلبات",
+    "preferredSkillsNotOptional": "مهارات مفضلة",
+    "requiredQualification": "المؤهل المطلوب"
   },
   "companyApplications": {
     "title": "الطلبات",
@@ -710,8 +721,10 @@
     "newApplications": "جديد",
     "pending": "قيد الانتظار",
     "reviewing": "قيد المراجعة",
+    "shortlist": "القائمة المختصرة",
     "shortlisted": "تم الاختيار",
     "interviewed": "تمت المقابلة",
+    "interview": "مقابلة",
     "accepted": "مقبول",
     "rejected": "مرفوض",
     "favorites": "المفضلة",

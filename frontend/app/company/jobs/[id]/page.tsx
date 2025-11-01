@@ -198,7 +198,7 @@ export default function JobDetailPage() {
         <CompanyNav />
         <div className="max-w-7xl mx-auto px-6 py-24">
           <div className="bg-red-500/10 border border-red-500/30 text-red-500 rounded-xl p-6 text-center">
-            {error || "الوظيفة غير موجودة"}
+            {error || t("companyJobs.jobNotFound")}
           </div>
         </div>
       </div>
@@ -216,7 +216,7 @@ export default function JobDetailPage() {
           className="inline-flex items-center gap-2 text-[var(--p-text)] hover:text-[#58a6ff] transition-colors mb-6"
         >
           <FaArrowLeft className="text-sm" />
-          <span>العودة للوظائف</span>
+          <span>{t("companyJobs.backToJobs")}</span>
         </Link>
 
         {/* Header Section */}
@@ -238,7 +238,7 @@ export default function JobDetailPage() {
                 </span>
                 {job.is_expired && (
                   <span className="px-4 py-1 rounded-full text-sm font-medium bg-orange-500/10 text-orange-500 border border-orange-500/30">
-                    منتهي الصلاحية
+                    {t("companyJobs.jobExpired")}
                   </span>
                 )}
               </div>
@@ -297,7 +297,7 @@ export default function JobDetailPage() {
               </div>
               <div>
                 <div className="text-2xl font-bold">{job.applications_count}</div>
-                <div className="text-sm text-[var(--p-text)]">إجمالي المتقدمين</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyJobs.totalApplicants")}</div>
               </div>
             </div>
 
@@ -307,7 +307,7 @@ export default function JobDetailPage() {
               </div>
               <div>
                 <div className="text-2xl font-bold">{job.positions_available}</div>
-                <div className="text-sm text-[var(--p-text)]">عدد المناصب</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyJobs.numberOfPositions")}</div>
               </div>
             </div>
 
@@ -317,7 +317,7 @@ export default function JobDetailPage() {
               </div>
               <div>
                 <div className="text-2xl font-bold">{job.views_count}</div>
-                <div className="text-sm text-[var(--p-text)]">المشاهدات</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyJobs.views")}</div>
               </div>
             </div>
 
@@ -331,7 +331,7 @@ export default function JobDetailPage() {
                     ? new Date(job.application_deadline).toLocaleDateString("ar-EG")
                     : "مفتوح"}
                 </div>
-                <div className="text-sm text-[var(--p-text)]">آخر موعد للتقديم</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyJobs.applicationDeadline")}</div>
               </div>
             </div>
           </div>
@@ -342,39 +342,39 @@ export default function JobDetailPage() {
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6 mb-6">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
               <FaUsers className="text-[#58a6ff]" />
-              توزيع حالات الطلبات
+              {t("companyJobs.aplicationsDistribution")}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               <div className="text-center p-4 bg-[var(--main-color)] rounded-lg">
                 <div className="text-2xl font-bold text-yellow-500">{job.applications_status.pending}</div>
-                <div className="text-sm text-[var(--p-text)]">قيد الانتظار</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyApplications.pending")}</div>
               </div>
               <div className="text-center p-4 bg-[var(--main-color)] rounded-lg">
                 <div className="text-2xl font-bold text-blue-500">{job.applications_status.reviewing}</div>
-                <div className="text-sm text-[var(--p-text)]">قيد المراجعة</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyApplications.reviewing")}</div>
               </div>
               <div className="text-center p-4 bg-[var(--main-color)] rounded-lg">
                 <div className="text-2xl font-bold text-purple-500">{job.applications_status.shortlisted}</div>
-                <div className="text-sm text-[var(--p-text)]">القائمة المختصرة</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyApplications.shortlist")}</div>
               </div>
               <div className="text-center p-4 bg-[var(--main-color)] rounded-lg">
                 <div className="text-2xl font-bold text-indigo-500">{job.applications_status.interviewed}</div>
-                <div className="text-sm text-[var(--p-text)]">مقابلة</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyApplications.interview")}</div>
               </div>
               <div className="text-center p-4 bg-[var(--main-color)] rounded-lg">
                 <div className="text-2xl font-bold text-green-500">{job.applications_status.accepted}</div>
-                <div className="text-sm text-[var(--p-text)]">مقبول</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyApplications.accepted")}</div>
               </div>
               <div className="text-center p-4 bg-[var(--main-color)] rounded-lg">
                 <div className="text-2xl font-bold text-red-500">{job.applications_status.rejected}</div>
-                <div className="text-sm text-[var(--p-text)]">مرفوض</div>
+                <div className="text-sm text-[var(--p-text)]">{t("companyApplications.rejected")}</div>
               </div>
             </div>
             <Link
               href={`/company/applications?job_id=${job.id}`}
               className="mt-4 inline-flex items-center gap-2 text-[#58a6ff] hover:underline"
             >
-              عرض جميع الطلبات
+              {t("companyJobs.viewAllOrders")}
             </Link>
           </div>
         )}
@@ -395,7 +395,7 @@ export default function JobDetailPage() {
               <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
                 <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <FaTasks className="text-[#58a6ff]" />
-                  المسؤوليات
+                  {t("company.responsibilities")}
                 </h2>
                 <ul className="space-y-2">
                   {job.responsibilities.map((item, index) => (
@@ -413,7 +413,7 @@ export default function JobDetailPage() {
               <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
                 <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <FaCheckCircle className="text-green-500" />
-                  المتطلبات
+                  {t("company.requirements")}
                 </h2>
                 <ul className="space-y-2">
                   {job.requirements.map((item, index) => (
@@ -431,7 +431,7 @@ export default function JobDetailPage() {
               <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
                 <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <FaGift className="text-[#a371f7]" />
-                  المزايا
+                  {t("company.benefits")}
                 </h2>
                 <ul className="space-y-2">
                   {job.benefits.map((item, index) => (
@@ -452,7 +452,7 @@ export default function JobDetailPage() {
               <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
                 <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
                   <FaLaptopCode className="text-[#58a6ff]" />
-                  المهارات المطلوبة
+                  {t("company.skills")}
                 </h2>
                 <div className="flex flex-wrap gap-2">
                   {job.skills_required.map((skill, index) => (
@@ -472,7 +472,7 @@ export default function JobDetailPage() {
               <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
                 <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
                   <FaLightbulb className="text-yellow-500" />
-                  مهارات مفضلة
+                  {t("company.preferredSkillsNotOptional")}
                 </h2>
                 <div className="flex flex-wrap gap-2">
                   {job.skills_preferred.map((skill, index) => (
@@ -489,22 +489,22 @@ export default function JobDetailPage() {
 
             {/* Additional Info */}
             <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
-              <h2 className="text-lg font-bold mb-4">معلومات إضافية</h2>
+              <h2 className="text-lg font-bold mb-4">{t("companyJobs.additionalInfo")}</h2>
               <div className="space-y-3 text-sm">
                 {job.education_requirement && (
                   <div>
-                    <div className="text-[var(--p-text)] mb-1">المؤهل المطلوب:</div>
+                    <div className="text-[var(--p-text)] mb-1">{t("companyJobs.requiredQualification")}</div>
                     <div className="font-medium">{job.education_requirement}</div>
                   </div>
                 )}
                 {job.faculties_preferred && job.faculties_preferred.length > 0 && (
                   <div>
-                    <div className="text-[var(--p-text)] mb-1">التخصصات المفضلة:</div>
+                    <div className="text-[var(--p-text)] mb-1">{t("company.preferredFaculties")}</div>
                     <div className="font-medium">{job.faculties_preferred.join("، ")}</div>
                   </div>
                 )}
                 <div className="pt-3 border-t border-[var(--borders)]">
-                  <div className="text-[var(--p-text)] mb-1">تاريخ النشر:</div>
+                  <div className="text-[var(--p-text)] mb-1">{t("common.publicationDate")}</div>
                   <div className="font-medium">
                     {new Date(job.created_at).toLocaleDateString("ar-EG", {
                       year: "numeric",
@@ -514,7 +514,7 @@ export default function JobDetailPage() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-[var(--p-text)] mb-1">آخر تحديث:</div>
+                  <div className="text-[var(--p-text)] mb-1">{t("common.lastUpdated")}</div>
                   <div className="font-medium">
                     {new Date(job.updated_at).toLocaleDateString("ar-EG", {
                       year: "numeric",

@@ -62,7 +62,9 @@
     "and": "and",
     "viewAll": "View All",
     "loadingData": "Loading data...",
-    "updating": "Updating..."
+    "updating": "Updating...",
+    "publicationDate": "Publication Date",
+    "lastUpdated": "Last Updated"
   },
   "nav": {
     "features": "Features",
@@ -126,7 +128,7 @@
     "loginDescription": "Welcome back! Login to continue",
     "emailPlaceholder": "Email",
     "passwordPlaceholder": "Password",
-    "forgotPassword": "Forgot Password?",
+    "forgotPassword": "?Forgot Password",
     "loginButton": "Login",
     "noAccount": "Don't have an account?",
     "signupLink": "Register Now",
@@ -460,7 +462,8 @@
     "errorApplying": "Error applying for job",
     "errorSaving": "Error saving",
     "pleaseSelectIndustry": "Please select industry",
-    "pleaseSelectSize": "Please select company size"
+    "pleaseSelectSize": "Please select company size",
+    "preferredSkillsNotOptional": "Preferred Skills"
   },
   "companyJobs": {
     "title": "Posted Jobs",
@@ -551,7 +554,15 @@
     "errorSkillRequired": "Please add at least one skill",
     "errorRequirementRequired": "Please add at least one requirement",
     "errorResponsibilityRequired": "Please add at least one responsibility",
-    "formDescription": "Fill in the following details to create a new job posting"
+    "formDescription": "Fill in the following details to create a new job posting",
+    "jobNotFound": "Job Is Not Found",
+    "jobExpired": "Expired",
+    "numberOfPositions": "Number of Positions",
+    "views": "Views",
+    "aplicationsDistribution": "Applications Distribution",
+    "viewAllOrders": "View all orders",
+    "preferredSkillsNotOptional": "Preferred Skills",
+    "requiredQualification": "Required Qualification"
   },
   "companyApplications": {
     "title": "Applications",
@@ -561,8 +572,10 @@
     "newApplications": "New",
     "pending": "Pending",
     "reviewing": "Under Review",
+    "shortlist": "Shortlist",
     "shortlisted": "Shortlisted",
     "interviewed": "Interviewed",
+    "interview": "Interview",
     "accepted": "Accepted",
     "rejected": "Rejected",
     "favorites": "Favorites",
