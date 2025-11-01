@@ -41,7 +41,7 @@
 .dropdown {
   position: absolute;
   top: calc(100% + 0.5rem);
-  right: 0;
+  left: 0;
   background: var(--card-background, white);
   border: 1px solid var(--border-color, #e5e7eb);
   border-radius: 0.75rem;

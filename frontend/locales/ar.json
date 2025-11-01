@@ -1029,7 +1029,16 @@
     "sendApplication": "إرسال الطلب",
     "applicationSent": "تم إرسال طلبك بنجاح!",
     "applicationError": "حدث خطأ في إرسال الطلب",
-    "coverLetterMinLength": "يجب كتابة خطاب تقديم لا يقل عن 50 حرف"
+    "coverLetterMinLength": "يجب كتابة خطاب تقديم لا يقل عن 50 حرف",
+    "showDetails": "عرض التفاصيل",
+    "status": {
+      "pending": "قيد الانتظار",
+      "reviewing": "قيد المراجعة",
+      "shortlisted": "مرشح مبدئياً",
+      "interviewed": "تمت المقابلة",
+      "accepted": "مقبول",
+      "rejected": "مرفوض"
+    }
   },
   "parent": {
     "dashboard": "لوحة تحكم ولي الأمر",
@@ -1574,7 +1583,11 @@
     "prep_3": "الصف الثالث الإعدادي",
     "secondary_1": "الصف الأول الثانوي",
     "secondary_2": "الصف الثاني الثانوي",
-    "secondary_3": "الصف الثالث الثانوي"
+    "secondary_3": "الصف الثالث الثانوي",
+    "selectGrade": "اختر المرحلة الدراسية",
+    "primary": "الابتدائية",
+    "preparatory": "الإعدادية",
+    "secondary": "الثانوية"
   },
   "categories": {
     "arabic": "اللغة العربية",
@@ -1610,12 +1623,6 @@
     "enrollmentError": "حدث خطأ في التسجيل",
     "registrationError": "حدث خطأ في التسجيل",
     "connectionError": "حدث خطأ في الاتصال بالخادم"
-  },
-  "grades": {
-    "selectGrade": "اختر المرحلة الدراسية",
-    "primary": "الابتدائية",
-    "preparatory": "الإعدادية",
-    "secondary": "الثانوية"
   },
   "subjects": {
     "selectSubject": "اختر المادة",
