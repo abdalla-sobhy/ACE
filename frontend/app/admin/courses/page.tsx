@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import AdminNav from "@/components/AdminNav/AdminNav";
 import styles from "./Courses.module.css";
 import { FaBook, FaSearch } from "react-icons/fa";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface Course {
   id: number;
@@ -23,6 +24,7 @@ interface Course {
 
 export default function CoursesPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -91,7 +93,7 @@ export default function CoursesPage() {
       );
 
       if (response.ok) {
-        alert("Course status updated successfully!");
+        alert(t("admin.courses.courseStatusUpdated"));
         fetchCourses();
       }
     } catch (error) {
@@ -104,8 +106,8 @@ export default function CoursesPage() {
       <AdminNav />
       <main className={styles.main}>
         <div className={styles.header}>
-          <h1><FaBook /> Course Management</h1>
-          <p>Manage all platform courses</p>
+          <h1><FaBook /> {t("admin.courses.title")}</h1>
+          <p>{t("admin.courses.subtitle")}</p>
         </div>
 
         <div className={styles.controls}>
@@ -113,7 +115,7 @@ export default function CoursesPage() {
             <FaSearch />
             <input
               type="text"
-              placeholder="Search courses..."
+              placeholder={t("admin.courses.searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && fetchCourses()}
@@ -124,30 +126,30 @@ export default function CoursesPage() {
             onChange={(e) => setStatusFilter(e.target.value)}
             className={styles.select}
           >
-            <option value="">All Statuses</option>
-            <option value="published">Published</option>
-            <option value="draft">Draft</option>
-            <option value="archived">Archived</option>
+            <option value="">{t("admin.courses.allStatuses")}</option>
+            <option value="published">{t("admin.courses.published")}</option>
+            <option value="draft">{t("admin.courses.draft")}</option>
+            <option value="archived">{t("admin.courses.archived")}</option>
           </select>
         </div>
 
         {loading ? (
           <div className={styles.loadingContainer}>
             <div className={styles.loader}></div>
-            <p>Loading courses...</p>
+            <p>{t("admin.courses.loadingCourses")}</p>
           </div>
         ) : (
           <div className={styles.coursesTable}>
             <table>
               <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Teacher</th>
-                  <th>Grade</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>Created</th>
-                  <th>Actions</th>
+                  <th>{t("admin.courses.title")}</th>
+                  <th>{t("admin.courses.teacher")}</th>
+                  <th>{t("admin.courses.grade")}</th>
+                  <th>{t("admin.courses.price")}</th>
+                  <th>{t("admin.courses.status")}</th>
+                  <th>{t("admin.courses.created")}</th>
+                  <th>{t("admin.courses.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -157,7 +159,7 @@ export default function CoursesPage() {
                     <td>
                       {course.teacher
                         ? `${course.teacher.first_name} ${course.teacher.last_name}`
-                        : "N/A"}
+                        : t("admin.courses.na")}
                     </td>
                     <td>{course.grade}</td>
                     <td>${course.price}</td>
@@ -173,9 +175,9 @@ export default function CoursesPage() {
                         onChange={(e) => updateCourseStatus(course.id, e.target.value)}
                         className={styles.statusSelect}
                       >
-                        <option value="published">Published</option>
-                        <option value="draft">Draft</option>
-                        <option value="archived">Archived</option>
+                        <option value="published">{t("admin.courses.published")}</option>
+                        <option value="draft">{t("admin.courses.draft")}</option>
+                        <option value="archived">{t("admin.courses.archived")}</option>
                       </select>
                     </td>
                   </tr>

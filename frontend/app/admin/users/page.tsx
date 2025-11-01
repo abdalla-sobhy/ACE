@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import AdminNav from "@/components/AdminNav/AdminNav";
 import styles from "./Users.module.css";
 import { FaUsers, FaSearch, FaBan, FaCheck } from "react-icons/fa";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface User {
   id: number;
@@ -18,6 +19,7 @@ interface User {
 
 export default function UsersPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -72,7 +74,7 @@ export default function UsersPage() {
   };
 
   const suspendUser = async (userId: number) => {
-    if (!confirm("Are you sure you want to suspend this user?")) return;
+    if (!confirm(t("admin.users.confirmSuspend"))) return;
 
     try {
       const authData = JSON.parse(localStorage.getItem("authData") || "{}");
@@ -88,7 +90,7 @@ export default function UsersPage() {
       );
 
       if (response.ok) {
-        alert("User suspended successfully!");
+        alert(t("admin.users.userSuspendedSuccess"));
         fetchUsers();
       }
     } catch (error) {
@@ -111,7 +113,7 @@ export default function UsersPage() {
       );
 
       if (response.ok) {
-        alert("User activated successfully!");
+        alert(t("admin.users.userActivatedSuccess"));
         fetchUsers();
       }
     } catch (error) {
@@ -124,8 +126,8 @@ export default function UsersPage() {
       <AdminNav />
       <main className={styles.main}>
         <div className={styles.header}>
-          <h1><FaUsers /> User Management</h1>
-          <p>Manage all platform users</p>
+          <h1><FaUsers /> {t("admin.users.title")}</h1>
+          <p>{t("admin.users.subtitle")}</p>
         </div>
 
         <div className={styles.controls}>
@@ -133,7 +135,7 @@ export default function UsersPage() {
             <FaSearch />
             <input
               type="text"
-              placeholder="Search by name or email..."
+              placeholder={t("admin.users.searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && fetchUsers()}
@@ -144,41 +146,41 @@ export default function UsersPage() {
             onChange={(e) => setUserType(e.target.value)}
             className={styles.select}
           >
-            <option value="">All User Types</option>
-            <option value="student">Students</option>
-            <option value="university_student">University Students</option>
-            <option value="teacher">Teachers</option>
-            <option value="parent">Parents</option>
-            <option value="company">Companies</option>
+            <option value="">{t("admin.users.allUserTypes")}</option>
+            <option value="student">{t("admin.users.students")}</option>
+            <option value="university_student">{t("admin.users.universityStudents")}</option>
+            <option value="teacher">{t("admin.users.teachers")}</option>
+            <option value="parent">{t("admin.users.parents")}</option>
+            <option value="company">{t("admin.users.companies")}</option>
           </select>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className={styles.select}
           >
-            <option value="">All Statuses</option>
-            <option value="active">Active</option>
-            <option value="suspended">Suspended</option>
-            <option value="pending">Pending</option>
+            <option value="">{t("admin.users.allStatuses")}</option>
+            <option value="active">{t("admin.users.active")}</option>
+            <option value="suspended">{t("admin.users.suspended")}</option>
+            <option value="pending">{t("admin.users.pending")}</option>
           </select>
         </div>
 
         {loading ? (
           <div className={styles.loadingContainer}>
             <div className={styles.loader}></div>
-            <p>Loading users...</p>
+            <p>{t("admin.users.loadingUsers")}</p>
           </div>
         ) : (
           <div className={styles.usersTable}>
             <table>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Type</th>
-                  <th>Status</th>
-                  <th>Joined</th>
-                  <th>Actions</th>
+                  <th>{t("admin.users.name")}</th>
+                  <th>{t("admin.users.email")}</th>
+                  <th>{t("admin.users.type")}</th>
+                  <th>{t("admin.users.status")}</th>
+                  <th>{t("admin.users.joined")}</th>
+                  <th>{t("admin.users.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -199,7 +201,7 @@ export default function UsersPage() {
                           <button
                             className={styles.suspendBtn}
                             onClick={() => suspendUser(user.id)}
-                            title="Suspend"
+                            title={t("admin.users.suspend")}
                           >
                             <FaBan />
                           </button>
@@ -207,7 +209,7 @@ export default function UsersPage() {
                           <button
                             className={styles.activateBtn}
                             onClick={() => activateUser(user.id)}
-                            title="Activate"
+                            title={t("admin.users.activate")}
                           >
                             <FaCheck />
                           </button>

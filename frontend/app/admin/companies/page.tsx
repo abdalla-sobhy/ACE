@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import AdminNav from "@/components/AdminNav/AdminNav";
 import styles from "./Companies.module.css";
 import { FaBuilding, FaSearch, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface Company {
   id: number;
@@ -21,6 +22,7 @@ interface Company {
 
 export default function CompaniesPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -87,7 +89,7 @@ export default function CompaniesPage() {
       );
 
       if (response.ok) {
-        alert("Company verified successfully!");
+        alert(t("admin.companies.companyVerifiedSuccess"));
         fetchCompanies();
       }
     } catch (error) {
@@ -110,7 +112,7 @@ export default function CompaniesPage() {
       );
 
       if (response.ok) {
-        alert("Company unverified successfully!");
+        alert(t("admin.companies.companyUnverifiedSuccess"));
         fetchCompanies();
       }
     } catch (error) {
@@ -123,8 +125,8 @@ export default function CompaniesPage() {
       <AdminNav />
       <main className={styles.main}>
         <div className={styles.header}>
-          <h1><FaBuilding /> Company Management</h1>
-          <p>Verify and manage companies</p>
+          <h1><FaBuilding /> {t("admin.companies.title")}</h1>
+          <p>{t("admin.companies.subtitle")}</p>
         </div>
 
         <div className={styles.controls}>
@@ -132,7 +134,7 @@ export default function CompaniesPage() {
             <FaSearch />
             <input
               type="text"
-              placeholder="Search companies..."
+              placeholder={t("admin.companies.searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && fetchCompanies()}
@@ -143,28 +145,28 @@ export default function CompaniesPage() {
             onChange={(e) => setVerifiedFilter(e.target.value)}
             className={styles.select}
           >
-            <option value="">All Companies</option>
-            <option value="1">Verified</option>
-            <option value="0">Unverified</option>
+            <option value="">{t("admin.companies.allCompanies")}</option>
+            <option value="1">{t("admin.companies.verified")}</option>
+            <option value="0">{t("admin.companies.unverified")}</option>
           </select>
         </div>
 
         {loading ? (
           <div className={styles.loadingContainer}>
             <div className={styles.loader}></div>
-            <p>Loading companies...</p>
+            <p>{t("admin.companies.loadingCompanies")}</p>
           </div>
         ) : (
           <div className={styles.companiesTable}>
             <table>
               <thead>
                 <tr>
-                  <th>Company Name</th>
-                  <th>Industry</th>
-                  <th>Contact</th>
-                  <th>Status</th>
-                  <th>Joined</th>
-                  <th>Actions</th>
+                  <th>{t("admin.companies.companyName")}</th>
+                  <th>{t("admin.companies.industry")}</th>
+                  <th>{t("admin.companies.contact")}</th>
+                  <th>{t("admin.companies.status")}</th>
+                  <th>{t("admin.companies.joined")}</th>
+                  <th>{t("admin.companies.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -172,7 +174,7 @@ export default function CompaniesPage() {
                   <tr key={company.id}>
                     <td>{company.company_name}</td>
                     <td>{company.industry}</td>
-                    <td>{company.user?.email || "N/A"}</td>
+                    <td>{company.user?.email || t("admin.companies.na")}</td>
                     <td>
                       <span
                         className={`${styles.statusBadge} ${
@@ -181,11 +183,11 @@ export default function CompaniesPage() {
                       >
                         {company.is_verified ? (
                           <>
-                            <FaCheckCircle /> Verified
+                            <FaCheckCircle /> {t("admin.companies.verified")}
                           </>
                         ) : (
                           <>
-                            <FaTimesCircle /> Unverified
+                            <FaTimesCircle /> {t("admin.companies.unverified")}
                           </>
                         )}
                       </span>
@@ -198,14 +200,14 @@ export default function CompaniesPage() {
                             className={styles.unverifyBtn}
                             onClick={() => unverifyCompany(company.id)}
                           >
-                            Unverify
+                            {t("admin.companies.unverify")}
                           </button>
                         ) : (
                           <button
                             className={styles.verifyBtn}
                             onClick={() => verifyCompany(company.id)}
                           >
-                            Verify
+                            {t("admin.companies.verify")}
                           </button>
                         )}
                       </div>
