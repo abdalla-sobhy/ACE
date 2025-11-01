@@ -52,7 +52,7 @@ class AdminService
             ],
             'jobs' => [
                 'total' => JobPosting::count(),
-                'active' => JobPosting::where('status', 'active')->count(),
+                'active' => JobPosting::where('is_active', true)->count(),
                 'applications' => JobApplication::count(),
             ],
             'recent_activity' => [

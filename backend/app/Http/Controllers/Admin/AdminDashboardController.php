@@ -27,9 +27,14 @@ class AdminDashboardController extends Controller
                 'data' => $stats
             ]);
         } catch (\Exception $e) {
+            \Log::error('Failed to fetch dashboard statistics: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch dashboard statistics'
+                'message' => 'Failed to fetch dashboard statistics',
+                'error' => config('app.debug') ? $e->getMessage() : null
             ], 500);
         }
     }
@@ -47,9 +52,14 @@ class AdminDashboardController extends Controller
                 'data' => $analytics
             ]);
         } catch (\Exception $e) {
+            \Log::error('Failed to fetch analytics: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch analytics'
+                'message' => 'Failed to fetch analytics',
+                'error' => config('app.debug') ? $e->getMessage() : null
             ], 500);
         }
     }
