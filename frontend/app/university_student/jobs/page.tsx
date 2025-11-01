@@ -174,7 +174,7 @@ export default function UniversityJobs() {
         <UniversityStudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل الوظائف...</p>
+          <p>{t("universityStudent.loadingJobs")}</p>
         </div>
       </div>
     );
@@ -188,8 +188,8 @@ export default function UniversityJobs() {
         {/* Header Section */}
         <section className={styles.headerSection}>
           <div className={styles.headerContent}>
-            <h1>فرص العمل والتدريب</h1>
-            <p>اكتشف الفرص المناسبة لمهاراتك وطموحاتك المهنية</p>
+            <h1>{t("universityStudent.jobsAndTraining")}</h1>
+            <p>{t("universityStudent.discoverOpportunities")}</p>
           </div>
         </section>
 
@@ -200,7 +200,7 @@ export default function UniversityJobs() {
               <FaSearch className={styles.searchIcon} />
               <input
                 type="text"
-                placeholder="ابحث عن وظيفة، شركة، أو مهارة..."
+                placeholder={t("universityStudent.searchForJob")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={styles.searchInput}
@@ -219,14 +219,14 @@ export default function UniversityJobs() {
               )}
             </div>
             <button type="submit" className={styles.searchButton}>
-              بحث
+              {t("universityStudent.search")}
             </button>
             <button
               type="button"
               className={styles.filterToggle}
               onClick={() => setShowFilters(!showFilters)}
             >
-              <FaFilter /> فلترة
+              <FaFilter /> {t("universityStudent.filter")}
             </button>
           </form>
 
@@ -241,15 +241,15 @@ export default function UniversityJobs() {
                   }
                 >
                   <option value="all">{t("common.all")}</option>
-                  <option value="full_time">دوام كامل</option>
-                  <option value="part_time">دوام جزئي</option>
-                  <option value="internship">تدريب</option>
-                  <option value="contract">عقد</option>
+                  <option value="full_time">{t("universityStudent.fullTime")}</option>
+                  <option value="part_time">{t("universityStudent.partTime")}</option>
+                  <option value="internship">{t("universityStudent.internship")}</option>
+                  <option value="contract">{t("universityStudent.contract")}</option>
                 </select>
               </div>
 
               <div className={styles.filterGroup}>
-                <label>مكان العمل</label>
+                <label>{t("universityStudent.workLocation")}</label>
                 <select
                   value={filters.work_location}
                   onChange={(e) =>
@@ -257,14 +257,14 @@ export default function UniversityJobs() {
                   }
                 >
                   <option value="all">{t("common.all")}</option>
-                  <option value="onsite">حضور مكتبي</option>
-                  <option value="remote">عن بُعد</option>
-                  <option value="hybrid">هجين</option>
+                  <option value="onsite">{t("universityStudent.onsite")}</option>
+                  <option value="remote">{t("universityStudent.remote")}</option>
+                  <option value="hybrid">{t("universityStudent.hybrid")}</option>
                 </select>
               </div>
 
               <div className={styles.filterGroup}>
-                <label>مستوى الخبرة</label>
+                <label>{t("universityStudent.experienceLevel")}</label>
                 <select
                   value={filters.experience_level}
                   onChange={(e) =>
@@ -272,10 +272,10 @@ export default function UniversityJobs() {
                   }
                 >
                   <option value="all">{t("common.all")}</option>
-                  <option value="entry">مبتدئ</option>
-                  <option value="junior">خبرة قليلة</option>
-                  <option value="mid">متوسط</option>
-                  <option value="senior">خبير</option>
+                  <option value="entry">{t("universityStudent.entry")}</option>
+                  <option value="junior">{t("universityStudent.junior")}</option>
+                  <option value="mid">{t("universityStudent.mid")}</option>
+                  <option value="senior">{t("universityStudent.senior")}</option>
                 </select>
               </div>
 
@@ -288,7 +288,7 @@ export default function UniversityJobs() {
                       setFilters({ ...filters, match_skills: e.target.checked })
                     }
                   />
-                  وظائف تناسب مهاراتي
+                  {t("universityStudent.jobsMatchingSkills")}
                 </label>
               </div>
             </div>
@@ -300,8 +300,8 @@ export default function UniversityJobs() {
           {jobs.length === 0 ? (
             <div className={styles.emptyState}>
               <FaBriefcase className={styles.emptyIcon} />
-              <h3>لا توجد وظائف متاحة</h3>
-              <p>جرب تغيير معايير البحث أو الفلترة</p>
+              <h3>{t("universityStudent.noJobsAvailable")}</h3>
+              <p>{t("universityStudent.tryChangingFilters")}</p>
             </div>
           ) : (
             <div className={styles.jobsList}>
@@ -345,7 +345,7 @@ export default function UniversityJobs() {
                           ),
                         }}
                       >
-                        تم التقديم
+                        {t("universityStudent.applied")}
                       </div>
                     )}
                   </div>
@@ -383,7 +383,7 @@ export default function UniversityJobs() {
                         ))}
                         {job.skills_required.length > 5 && (
                           <span className={styles.moreSkills}>
-                            +{job.skills_required.length - 5} أخرى
+                            +{job.skills_required.length - 5} {t("universityStudent.moreSkills")}
                           </span>
                         )}
                       </div>
@@ -399,7 +399,7 @@ export default function UniversityJobs() {
                           <>
                             <span className={styles.separator}>•</span>
                             <span className={styles.deadline}>
-                              آخر موعد:{" "}
+                              {t("universityStudent.lastDate")}{" "}
                               {new Date(
                                 job.application_deadline
                               ).toLocaleDateString("ar-EG")}
@@ -414,10 +414,10 @@ export default function UniversityJobs() {
                         }`}
                       >
                         {job.is_expired
-                          ? "منتهية"
+                          ? t("universityStudent.expired")
                           : job.has_applied
-                          ? "عرض الطلب"
-                          : "عرض التفاصيل"}
+                          ? t("universityStudent.viewApplication")
+                          : t("universityStudent.viewDetails")}
                       </Link>
                     </div>
                   </div>
@@ -434,17 +434,17 @@ export default function UniversityJobs() {
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
               >
-                السابق
+                {t("universityStudent.previous")}
               </button>
               <span className={styles.pageInfo}>
-                صفحة {currentPage} من {totalPages}
+                {t("universityStudent.pageOf")} {currentPage} {t("universityStudent.of")} {totalPages}
               </span>
                             <button
                 className={styles.pageButton}
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
               >
-                التالي
+                {t("universityStudent.next")}
               </button>
             </div>
           )}

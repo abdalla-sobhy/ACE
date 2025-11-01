@@ -105,7 +105,7 @@ export default function JobDetailsPage() {
 
   const handleApply = async () => {
     if (!coverLetter.trim() || coverLetter.length < 50) {
-      alert("يجب كتابة خطاب تقديم لا يقل عن 50 حرف");
+      alert(t("universityStudent.coverLetterMinLength"));
       return;
     }
 
@@ -129,15 +129,15 @@ export default function JobDetailsPage() {
       const data = await response.json();
 
       if (data.success) {
-        alert("تم إرسال طلبك بنجاح!");
+        alert(t("universityStudent.applicationSent"));
         fetchJobDetails();
         setShowApplicationForm(false);
       } else {
-        alert(data.message || "حدث خطأ في إرسال الطلب");
+        alert(data.message || t("universityStudent.applicationError"));
       }
     } catch (error) {
       console.error("Error applying for job:", error);
-      alert("حدث خطأ في إرسال الطلب");
+      alert(t("universityStudent.applicationError"));
     } finally {
       setApplying(false);
     }
@@ -189,7 +189,7 @@ export default function JobDetailsPage() {
         <UniversityStudentNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>جاري تحميل تفاصيل الوظيفة...</p>
+          <p>{t("universityStudent.loadingJobDetails")}</p>
         </div>
       </div>
     );
@@ -200,9 +200,9 @@ export default function JobDetailsPage() {
       <div className={styles.container}>
         <UniversityStudentNav />
         <div className={styles.notFound}>
-          <h2>الوظيفة غير موجودة</h2>
+          <h2>{t("universityStudent.jobNotFound")}</h2>
           <Link href="/university_student/jobs" className={styles.backButton}>
-            العودة للوظائف
+            {t("universityStudent.backToJobs")}
           </Link>
         </div>
       </div>
@@ -295,18 +295,18 @@ export default function JobDetailsPage() {
                 {job.has_applied ? (
                   <div className={styles.appliedStatus}>
                     <FaCheckCircle />
-                    <span>تم التقديم بنجاح</span>
+                    <span>{t("universityStudent.appliedSuccessfully")}</span>
                   </div>
                 ) : job.is_expired ? (
                   <div className={styles.expiredStatus}>
-                    انتهت فترة التقديم
+                    {t("universityStudent.applicationPeriodEnded")}
                   </div>
                 ) : (
                   <button
                     className={styles.applyButton}
                     onClick={() => setShowApplicationForm(true)}
                   >
-                    تقديم طلب
+                    {t("universityStudent.submitApplication")}
                   </button>
                 )}
               </div>
@@ -314,13 +314,13 @@ export default function JobDetailsPage() {
 
             {/* Job Description */}
             <section className={styles.section}>
-              <h3>الوصف الوظيفي</h3>
+              <h3>{t("universityStudent.jobDescription")}</h3>
               <p>{job.description}</p>
             </section>
 
             {/* Responsibilities */}
             <section className={styles.section}>
-              <h3>المسؤوليات</h3>
+              <h3>{t("universityStudent.responsibilities")}</h3>
               <ul>
                 {job.responsibilities.map((item, index) => (
                   <li key={index}>{item}</li>
@@ -330,7 +330,7 @@ export default function JobDetailsPage() {
 
             {/* Requirements */}
             <section className={styles.section}>
-              <h3>المتطلبات</h3>
+              <h3>{t("universityStudent.requirements")}</h3>
               <ul>
                 {job.requirements.map((item, index) => (
                   <li key={index}>{item}</li>
@@ -340,7 +340,7 @@ export default function JobDetailsPage() {
 
             {/* Skills */}
             <section className={styles.section}>
-              <h3>المهارات المطلوبة</h3>
+              <h3>{t("universityStudent.requiredSkills")}</h3>
               <div className={styles.skillsList}>
                 {job.skills_required.map((skill, index) => (
                   <span key={index} className={styles.skill}>
@@ -351,7 +351,7 @@ export default function JobDetailsPage() {
 
               {job.skills_preferred && job.skills_preferred.length > 0 && (
                 <>
-                  <h4>المهارات المفضلة</h4>
+                  <h4>{t("universityStudent.preferredSkills")}</h4>
                   <div className={styles.skillsList}>
                     {job.skills_preferred.map((skill, index) => (
                       <span key={index} className={styles.skillPreferred}>
@@ -366,7 +366,7 @@ export default function JobDetailsPage() {
             {/* Education */}
             {(job.education_requirement || job.faculties_preferred) && (
               <section className={styles.section}>
-                <h3>التعليم</h3>
+                <h3>{t("universityStudent.education")}</h3>
                 {job.education_requirement && <p>{job.education_requirement}</p>}
                 {job.faculties_preferred && job.faculties_preferred.length > 0 && (
                   <div>
@@ -385,7 +385,7 @@ export default function JobDetailsPage() {
           {/* Sidebar */}
           <aside className={styles.sidebar}>
             <div className={styles.companyCard}>
-              <h3>عن الشركة</h3>
+              <h3>{t("universityStudent.aboutCompany")}</h3>
               {job.company.description && (
                 <p>{job.company.description}</p>
               )}
@@ -410,7 +410,7 @@ export default function JobDetailsPage() {
                     className={styles.companyWebsite}
                   >
                     <FaGlobe />
-                    زيارة الموقع
+                    {t("universityStudent.visitWebsite")}
                   </a>
                 )}
               </div>
@@ -422,11 +422,11 @@ export default function JobDetailsPage() {
         {showApplicationForm && !job.has_applied && !job.is_expired && (
           <div className={styles.modal}>
             <div className={styles.modalContent}>
-              <h2>تقديم طلب للوظيفة</h2>
-              <p>يرجى كتابة خطاب تقديم يوضح اهتمامك بهذه الوظيفة ومؤهلاتك</p>
+              <h2>{t("universityStudent.applicationFormTitle")}</h2>
+              <p>{t("universityStudent.applicationFormDesc")}</p>
               <textarea
                 className={styles.coverLetterInput}
-                placeholder="اكتب خطاب التقديم هنا..."
+                placeholder={t("universityStudent.coverLetterPlaceholder")}
                 value={coverLetter}
                 onChange={(e) => setCoverLetter(e.target.value)}
                 rows={10}
@@ -442,7 +442,7 @@ export default function JobDetailsPage() {
                   onClick={handleApply}
                   disabled={applying || coverLetter.length < 50}
                 >
-                  {applying ? "جاري الإرسال..." : "إرسال الطلب"}
+                  {applying ? t("universityStudent.sending") : t("universityStudent.sendApplication")}
                 </button>
                 <button
                   className={styles.cancelButton}
