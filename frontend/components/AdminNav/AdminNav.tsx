@@ -43,7 +43,7 @@ export default function AdminNav() {
         <div className={styles.navLeft}>
           <Link href="/admin/dashboard" className={styles.logo}>
             <FaShieldAlt />
-            <span>Admin Panel</span>
+            <span>{t("admin.nav.adminPanel")}</span>
           </Link>
 
           <div className={styles.navLinks}>
@@ -54,7 +54,7 @@ export default function AdminNav() {
               }`}
             >
               <FaTachometerAlt />
-              <span>Dashboard</span>
+              <span>{t("admin.nav.dashboard")}</span>
             </Link>
 
             <Link
@@ -64,7 +64,7 @@ export default function AdminNav() {
               }`}
             >
               <FaUsers />
-              <span>Users</span>
+              <span>{t("admin.nav.users")}</span>
             </Link>
 
             <Link
@@ -74,7 +74,7 @@ export default function AdminNav() {
               }`}
             >
               <FaChalkboardTeacher />
-              <span>Teachers</span>
+              <span>{t("admin.nav.teachers")}</span>
             </Link>
 
             <Link
@@ -84,7 +84,7 @@ export default function AdminNav() {
               }`}
             >
               <FaBook />
-              <span>Courses</span>
+              <span>{t("admin.nav.courses")}</span>
             </Link>
 
             <Link
@@ -94,7 +94,7 @@ export default function AdminNav() {
               }`}
             >
               <FaBuilding />
-              <span>Companies</span>
+              <span>{t("admin.nav.companies")}</span>
             </Link>
 
             <div id="themeIcon">

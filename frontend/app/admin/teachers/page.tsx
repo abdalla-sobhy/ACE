@@ -12,6 +12,7 @@ import {
   FaEye,
   FaFilter,
 } from "react-icons/fa";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface Teacher {
   id: number;
@@ -31,6 +32,7 @@ interface Teacher {
 
 export default function TeachersPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved'>('pending');
@@ -105,20 +107,20 @@ export default function TeachersPage() {
       );
 
       if (response.ok) {
-        alert("Teacher approved successfully!");
+        alert(t("admin.teachers.teacherApprovedSuccess"));
         fetchTeachers();
       } else {
-        alert("Failed to approve teacher");
+        alert(t("admin.teachers.failedToApprove"));
       }
     } catch (error) {
       console.error("Error approving teacher:", error);
-      alert("Error approving teacher");
+      alert(t("admin.teachers.errorApprovingTeacher"));
     }
   };
 
   const rejectTeacher = async () => {
     if (!selectedTeacher || !rejectReason.trim()) {
-      alert("Please provide a reason for rejection");
+      alert(t("admin.teachers.provideReason"));
       return;
     }
 
@@ -138,17 +140,17 @@ export default function TeachersPage() {
       );
 
       if (response.ok) {
-        alert("Teacher rejected successfully!");
+        alert(t("admin.teachers.teacherRejectedSuccess"));
         setShowRejectModal(false);
         setRejectReason("");
         setSelectedTeacher(null);
         fetchTeachers();
       } else {
-        alert("Failed to reject teacher");
+        alert(t("admin.teachers.failedToReject"));
       }
     } catch (error) {
       console.error("Error rejecting teacher:", error);
-      alert("Error rejecting teacher");
+      alert(t("admin.teachers.errorRejectingTeacher"));
     }
   };
 
@@ -175,11 +177,11 @@ export default function TeachersPage() {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       } else {
-        alert("CV not found");
+        alert(t("admin.teachers.cvNotFound"));
       }
     } catch (error) {
       console.error("Error downloading CV:", error);
-      alert("Error downloading CV");
+      alert(t("admin.teachers.errorDownloadingCV"));
     }
   };
 
@@ -189,7 +191,7 @@ export default function TeachersPage() {
         <AdminNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>Loading teachers...</p>
+          <p>{t("admin.teachers.loadingTeachers")}</p>
         </div>
       </div>
     );
@@ -203,9 +205,9 @@ export default function TeachersPage() {
         <div className={styles.header}>
           <div>
             <h1>
-              <FaChalkboardTeacher /> Teacher Management
+              <FaChalkboardTeacher /> {t("admin.teachers.title")}
             </h1>
-            <p>Approve and manage teacher applications</p>
+            <p>{t("admin.teachers.subtitle")}</p>
           </div>
         </div>
 
@@ -214,39 +216,39 @@ export default function TeachersPage() {
             className={`${styles.filterBtn} ${filter === 'pending' ? styles.active : ''}`}
             onClick={() => setFilter('pending')}
           >
-            Pending Approval
+            {t("admin.teachers.pendingApproval")}
           </button>
           <button
             className={`${styles.filterBtn} ${filter === 'approved' ? styles.active : ''}`}
             onClick={() => setFilter('approved')}
           >
-            Approved
+            {t("admin.teachers.approved")}
           </button>
           <button
             className={`${styles.filterBtn} ${filter === 'all' ? styles.active : ''}`}
             onClick={() => setFilter('all')}
           >
-            All Teachers
+            {t("admin.teachers.allTeachers")}
           </button>
         </div>
 
         {teachers.length === 0 ? (
           <div className={styles.emptyState}>
             <FaChalkboardTeacher />
-            <p>No teachers found</p>
+            <p>{t("admin.teachers.noTeachersFound")}</p>
           </div>
         ) : (
           <div className={styles.teachersTable}>
             <table>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Specialization</th>
-                  <th>Experience</th>
-                  <th>Status</th>
-                  <th>Applied</th>
-                  <th>Actions</th>
+                  <th>{t("admin.teachers.name")}</th>
+                  <th>{t("admin.teachers.email")}</th>
+                  <th>{t("admin.teachers.specialization")}</th>
+                  <th>{t("admin.teachers.experience")}</th>
+                  <th>{t("admin.teachers.status")}</th>
+                  <th>{t("admin.teachers.applied")}</th>
+                  <th>{t("admin.teachers.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -254,15 +256,15 @@ export default function TeachersPage() {
                   <tr key={teacher.id}>
                     <td>{`${teacher.first_name} ${teacher.last_name}`}</td>
                     <td>{teacher.email}</td>
-                    <td>{teacher.teacher_profile?.specialization || "N/A"}</td>
-                    <td>{teacher.teacher_profile?.years_of_experience || "N/A"} years</td>
+                    <td>{teacher.teacher_profile?.specialization || t("admin.teachers.na")}</td>
+                    <td>{teacher.teacher_profile?.years_of_experience || t("admin.teachers.na")} {t("admin.teachers.years")}</td>
                     <td>
                       <span
                         className={`${styles.statusBadge} ${
                           teacher.is_approved ? styles.approved : styles.pending
                         }`}
                       >
-                        {teacher.is_approved ? "Approved" : "Pending"}
+                        {teacher.is_approved ? t("admin.teachers.approved") : t("admin.teachers.pendingApproval")}
                       </span>
                     </td>
                     <td>{new Date(teacher.created_at).toLocaleDateString()}</td>
@@ -272,7 +274,7 @@ export default function TeachersPage() {
                           <button
                             className={styles.downloadBtn}
                             onClick={() => downloadCV(teacher.id, `${teacher.first_name}_${teacher.last_name}`)}
-                            title="Download CV"
+                            title={t("admin.teachers.downloadCV")}
                           >
                             <FaDownload />
                           </button>
@@ -282,7 +284,7 @@ export default function TeachersPage() {
                             <button
                               className={styles.approveBtn}
                               onClick={() => approveTeacher(teacher.id)}
-                              title="Approve"
+                              title={t("admin.teachers.approve")}
                             >
                               <FaCheck />
                             </button>
@@ -292,7 +294,7 @@ export default function TeachersPage() {
                                 setSelectedTeacher(teacher);
                                 setShowRejectModal(true);
                               }}
-                              title="Reject"
+                              title={t("admin.teachers.reject")}
                             >
                               <FaTimes />
                             </button>
@@ -312,9 +314,9 @@ export default function TeachersPage() {
       {showRejectModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h2>Reject Teacher Application</h2>
+            <h2>{t("admin.teachers.rejectModalTitle")}</h2>
             <p>
-              Please provide a reason for rejecting{" "}
+              {t("admin.teachers.rejectModalMessage")}{" "}
               <strong>
                 {selectedTeacher?.first_name} {selectedTeacher?.last_name}
               </strong>
@@ -324,7 +326,7 @@ export default function TeachersPage() {
               className={styles.textarea}
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
-              placeholder="Enter rejection reason..."
+              placeholder={t("admin.teachers.rejectModalPlaceholder")}
               rows={5}
             />
             <div className={styles.modalActions}>
@@ -336,10 +338,10 @@ export default function TeachersPage() {
                   setSelectedTeacher(null);
                 }}
               >
-                Cancel
+                {t("admin.teachers.cancel")}
               </button>
               <button className={styles.confirmRejectBtn} onClick={rejectTeacher}>
-                Confirm Rejection
+                {t("admin.teachers.confirmRejection")}
               </button>
             </div>
           </div>

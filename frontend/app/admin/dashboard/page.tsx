@@ -15,6 +15,7 @@ import {
   FaBan,
 } from "react-icons/fa";
 import Link from "next/link";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface DashboardStats {
   users: {
@@ -62,6 +63,7 @@ interface DashboardStats {
 
 export default function AdminDashboard() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -120,7 +122,7 @@ export default function AdminDashboard() {
         <AdminNav />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
-          <p>Loading dashboard...</p>
+          <p>{t("admin.dashboard.loadingDashboard")}</p>
         </div>
       </div>
     );
@@ -131,7 +133,7 @@ export default function AdminDashboard() {
       <div className={styles.container}>
         <AdminNav />
         <div className={styles.errorContainer}>
-          <p>Failed to load dashboard data</p>
+          <p>{t("admin.dashboard.failedToLoad")}</p>
         </div>
       </div>
     );
@@ -143,13 +145,13 @@ export default function AdminDashboard() {
 
       <main className={styles.main}>
         <div className={styles.header}>
-          <h1>Admin Dashboard</h1>
-          <p>Manage and monitor your platform</p>
+          <h1>{t("admin.dashboard.title")}</h1>
+          <p>{t("admin.dashboard.subtitle")}</p>
         </div>
 
         {/* Main Stats Grid */}
         <div className={styles.section}>
-          <h2>Platform Overview</h2>
+          <h2>{t("admin.dashboard.platformOverview")}</h2>
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>
@@ -157,7 +159,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.statContent}>
                 <h3>{stats.users.total}</h3>
-                <p>Total Users</p>
+                <p>{t("admin.dashboard.totalUsers")}</p>
               </div>
             </div>
 
@@ -167,7 +169,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.statContent}>
                 <h3>{stats.users.students + stats.users.university_students}</h3>
-                <p>Total Students</p>
+                <p>{t("admin.dashboard.totalStudents")}</p>
               </div>
             </div>
 
@@ -177,7 +179,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.statContent}>
                 <h3>{stats.teachers.total}</h3>
-                <p>Total Teachers</p>
+                <p>{t("admin.dashboard.totalTeachers")}</p>
               </div>
             </div>
 
@@ -187,7 +189,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.statContent}>
                 <h3>{stats.courses.total}</h3>
-                <p>Total Courses</p>
+                <p>{t("admin.dashboard.totalCourses")}</p>
               </div>
             </div>
 
@@ -197,7 +199,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.statContent}>
                 <h3>{stats.companies.total}</h3>
-                <p>Companies</p>
+                <p>{t("admin.dashboard.companies")}</p>
               </div>
             </div>
 
@@ -207,7 +209,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.statContent}>
                 <h3>{stats.users.pending_approval}</h3>
-                <p>Pending Approvals</p>
+                <p>{t("admin.dashboard.pendingApprovals")}</p>
               </div>
             </div>
           </div>
@@ -216,9 +218,9 @@ export default function AdminDashboard() {
         {/* Teachers Section */}
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
-            <h2>Teacher Management</h2>
+            <h2>{t("admin.dashboard.teacherManagement")}</h2>
             <Link href="/admin/teachers" className={styles.viewAllLink}>
-              View All
+              {t("admin.dashboard.viewAll")}
             </Link>
           </div>
           <div className={styles.statsRow}>
@@ -228,7 +230,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.statContent}>
                 <h3>{stats.teachers.approved}</h3>
-                <p>Approved Teachers</p>
+                <p>{t("admin.dashboard.approvedTeachers")}</p>
               </div>
             </div>
 
@@ -238,7 +240,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.statContent}>
                 <h3>{stats.teachers.pending}</h3>
-                <p>Pending Approval</p>
+                <p>{t("admin.dashboard.pendingApproval")}</p>
               </div>
             </div>
           </div>
@@ -246,7 +248,7 @@ export default function AdminDashboard() {
 
         {/* Recent Activity */}
         <div className={styles.section}>
-          <h2>Recent Activity</h2>
+          <h2>{t("admin.dashboard.recentActivity")}</h2>
           <div className={styles.activityGrid}>
             <div className={styles.activityCard}>
               <div className={styles.activityIcon}>
@@ -254,7 +256,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.activityContent}>
                 <h4>{stats.recent_activity.new_users_today}</h4>
-                <p>New users today</p>
+                <p>{t("admin.dashboard.newUsersToday")}</p>
               </div>
             </div>
 
@@ -264,7 +266,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.activityContent}>
                 <h4>{stats.recent_activity.new_courses_this_week}</h4>
-                <p>New courses this week</p>
+                <p>{t("admin.dashboard.newCoursesThisWeek")}</p>
               </div>
             </div>
 
@@ -274,7 +276,7 @@ export default function AdminDashboard() {
               </div>
               <div className={styles.activityContent}>
                 <h4>{stats.recent_activity.new_enrollments_this_week}</h4>
-                <p>New enrollments this week</p>
+                <p>{t("admin.dashboard.newEnrollmentsThisWeek")}</p>
               </div>
             </div>
           </div>
@@ -282,23 +284,23 @@ export default function AdminDashboard() {
 
         {/* Quick Links */}
         <div className={styles.section}>
-          <h2>Quick Actions</h2>
+          <h2>{t("admin.dashboard.quickActions")}</h2>
           <div className={styles.quickLinks}>
             <Link href="/admin/users" className={styles.quickLink}>
               <FaUsers />
-              <span>Manage Users</span>
+              <span>{t("admin.dashboard.manageUsers")}</span>
             </Link>
             <Link href="/admin/teachers" className={styles.quickLink}>
               <FaChalkboardTeacher />
-              <span>Approve Teachers</span>
+              <span>{t("admin.dashboard.approveTeachers")}</span>
             </Link>
             <Link href="/admin/courses" className={styles.quickLink}>
               <FaBook />
-              <span>Manage Courses</span>
+              <span>{t("admin.dashboard.manageCourses")}</span>
             </Link>
             <Link href="/admin/companies" className={styles.quickLink}>
               <FaBuilding />
-              <span>Verify Companies</span>
+              <span>{t("admin.dashboard.verifyCompanies")}</span>
             </Link>
           </div>
         </div>
