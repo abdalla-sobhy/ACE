@@ -270,7 +270,7 @@ export default function EditJobPage() {
         <CompanyNav />
         <div className="flex flex-col justify-center items-center min-h-[50vh] gap-4">
           <div className="w-12 h-12 border-4 border-[var(--borders)] border-t-[#58a6ff] rounded-full animate-spin"></div>
-          <p className="text-[var(--p-text)]">جاري تحميل البيانات...</p>
+          <p className="text-[var(--p-text)]">{t("common.loadingData")}</p>
         </div>
       </div>
     );
@@ -287,16 +287,16 @@ export default function EditJobPage() {
             className="inline-flex items-center gap-2 text-[var(--p-text)] hover:text-[#58a6ff] transition-colors"
           >
             <FaArrowLeft className="text-sm" />
-            <span>العودة لصفحة الوظيفة</span>
+            <span>{t("companyJobs.backToJobs")}</span>
           </Link>
         </div>
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
             <FaBriefcase className="text-[#58a6ff]" />
-            تعديل الوظيفة
+            {t("companyJobs.editJob")}
           </h1>
-          <p className="text-[var(--p-text)]">قم بتحديث بيانات الوظيفة</p>
+          <p className="text-[var(--p-text)]">{t("companyJobs.formDescription")}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -308,32 +308,32 @@ export default function EditJobPage() {
 
           {/* Basic Information */}
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
-            <h2 className="text-xl font-bold mb-6">المعلومات الأساسية</h2>
+            <h2 className="text-xl font-bold mb-6">{t("companyJobs.basicInfo")}</h2>
 
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  عنوان الوظيفة <span className="text-red-500">*</span>
+                  {t("companyJobs.jobTitle")} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="w-full px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                  placeholder="مثال: مطور ويب Full Stack"
+                  placeholder={t("companyJobs.jobTitlePlaceholder")}
                   required
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  وصف الوظيفة <span className="text-red-500">*</span>
+                  {t("companyJobs.jobDescription")} <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all resize-none"
-                  placeholder="اكتب وصفاً مفصلاً للوظيفة..."
+                  placeholder={t("companyJobs.jobDescriptionPlaceholder")}
                   rows={6}
                   required
                 />
@@ -347,76 +347,76 @@ export default function EditJobPage() {
                     onChange={(e) => setJobType(e.target.value)}
                     className="w-full px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
                   >
-                    <option value="full_time">دوام كامل</option>
-                    <option value="part_time">دوام جزئي</option>
-                    <option value="internship">تدريب</option>
-                    <option value="contract">عقد</option>
+                    <option value="full_time">{t("companyJobs.fullTime")}</option>
+                    <option value="part_time">{t("companyJobs.partTime")}</option>
+                    <option value="internship">{t("companyJobs.internship")}</option>
+                    <option value="contract">{t("companyJobs.contract")}</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">طبيعة العمل</label>
+                  <label className="block text-sm font-medium mb-2">{t("companyJobs.workNature")}</label>
                   <select
                     value={workLocation}
                     onChange={(e) => setWorkLocation(e.target.value)}
                     className="w-full px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
                   >
-                    <option value="onsite">حضوري</option>
-                    <option value="remote">عن بعد</option>
-                    <option value="hybrid">مختلط</option>
+                    <option value="onsite">{t("companyJobs.onsite")}</option>
+                    <option value="remote">{t("companyJobs.remote")}</option>
+                    <option value="hybrid">{t("companyJobs.hybrid")}</option>
                   </select>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">الموقع</label>
+                  <label className="block text-sm font-medium mb-2">{t("companyJobs.location")}</label>
                   <input
                     type="text"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     className="w-full px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                    placeholder="مثال: القاهرة، مصر"
+                    placeholder={t("companyJobs.locationPlaceholder")}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">نطاق الراتب</label>
+                  <label className="block text-sm font-medium mb-2">{t("companyJobs.salaryRange")}</label>
                   <input
                     type="text"
                     value={salaryRange}
                     onChange={(e) => setSalaryRange(e.target.value)}
                     className="w-full px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                    placeholder="مثال: 5000 - 8000 جنيه"
+                    placeholder={t("companyJobs.locationPlaceholder")}
                   />
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">مستوى الخبرة المطلوب</label>
+                  <label className="block text-sm font-medium mb-2">{t("companyJobs.experienceLevel")}</label>
                   <select
                     value={experienceLevel}
                     onChange={(e) => setExperienceLevel(e.target.value)}
                     className="w-full px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
                   >
-                    <option value="entry">مبتدئ (0-1 سنة)</option>
-                    <option value="junior">متوسط (1-3 سنوات)</option>
-                    <option value="mid">متقدم (3-5 سنوات)</option>
-                    <option value="senior">خبير (+5 سنوات)</option>
+                    <option value="entry">{t("companyJobs.entry")}</option>
+                    <option value="junior">{t("companyJobs.junior")}</option>
+                    <option value="mid">{t("companyJobs.mid")}</option>
+                    <option value="senior">{t("companyJobs.senior")}</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    عدد الوظائف المتاحة <span className="text-red-500">*</span>
+                    {t("companyJobs.positionsAvailable")} <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
                     value={positionsAvailable}
                     onChange={(e) => setPositionsAvailable(parseInt(e.target.value) || 1)}
                     className="w-full px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                    placeholder="مثال: 1"
+                    placeholder="1"
                     min="1"
                     required
                   />
@@ -424,13 +424,13 @@ export default function EditJobPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">المؤهل العلمي المطلوب</label>
+                <label className="block text-sm font-medium mb-2">{t("companyJobs.education")}</label>
                 <input
                   type="text"
                   value={educationRequirement}
                   onChange={(e) => setEducationRequirement(e.target.value)}
                   className="w-full px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                  placeholder="مثال: بكالوريوس في علوم الحاسب"
+                  placeholder={t("companyJobs.educationPlaceholder")}
                 />
               </div>
             </div>
@@ -439,7 +439,7 @@ export default function EditJobPage() {
           {/* Required Skills */}
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
             <h2 className="text-xl font-bold mb-4">
-              المهارات المطلوبة <span className="text-red-500">*</span>
+              {t("companyJobs.skills")} <span className="text-red-500">*</span>
             </h2>
 
             <div className="flex gap-2 mb-4">
@@ -449,14 +449,14 @@ export default function EditJobPage() {
                 onChange={(e) => setSkillRequiredInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddSkillRequired())}
                 className="flex-1 px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                placeholder="أضف مهارة واضغط Enter أو على زر الإضافة"
+                placeholder={t("companyJobs.addSkillPlaceholder")}
               />
               <button
                 type="button"
                 onClick={handleAddSkillRequired}
                 className="px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg transition-all flex items-center gap-2"
               >
-                <FaPlus /> إضافة
+                <FaPlus /> {t("companyJobs.addSkill")}
               </button>
             </div>
 
@@ -481,7 +481,7 @@ export default function EditJobPage() {
 
           {/* Preferred Skills */}
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
-            <h2 className="text-xl font-bold mb-4">مهارات مفضلة (اختياري)</h2>
+            <h2 className="text-xl font-bold mb-4">{t("companyJobs.preferredSkills")}</h2>
 
             <div className="flex gap-2 mb-4">
               <input
@@ -490,14 +490,14 @@ export default function EditJobPage() {
                 onChange={(e) => setSkillPreferredInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddSkillPreferred())}
                 className="flex-1 px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                placeholder="أضف مهارة مفضلة"
+                placeholder={t("companyJobs.preferredSkillsPlaceholder")}
               />
               <button
                 type="button"
                 onClick={handleAddSkillPreferred}
                 className="px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg transition-all flex items-center gap-2"
               >
-                <FaPlus /> إضافة
+                <FaPlus /> {t("companyJobs.addSkill")}
               </button>
             </div>
 
@@ -523,7 +523,7 @@ export default function EditJobPage() {
           {/* Requirements */}
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
             <h2 className="text-xl font-bold mb-4">
-              المتطلبات <span className="text-red-500">*</span>
+              {t("companyJobs.requirements")} <span className="text-red-500">*</span>
             </h2>
 
             <div className="flex gap-2 mb-4">
@@ -533,14 +533,14 @@ export default function EditJobPage() {
                 onChange={(e) => setRequirementInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddRequirement())}
                 className="flex-1 px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                placeholder="أضف متطلباً واضغط Enter"
+                placeholder={t("companyJobs.addRequirementPlaceholder")}
               />
               <button
                 type="button"
                 onClick={handleAddRequirement}
                 className="px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg transition-all flex items-center gap-2"
               >
-                <FaPlus /> إضافة
+                <FaPlus /> {t("companyJobs.addSkill")}
               </button>
             </div>
 
@@ -566,7 +566,7 @@ export default function EditJobPage() {
           {/* Responsibilities */}
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
             <h2 className="text-xl font-bold mb-4">
-              المسؤوليات <span className="text-red-500">*</span>
+              {t("companyJobs.responsibilities")} <span className="text-red-500">*</span>
             </h2>
 
             <div className="flex gap-2 mb-4">
@@ -576,7 +576,7 @@ export default function EditJobPage() {
                 onChange={(e) => setResponsibilityInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddResponsibility())}
                 className="flex-1 px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                placeholder="أضف مسؤولية واضغط Enter"
+                placeholder={t("companyJobs.addResponsibilityPlaceholder")}
               />
               <button
                 type="button"
@@ -608,7 +608,7 @@ export default function EditJobPage() {
 
           {/* Benefits */}
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
-            <h2 className="text-xl font-bold mb-4">المزايا والحوافز (اختياري)</h2>
+            <h2 className="text-xl font-bold mb-4">{t("companyJobs.benefitsAndIncentives")}</h2>
 
             <div className="flex gap-2 mb-4">
               <input
@@ -617,14 +617,14 @@ export default function EditJobPage() {
                 onChange={(e) => setBenefitInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddBenefit())}
                 className="flex-1 px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                placeholder="أضف ميزة واضغط Enter"
+                placeholder={t("companyJobs.addBenefitPlaceholder")}
               />
               <button
                 type="button"
                 onClick={handleAddBenefit}
                 className="px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg transition-all flex items-center gap-2"
               >
-                <FaPlus /> إضافة
+                <FaPlus /> {t("companyJobs.addSkill")}
               </button>
             </div>
 
@@ -649,7 +649,7 @@ export default function EditJobPage() {
 
           {/* Faculties Preferred */}
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
-            <h2 className="text-xl font-bold mb-4">التخصصات المفضلة (اختياري)</h2>
+            <h2 className="text-xl font-bold mb-4">{t("companyJobs.preferredFaculties")}</h2>
 
             <div className="flex gap-2 mb-4">
               <input
@@ -658,14 +658,14 @@ export default function EditJobPage() {
                 onChange={(e) => setFacultyInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddFaculty())}
                 className="flex-1 px-4 py-3 bg-[var(--input-color)] border border-[var(--input-border-color)] rounded-lg text-[var(--main-text-white)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
-                placeholder="أضف تخصص واضغط Enter"
+                placeholder={t("companyJobs.addFacultyPlaceholder")}
               />
               <button
                 type="button"
                 onClick={handleAddFaculty}
                 className="px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg transition-all flex items-center gap-2"
               >
-                <FaPlus /> إضافة
+                <FaPlus /> {t("companyJobs.addSkill")}
               </button>
             </div>
 
@@ -690,11 +690,11 @@ export default function EditJobPage() {
 
           {/* Additional Information */}
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-6">
-            <h2 className="text-xl font-bold mb-6">معلومات إضافية</h2>
+            <h2 className="text-xl font-bold mb-6">{t("companyJobs.additionalInfo")}</h2>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">آخر موعد للتقديم</label>
+                <label className="block text-sm font-medium mb-2">{t("companyJobs.applicationDeadline")}</label>
                 <input
                   type="date"
                   value={deadline}
@@ -712,7 +712,7 @@ export default function EditJobPage() {
                   className="w-5 h-5 text-[#58a6ff] bg-[var(--input-color)] border-[var(--input-border-color)] rounded focus:ring-2 focus:ring-[#58a6ff]/20"
                 />
                 <label htmlFor="isActive" className="text-sm font-medium cursor-pointer">
-                  الوظيفة نشطة (يمكن للطلاب التقديم)
+                  {t("companyJobs.publishImmediately")}
                 </label>
               </div>
             </div>
@@ -725,13 +725,13 @@ export default function EditJobPage() {
               disabled={loading}
               className="flex-1 px-6 py-3 bg-[#238636] hover:bg-[#2ea043] disabled:bg-gray-500 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-all"
             >
-              {loading ? "جاري الحفظ..." : "حفظ التغييرات"}
+              {loading ? t("companyJobs.saving") : t("companyJobs.saveChanges")}
             </button>
             <Link
               href={`/company/jobs/${jobId}`}
               className="px-6 py-3 bg-[var(--input-color)] hover:bg-[var(--input-border-color)] text-[var(--main-text-white)] border border-[var(--borders)] rounded-lg font-medium transition-all text-center"
             >
-              إلغاء
+              {t("common.cancel")}
             </Link>
           </div>
         </form>
