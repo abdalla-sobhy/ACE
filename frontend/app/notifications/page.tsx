@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useNotifications } from "@/hooks/useNotifications";
 import { Notification } from "@/lib/notifications";
+import CompanyNav from "@/components/CompanyNav/CompanyNav";
 import styles from "./Notifications.module.css";
 import {
   FaBell,
@@ -199,6 +200,7 @@ export default function NotificationsPage() {
 
   return (
     <div className={styles.container}>
+      <CompanyNav />
       <div className={styles.main}>
         <div className={styles.header}>
           <button className={styles.backButton} onClick={() => router.back()}>

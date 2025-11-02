@@ -6,8 +6,8 @@
   height: 40px;
   border-radius: 8px;
   border: none;
-  background: var(--background-secondary);
-  color: var(--text-primary);
+  background: var(--sections-color);
+  color: var(--main-text-white);
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: 600;
@@ -15,7 +15,7 @@
 }
 
 .languageSwitcher:hover {
-  background: var(--background-hover);
+  background: var(--borders);
   transform: translateY(-1px);
 }
 
