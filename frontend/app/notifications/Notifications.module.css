@@ -1,0 +1,412 @@
+.container {
+  min-height: 100vh;
+  background: var(--main-color);
+  direction: rtl;
+}
+
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 100px 24px 48px;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  gap: 16px;
+  color: var(--main-text-white);
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--borders);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Header Section */
+.header {
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.backButton {
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--main-text-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 18px;
+}
+
+.backButton:hover {
+  background: var(--borders);
+  transform: translateX(4px);
+}
+
+.headerContent {
+  flex: 1;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--main-text-white);
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(
+    to left,
+    var(--gradient-blue-start),
+    var(--gradient-blue-end)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--p-text);
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+}
+
+.markAllButton {
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: var(--main-text-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.markAllButton:hover {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--borders);
+}
+
+.filterButton {
+  background: transparent;
+  border: 1px solid var(--borders);
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: var(--p-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.filterButton:hover {
+  background: var(--sections-color);
+  border-color: var(--accent-blue);
+}
+
+.filterButton.active {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: white;
+}
+
+.filterButton .count {
+  background: var(--borders);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+}
+
+.filterButton.active .count {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--p-text);
+}
+
+.emptyIcon {
+  font-size: 80px;
+  color: var(--borders);
+  margin-bottom: 24px;
+}
+
+.emptyState h2 {
+  font-size: 24px;
+  color: var(--main-text-white);
+  margin: 0 0 12px 0;
+}
+
+.emptyState p {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Notifications List */
+.notificationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.notificationGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.groupTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--p-text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px 0;
+}
+
+/* Notification Item */
+.notificationItem {
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.notificationItem:hover {
+  border-color: var(--accent-blue);
+  background: var(--sections-hover-color, var(--sections-color));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.notificationItem.unread {
+  border-color: var(--accent-blue);
+  background: linear-gradient(
+    to left,
+    var(--sections-color),
+    rgba(88, 166, 255, 0.05)
+  );
+}
+
+.notificationIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--accent-blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.notificationContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.notificationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.notificationTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--main-text-white);
+  margin: 0;
+}
+
+.notificationTime {
+  font-size: 12px;
+  color: var(--p-text);
+  white-space: nowrap;
+}
+
+.notificationMessage {
+  font-size: 14px;
+  color: var(--p-text);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.deleteButton {
+  background: transparent;
+  border: none;
+  color: var(--p-text);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.deleteButton:hover {
+  background: var(--borders);
+  color: #f85149;
+}
+
+.unreadDot {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 10px;
+  height: 10px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  border: 2px solid var(--sections-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main {
+    padding: 80px 16px 32px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    width: 100%;
+  }
+
+  .markAllButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+  }
+
+  .filterButton {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+  }
+
+  .notificationItem {
+    padding: 16px;
+  }
+
+  .notificationIcon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .notificationHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .notificationTitle {
+    font-size: 15px;
+  }
+
+  .notificationMessage {
+    font-size: 13px;
+  }
+
+  .unreadDot {
+    top: 16px;
+    left: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 70px 12px 24px;
+  }
+
+  .backButton {
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 20px;
+    gap: 8px;
+  }
+
+  .emptyState {
+    padding: 60px 16px;
+  }
+
+  .emptyIcon {
+    font-size: 60px;
+  }
+
+  .emptyState h2 {
+    font-size: 20px;
+  }
+
+  .emptyState p {
+    font-size: 14px;
+  }
+}
