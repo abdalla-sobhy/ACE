@@ -20,7 +20,7 @@ class ApplicationStatusUpdated extends Notification
 
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
     public function toMail($notifiable)
