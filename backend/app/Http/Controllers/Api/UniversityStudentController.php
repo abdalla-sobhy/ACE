@@ -234,8 +234,8 @@ class UniversityStudentController extends Controller
             }
 
             $validator = Validator::make($request->all(), [
-                'faculty' => 'required|string|max:255',
-                'goal' => 'required|string',
+                'faculty' => 'nullable|string|max:255',
+                'goal' => 'nullable|string',
                 'university' => 'nullable|string|max:255',
                 'year_of_study' => 'nullable|integer|min:1|max:7',
                 'gpa' => 'nullable|numeric|min:0|max:4',
@@ -263,17 +263,28 @@ class UniversityStudentController extends Controller
                 ], 422);
             }
 
-            $profile = UniversityStudentProfile::firstOrCreate(
-                ['user_id' => $user->id],
-                ['faculty' => $request->faculty, 'goal' => $request->goal]
-            );
+            $profile = UniversityStudentProfile::firstOrNew(['user_id' => $user->id]);
 
-            // Update profile data
-            $updateData = $request->only([
+            // If it's a new profile, set default values
+            if (!$profile->exists) {
+                $profile->faculty = '';
+                $profile->goal = '';
+                $profile->save();
+            }
+
+            // Update profile data - only include fields that are present in the request
+            $updateData = [];
+            $fields = [
                 'faculty', 'goal', 'university', 'year_of_study', 'gpa',
                 'bio', 'linkedin_url', 'github_url', 'portfolio_url',
                 'is_public', 'looking_for_opportunities', 'available_from'
-            ]);
+            ];
+
+            foreach ($fields as $field) {
+                if ($request->has($field)) {
+                    $updateData[$field] = $request->input($field);
+                }
+            }
 
             // Handle JSON fields - use input() method instead of property access
             if ($request->has('skills')) {
