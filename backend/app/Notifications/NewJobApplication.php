@@ -5,7 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Mail;
 use App\Models\JobApplication;
 
 class NewJobApplication extends Notification implements ShouldQueue
@@ -26,14 +26,41 @@ class NewJobApplication extends Notification implements ShouldQueue
 
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('طلب جديد للوظيفة: ' . $this->application->jobPosting->title)
-            ->greeting('مرحباً ' . $notifiable->first_name)
-            ->line('تلقيت طلب توظيف جديد:')
-            ->line('المتقدم: ' . $this->application->student->first_name . ' ' . $this->application->student->last_name)
-            ->line('الوظيفة: ' . $this->application->jobPosting->title)
-            ->action('عرض الطلب', url('/company/applications/' . $this->application->id))
-            ->line('شكراً لاستخدامك منصتنا!');
+        // Get the appropriate email address
+        $email = $this->getEmailAddress($notifiable);
+
+        // Arabic content
+        $title = 'طلب جديد للوظيفة: ' . $this->application->jobPosting->title;
+        $greeting = 'مرحباً ' . $notifiable->first_name;
+        $message = 'تلقيت طلب توظيف جديد:';
+        $additionalInfo = [
+            'المتقدم: ' . $this->application->student->first_name . ' ' . $this->application->student->last_name,
+            'الوظيفة: ' . $this->application->jobPosting->title,
+            'شكراً لاستخدامك منصتنا!'
+        ];
+        $actionUrl = url('/company/applications/' . $this->application->id);
+        $actionText = 'عرض الطلب';
+
+        // English content
+        $titleEn = 'New Job Application: ' . $this->application->jobPosting->title;
+        $greetingEn = 'Hello ' . $notifiable->first_name;
+        $messageEn = 'You have received a new job application:';
+        $additionalInfoEn = [
+            'Applicant: ' . $this->application->student->first_name . ' ' . $this->application->student->last_name,
+            'Job: ' . $this->application->jobPosting->title,
+            'Thank you for using our platform!'
+        ];
+        $actionTextEn = 'View Application';
+
+        Mail::send('emails.notification', compact(
+            'title', 'greeting', 'message', 'additionalInfo',
+            'titleEn', 'greetingEn', 'messageEn', 'additionalInfoEn',
+            'actionUrl', 'actionText', 'actionTextEn'
+        ), function ($mail) use ($email, $title) {
+            $mail->to($email)->subject($title . ' - New Job Application');
+        });
+
+        return null;
     }
 
     public function toDatabase($notifiable)
@@ -46,5 +73,13 @@ class NewJobApplication extends Notification implements ShouldQueue
             'student_name' => $this->application->student->first_name . ' ' . $this->application->student->last_name,
             'message' => 'طلب جديد من ' . $this->application->student->first_name . ' للوظيفة: ' . $this->application->jobPosting->title,
         ];
+    }
+
+    /**
+     * Get the email address for the notification
+     */
+    private function getEmailAddress($notifiable)
+    {
+        return $notifiable->email;
     }
 }
