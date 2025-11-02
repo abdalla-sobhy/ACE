@@ -7,7 +7,7 @@
   border-radius: 8px;
   border: none;
   background: var(--background-secondary);
-  color: var(--text-primary);
+  color: var(--main-text-white);
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: 600;
