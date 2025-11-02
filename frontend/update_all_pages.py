@@ -102,6 +102,7 @@ def update_file(file_path):
         'لوحة التحكم': 'common.dashboard',
         'الإعدادات': 'common.settings',
         'الإشعارات': 'common.notifications',
+        'عرض جميع الإشعارات': 'common.showAllNotifications',
 
         # Student
         'الطالب': 'auth.student',

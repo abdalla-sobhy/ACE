@@ -166,7 +166,7 @@ export default function NotificationDropdown() {
       {isOpen && (
         <div className={styles.dropdown}>
           <div className={styles.dropdownHeader}>
-            <h3>الإشعارات</h3>
+            <h3>{t("common.notifications")}</h3>
             {unreadCount > 0 && (
               <button
                 className={styles.markAllButton}
@@ -235,7 +235,7 @@ export default function NotificationDropdown() {
                   setIsOpen(false);
                 }}
               >
-                عرض جميع الإشعارات
+                {t("common.showAllNotifications")}
               </button>
             </div>
           )}

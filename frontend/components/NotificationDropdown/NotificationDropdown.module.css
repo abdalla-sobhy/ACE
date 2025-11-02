@@ -42,8 +42,8 @@
   position: absolute;
   top: calc(100% + 0.5rem);
   left: 0;
-  background: var(--card-background, white);
-  border: 1px solid var(--border-color, #e5e7eb);
+  background: var(--main-color);
+  border: 1px solid var(--borders);
   border-radius: 0.75rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 400px;

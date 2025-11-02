@@ -24,6 +24,7 @@
     "dashboard": "Dashboard",
     "settings": "Settings",
     "notifications": "Notifications",
+    "showAllNotifications": "Show All Notifications",
     "noData": "No data available",
     "selectAll": "Select All",
     "deselectAll": "Deselect All",

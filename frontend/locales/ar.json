@@ -24,6 +24,7 @@
     "dashboard": "لوحة التحكم",
     "settings": "الإعدادات",
     "notifications": "الإشعارات",
+    "showAllNotifications": "عرض جميع الإشعارات",
     "noData": "لا توجد بيانات",
     "selectAll": "تحديد الكل",
     "deselectAll": "إلغاء تحديد الكل",
