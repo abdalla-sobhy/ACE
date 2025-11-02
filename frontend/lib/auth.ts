@@ -28,6 +28,12 @@ export interface AuthData {
 
 export function getAuthToken(): string | null {
   if (typeof window !== 'undefined') {
+    // First try to get from authData object (current method)
+    const authData = getAuthData();
+    if (authData && authData.token) {
+      return authData.token;
+    }
+    // Fallback to direct authToken (legacy method)
     return localStorage.getItem('authToken');
   }
   return null;
