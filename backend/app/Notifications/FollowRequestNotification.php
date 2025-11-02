@@ -4,8 +4,8 @@ namespace App\Notifications;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Mail;
 
 class FollowRequestNotification extends Notification
 {
@@ -25,12 +25,33 @@ class FollowRequestNotification extends Notification
 
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('طلب متابعة جديد')
-            ->greeting('مرحباً ' . $notifiable->first_name)
-            ->line('لديك طلب متابعة جديد من ولي الأمر: ' . $this->parent->full_name)
-            ->action('عرض الطلب', url('/student/follow-requests'))
-            ->line('يمكنك قبول أو رفض الطلب من لوحة التحكم الخاصة بك.');
+        // Get the appropriate email address
+        $email = $this->getEmailAddress($notifiable);
+
+        // Arabic content
+        $title = 'طلب متابعة جديد';
+        $greeting = 'مرحباً ' . $notifiable->first_name;
+        $message = 'لديك طلب متابعة جديد من ولي الأمر: ' . $this->parent->full_name;
+        $additionalInfo = ['يمكنك قبول أو رفض الطلب من لوحة التحكم الخاصة بك.'];
+        $actionUrl = url('/student/follow-requests');
+        $actionText = 'عرض الطلب';
+
+        // English content
+        $titleEn = 'New Follow Request';
+        $greetingEn = 'Hello ' . $notifiable->first_name;
+        $messageEn = 'You have a new follow request from parent: ' . $this->parent->full_name;
+        $additionalInfoEn = ['You can accept or reject the request from your dashboard.'];
+        $actionTextEn = 'View Request';
+
+        Mail::send('emails.notification', compact(
+            'title', 'greeting', 'message', 'additionalInfo',
+            'titleEn', 'greetingEn', 'messageEn', 'additionalInfoEn',
+            'actionUrl', 'actionText', 'actionTextEn'
+        ), function ($mail) use ($email, $title) {
+            $mail->to($email)->subject($title . ' - New Follow Request');
+        });
+
+        return null;
     }
 
     public function toDatabase($notifiable)
@@ -42,5 +63,13 @@ class FollowRequestNotification extends Notification
             'parent_id' => $this->parent->id,
             'parent_name' => $this->parent->full_name,
         ];
+    }
+
+    /**
+     * Get the email address for the notification
+     */
+    private function getEmailAddress($notifiable)
+    {
+        return $notifiable->email;
     }
 }

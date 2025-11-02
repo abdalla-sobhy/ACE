@@ -3,8 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Mail;
 
 class TeacherRejectedNotification extends Notification
 {
@@ -24,13 +24,37 @@ class TeacherRejectedNotification extends Notification
 
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('طلب التسجيل كمحاضر')
-            ->greeting('عزيزي ' . $notifiable->first_name)
-            ->line('نأسف لإبلاغك أنه تم رفض طلبك للتسجيل كمحاضر.')
-            ->line('السبب: ' . $this->reason)
-            ->line('يمكنك التواصل معنا للحصول على مزيد من المعلومات.')
-            ->line('شكراً لاهتمامك بالانضمام إلى منصة Edvance.');
+        // Get the appropriate email address
+        $email = $this->getEmailAddress($notifiable);
+
+        // Arabic content
+        $title = 'طلب التسجيل كمحاضر';
+        $greeting = 'عزيزي ' . $notifiable->first_name;
+        $message = 'نأسف لإبلاغك أنه تم رفض طلبك للتسجيل كمحاضر.';
+        $additionalInfo = [
+            'السبب: ' . $this->reason,
+            'يمكنك التواصل معنا للحصول على مزيد من المعلومات.',
+            'شكراً لاهتمامك بالانضمام إلى منصة Edvance.'
+        ];
+
+        // English content
+        $titleEn = 'Teacher Registration Application';
+        $greetingEn = 'Dear ' . $notifiable->first_name;
+        $messageEn = 'We regret to inform you that your teacher registration application has been rejected.';
+        $additionalInfoEn = [
+            'Reason: ' . $this->reason,
+            'You can contact us for more information.',
+            'Thank you for your interest in joining the Edvance platform.'
+        ];
+
+        Mail::send('emails.notification', compact(
+            'title', 'greeting', 'message', 'additionalInfo',
+            'titleEn', 'greetingEn', 'messageEn', 'additionalInfoEn'
+        ), function ($mail) use ($email, $title) {
+            $mail->to($email)->subject($title . ' - Teacher Application Rejected');
+        });
+
+        return null;
     }
 
     public function toDatabase($notifiable)
@@ -41,5 +65,13 @@ class TeacherRejectedNotification extends Notification
             'message' => 'تم رفض طلبك للتسجيل كمحاضر. السبب: ' . $this->reason,
             'reason' => $this->reason,
         ];
+    }
+
+    /**
+     * Get the email address for the notification
+     */
+    private function getEmailAddress($notifiable)
+    {
+        return $notifiable->email;
     }
 }
