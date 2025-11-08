@@ -29,7 +29,7 @@ interface Company {
 }
 
 interface Job {
-  id: number;
+  id: number | string;
   title: string;
   company: Company;
   description: string;
@@ -45,6 +45,9 @@ interface Job {
   has_applied: boolean;
   application_status: string | null;
   is_expired: boolean;
+  source?: string;
+  external_url?: string;
+  publisher?: string;
 }
 
 export default function UniversityJobs() {
@@ -58,6 +61,7 @@ export default function UniversityJobs() {
     work_location: "all",
     experience_level: "all",
     match_skills: false,
+    job_source: "both",
   });
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -97,6 +101,7 @@ export default function UniversityJobs() {
       work_location: filters.work_location,
       experience_level: filters.experience_level,
       match_skills: filters.match_skills.toString(),
+      job_source: filters.job_source,
     });
 
       const response = await fetch(
@@ -233,6 +238,20 @@ export default function UniversityJobs() {
           {showFilters && (
             <div className={styles.filtersPanel}>
               <div className={styles.filterGroup}>
+                <label>{t("universityStudent.jobSource")}</label>
+                <select
+                  value={filters.job_source}
+                  onChange={(e) =>
+                    setFilters({ ...filters, job_source: e.target.value })
+                  }
+                >
+                  <option value="both">{t("universityStudent.allJobs")}</option>
+                  <option value="platform">{t("universityStudent.platformJobs")}</option>
+                  <option value="external">{t("universityStudent.externalJobs")}</option>
+                </select>
+              </div>
+
+              <div className={styles.filterGroup}>
                 <label>{t("company.jobType")}</label>
                 <select
                   value={filters.job_type}
@@ -323,7 +342,14 @@ export default function UniversityJobs() {
                         </div>
                       )}
                       <div>
-                        <h3>{job.title}</h3>
+                        <h3>
+                          {job.title}
+                          {job.source === 'external' && (
+                            <span className={styles.externalBadge}>
+                              {t("universityStudent.external")}
+                            </span>
+                          )}
+                        </h3>
                         <div className={styles.companyDetails}>
                           <span className={styles.companyName}>
                             {job.company.name}
@@ -331,8 +357,12 @@ export default function UniversityJobs() {
                               <FaCheckCircle className={styles.verifiedIcon} />
                             )}
                           </span>
-                          <span className={styles.separator}>•</span>
-                          <span>{job.company.industry}</span>
+                          {job.company.industry && (
+                            <>
+                              <span className={styles.separator}>•</span>
+                              <span>{job.company.industry}</span>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -407,18 +437,29 @@ export default function UniversityJobs() {
                           </>
                         )}
                       </div>
-                      <Link
-                        href={`/university_student/jobs/${job.id}`}
-                        className={`${styles.viewButton} ${
-                          job.is_expired ? styles.expired : ""
-                        }`}
-                      >
-                        {job.is_expired
-                          ? t("universityStudent.expired")
-                          : job.has_applied
-                          ? t("universityStudent.viewApplication")
-                          : t("universityStudent.viewDetails")}
-                      </Link>
+                      {job.source === 'external' && job.external_url ? (
+                        <a
+                          href={job.external_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.viewButton}
+                        >
+                          {t("universityStudent.applyExternal")}
+                        </a>
+                      ) : (
+                        <Link
+                          href={`/university_student/jobs/${job.id}`}
+                          className={`${styles.viewButton} ${
+                            job.is_expired ? styles.expired : ""
+                          }`}
+                        >
+                          {job.is_expired
+                            ? t("universityStudent.expired")
+                            : job.has_applied
+                            ? t("universityStudent.viewApplication")
+                            : t("universityStudent.viewDetails")}
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

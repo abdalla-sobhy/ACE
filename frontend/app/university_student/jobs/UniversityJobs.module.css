@@ -284,6 +284,22 @@
   font-weight: 600;
   margin: 0 0 8px;
   color: var(--main-text-white-lighter);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.externalBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: rgba(255, 159, 67, 0.1);
+  border: 1px solid rgba(255, 159, 67, 0.3);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ff9f43;
 }
 
 .companyDetails {
