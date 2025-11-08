@@ -24,25 +24,43 @@ The JSearch API provides access to external job listings from various sources. T
    - Subscribe to a plan (free tier available)
    - Copy your API key from the dashboard
 
-3. **Configure Environment Variable**
+3. **Configure Environment Variables**
    - Copy your `.env.example` to `.env` if not already done:
      ```bash
      cp .env.example .env
      ```
-   - Add your API key to the `.env` file:
-     ```
+   - Add your API key and optional configuration to the `.env` file:
+     ```env
+     # Required
      JSEARCH_API_KEY=your_rapidapi_key_here
+
+     # Optional - Customize defaults
+     JSEARCH_DEFAULT_LOCATION="United States"
+     JSEARCH_DEFAULT_SEARCH="developer OR engineer OR intern"
      ```
 
 4. **Clear Cache** (if applicable)
    ```bash
    php artisan config:clear
-   php artisan cache:clear
+   php artisan jsearch:clear-cache
    ```
 
 ### Testing
 
-Test the integration using the test endpoint:
+Test the integration using the Artisan command:
+
+```bash
+# Basic test
+php artisan jsearch:test
+
+# Test with custom parameters
+php artisan jsearch:test --search="backend developer" --location="New York"
+
+# Clear cache and test
+php artisan jsearch:test --clear-cache
+```
+
+Or test via the API endpoint:
 
 ```bash
 curl http://localhost:8000/api/university/test-jsearch
