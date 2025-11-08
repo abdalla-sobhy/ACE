@@ -153,6 +153,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/jobs', [UniversityJobController::class, 'getJobPostings']);
         Route::get('/jobs/{id}', [UniversityJobController::class, 'getJobPosting']);
         Route::post('/jobs/{id}/apply', [UniversityJobController::class, 'applyForJob']);
+        Route::get('/test-jsearch', [UniversityJobController::class, 'testJSearch']);
 
         // Applications
         Route::get('/applications', [UniversityJobController::class, 'getMyApplications']);

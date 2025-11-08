@@ -545,4 +545,48 @@ class UniversityJobController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Test JSearch API integration
+     * GET /api/university/test-jsearch
+     */
+    public function testJSearch(Request $request)
+    {
+        try {
+            $jSearchService = new JSearchService();
+
+            // Test with a simple search
+            $params = [
+                'search' => $request->get('search', 'developer'),
+                'location' => $request->get('location', 'Egypt'),
+                'page' => 1,
+            ];
+
+            Log::info('Testing JSearch API', $params);
+
+            $result = $jSearchService->searchJobs($params);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'JSearch API test completed',
+                'config' => [
+                    'api_key_configured' => !empty(config('services.jsearch.api_key')),
+                    'api_key_preview' => substr(config('services.jsearch.api_key'), 0, 10) . '...',
+                ],
+                'params' => $params,
+                'result' => [
+                    'jobs_count' => count($result['jobs']),
+                    'total' => $result['total'],
+                    'sample_job' => $result['jobs'][0] ?? null,
+                ],
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ], 500);
+        }
+    }
 }
