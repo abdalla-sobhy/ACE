@@ -148,13 +148,7 @@ class JSearchService
             $parts[] = $params['search'];
         } else {
             // Use default search term
-            $parts[] = config('services.jsearch.default_search', 'developer');
-        }
-
-        // Always add "jobs" keyword if not already in search term
-        $searchTerm = implode(' ', $parts);
-        if (stripos($searchTerm, 'jobs') === false && stripos($searchTerm, 'job') === false) {
-            $parts[] = 'jobs';
+            $parts[] = config('services.jsearch.default_search', 'jobs');
         }
 
         // Add location if specified
