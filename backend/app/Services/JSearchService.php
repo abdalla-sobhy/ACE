@@ -49,34 +49,58 @@ class JSearchService
                     'query' => $query,
                     'params' => $params,
                     'api_key_set' => !empty($this->apiKey),
+                    'api_key_length' => $this->apiKey ? strlen($this->apiKey) : 0,
                 ]);
 
-                $response = Http::withHeaders([
-                    'X-RapidAPI-Key' => $this->apiKey,
-                    'X-RapidAPI-Host' => $this->apiHost,
-                ])->get($this->baseUrl . '/search', [
+                $queryParams = [
                     'query' => $query,
                     'page' => $params['page'] ?? 1,
                     'num_pages' => 1,
                     'date_posted' => $params['date_posted'] ?? 'all',
-                    'remote_jobs_only' => $params['remote_only'] ?? false,
-                    'employment_types' => $params['employment_types'] ?? null,
-                ]);
+                ];
+
+                // Add optional parameters only if they have values
+                if (isset($params['remote_only']) && $params['remote_only']) {
+                    $queryParams['remote_jobs_only'] = true;
+                }
+
+                if (!empty($params['employment_types'])) {
+                    $queryParams['employment_types'] = $params['employment_types'];
+                }
+
+                Log::info('JSearch API query parameters', $queryParams);
+
+                $response = Http::timeout(30)->withHeaders([
+                    'X-RapidAPI-Key' => $this->apiKey,
+                    'X-RapidAPI-Host' => $this->apiHost,
+                ])->get($this->baseUrl . '/search', $queryParams);
 
                 Log::info('JSearch API response', [
                     'status' => $response->status(),
-                    'body_preview' => substr($response->body(), 0, 500),
+                    'headers' => $response->headers(),
+                    'body_preview' => substr($response->body(), 0, 1000),
                 ]);
 
                 if ($response->successful()) {
                     $data = $response->json();
 
-                    if ($data['status'] === 'OK' && isset($data['data'])) {
+                    Log::info('JSearch API parsed response', [
+                        'status' => $data['status'] ?? 'unknown',
+                        'data_count' => isset($data['data']) ? count($data['data']) : 0,
+                        'has_data' => isset($data['data']),
+                    ]);
+
+                    if (isset($data['status']) && $data['status'] === 'OK' && isset($data['data'])) {
                         Log::info('JSearch API returned jobs', [
                             'count' => count($data['data']),
                         ]);
                         return $this->transformJobs($data['data']);
                     }
+
+                    // If status is not OK or no data, log the full response
+                    Log::warning('JSearch API returned unexpected format', [
+                        'response' => $data,
+                    ]);
                 }
 
                 Log::warning('JSearch API request failed', [
@@ -118,17 +142,20 @@ class JSearchService
         if (!empty($params['search'])) {
             $parts[] = $params['search'];
         } else {
-            $parts[] = 'jobs';
+            // Use default search term
+            $parts[] = config('services.jsearch.default_search', 'jobs');
         }
 
-        // Add location (default to Egypt if not specified)
+        // Add location if specified
         if (!empty($params['location'])) {
             $parts[] = 'in ' . $params['location'];
-        } else {
-            $parts[] = 'in Egypt';
         }
 
-        return implode(' ', $parts);
+        $query = implode(' ', $parts);
+
+        Log::info('Built JSearch query', ['query' => $query, 'params' => $params]);
+
+        return $query;
     }
 
     /**

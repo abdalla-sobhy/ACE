@@ -204,11 +204,17 @@ class UniversityJobController extends Controller
 
         $jSearchService = new JSearchService();
 
+        // Handle empty search parameter - use default if empty
+        $searchTerm = $request->get('search');
+        if (empty($searchTerm)) {
+            $searchTerm = 'developer OR engineer OR intern';
+        }
+
         // Build parameters for JSearch
         $params = [
-            'search' => $request->get('search', 'developer OR engineer OR intern'),
+            'search' => $searchTerm,
             'page' => $request->get('page', 1),
-            'location' => 'Egypt', // Default to Egypt, can be made configurable
+            'location' => config('services.jsearch.default_location', 'United States'), // Default location
         ];
 
         // Map work location filter
@@ -227,7 +233,17 @@ class UniversityJobController extends Controller
             $params['employment_types'] = $typeMap[$request->job_type] ?? null;
         }
 
+        Log::info('Fetching external jobs from JSearch', [
+            'params' => $params,
+            'user_id' => Auth::id(),
+        ]);
+
         $result = $jSearchService->searchJobs($params);
+
+        Log::info('JSearch results', [
+            'jobs_count' => count($result['jobs']),
+            'total' => $result['total'],
+        ]);
 
         return [
             'jobs' => $result['jobs'],
