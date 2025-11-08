@@ -163,7 +163,7 @@ export default function LoginPage() {
             setError(t("auth.loginFailed"));
             break;
           case 429:
-            setError(t("auth.loginFailed"));
+            setError(t("auth.tooManyRequests"));
             break;
           case 500:
             setError(t("auth.loginFailed"));
@@ -415,7 +415,7 @@ export default function LoginPage() {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   disabled={isLoading}
                 />
-                <span>{t("common.yes")}</span>
+                <span>{t("common.rememberMe")}</span>
               </label>
               <Link href="/forgot-password" className={styles.forgotPassword}>
                 {t("auth.forgotPassword")}
