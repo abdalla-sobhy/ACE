@@ -67,6 +67,11 @@ class UniversityJobController extends Controller
                 ],
             ];
 
+            // Add warning if external jobs were requested but API key not configured
+            if (in_array($jobSource, ['external', 'both']) && isset($externalJobsData['error'])) {
+                $response['warning'] = 'External job listings are currently unavailable. Please configure JSEARCH_API_KEY.';
+            }
+
             return response()->json($response);
 
         } catch (\Exception $e) {
@@ -183,11 +188,25 @@ class UniversityJobController extends Controller
      */
     private function getExternalJobs(Request $request)
     {
+        // Check if JSearch API key is configured
+        if (empty(config('services.jsearch.api_key'))) {
+            Log::warning('JSearch API requested but API key not configured', [
+                'user_id' => Auth::id(),
+                'params' => $request->all(),
+            ]);
+
+            return [
+                'jobs' => [],
+                'total' => 0,
+                'error' => 'External job source not configured',
+            ];
+        }
+
         $jSearchService = new JSearchService();
 
         // Build parameters for JSearch
         $params = [
-            'search' => $request->get('search', ''),
+            'search' => $request->get('search', 'developer OR engineer OR intern'),
             'page' => $request->get('page', 1),
             'location' => 'Egypt', // Default to Egypt, can be made configurable
         ];
