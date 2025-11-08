@@ -28,6 +28,15 @@ class JSearchService
     public function searchJobs(array $params = [])
     {
         try {
+            // Check if API key is configured
+            if (empty($this->apiKey)) {
+                Log::warning('JSearch API key not configured');
+                return [
+                    'jobs' => [],
+                    'total' => 0,
+                ];
+            }
+
             // Build query from parameters
             $query = $this->buildQuery($params);
 
@@ -36,6 +45,12 @@ class JSearchService
 
             // Cache for 1 hour to avoid hitting API limits
             return Cache::remember($cacheKey, 3600, function () use ($query, $params) {
+                Log::info('JSearch API request', [
+                    'query' => $query,
+                    'params' => $params,
+                    'api_key_set' => !empty($this->apiKey),
+                ]);
+
                 $response = Http::withHeaders([
                     'X-RapidAPI-Key' => $this->apiKey,
                     'X-RapidAPI-Host' => $this->apiHost,
@@ -48,10 +63,18 @@ class JSearchService
                     'employment_types' => $params['employment_types'] ?? null,
                 ]);
 
+                Log::info('JSearch API response', [
+                    'status' => $response->status(),
+                    'body_preview' => substr($response->body(), 0, 500),
+                ]);
+
                 if ($response->successful()) {
                     $data = $response->json();
 
                     if ($data['status'] === 'OK' && isset($data['data'])) {
+                        Log::info('JSearch API returned jobs', [
+                            'count' => count($data['data']),
+                        ]);
                         return $this->transformJobs($data['data']);
                     }
                 }
@@ -70,6 +93,7 @@ class JSearchService
         } catch (\Exception $e) {
             Log::error('JSearch API error', [
                 'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
                 'params' => $params,
             ]);
 
