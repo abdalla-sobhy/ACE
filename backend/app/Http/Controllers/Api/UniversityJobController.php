@@ -207,14 +207,15 @@ class UniversityJobController extends Controller
         // Handle empty search parameter - use default if empty
         $searchTerm = $request->get('search');
         if (empty($searchTerm)) {
-            $searchTerm = 'developer OR engineer OR intern';
+            $searchTerm = config('services.jsearch.default_search', 'developer');
         }
 
         // Build parameters for JSearch
         $params = [
             'search' => $searchTerm,
             'page' => $request->get('page', 1),
-            'location' => config('services.jsearch.default_location', 'United States'), // Default location
+            'location' => config('services.jsearch.default_location', 'chicago'), // Default location
+            'country' => config('services.jsearch.default_country', 'us'), // Default country
         ];
 
         // Map work location filter

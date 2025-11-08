@@ -70,8 +70,9 @@ return [
 
     'jsearch' => [
         'api_key' => env('JSEARCH_API_KEY'),
-        'default_location' => env('JSEARCH_DEFAULT_LOCATION', 'United States'),
-        'default_search' => env('JSEARCH_DEFAULT_SEARCH', 'developer OR engineer OR intern'),
+        'default_location' => env('JSEARCH_DEFAULT_LOCATION', 'chicago'),
+        'default_country' => env('JSEARCH_DEFAULT_COUNTRY', 'us'),
+        'default_search' => env('JSEARCH_DEFAULT_SEARCH', 'developer'),
     ],
 
 ];

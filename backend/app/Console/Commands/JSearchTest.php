@@ -43,6 +43,7 @@ class JSearchTest extends Command
 
         $this->info('✓ API Key configured: ' . substr($apiKey, 0, 10) . '...');
         $this->info('✓ Default Location: ' . config('services.jsearch.default_location', 'Not set'));
+        $this->info('✓ Default Country: ' . config('services.jsearch.default_country', 'Not set'));
         $this->info('✓ Default Search: ' . config('services.jsearch.default_search', 'Not set'));
         $this->newLine();
 
@@ -65,11 +66,12 @@ class JSearchTest extends Command
         $this->info('Testing JSearch API...');
 
         $searchTerm = $this->option('search') ?? 'developer';
-        $location = $this->option('location') ?? config('services.jsearch.default_location', 'United States');
+        $location = $this->option('location') ?? config('services.jsearch.default_location', 'chicago');
 
         $params = [
             'search' => $searchTerm,
             'location' => $location,
+            'country' => config('services.jsearch.default_country', 'us'),
             'page' => 1,
         ];
 
@@ -77,6 +79,7 @@ class JSearchTest extends Command
         $this->table(['Parameter', 'Value'], [
             ['Search', $params['search']],
             ['Location', $params['location']],
+            ['Country', $params['country']],
             ['Page', $params['page']],
         ]);
 
