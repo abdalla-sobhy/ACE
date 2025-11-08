@@ -111,21 +111,61 @@ Check your [RapidAPI dashboard](https://rapidapi.com/developer/dashboard) for cu
 
 #### No external jobs returned
 
-1. Check if API key is configured:
+1. **Check if API key is configured:**
    ```bash
    php artisan tinker
    >>> config('services.jsearch.api_key')
    ```
 
-2. Check Laravel logs for warnings:
+2. **Test the API directly:**
+
+   Use the included test script:
+   ```bash
+   cd backend
+   php test_jsearch.php YOUR_API_KEY_HERE
+   ```
+
+   This will show you exactly what's happening with the API call.
+
+3. **Check Laravel logs for errors:**
    ```bash
    tail -f storage/logs/laravel.log
    ```
 
-3. Test the API directly:
-   ```bash
-   php artisan route:list | grep jsearch
-   ```
+4. **Check the API response in the frontend:**
+
+   Look for a `warning` field in the API response which will indicate the specific issue.
+
+#### Common Error Codes
+
+**403 Forbidden - "Access denied"**
+
+This means your API key is not valid or not properly subscribed to JSearch API.
+
+**Solutions:**
+1. Go to [RapidAPI Dashboard](https://rapidapi.com/developer/dashboard)
+2. Click on "My Subscriptions"
+3. Verify you're subscribed to [JSearch API](https://rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch)
+4. If not subscribed, click "Subscribe to Test" or choose a plan
+5. Copy your API key from the dashboard (look for "X-RapidAPI-Key" in the code examples)
+6. Update your `.env` file with the new key
+7. Clear the config cache: `php artisan config:clear`
+
+**429 Too Many Requests**
+
+You've exceeded your API rate limit.
+
+**Solutions:**
+1. Check your usage in the [RapidAPI Dashboard](https://rapidapi.com/developer/dashboard)
+2. Wait for your quota to reset (usually monthly)
+3. Upgrade to a higher tier plan if needed
+4. The app caches results for 1 hour to minimize API calls
+
+**Important Notes:**
+- Free tier has limited requests per month (usually 100-500 depending on the plan)
+- Make sure you're testing with the same API key that's in your `.env` file
+- The JSearch API requires an active subscription, even for the free tier
+- If you just signed up, you may need to activate the API from the RapidAPI dashboard
 
 #### API errors
 
@@ -133,6 +173,7 @@ Check your [RapidAPI dashboard](https://rapidapi.com/developer/dashboard) for cu
 - Check your RapidAPI subscription status
 - Ensure you haven't exceeded rate limits
 - Review error logs in `storage/logs/laravel.log`
+- Use the test script to diagnose issues: `php backend/test_jsearch.php YOUR_KEY`
 
 ### Support
 

@@ -67,9 +67,16 @@ class UniversityJobController extends Controller
                 ],
             ];
 
-            // Add warning if external jobs were requested but API key not configured
+            // Add warning if external jobs were requested but have errors
             if (in_array($jobSource, ['external', 'both']) && isset($externalJobsData['error'])) {
-                $response['warning'] = 'External job listings are currently unavailable. Please configure JSEARCH_API_KEY.';
+                $errorDetails = $externalJobsData['error_details'] ?? $externalJobsData['error'];
+
+                // More specific warning based on the error
+                if ($externalJobsData['error'] === 'External job source not configured') {
+                    $response['warning'] = 'External job listings are currently unavailable. Please configure JSEARCH_API_KEY.';
+                } else {
+                    $response['warning'] = 'External job listings: ' . $errorDetails;
+                }
             }
 
             return response()->json($response);

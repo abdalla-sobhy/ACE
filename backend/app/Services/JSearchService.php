@@ -79,14 +79,37 @@ class JSearchService
                     }
                 }
 
-                Log::warning('JSearch API request failed', [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                ]);
+                // Log detailed error information
+                $statusCode = $response->status();
+                $errorMessage = $response->body();
+
+                if ($statusCode === 403) {
+                    Log::error('JSearch API authentication failed (403 Forbidden)', [
+                        'message' => 'API key may be invalid, expired, or not subscribed to JSearch API',
+                        'status' => $statusCode,
+                        'body' => $errorMessage,
+                    ]);
+                } elseif ($statusCode === 429) {
+                    Log::warning('JSearch API rate limit exceeded (429)', [
+                        'status' => $statusCode,
+                        'body' => $errorMessage,
+                    ]);
+                } else {
+                    Log::warning('JSearch API request failed', [
+                        'status' => $statusCode,
+                        'body' => $errorMessage,
+                    ]);
+                }
 
                 return [
                     'jobs' => [],
                     'total' => 0,
+                    'error' => "JSearch API error (HTTP $statusCode)",
+                    'error_details' => $statusCode === 403
+                        ? 'API key authentication failed. Please verify your RapidAPI subscription.'
+                        : ($statusCode === 429
+                            ? 'API rate limit exceeded. Please try again later.'
+                            : 'External API request failed.'),
                 ];
             });
 
