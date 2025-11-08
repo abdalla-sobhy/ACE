@@ -57,12 +57,8 @@ class JSearchService
                     'page' => $params['page'] ?? 1,
                     'num_pages' => 1,
                     'date_posted' => $params['date_posted'] ?? 'all',
+                    'country' => $params['country'] ?? config('services.jsearch.default_country', 'us'),
                 ];
-
-                // Add country parameter if provided
-                if (!empty($params['country'])) {
-                    $queryParams['country'] = $params['country'];
-                }
 
                 // Add optional parameters only if they have values
                 if (isset($params['remote_only']) && $params['remote_only']) {
