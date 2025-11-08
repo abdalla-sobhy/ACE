@@ -11,6 +11,7 @@
     "filter": "Filter",
     "yes": "Yes",
     "no": "No",
+    "rememberMe": "Remember Me",
     "confirm": "Confirm",
     "back": "Back",
     "next": "Next",
@@ -160,6 +161,7 @@
     "invalidEmail": "Invalid email address",
     "requiredField": "This field is required",
     "loginFailed": "Login failed. Check your credentials",
+    "tooManyRequests": "Too many attempts. Please try again after 15 minutes.",
     "signupFailed": "Account creation failed. Try again",
     "emailExists": "Email is already registered",
     "sessionExpired": "Session expired. Please login again"
