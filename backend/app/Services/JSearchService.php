@@ -213,8 +213,8 @@ class JSearchService
                 'has_applied' => false,
                 'application_status' => null,
                 'is_expired' => isset($job['job_offer_expiration_datetime_utc']) && $job['job_offer_expiration_datetime_utc']
-                    ? strtotime($job['job_offer_expiration_datetime_utc']) < time()
-                    : false,
+    ? strtotime($job['job_offer_expiration_datetime_utc']) < time()
+    : false,
                 'external_url' => $job['job_apply_link'] ?? $job['job_google_link'] ?? null,
                 'source' => 'external',
                 'publisher' => $job['job_publisher'] ?? 'JSearch',
