@@ -13,8 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         // Change cache value column to longText to accommodate large API responses
-        // Using raw SQL for better MySQL compatibility
-        DB::statement('ALTER TABLE cache MODIFY value LONGTEXT NOT NULL');
+        Schema::table('cache', function (Blueprint $table) {
+            $table->longText('value')->change();
+        });
     }
 
     /**
@@ -22,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement('ALTER TABLE cache MODIFY value MEDIUMTEXT NOT NULL');
+        Schema::table('cache', function (Blueprint $table) {
+            $table->mediumText('value')->change();
+        });
     }
 };
