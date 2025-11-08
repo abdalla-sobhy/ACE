@@ -40,12 +40,12 @@ class JSearchService
             // Build query from parameters
             $query = $this->buildQuery($params);
 
-            // Create cache key
-            $cacheKey = 'jsearch_' . md5(json_encode($params));
+            // Temporarily disable caching to avoid cache storage issues
+            // TODO: Re-enable after fixing cache serialization
+            // $cacheKey = 'jsearch_' . md5(json_encode($params));
+            // return Cache::remember($cacheKey, 3600, function () use ($query, $params) {
 
-            // Cache for 1 hour to avoid hitting API limits
-            return Cache::remember($cacheKey, 3600, function () use ($query, $params) {
-                Log::info('JSearch API request', [
+            Log::info('JSearch API request', [
                     'query' => $query,
                     'params' => $params,
                     'api_key_set' => !empty($this->apiKey),
@@ -122,7 +122,7 @@ class JSearchService
                     'jobs' => [],
                     'total' => 0,
                 ];
-            });
+            // }); // Temporarily disabled cache
 
         } catch (\Exception $e) {
             Log::error('JSearch API error', [
