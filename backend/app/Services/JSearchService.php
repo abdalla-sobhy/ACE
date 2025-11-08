@@ -186,13 +186,18 @@ class JSearchService
             return null;
         }
 
-        // Convert to UTF-8 and remove invalid characters
-        $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+        // Use json_encode/decode to clean invalid UTF-8 characters
+        // This is the most reliable way to ensure JSON-safe strings
+        $encoded = json_encode($value, JSON_INVALID_UTF8_SUBSTITUTE);
+        if ($encoded === false) {
+            // If encoding fails, return empty string
+            return '';
+        }
 
-        // Remove any remaining invalid UTF-8 sequences
-        $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value);
+        // Decode back to get the cleaned string
+        $decoded = json_decode($encoded);
 
-        return $value;
+        return $decoded ?? '';
     }
 
     /**
@@ -261,6 +266,8 @@ class JSearchService
 
         if (preg_match_all('/[•\-\*]\s*(.+?)(?:\n|$)/m', $description, $matches)) {
             $requirements = array_slice($matches[1], 0, 5); // Take first 5
+            // Sanitize each requirement
+            $requirements = array_map([$this, 'sanitizeUtf8'], $requirements);
         }
 
         return $requirements;
