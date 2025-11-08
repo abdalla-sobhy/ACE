@@ -68,4 +68,8 @@ return [
         'app_certificate' => env('AGORA_APP_CERTIFICATE'),
     ],
 
+    'jsearch' => [
+        'api_key' => env('JSEARCH_API_KEY'),
+    ],
+
 ];
