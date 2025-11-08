@@ -59,6 +59,11 @@ class JSearchService
                     'date_posted' => $params['date_posted'] ?? 'all',
                 ];
 
+                // Add country parameter if provided
+                if (!empty($params['country'])) {
+                    $queryParams['country'] = $params['country'];
+                }
+
                 // Add optional parameters only if they have values
                 if (isset($params['remote_only']) && $params['remote_only']) {
                     $queryParams['remote_jobs_only'] = true;
