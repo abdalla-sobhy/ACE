@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\JobPosting;
 use App\Models\JobApplication;
+use App\Services\JSearchService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -22,97 +23,51 @@ class UniversityJobController extends Controller
         try {
             $user = Auth::user();
             $profile = $user->universityStudentProfile;
+            $jobSource = $request->get('job_source', 'both'); // platform, external, both
 
-            $query = JobPosting::with(['company'])
-                ->active();
+            $platformJobs = [];
+            $externalJobs = [];
+            $totalPages = 1;
+            $currentPage = $request->get('page', 1);
 
-            // Filter by job type
-            if ($request->has('job_type') && $request->job_type !== 'all') {
-                $query->where('job_type', $request->job_type);
+            // Fetch platform jobs if needed
+            if (in_array($jobSource, ['platform', 'both'])) {
+                $platformJobsData = $this->getPlatformJobs($request, $user, $profile);
+                $platformJobs = $platformJobsData['jobs'];
+                $totalPages = $platformJobsData['total_pages'];
             }
 
-            // Filter by work location
-            if ($request->has('work_location') && $request->work_location !== 'all') {
-                $query->where('work_location', $request->work_location);
+            // Fetch external jobs if needed
+            if (in_array($jobSource, ['external', 'both'])) {
+                $externalJobsData = $this->getExternalJobs($request);
+                $externalJobs = $externalJobsData['jobs'];
             }
 
-            // Filter by experience level
-            if ($request->has('experience_level') && $request->experience_level !== 'all') {
-                $query->where('experience_level', $request->experience_level);
+            // Combine jobs
+            $allJobs = array_merge($platformJobs, $externalJobs);
+
+            // Manual pagination for combined results
+            if ($jobSource === 'both') {
+                $perPage = 12;
+                $total = count($allJobs);
+                $totalPages = ceil($total / $perPage);
+                $offset = ($currentPage - 1) * $perPage;
+                $allJobs = array_slice($allJobs, $offset, $perPage);
             }
 
-            // Search
-            if ($request->has('search') && !empty($request->search)) {
-                $searchTerm = $request->search;
-                $query->where(function ($q) use ($searchTerm) {
-                    $q->where('title', 'LIKE', "%{$searchTerm}%")
-                    ->orWhere('description', 'LIKE', "%{$searchTerm}%")
-                    ->orWhereHas('company', function ($companyQuery) use ($searchTerm) {
-                        $companyQuery->where('company_name', 'LIKE', "%{$searchTerm}%");
-                    });
-                });
-            }
-
-            // Match student skills
-            if ($request->get('match_skills') && $profile && $profile->skills) {
-                $skills = json_decode($profile->skills, true) ?? [];
-                if (!empty($skills)) {
-                    $query->matchingSkills($skills);
-                }
-            }
-
-            // Sort
-            $sortBy = $request->get('sort', 'created_at');
-            if ($sortBy === 'relevance' && $profile && $profile->skills) {
-                // Complex relevance sorting would go here
-                $query->orderBy('created_at', 'desc');
-            } else {
-                $query->orderBy($sortBy, 'desc');
-            }
-
-            $jobPostings = $query->paginate(12);
-
-            // Transform the data
-            $jobPostings->getCollection()->transform(function ($job) use ($user) {
-                // Check if user has applied
-                $hasApplied = $job->applications()->where('student_id', $user->id)->exists();
-                $application = $hasApplied ? $job->applications()->where('student_id', $user->id)->first() : null;
-
-                return [
-                    'id' => $job->id,
-                    'title' => $job->title,
-                    'company' => [
-                        'id' => $job->company->id,
-                        'name' => $job->company->company_name,
-                        'logo' => $job->company->logo_url,
-                        'industry' => $job->company->industry,
-                        'location' => $job->company->location,
-                        'is_verified' => $job->company->is_verified,
-                    ],
-                    'description' => $job->description,
-                    'requirements' => $job->requirements,
-                    'responsibilities' => $job->responsibilities,
-                    'skills_required' => $job->skills_required,
-                    'skills_preferred' => $job->skills_preferred,
-                    'job_type' => $job->job_type,
-                    'work_location' => $job->work_location,
-                    'location' => $job->location,
-                    'salary_range' => $job->salary_range,
-                    'experience_level' => $job->experience_level,
-                    'education_requirement' => $job->education_requirement,
-                    'positions_available' => $job->positions_available,
-                    'application_deadline' => $job->application_deadline,
-                    'created_at' => $job->created_at,
-                    'has_applied' => $hasApplied,
-                    'application_status' => $application ? $application->status : null,
-                    'is_expired' => $job->is_expired,
-                ];
-            });
-
-            return response()->json([
+            // Create pagination-like response
+            $response = [
                 'success' => true,
-                'jobs' => $jobPostings,
-            ]);
+                'jobs' => [
+                    'data' => $allJobs,
+                    'current_page' => (int) $currentPage,
+                    'last_page' => $totalPages,
+                    'per_page' => 12,
+                    'total' => count($allJobs),
+                ],
+            ];
+
+            return response()->json($response);
 
         } catch (\Exception $e) {
             Log::error('Error fetching job postings', [
@@ -128,12 +83,152 @@ class UniversityJobController extends Controller
     }
 
     /**
+     * Get platform jobs
+     */
+    private function getPlatformJobs(Request $request, $user, $profile)
+    {
+        $query = JobPosting::with(['company'])
+            ->active();
+
+        // Filter by job type
+        if ($request->has('job_type') && $request->job_type !== 'all') {
+            $query->where('job_type', $request->job_type);
+        }
+
+        // Filter by work location
+        if ($request->has('work_location') && $request->work_location !== 'all') {
+            $query->where('work_location', $request->work_location);
+        }
+
+        // Filter by experience level
+        if ($request->has('experience_level') && $request->experience_level !== 'all') {
+            $query->where('experience_level', $request->experience_level);
+        }
+
+        // Search
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('description', 'LIKE', "%{$searchTerm}%")
+                ->orWhereHas('company', function ($companyQuery) use ($searchTerm) {
+                    $companyQuery->where('company_name', 'LIKE', "%{$searchTerm}%");
+                });
+            });
+        }
+
+        // Match student skills
+        if ($request->get('match_skills') && $profile && $profile->skills) {
+            $skills = json_decode($profile->skills, true) ?? [];
+            if (!empty($skills)) {
+                $query->matchingSkills($skills);
+            }
+        }
+
+        // Sort
+        $sortBy = $request->get('sort', 'created_at');
+        if ($sortBy === 'relevance' && $profile && $profile->skills) {
+            $query->orderBy('created_at', 'desc');
+        } else {
+            $query->orderBy($sortBy, 'desc');
+        }
+
+        $jobPostings = $query->paginate(12);
+
+        // Transform the data
+        $jobs = $jobPostings->getCollection()->map(function ($job) use ($user) {
+            $hasApplied = $job->applications()->where('student_id', $user->id)->exists();
+            $application = $hasApplied ? $job->applications()->where('student_id', $user->id)->first() : null;
+
+            return [
+                'id' => $job->id,
+                'title' => $job->title,
+                'company' => [
+                    'id' => $job->company->id,
+                    'name' => $job->company->company_name,
+                    'logo' => $job->company->logo_url,
+                    'industry' => $job->company->industry,
+                    'location' => $job->company->location,
+                    'is_verified' => $job->company->is_verified,
+                ],
+                'description' => $job->description,
+                'requirements' => $job->requirements,
+                'responsibilities' => $job->responsibilities,
+                'skills_required' => $job->skills_required,
+                'skills_preferred' => $job->skills_preferred,
+                'job_type' => $job->job_type,
+                'work_location' => $job->work_location,
+                'location' => $job->location,
+                'salary_range' => $job->salary_range,
+                'experience_level' => $job->experience_level,
+                'education_requirement' => $job->education_requirement,
+                'positions_available' => $job->positions_available,
+                'application_deadline' => $job->application_deadline,
+                'created_at' => $job->created_at,
+                'has_applied' => $hasApplied,
+                'application_status' => $application ? $application->status : null,
+                'is_expired' => $job->is_expired,
+                'source' => 'platform',
+            ];
+        })->toArray();
+
+        return [
+            'jobs' => $jobs,
+            'total_pages' => $jobPostings->lastPage(),
+        ];
+    }
+
+    /**
+     * Get external jobs from JSearch API
+     */
+    private function getExternalJobs(Request $request)
+    {
+        $jSearchService = new JSearchService();
+
+        // Build parameters for JSearch
+        $params = [
+            'search' => $request->get('search', ''),
+            'page' => $request->get('page', 1),
+            'location' => 'Egypt', // Default to Egypt, can be made configurable
+        ];
+
+        // Map work location filter
+        if ($request->has('work_location') && $request->work_location === 'remote') {
+            $params['remote_only'] = true;
+        }
+
+        // Map job type filter
+        if ($request->has('job_type') && $request->job_type !== 'all') {
+            $typeMap = [
+                'full_time' => 'FULLTIME',
+                'part_time' => 'PARTTIME',
+                'contract' => 'CONTRACTOR',
+                'internship' => 'INTERN',
+            ];
+            $params['employment_types'] = $typeMap[$request->job_type] ?? null;
+        }
+
+        $result = $jSearchService->searchJobs($params);
+
+        return [
+            'jobs' => $result['jobs'],
+            'total' => $result['total'],
+        ];
+    }
+
+    /**
      * Get single job posting details
      */
     public function getJobPosting($id)
     {
         try {
             $user = Auth::user();
+
+            // Check if this is an external job (starts with 'ext_')
+            if (str_starts_with($id, 'ext_')) {
+                return $this->getExternalJobDetails($id);
+            }
+
             $job = JobPosting::with(['company'])->findOrFail($id);
 
             // Increment views
@@ -182,6 +277,7 @@ class UniversityJobController extends Controller
                         'created_at' => $application->created_at,
                     ] : null,
                     'is_expired' => $job->is_expired,
+                    'source' => 'platform',
                 ],
             ]);
 
@@ -194,6 +290,43 @@ class UniversityJobController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error fetching job posting'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get external job details
+     */
+    private function getExternalJobDetails($id)
+    {
+        try {
+            // Remove 'ext_' prefix to get actual job ID
+            $actualJobId = substr($id, 4);
+
+            $jSearchService = new JSearchService();
+            $job = $jSearchService->getJobDetails($actualJobId);
+
+            if (!$job) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Job not found'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'job' => $job,
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching external job details', [
+                'job_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching job details'
             ], 500);
         }
     }
