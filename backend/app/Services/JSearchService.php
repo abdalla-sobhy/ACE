@@ -75,7 +75,16 @@ class JSearchService
 
                 Log::info('JSearch API query parameters', $queryParams);
 
-                $response = Http::timeout(30)->withHeaders([
+                // Create HTTP client with optional SSL verification disable (for development)
+                $http = Http::timeout(30);
+
+                // Disable SSL verification if configured (development only!)
+                if (env('HTTP_VERIFY_SSL', true) === false) {
+                    $http = $http->withoutVerifying();
+                    Log::warning('JSearch API: SSL verification disabled (development mode)');
+                }
+
+                $response = $http->withHeaders([
                     'X-RapidAPI-Key' => $this->apiKey,
                     'X-RapidAPI-Host' => $this->apiHost,
                 ])->get($this->baseUrl . '/search', $queryParams);

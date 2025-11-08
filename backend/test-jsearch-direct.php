@@ -24,10 +24,14 @@ echo "URL: $url\n\n";
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL verification (development only!)
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // Disable SSL verification (development only!)
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'X-RapidAPI-Key: ' . $apiKey,
     'X-RapidAPI-Host: ' . $apiHost
 ]);
+
+echo "⚠ SSL verification disabled for testing\n\n";
 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
