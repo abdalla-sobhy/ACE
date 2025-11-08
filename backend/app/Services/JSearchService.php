@@ -175,6 +175,27 @@ class JSearchService
     }
 
     /**
+     * Sanitize UTF-8 string to prevent JSON encoding errors
+     *
+     * @param string|null $value
+     * @return string|null
+     */
+    private function sanitizeUtf8($value)
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        // Convert to UTF-8 and remove invalid characters
+        $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+
+        // Remove any remaining invalid UTF-8 sequences
+        $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value);
+
+        return $value;
+    }
+
+    /**
      * Transform JSearch jobs to our application format
      *
      * @param array $jobs
@@ -186,38 +207,38 @@ class JSearchService
 
         foreach ($jobs as $job) {
             $transformed[] = [
-                'id' => 'ext_' . ($job['job_id'] ?? md5($job['job_title'] . $job['employer_name'])),
-                'title' => $job['job_title'] ?? 'Unknown Title',
+                'id' => 'ext_' . ($job['job_id'] ?? md5(($job['job_title'] ?? '') . ($job['employer_name'] ?? ''))),
+                'title' => $this->sanitizeUtf8($job['job_title'] ?? 'Unknown Title'),
                 'company' => [
                     'id' => null,
-                    'name' => $job['employer_name'] ?? 'Unknown Company',
+                    'name' => $this->sanitizeUtf8($job['employer_name'] ?? 'Unknown Company'),
                     'logo' => $job['employer_logo'] ?? null,
                     'industry' => null,
-                    'location' => $job['job_city'] ?? $job['job_country'] ?? null,
+                    'location' => $this->sanitizeUtf8($job['job_city'] ?? $job['job_country'] ?? null),
                     'is_verified' => false,
                 ],
-                'description' => $job['job_description'] ?? '',
+                'description' => $this->sanitizeUtf8($job['job_description'] ?? ''),
                 'requirements' => $this->extractRequirements($job['job_description'] ?? ''),
                 'responsibilities' => [],
                 'skills_required' => $job['job_required_skills'] ?? [],
                 'skills_preferred' => [],
                 'job_type' => $this->mapJobType($job['job_employment_type'] ?? 'FULLTIME'),
                 'work_location' => $this->mapWorkLocation($job),
-                'location' => $this->formatLocation($job),
-                'salary_range' => $this->formatSalary($job),
+                'location' => $this->sanitizeUtf8($this->formatLocation($job)),
+                'salary_range' => $this->sanitizeUtf8($this->formatSalary($job)),
                 'experience_level' => $this->mapExperienceLevel($job['job_required_experience'] ?? []),
-                'education_requirement' => $job['job_required_education'] ?? null,
+                'education_requirement' => $this->sanitizeUtf8($job['job_required_education'] ?? null),
                 'positions_available' => 1,
                 'application_deadline' => null,
                 'created_at' => $job['job_posted_at_datetime_utc'] ?? now(),
                 'has_applied' => false,
                 'application_status' => null,
                 'is_expired' => isset($job['job_offer_expiration_datetime_utc']) && $job['job_offer_expiration_datetime_utc']
-    ? strtotime($job['job_offer_expiration_datetime_utc']) < time()
-    : false,
+                    ? strtotime($job['job_offer_expiration_datetime_utc']) < time()
+                    : false,
                 'external_url' => $job['job_apply_link'] ?? $job['job_google_link'] ?? null,
                 'source' => 'external',
-                'publisher' => $job['job_publisher'] ?? 'JSearch',
+                'publisher' => $this->sanitizeUtf8($job['job_publisher'] ?? 'JSearch'),
             ];
         }
 
