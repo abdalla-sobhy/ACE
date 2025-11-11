@@ -168,6 +168,7 @@
   },
   "student": {
     "dashboard": "Student Dashboard",
+    "student": "Student",
     "welcomeBack": "Welcome Back",
     "myCourses": "My Courses",
     "browseCourses": "Browse Courses",
