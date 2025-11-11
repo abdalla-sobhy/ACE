@@ -7,6 +7,7 @@ import ClientBody from "../components/ClientBody";
 import AuthExpirationChecker from '@/components/AuthExpirationChecker';
 import { AuthProvider } from '@/context/AuthContext';
 import { getTheme } from "@/app/actions/theme";
+import Chatbot from "@/components/Chatbot/Chatbot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,6 +70,7 @@ export default async function RootLayout({
             <AuthExpirationChecker>
               <ThemeProvider initialTheme={theme}>
                 {children}
+                <Chatbot />
               </ThemeProvider>
             </AuthExpirationChecker>
           </AuthProvider>
