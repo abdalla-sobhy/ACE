@@ -1843,6 +1843,42 @@
     "imageSizeError": "File size must be less than 2MB",
     "logoUploadError": "Error uploading logo"
   },
+  "chatbot": {
+    "title": "Chat with us",
+    "subtitle": "We're here to help you!",
+    "placeholder": "Type your message...",
+    "send": "Send",
+    "minimize": "Minimize",
+    "maximize": "Maximize",
+    "close": "Close",
+    "typing": "Typing...",
+    "online": "Online",
+    "offline": "Offline",
+    "welcomeMessage": "Hello! 👋 How can I help you today?",
+    "defaultResponses": {
+      "greeting": "Hello! Welcome to Edvance. How can I assist you?",
+      "help": "I'm here to help you with:\n• Course information\n• Registration process\n• Technical support\n• General questions\n\nWhat would you like to know?",
+      "courses": "You can browse our available courses from the Courses page. We offer live streaming and recorded courses for all grade levels.",
+      "registration": "To register:\n1. Click 'Join Free' button\n2. Select your account type\n3. Fill in your information\n4. Verify your email\n\nIt's completely free!",
+      "contact": "You can contact us via:\n• Email: support@edvance.com\n• WhatsApp: +20 123 456 7890\n• Or use this chat!",
+      "thanks": "You're welcome! Feel free to ask if you need anything else.",
+      "default": "I'm still learning! For complex questions, please contact our support team at support@edvance.com"
+    },
+    "quickReplies": {
+      "courses": "Available Courses",
+      "howToRegister": "How to Register?",
+      "pricing": "Is it Free?",
+      "technicalSupport": "Technical Support",
+      "contactUs": "Contact Us"
+    },
+    "suggestions": [
+      "How do I register?",
+      "What courses are available?",
+      "Is the platform free?",
+      "How to join a live session?",
+      "Contact support"
+    ]
+  },
   "admin": {
     "nav": {
       "adminPanel": "Admin Panel",
