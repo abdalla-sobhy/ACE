@@ -4,7 +4,7 @@
   background: var(--main-color);
   color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
-  direction: rtl;
+  
 }
 
 /* Hero Section */
@@ -39,7 +39,7 @@
 }
 
 .hero h1 {
-  font-size: 56px;
+  font-size: 42px;
   font-weight: 800;
   margin: 0 0 24px;
   line-height: 1.2;
@@ -52,7 +52,7 @@
 }
 
 .hero p {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--p-text);
   margin: 0 0 48px;
 }
@@ -70,7 +70,7 @@
 }
 
 .statNumber {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   color: var(--accent-blue);
   margin-bottom: 8px;
@@ -94,7 +94,7 @@
 }
 
 .categories h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 48px;
@@ -128,13 +128,13 @@
 }
 
 .categoryIcon {
-  font-size: 48px;
+  font-size: 28px;
   display: block;
   margin-bottom: 16px;
 }
 
 .categoryCard h3 {
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
 }
@@ -239,7 +239,7 @@
   border: none;
   padding: 16px 32px;
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -258,7 +258,7 @@
 }
 
 .sendIcon {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 /* Info Section */
@@ -280,7 +280,7 @@
 .infoCard h3,
 .socialCard h3,
 .quickResponse h3 {
-  font-size: 20px;
+  font-size: 16px;
   margin: 0 0 24px;
   color: var(--main-text-white-lighter);
 }
@@ -344,7 +344,7 @@
 }
 
 .socialIcon {
-  font-size: 24px;
+  font-size: 16px;
 }
 
 /* Quick Response */
@@ -390,7 +390,7 @@
 }
 
 .faq h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 16px;
@@ -399,7 +399,7 @@
 .faqSubtitle {
   text-align: center;
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 48px;
 }
 
@@ -438,7 +438,7 @@
 }
 
 .faqIcon {
-  font-size: 20px;
+  font-size: 16px;
   transition: transform 0.3s;
 }
 
@@ -536,7 +536,7 @@
 
 .emergency p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 32px;
 }
 
@@ -551,7 +551,7 @@
   padding: 16px 32px;
   border: none;
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -599,14 +599,14 @@
 }
 
 .mapContent h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   margin: 0 0 16px;
 }
 
 .mapContent p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 48px;
 }
 
@@ -636,7 +636,7 @@
 }
 
 .mapOverlay h3 {
-  font-size: 24px;
+  font-size: 16px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
 }
@@ -706,7 +706,7 @@
   display: flex;
   content: 'جاري الإرسال...';
   color: var(--accent-blue);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -735,7 +735,7 @@
 }
 
 .successMessage span:first-child {
-  font-size: 24px;
+  font-size: 16px;
 }
 
 .successMessage p {
@@ -788,11 +788,11 @@
   }
   
   .hero h1 {
-    font-size: 36px;
+    font-size: 28px;
   }
   
   .hero p {
-    font-size: 18px;
+    font-size: 16px;
   }
   
   .heroStats {
@@ -805,7 +805,7 @@
   }
   
   .formSection h2 {
-    font-size: 24px;
+    font-size: 16px;
   }
   
   .contactForm {
@@ -818,7 +818,7 @@
   }
   
   .emergency h3 {
-    font-size: 24px;
+    font-size: 16px;
   }
   
   .emergency p {
@@ -830,7 +830,7 @@
   }
   
   .emergencyIcon {
-    font-size: 48px;
+    font-size: 28px;
   }
   
   .mapPlaceholder {

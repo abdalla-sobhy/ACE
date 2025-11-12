@@ -3,7 +3,7 @@
   background: var(--main-color);
   color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
-  direction: rtl;
+  
 }
 
 .hero {
@@ -41,7 +41,7 @@
 }
 
 .hero h1 {
-  font-size: 48px;
+  font-size: 28px;
   font-weight: 800;
   margin: 0 0 16px;
   background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
@@ -50,7 +50,7 @@
 }
 
 .hero p {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--p-text);
   margin: 0 0 40px;
 }
@@ -80,7 +80,7 @@
 }
 
 .searchIcon {
-  font-size: 20px;
+  font-size: 16px;
   margin-left: 12px;
 }
 
@@ -89,7 +89,7 @@
   background: none;
   border: none;
   padding: 16px 12px;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--main-text-white);
   outline: none;
 }
@@ -102,7 +102,7 @@
   background: none;
   border: none;
   color: var(--input-text);
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
   padding: 8px;
   transition: color 0.2s;
@@ -173,7 +173,7 @@
 }
 
 .categoryIcon {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .categoryName {
@@ -229,7 +229,7 @@
   align-items: center;
   cursor: pointer;
   color: var(--main-text-white-lighter);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   text-align: right;
   transition: background 0.2s;
@@ -245,7 +245,7 @@
 }
 
 .expandIcon {
-  font-size: 24px;
+  font-size: 16px;
   color: var(--accent-blue);
   transition: transform 0.3s;
 }
@@ -339,14 +339,14 @@
 }
 
 .noResults h3 {
-  font-size: 24px;
+  font-size: 16px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
 }
 
 .noResults p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 24px;
 }
 
@@ -374,14 +374,14 @@
 }
 
 .needHelp h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   margin: 0 0 16px;
 }
 
 .needHelp p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 48px;
 }
 
@@ -405,13 +405,13 @@
 }
 
 .helpIcon {
-  font-size: 48px;
+  font-size: 28px;
   display: block;
   margin-bottom: 16px;
 }
 
 .helpCard h3 {
-  font-size: 20px;
+  font-size: 16px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
 }
@@ -562,11 +562,11 @@
   }
   
   .hero h1 {
-    font-size: 36px;
+    font-size: 28px;
   }
   
   .hero p {
-    font-size: 18px;
+    font-size: 16px;
   }
   
   .searchBox {
@@ -601,7 +601,7 @@
   }
   
   .helpIcon {
-    font-size: 36px;
+    font-size: 28px;
   }
   
   .popularTopics h2 {
@@ -640,7 +640,7 @@
   }
   
   .expandIcon {
-    font-size: 20px;
+    font-size: 16px;
   }
   
   .helpfulnessButtons {

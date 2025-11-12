@@ -18,7 +18,7 @@ interface Developer {
 }
 
 export default function AboutPage() {
-  const { t, language } = useLanguage();
+  const { t, language, dir } = useLanguage();
 
   // Get developers from translations
   const translations = language === 'ar' ? arTranslations : enTranslations;
@@ -30,7 +30,7 @@ export default function AboutPage() {
   }));
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ direction: dir, textAlign: dir === 'rtl' ? 'right' : 'left' }}>
       <NavigationBar />
 
       {/* Hero Section */}

@@ -4,7 +4,6 @@
   background: var(--input-color);
   color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
-  direction: rtl;
 }
 
 /* Hero Section */
@@ -33,7 +32,7 @@
 }
 
 .hero h1 {
-  font-size: 56px;
+  font-size: 42px;
   font-weight: 800;
   margin: 0 0 24px;
   background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
@@ -43,7 +42,7 @@
 }
 
 .hero p {
-  font-size: 24px;
+  font-size: 18px;
   color: var(--p-text);
   margin: 0;
 }
@@ -65,13 +64,13 @@
 }
 
 .missionContent h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   margin: 0 0 24px;
 }
 
 .missionContent > p {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--p-text);
   margin: 0 0 48px;
@@ -95,7 +94,7 @@
 }
 
 .point h3 {
-  font-size: 20px;
+  font-size: 18px;
   margin: 0 0 8px;
   color: var(--main-text-white-lighter);
 }
@@ -104,6 +103,7 @@
   color: var(--p-text);
   margin: 0;
   line-height: 1.5;
+  font-size: 14px;
 }
 
 /* Mission Visual */
@@ -126,7 +126,7 @@
 
 .statNumber {
   display: block;
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 800;
   background: linear-gradient(to bottom, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
@@ -136,7 +136,7 @@
 
 .statLabel {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* Story Section */
@@ -151,7 +151,7 @@
 }
 
 .story h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 64px;
@@ -200,7 +200,7 @@
 }
 
 .timelineContent h3 {
-  font-size: 20px;
+  font-size: 18px;
   margin: 0 0 8px;
   color: var(--main-text-white-lighter);
 }
@@ -209,6 +209,7 @@
   color: var(--p-text);
   line-height: 1.5;
   margin: 0;
+  font-size: 14px;
 }
 
 /* Team Section */
@@ -224,7 +225,7 @@
 }
 
 .team h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 16px;
@@ -236,7 +237,7 @@
 .teamSubtitle {
   text-align: center;
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 64px;
 }
 
@@ -314,7 +315,7 @@
 }
 
 .teamCard h3 {
-  font-size: 20px;
+  font-size: 18px;
   margin: 0 0 8px;
   color: var(--main-text-white-lighter);
 }
@@ -346,7 +347,7 @@
 }
 
 .values h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 64px;
@@ -372,7 +373,7 @@
 }
 
 .value h3 {
-  font-size: 20px;
+  font-size: 18px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
 }
@@ -381,6 +382,7 @@
   color: var(--p-text);
   line-height: 1.5;
   margin: 0;
+  font-size: 14px;
 }
 
 /* Contact CTA */
@@ -397,14 +399,14 @@
 }
 
 .contactCta h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   margin: 0 0 16px;
 }
 
 .contactCta p {
   color: var(--p-text);
-  font-size: 20px;
+  font-size: 16px;
   margin: 0 0 48px;
 }
 
@@ -418,10 +420,10 @@
 .primaryButton {
   background: var(--btn-primary);
   color: white;
-  padding: 16px 32px;
+  padding: 14px 28px;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   transition: background 0.2s;
 }
@@ -433,11 +435,11 @@
 .secondaryButton {
   background: transparent;
   color: var(--accent-blue);
-  padding: 16px 32px;
+  padding: 14px 28px;
   text-decoration: none;
   border: 1px solid #30363d;
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   transition: all 0.2s;
 }
@@ -450,11 +452,11 @@
 .tertiaryButton {
   background: transparent;
   color: var(--p-text);
-  padding: 16px 32px;
+  padding: 14px 28px;
   text-decoration: none;
   border: 1px solid var(--input-border-color);
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   transition: all 0.2s;
 }

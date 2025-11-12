@@ -18,7 +18,7 @@ interface FAQItem {
 }
 
 export default function FAQPage() {
-  const { t, language } = useLanguage();
+  const { t, language, dir } = useLanguage();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -68,7 +68,7 @@ export default function FAQPage() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ direction: dir, textAlign: dir === 'rtl' ? 'right' : 'left' }}>
       <NavigationBar />
 
       {/* Hero Section */}

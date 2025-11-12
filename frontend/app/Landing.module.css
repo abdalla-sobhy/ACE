@@ -4,7 +4,6 @@
   background: var(--input-color);
   color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
-  direction: rtl;
 }
 
 /* Hero Section */
@@ -19,11 +18,10 @@
 }
 
 .heroContent {
-  text-align: right;
 }
 
 .heroTitle {
-  font-size: 64px;
+  font-size: 48px;
   font-weight: 800;
   line-height: 1.1;
   margin: 0 0 24px;
@@ -36,7 +34,7 @@
 }
 
 .heroDescription {
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--p-text);
   margin: 0 0 32px;
@@ -51,10 +49,10 @@
 .primaryButton {
   background: var(--btn-primary);
   color: var(--white);
-  padding: 16px 32px;
+  padding: 14px 28px;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   transition: background 0.2s;
 }
@@ -66,11 +64,11 @@
 .secondaryButton {
   background: transparent;
   color: var(--accent-blue);
-  padding: 16px 32px;
+  padding: 14px 28px;
   text-decoration: none;
   border: 1px solid var(--input-border-color);
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   transition: all 0.2s;
 }
@@ -190,7 +188,7 @@
 }
 
 .features h2 {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 700;
   margin: 0 0 64px;
   background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
@@ -223,7 +221,7 @@
 }
 
 .feature h3 {
-  font-size: 20px;
+  font-size: 18px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
 }
@@ -232,6 +230,7 @@
   color: var(--p-text);
   line-height: 1.5;
   margin: 0;
+  font-size: 14px;
 }
 
 /* Stats Section */
@@ -253,7 +252,7 @@
 }
 
 .stat h3 {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 700;
   margin: 0 0 8px;
   background: linear-gradient(to bottom, var(--gradient-blue-start), var(--gradient-blue-end));
@@ -263,7 +262,7 @@
 
 .stat p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0;
 }
 
@@ -277,24 +276,24 @@
 }
 
 .cta h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   margin: 0 0 16px;
 }
 
 .cta p {
   color: var(--p-text);
-  font-size: 20px;
+  font-size: 16px;
   margin: 0 0 32px;
 }
 
 .ctaButton {
   background: var(--btn-primary);
   color: var(--white);
-  padding: 16px 48px;
+  padding: 14px 40px;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   display: inline-block;
   transition: background 0.2s;
