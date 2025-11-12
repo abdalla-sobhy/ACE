@@ -98,19 +98,23 @@
 /* Hero Visual - Code Editor Style */
 .heroVisual {
   position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .codeEditor {
   background: var(--from-wrapper-color);
   border: 1px solid var(--input-border-color);
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  width: 100%;
 }
 
 .codeHeader {
   background: var(--input-border-color-lighter);
-  padding: 12px 16px;
+  padding: 16px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -134,18 +138,42 @@
 .dots span:nth-child(3) { background: #27c93f; }
 
 .codeContent {
-  padding: 24px;
+  padding: 32px;
 }
 
 .scheduleLine {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 20px;
   align-items: center;
-  padding: 16px;
-  margin-bottom: 12px;
-  background: var(--accent-blue-bg);
-  border-radius: 6px;
-  border-right: 4px solid var(--accent-blue);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  background: var(--input-color);
+  border-radius: 8px;
+  border: 1px solid var(--input-border-color);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.scheduleLine::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--accent-blue);
+  transition: width 0.3s ease;
+}
+
+[dir="rtl"] .scheduleLine::before {
+  left: auto;
+  right: 0;
+}
+
+.scheduleLine:hover::before {
+  width: 8px;
 }
 
 .scheduleLine:last-child {
@@ -155,23 +183,29 @@
 .time {
   color: var(--accent-blue);
   font-weight: 600;
-  min-width: 80px;
+  font-size: 15px;
+  white-space: nowrap;
 }
 
 .subject {
-  flex: 1;
   color: var(--main-text-white);
-  margin: 0 16px;
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .seats {
   color: var(--success);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  background: rgba(39, 201, 63, 0.1);
+  border-radius: 4px;
+  white-space: nowrap;
 }
 
 .scheduleLine:last-child .seats {
   color: var(--error);
+  background: rgba(255, 95, 86, 0.1);
 }
 
 /* Features Section */
@@ -463,29 +497,47 @@
 }
 
 /* Hover effects */
-.feature,
-.scheduleLine {
+.feature {
   transition: all 0.3s ease;
 }
 
 .scheduleLine:hover {
-  background: var(--accent-blue-bg);
-  transform: translateX(-4px);
+  transform: translateY(-2px);
+  border-color: var(--accent-blue);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
 }
 
-/* Loading animation for schedule */
-@keyframes pulse {
-  0% {
-    opacity: 0.5;
+[dir="rtl"] .scheduleLine:hover {
+  transform: translateY(-2px);
+}
+
+/* Staggered fade-in animation for schedule lines */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  50% {
+  to {
     opacity: 1;
-  }
-  100% {
-    opacity: 0.5;
+    transform: translateY(0);
   }
 }
 
-.scheduleLine:nth-child(1) { animation: pulse 2s infinite; animation-delay: 0s; }
-.scheduleLine:nth-child(2) { animation: pulse 2s infinite; animation-delay: 0.3s; }
-.scheduleLine:nth-child(3) { animation: pulse 2s infinite; animation-delay: 0.6s; }
+.scheduleLine {
+  animation: slideIn 0.6s ease-out forwards;
+}
+
+.scheduleLine:nth-child(1) {
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.scheduleLine:nth-child(2) {
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+.scheduleLine:nth-child(3) {
+  animation-delay: 0.6s;
+  opacity: 0;
+}
