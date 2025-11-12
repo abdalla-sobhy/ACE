@@ -6,10 +6,10 @@ import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export default function LandingPage() {
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ direction: dir, textAlign: dir === 'rtl' ? 'right' : 'left' }}>
       <NavigationBar />
 
       {/* Hero Section */}

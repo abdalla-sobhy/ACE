@@ -4,7 +4,6 @@
   background: var(--input-color);
   color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
-  direction: rtl;
 }
 
 /* Hero Section */
@@ -52,7 +51,7 @@
 }
 
 .hero h1 {
-  font-size: 56px;
+  font-size: 42px;
   font-weight: 800;
   margin: 0 0 24px;
   line-height: 1.2;
@@ -65,7 +64,7 @@
 }
 
 .hero p {
-  font-size: 24px;
+  font-size: 18px;
   color: var(--p-text);
   margin: 0;
 }
@@ -88,14 +87,14 @@
 }
 
 .sectionHeader h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   margin: 0 0 16px;
 }
 
 .sectionHeader p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0;
 }
 
@@ -132,7 +131,7 @@
 }
 
 .featureCard h3 {
-  font-size: 24px;
+  font-size: 20px;
   margin: 0;
   color: var(--main-text-white-lighter);
 }
@@ -141,6 +140,7 @@
   color: var(--p-text);
   line-height: 1.6;
   margin: 0 0 24px;
+  font-size: 14px;
 }
 
 .featureDetails {
@@ -191,14 +191,14 @@
 }
 
 .showcaseContent h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   margin: 0 0 24px;
 }
 
 .showcaseContent p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.6;
   margin: 0 0 48px;
 }
@@ -228,7 +228,7 @@
 }
 
 .showcaseFeature h4 {
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 4px;
   color: var(--main-text-white-lighter);
 }
@@ -236,7 +236,7 @@
 .showcaseFeature p {
   color: var(--p-text);
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* Browser Window Visual */
@@ -365,7 +365,7 @@
 }
 
 .additionalFeatures h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 64px;
@@ -398,7 +398,7 @@
 }
 
 .additionalCard h4 {
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
 }
@@ -407,7 +407,7 @@
   color: var(--p-text);
   line-height: 1.5;
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* Comparison Section */
@@ -422,7 +422,7 @@
 }
 
 .comparison h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 16px;
@@ -434,7 +434,7 @@
 .comparisonSubtitle {
   text-align: center;
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 48px;
 }
 
@@ -459,7 +459,7 @@
 
 .comparisonCell h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--main-text-white-lighter);
 }
 
@@ -515,7 +515,7 @@
 }
 
 .stats h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 64px;
@@ -561,7 +561,7 @@
 }
 
 .statCard h3 {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 800;
   margin: 0 0 8px;
   position: relative;
@@ -572,7 +572,7 @@
 
 .statCard p {
   color: var(--p-text);
-  font-size: 16px;
+  font-size: 14px;
   margin: 0;
   position: relative;
 }
@@ -603,14 +603,14 @@
 }
 
 .cta h2 {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 800;
   margin: 0 0 16px;
 }
 
 .cta p {
   color: var(--p-text);
-  font-size: 20px;
+  font-size: 16px;
   margin: 0 0 48px;
 }
 
@@ -624,10 +624,10 @@
 .primaryButton {
   background: var(--btn-primary);
   color: white;
-  padding: 16px 48px;
+  padding: 14px 40px;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   transition: all 0.2s;
   position: relative;
@@ -658,11 +658,11 @@
 .secondaryButton {
   background: transparent;
   color: var(--accent-blue);
-  padding: 16px 48px;
+  padding: 14px 40px;
   text-decoration: none;
   border: 2px solid var(--accent-blue);
   border-radius: 6px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   transition: all 0.2s;
 }
