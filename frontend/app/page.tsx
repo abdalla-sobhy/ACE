@@ -27,7 +27,7 @@ export default function LandingPage() {
           </p>
 
           <div className={styles.heroButtons}>
-            <Link href="/signup/student" className={styles.primaryButton}>
+            <Link href="/signup" className={styles.primaryButton}>
               {t("landing.registerAsStudent")}
             </Link>
             
