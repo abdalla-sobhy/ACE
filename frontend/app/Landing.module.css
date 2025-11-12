@@ -4,42 +4,51 @@
   background: var(--input-color);
   color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+}
+
+/* RTL Support */
+.container[dir="rtl"] {
   direction: rtl;
+}
+
+.container[dir="ltr"] {
+  direction: ltr;
 }
 
 /* Hero Section */
 .hero {
-  padding: 120px 24px 80px;
+  padding: 100px 24px 60px;
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  gap: 48px;
   align-items: center;
 }
 
 .heroContent {
-  text-align: right;
+  text-align: start;
 }
 
 .heroTitle {
-  font-size: 64px;
-  font-weight: 800;
-  line-height: 1.1;
-  margin: 0 0 24px;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 16px;
 }
 
 .heroGradient {
-  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
+  background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: block;
 }
 
 .heroDescription {
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--p-text);
-  margin: 0 0 32px;
+  margin: 0 0 20px;
 }
 
 .heroButtons {
@@ -51,10 +60,10 @@
 .primaryButton {
   background: var(--btn-primary);
   color: var(--white);
-  padding: 16px 32px;
+  padding: 12px 24px;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
   transition: background 0.2s;
 }
@@ -66,11 +75,11 @@
 .secondaryButton {
   background: transparent;
   color: var(--accent-blue);
-  padding: 16px 32px;
+  padding: 12px 24px;
   text-decoration: none;
   border: 1px solid var(--input-border-color);
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
   transition: all 0.2s;
 }
@@ -190,10 +199,10 @@
 }
 
 .features h2 {
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
-  margin: 0 0 64px;
-  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
+  margin: 0 0 48px;
+  background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -223,8 +232,8 @@
 }
 
 .feature h3 {
-  font-size: 20px;
-  margin: 0 0 12px;
+  font-size: 18px;
+  margin: 0 0 8px;
   color: var(--main-text-white-lighter);
 }
 
@@ -232,6 +241,7 @@
   color: var(--p-text);
   line-height: 1.5;
   margin: 0;
+  font-size: 14px;
 }
 
 /* Stats Section */
@@ -253,17 +263,17 @@
 }
 
 .stat h3 {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 700;
   margin: 0 0 8px;
-  background: linear-gradient(to bottom, var(--gradient-blue-start), var(--gradient-blue-end));
+  background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .stat p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 15px;
   margin: 0;
 }
 
@@ -277,15 +287,15 @@
 }
 
 .cta h2 {
-  font-size: 40px;
+  font-size: 28px;
   font-weight: 700;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 }
 
 .cta p {
   color: var(--p-text);
-  font-size: 20px;
-  margin: 0 0 32px;
+  font-size: 16px;
+  margin: 0 0 24px;
 }
 
 .ctaButton {

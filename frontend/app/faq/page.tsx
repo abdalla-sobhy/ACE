@@ -68,7 +68,7 @@ export default function FAQPage() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={language === 'ar' ? 'rtl' : 'ltr'}>
       <NavigationBar />
 
       {/* Hero Section */}

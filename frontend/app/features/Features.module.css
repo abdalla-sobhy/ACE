@@ -4,7 +4,15 @@
   background: var(--input-color);
   color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+}
+
+/* RTL Support */
+.container[dir="rtl"] {
   direction: rtl;
+}
+
+.container[dir="ltr"] {
+  direction: ltr;
 }
 
 /* Hero Section */
@@ -52,8 +60,8 @@
 }
 
 .hero h1 {
-  font-size: 56px;
-  font-weight: 800;
+  font-size: 36px;
+  font-weight: 700;
   margin: 0 0 24px;
   line-height: 1.2;
 }
@@ -65,7 +73,7 @@
 }
 
 .hero p {
-  font-size: 24px;
+  font-size: 16px;
   color: var(--p-text);
   margin: 0;
 }
@@ -88,14 +96,14 @@
 }
 
 .sectionHeader h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   margin: 0 0 16px;
 }
 
 .sectionHeader p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0;
 }
 
@@ -132,7 +140,7 @@
 }
 
 .featureCard h3 {
-  font-size: 24px;
+  font-size: 20px;
   margin: 0;
   color: var(--main-text-white-lighter);
 }
@@ -191,14 +199,14 @@
 }
 
 .showcaseContent h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   margin: 0 0 24px;
 }
 
 .showcaseContent p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.6;
   margin: 0 0 48px;
 }
@@ -365,7 +373,7 @@
 }
 
 .additionalFeatures h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 64px;
@@ -422,7 +430,7 @@
 }
 
 .comparison h2 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 16px;
@@ -434,7 +442,7 @@
 .comparisonSubtitle {
   text-align: center;
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 48px;
 }
 
@@ -515,7 +523,7 @@
 }
 
 .stats h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   text-align: center;
   margin: 0 0 64px;
@@ -561,8 +569,8 @@
 }
 
 .statCard h3 {
-  font-size: 48px;
-  font-weight: 800;
+  font-size: 36px;
+  font-weight: 700;
   margin: 0 0 8px;
   position: relative;
   background: linear-gradient(to bottom, var(--gradient-blue-start), var(--gradient-blue-end));
@@ -603,14 +611,14 @@
 }
 
 .cta h2 {
-  font-size: 48px;
-  font-weight: 800;
+  font-size: 32px;
+  font-weight: 700;
   margin: 0 0 16px;
 }
 
 .cta p {
   color: var(--p-text);
-  font-size: 20px;
+  font-size: 16px;
   margin: 0 0 48px;
 }
 
@@ -624,10 +632,10 @@
 .primaryButton {
   background: var(--btn-primary);
   color: white;
-  padding: 16px 48px;
+  padding: 12px 32px;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   transition: all 0.2s;
   position: relative;
@@ -658,11 +666,11 @@
 .secondaryButton {
   background: transparent;
   color: var(--accent-blue);
-  padding: 16px 48px;
+  padding: 12px 32px;
   text-decoration: none;
   border: 2px solid var(--accent-blue);
   border-radius: 6px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   transition: all 0.2s;
 }

@@ -6,7 +6,7 @@ import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export default function FeaturesPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const mainFeatures = [
     {
@@ -89,7 +89,7 @@ export default function FeaturesPage() {
   ];
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={language === 'ar' ? 'rtl' : 'ltr'}>
       <NavigationBar />
 
       {/* Hero Section */}

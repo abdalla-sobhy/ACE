@@ -3,7 +3,15 @@
   background: var(--main-color);
   color: var(--main-text-white);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+}
+
+/* RTL Support */
+.container[dir="rtl"] {
   direction: rtl;
+}
+
+.container[dir="ltr"] {
+  direction: ltr;
 }
 
 .hero {
@@ -41,8 +49,8 @@
 }
 
 .hero h1 {
-  font-size: 48px;
-  font-weight: 800;
+  font-size: 36px;
+  font-weight: 700;
   margin: 0 0 16px;
   background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
@@ -50,7 +58,7 @@
 }
 
 .hero p {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--p-text);
   margin: 0 0 40px;
 }
@@ -89,7 +97,7 @@
   background: none;
   border: none;
   padding: 16px 12px;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--main-text-white);
   outline: none;
 }
@@ -229,7 +237,7 @@
   align-items: center;
   cursor: pointer;
   color: var(--main-text-white-lighter);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   text-align: right;
   transition: background 0.2s;
@@ -339,14 +347,14 @@
 }
 
 .noResults h3 {
-  font-size: 24px;
+  font-size: 20px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
 }
 
 .noResults p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 24px;
 }
 
@@ -374,14 +382,14 @@
 }
 
 .needHelp h2 {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   margin: 0 0 16px;
 }
 
 .needHelp p {
   color: var(--p-text);
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 0 48px;
 }
 
@@ -411,7 +419,7 @@
 }
 
 .helpCard h3 {
-  font-size: 20px;
+  font-size: 18px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
 }
@@ -426,9 +434,9 @@
   background: var(--btn-primary);
   color: white;
   border: none;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -456,7 +464,7 @@
 }
 
 .popularTopics h2 {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   margin: 0 0 40px;
 }
