@@ -1855,7 +1855,7 @@
     "typing": "Typing...",
     "online": "Online",
     "offline": "Offline",
-    "welcomeMessage": "Hello! 👋 How can I help you today?",
+    "welcomeMessage": "Hello! How can I help you today?",
     "defaultResponses": {
       "greeting": "Hello! Welcome to Edvance. How can I assist you?",
       "help": "I'm here to help you with:\n• Course information\n• Registration process\n• Technical support\n• General questions\n\nWhat would you like to know?",
@@ -1986,7 +1986,6 @@
       "published": "Published",
       "draft": "Draft",
       "archived": "Archived",
-      "title": "Title",
       "teacher": "Teacher",
       "grade": "Grade",
       "price": "Price",
