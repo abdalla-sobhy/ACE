@@ -1,6 +1,6 @@
 {
   "common": {
-    "edvance": "ACE",
+    "edvance": "Edvance",
     "loading": "Loading...",
     "save": "Save",
     "cancel": "Cancel",
@@ -1789,7 +1789,7 @@
     "canAddChildren": "You can add your children's details after completing registration",
     "egyptianOnly": "Sorry, you must be Egyptian national to register as a teacher on the platform",
     "verificationFailed": "Identity verification failed. Please try again.",
-    "identityVerified": "Your identity verified successfully! ✅",
+    "identityVerified": "Your identity verified successfully!",
     "underManualReview": "Your identity is being manually reviewed. We will notify you when complete.",
     "verificationTakesLonger": "Verification is taking longer than expected. Please try later.",
     "statusCheckError": "Error checking status."

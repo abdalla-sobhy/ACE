@@ -21,6 +21,12 @@
 }
 
 .heroTitle {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 24px;
+}
+.heroTitleFirst{
   font-size: 48px;
   font-weight: 800;
   line-height: 1.1;
@@ -31,6 +37,10 @@
   background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 24px;
 }
 
 .heroDescription {

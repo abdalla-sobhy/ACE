@@ -16,6 +16,7 @@ export default function LandingPage() {
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
+            <div className={styles.heroTitleFirst}>Edvance</div>
             {t("landing.heroTitle")}
             <br />
             <span className={styles.heroGradient}>{t("landing.heroGradient")}</span>
@@ -136,19 +137,19 @@ export default function LandingPage() {
       <section className={styles.stats}>
         <div className={styles.statsContainer}>
           <div className={styles.stat}>
-            <h3>50,000+</h3>
+            <h3>1st</h3>
             <p>{t("landing.registeredStudents")}</p>
           </div>
           <div className={styles.stat}>
-            <h3>500+</h3>
+            <h3>95%</h3>
             <p>{t("landing.distinguishedTeachers")}</p>
           </div>
           <div className={styles.stat}>
-            <h3>1000+</h3>
+            <h3>x3</h3>
             <p>{t("landing.dailyLectures")}</p>
           </div>
           <div className={styles.stat}>
-            <h3>27</h3>
+            <h3>Free</h3>
             <p>{t("landing.governorates")}</p>
           </div>
         </div>
