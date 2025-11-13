@@ -89,7 +89,7 @@ export default function TeacherNav() {
     { href: "/teacher/dashboard", label: t("common.dashboard"), icon: <FaHome /> },
     { href: "/teacher/courses", label: t("teacher.myCourses"), icon: <FaBook /> },
     { href: "/teacher/students", label: t("teacher.students"), icon: <FaUsers /> },
-    { href: "/teacher/schedule", label: t("landing.schedule"), icon: <FaCalendarAlt /> },
+    { href: "/teacher/schedule", label: "جدول المحاضرات", icon: <FaCalendarAlt /> },
     { href: "/teacher/analytics", label: t("teacher.statistics"), icon: <FaChartBar /> },
     { href: "/teacher/earnings", label: t("teacher.earnings"), icon: <FaMoneyBillWave /> },
   ];
