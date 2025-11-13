@@ -38,7 +38,7 @@ export default function LandingPage() {
           </div>
 
           {/* User Types */}
-          <div className={styles.userTypes}>
+          {/* <div className={styles.userTypes}>
             <div className={styles.userType}>
               <span className={styles.userIcon}>🎓</span>
               <span>{t("landing.students")}</span>
@@ -51,7 +51,7 @@ export default function LandingPage() {
               <span className={styles.userIcon}>👨‍👩‍👧</span>
               <span>{t("landing.parents")}</span>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className={styles.heroVisual}>
@@ -137,19 +137,19 @@ export default function LandingPage() {
       <section className={styles.stats}>
         <div className={styles.statsContainer}>
           <div className={styles.stat}>
-            <h3>1st</h3>
+            <h3>{t("landing.pioneering")}</h3>
             <p>{t("landing.registeredStudents")}</p>
           </div>
           <div className={styles.stat}>
-            <h3>95%</h3>
+            <h3>{t("landing.innovation")}</h3>
             <p>{t("landing.distinguishedTeachers")}</p>
           </div>
           <div className={styles.stat}>
-            <h3>x3</h3>
+            <h3>{t("landing.connection")}</h3>
             <p>{t("landing.dailyLectures")}</p>
           </div>
           <div className={styles.stat}>
-            <h3>Free</h3>
+            <h3>{t("landing.unity")}</h3>
             <p>{t("landing.governorates")}</p>
           </div>
         </div>
