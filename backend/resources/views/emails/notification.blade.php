@@ -148,7 +148,7 @@
         @endif
 
         <div class="footer">
-            <p>&copy; 2024 Edvance. جميع الحقوق محفوظة | All rights reserved</p>
+            <p>&copy; 2025 Edvance. جميع الحقوق محفوظة | All rights reserved</p>
         </div>
     </div>
 </body>

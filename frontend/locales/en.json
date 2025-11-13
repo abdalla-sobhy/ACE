@@ -123,7 +123,7 @@
     "contactUs": "Contact Us",
     "contactLink": "For Companies & Organizations",
     "support": "Post Jobs → Discover Qualified Talent → Hire Efficiently",
-    "footerCopyright": "© 2024 Edvance - ACE. From Learning to Career in one integrated system"
+    "footerCopyright": "© 2025 Edvance - ACE. From Learning to Career in one integrated system"
   },
   "auth": {
     "loginTitle": "Login",
@@ -1145,13 +1145,13 @@
     "stat2": "A huge gap between education and the job market",
     "stat3": "Inspired by the best experiences globally",
     "storyTitle": "Implementation Phases",
-    "storyPhase1Title": "Phase 1: Analysis & Planning ✅",
+    "storyPhase1Title": "Phase 1: Analysis & Planning",
     "storyPhase1Description": "Studying user needs, defining technical and functional system requirements",
-    "storyPhase2Title": "Phase 2: Design & Experience ✅",
+    "storyPhase2Title": "Phase 2: Design & Experience",
     "storyPhase2Description": "Designing interactive and easy interfaces for all categories, preparing visual identity and ACE brand, building initial prototype to test the idea",
-    "storyPhase3Title": "Phase 3: Technical Development & Testing 🔄",
+    "storyPhase3Title": "Phase 3: Technical Development & Testing",
     "storyPhase3Description": "Developing Frontend (Next.js), building Backend (Laravel), creating organized database to manage users, courses, and jobs, mapping user journey for each category",
-    "storyPhase4Title": "Phase 4: Launch & Expansion 🎯",
+    "storyPhase4Title": "Phase 4: Launch & Expansion",
     "storyPhase4Description": "Official platform launch in universities and schools, establishing partnerships with companies to provide training and employment opportunities, regional and global expansion with AI and advanced analytics",
     "team": "Founding Team",
     "teamSubtitle": "A young and passionate team to create real change",
