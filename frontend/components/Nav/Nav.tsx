@@ -74,7 +74,7 @@ export default function Nav() {
         >
           <div className={styles.navLeft}>
             <Link href="/" className={styles.logoDesktop} onClick={closeMenu}>
-              {t("common.edvance")}
+              Edvance
             </Link>
             <Link
               href="/features"
