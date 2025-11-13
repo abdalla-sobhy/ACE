@@ -105,83 +105,110 @@
   font-size: 24px;
 }
 
-/* Hero Visual - Code Editor Style */
+/* Hero Visual - Problem Solution Flow */
 .heroVisual {
   position: relative;
 }
 
-.codeEditor {
+.problemSolutionFlow {
   background: var(--from-wrapper-color);
   border: 1px solid var(--input-border-color);
-  border-radius: 8px;
-  overflow: hidden;
+  border-radius: 12px;
+  padding: 32px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
 
-.codeHeader {
-  background: var(--input-border-color-lighter);
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.flowHeader {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--input-border-color);
 }
 
-.dots {
-  display: flex;
-  gap: 8px;
+.flowTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--main-text-white);
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.dots span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: block;
+.flowStep {
+  margin-bottom: 24px;
 }
 
-.dots span:nth-child(1) { background: #ff5f56; }
-.dots span:nth-child(2) { background: #ffbd2e; }
-.dots span:nth-child(3) { background: #27c93f; }
-
-.codeContent {
-  padding: 24px;
-}
-
-.scheduleLine {
-  display: flex;
-  justify-content: space-between;
+.stepBadge {
+  display: inline-flex;
   align-items: center;
-  padding: 16px;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
   margin-bottom: 12px;
-  background: var(--accent-blue-bg);
-  border-radius: 6px;
-  border-right: 4px solid var(--accent-blue);
 }
 
-.scheduleLine:last-child {
+.stepIcon {
+  font-size: 18px;
+}
+
+.stepLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stepContent {
+  background: var(--accent-blue-bg);
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid var(--input-border-color);
+}
+
+.stepTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--main-text-white);
+  margin: 0 0 12px 0;
+}
+
+.stepDescription {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--p-text);
+  margin: 0 0 8px 0;
+}
+
+.stepDescription:last-child {
   margin-bottom: 0;
 }
 
-.time {
-  color: var(--accent-blue);
+.stepDescriptionBold {
+  font-size: 16px;
   font-weight: 600;
-  min-width: 80px;
-}
-
-.subject {
-  flex: 1;
   color: var(--main-text-white);
-  margin: 0 16px;
+  margin: 0;
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.seats {
-  color: var(--success);
-  font-size: 14px;
-  font-weight: 500;
+.flowArrow {
+  text-align: center;
+  font-size: 32px;
+  color: var(--accent-blue);
+  margin: 16px 0;
+  animation: bounce 2s infinite;
 }
 
-.scheduleLine:last-child .seats {
-  color: var(--error);
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Features Section */
