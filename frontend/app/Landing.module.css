@@ -286,21 +286,29 @@
 
 .stat {
   text-align: center;
+  padding: 24px;
+  background: var(--from-wrapper-color);
+  border: 1px solid var(--input-border-color);
+  border-radius: 12px;
+  transition: transform 0.2s, border-color 0.2s;
 }
 
-.stat h3 {
-  font-size: 36px;
-  font-weight: 700;
-  margin: 0 0 8px;
-  background: linear-gradient(to bottom, var(--gradient-blue-start), var(--gradient-blue-end));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.stat:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-blue);
+}
+
+.statIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
 }
 
 .stat p {
-  color: var(--p-text);
+  color: var(--main-text-white-lighter);
   font-size: 16px;
   margin: 0;
+  line-height: 1.6;
+  font-weight: 500;
 }
 
 /* CTA Section */

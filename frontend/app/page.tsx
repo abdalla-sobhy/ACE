@@ -137,19 +137,19 @@ export default function LandingPage() {
       <section className={styles.stats}>
         <div className={styles.statsContainer}>
           <div className={styles.stat}>
-            <h3>1st</h3>
+            <div className={styles.statIcon}>🌍</div>
             <p>{t("landing.registeredStudents")}</p>
           </div>
           <div className={styles.stat}>
-            <h3>95%</h3>
+            <div className={styles.statIcon}>⚡</div>
             <p>{t("landing.distinguishedTeachers")}</p>
           </div>
           <div className={styles.stat}>
-            <h3>x3</h3>
+            <div className={styles.statIcon}>🎯</div>
             <p>{t("landing.dailyLectures")}</p>
           </div>
           <div className={styles.stat}>
-            <h3>Free</h3>
+            <div className={styles.statIcon}>🔗</div>
             <p>{t("landing.governorates")}</p>
           </div>
         </div>
