@@ -183,7 +183,9 @@ export default function StudentCourseView() {
       return '';
     }
 
-    const videoUrl = `${backendUrl}/api/stream/lesson/${lesson.id}?token=${token}`;
+    // URL encode the token to handle special characters like pipe (|)
+    const encodedToken = encodeURIComponent(token);
+    const videoUrl = `${backendUrl}/api/stream/lesson/${lesson.id}?token=${encodedToken}`;
     console.log('Video URL:', videoUrl); // Debug logging
 
     return videoUrl;
