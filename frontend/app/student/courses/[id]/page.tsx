@@ -167,8 +167,23 @@ export default function StudentCourseView() {
   if (!lesson.video_url) return '';
 
   if (lesson.video_type === 'youtube') {
-    const match = lesson.video_url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
-    return match ? `https://www.youtube.com/embed/${match[1]}` : lesson.video_url;
+    // Handle both youtube.com and youtu.be URLs
+    // Extract video ID from various YouTube URL formats
+    const patterns = [
+      /(?:youtube\.com\/watch\?.*v=)([^&\n?#]+)/, // youtube.com/watch?v=ID or with other params
+      /(?:youtu\.be\/)([^&\n?#]+)/, // youtu.be/ID
+      /(?:youtube\.com\/embed\/)([^&\n?#]+)/ // youtube.com/embed/ID
+    ];
+
+    for (const pattern of patterns) {
+      const match = lesson.video_url.match(pattern);
+      if (match) {
+        return `https://www.youtube.com/embed/${match[1]}`;
+      }
+    }
+
+    // If no pattern matches, return the original URL
+    return lesson.video_url;
   }
 
   if (lesson.video_type === 'upload') {
