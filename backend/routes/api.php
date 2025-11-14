@@ -43,6 +43,9 @@ Route::post('/didit/webhook', [DiditController::class, 'webhook']);
 // Public profiles for companies/recruiters (optional authentication)
 Route::get('/university/public-profiles', [UniversityStudentController::class, 'getPublicProfiles']);
 
+// Video streaming route (handles its own authentication via token in query parameter)
+Route::get('/stream/lesson/{lessonId}', [VideoStreamController::class, 'streamLesson']);
+
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
     // Auth routes
@@ -237,7 +240,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/session/{sessionId}/messages', [LiveStreamController::class, 'getMessages']);
         Route::post('/session/{sessionId}/message', [LiveStreamController::class, 'sendMessage']);
     });
-
-    // Video streaming route
-    Route::get('/stream/lesson/{lessonId}', [VideoStreamController::class, 'streamLesson']);
 });
