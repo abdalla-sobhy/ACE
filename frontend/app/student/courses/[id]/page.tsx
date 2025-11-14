@@ -165,19 +165,30 @@ export default function StudentCourseView() {
 
   const getVideoUrl = (lesson: Lesson) => {
   if (!lesson.video_url) return '';
-  
+
   if (lesson.video_type === 'youtube') {
     const match = lesson.video_url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
     return match ? `https://www.youtube.com/embed/${match[1]}` : lesson.video_url;
   }
-  
+
   if (lesson.video_type === 'upload') {
     const authData = JSON.parse(localStorage.getItem("authData") || "{}");
     const token = authData.token;
-    
-    return `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/stream/lesson/${lesson.id}?token=${token}`;
+
+    // Get backend URL from env or fallback to API URL
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+    if (!token) {
+      console.error('No authentication token found in localStorage');
+      return '';
+    }
+
+    const videoUrl = `${backendUrl}/api/stream/lesson/${lesson.id}?token=${token}`;
+    console.log('Video URL:', videoUrl); // Debug logging
+
+    return videoUrl;
   }
-  
+
   return lesson.video_url;
 };
 
@@ -261,6 +272,18 @@ export default function StudentCourseView() {
                       controlsList="nodownload"
                       disablePictureInPicture
                       onContextMenu={(e) => e.preventDefault()}
+                      onError={(e) => {
+                        console.error('Video loading error:', e);
+                        console.error('Video src:', getVideoUrl(currentLesson));
+                        const videoElement = e.target as HTMLVideoElement;
+                        if (videoElement.error) {
+                          console.error('Video error code:', videoElement.error.code);
+                          console.error('Video error message:', videoElement.error.message);
+                        }
+                      }}
+                      onLoadStart={() => console.log('Video started loading')}
+                      onLoadedMetadata={() => console.log('Video metadata loaded')}
+                      onCanPlay={() => console.log('Video can play')}
                     />
                     <div className={styles.videoOverlay} />
                   </div>
