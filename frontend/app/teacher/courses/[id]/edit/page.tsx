@@ -342,6 +342,8 @@ export default function EditCoursePage() {
       const authData = JSON.parse(localStorage.getItem("authData") || "{}");
 
       const submitData = new FormData();
+      // Laravel method spoofing for PUT with FormData
+      submitData.append('_method', 'PUT');
       submitData.append('title', formData.title);
       submitData.append('description', formData.description);
       submitData.append('category', formData.category);
@@ -374,7 +376,7 @@ export default function EditCoursePage() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/api/teacher/courses/${courseId}`,
         {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Authorization': `Bearer ${authData.token}`,
             'Accept': 'application/json',

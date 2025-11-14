@@ -173,7 +173,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/courses', [TeacherController::class, 'getCourses']);
         Route::get('/stats', [TeacherController::class, 'getStats']);
         Route::post('/courses', [TeacherController::class, 'createCourse']);
-        Route::put('/courses/{id}', [TeacherController::class, 'updateCourse']);
+        Route::match(['put', 'post'], '/courses/{id}', [TeacherController::class, 'updateCourse']);
         Route::delete('/courses/{id}', [TeacherController::class, 'deleteCourse']);
 
         // Lesson management
