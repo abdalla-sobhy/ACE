@@ -273,6 +273,7 @@ export default function StudentCourseView() {
                       controls
                       controlsList="nodownload"
                       disablePictureInPicture
+                      crossOrigin="anonymous"
                       onContextMenu={(e) => e.preventDefault()}
                       onError={(e) => {
                         console.error('Video loading error:', e);
