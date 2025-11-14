@@ -1,0 +1,880 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+import TeacherNav from "@/components/TeacherNav/TeacherNav";
+import styles from "./EditCourse.module.css";
+import {
+  FaSave,
+  FaVideo,
+  FaImage,
+  FaPlus,
+  FaTrash,
+  FaArrowLeft,
+  FaArrowRight
+} from "react-icons/fa";
+import { useDropzone } from 'react-dropzone';
+import Image from "next/image";
+import { useLanguage } from "@/hooks/useLanguage";
+
+interface Session {
+  day_of_week: string;
+  start_time: string;
+  end_time: string;
+}
+
+interface CourseFormData {
+  title: string;
+  description: string;
+  category: string;
+  grade: string;
+  course_type: 'recorded' | 'live';
+  price: string;
+  original_price?: string;
+  duration: string;
+  lessons_count: string;
+  max_seats?: string;
+  start_date?: string;
+  end_date?: string;
+  sessions?: Session[];
+  thumbnail?: File | null;
+  existingThumbnail?: string | null;
+  is_active: boolean;
+}
+
+const CATEGORIES = [
+  { value: 'math', label: 'الرياضيات', icon: '🔢' },
+  { value: 'arabic', label: 'اللغة العربية', icon: '📝' },
+  { value: 'english', label: 'اللغة الإنجليزية', icon: '🌍' },
+  { value: 'science', label: 'العلوم', icon: '🔬' },
+  { value: 'social', label: 'الدراسات الاجتماعية', icon: '🗺️' },
+  { value: 'religion', label: 'التربية الدينية', icon: '🕌' },
+  { value: 'french', label: 'اللغة الفرنسية', icon: '🇫🇷' },
+  { value: 'german', label: 'اللغة الألمانية', icon: '🇩🇪' },
+];
+
+const GRADES = [
+  { group: 'الابتدائية', options: [
+    { value: 'primary_1', label: 'الصف الأول الابتدائي' },
+    { value: 'primary_2', label: 'الصف الثاني الابتدائي' },
+    { value: 'primary_3', label: 'الصف الثالث الابتدائي' },
+    { value: 'primary_4', label: 'الصف الرابع الابتدائي' },
+    { value: 'primary_5', label: 'الصف الخامس الابتدائي' },
+    { value: 'primary_6', label: 'الصف السادس الابتدائي' },
+  ]},
+  { group: 'الإعدادية', options: [
+    { value: 'prep_1', label: 'الصف الأول الإعدادي' },
+    { value: 'prep_2', label: 'الصف الثاني الإعدادي' },
+    { value: 'prep_3', label: 'الصف الثالث الإعدادي' },
+  ]},
+  { group: 'الثانوية', options: [
+    { value: 'secondary_1', label: 'الصف الأول الثانوي' },
+    { value: 'secondary_2', label: 'الصف الثاني الثانوي' },
+    { value: 'secondary_3', label: 'الصف الثالث الثانوي' },
+  ]},
+];
+
+const DAYS_OF_WEEK = [
+  { value: 'saturday', label: 'السبت' },
+  { value: 'sunday', label: 'الأحد' },
+  { value: 'monday', label: 'الإثنين' },
+  { value: 'tuesday', label: 'الثلاثاء' },
+  { value: 'wednesday', label: 'الأربعاء' },
+  { value: 'thursday', label: 'الخميس' },
+  { value: 'friday', label: 'الجمعة' },
+];
+
+export default function EditCoursePage() {
+  const { t } = useLanguage();
+  const router = useRouter();
+  const params = useParams();
+  const courseId = (params?.id as string) || "";
+
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
+
+  const [formData, setFormData] = useState<CourseFormData>({
+    title: '',
+    description: '',
+    category: '',
+    grade: '',
+    course_type: 'recorded',
+    price: '',
+    original_price: '',
+    duration: '',
+    lessons_count: '',
+    is_active: true,
+    sessions: [],
+    existingThumbnail: null
+  });
+
+  const onDrop = (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      setFormData(prev => ({ ...prev, thumbnail: file, existingThumbnail: null }));
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnailPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif']
+    },
+    maxSize: 5242880,
+    multiple: false
+  });
+
+  useEffect(() => {
+    checkAuth();
+    if (courseId) {
+      fetchCourseDetails();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseId]);
+
+  const checkAuth = () => {
+    const userData = localStorage.getItem("user");
+    const authData = localStorage.getItem("authData");
+
+    if (!userData || !authData) {
+      router.push("/login");
+      return;
+    }
+
+    const parsedUser = JSON.parse(userData);
+    if (parsedUser.type !== "teacher") {
+      router.push("/");
+      return;
+    }
+  };
+
+  const fetchCourseDetails = async () => {
+    try {
+      setIsLoading(true);
+      const authData = JSON.parse(localStorage.getItem("authData") || "{}");
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/api/teacher/courses/${courseId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${authData.token}`,
+            'Accept': 'application/json',
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        const course = data.course;
+
+        // Extract sessions from the schedule_summary if available
+        const sessions: Session[] = [];
+        if (course.schedule_summary && Array.isArray(course.schedule_summary)) {
+          course.schedule_summary.forEach((item: { day: string; start_time: string; end_time: string }) => {
+            sessions.push({
+              day_of_week: item.day.toLowerCase(),
+              start_time: item.start_time,
+              end_time: item.end_time
+            });
+          });
+        }
+
+        setFormData({
+          title: course.title || '',
+          description: course.description || '',
+          category: course.category || '',
+          grade: course.grade || '',
+          course_type: course.course_type || 'recorded',
+          price: course.price?.toString() || '',
+          original_price: course.original_price?.toString() || '',
+          duration: course.duration || '',
+          lessons_count: course.lessons_count?.toString() || '',
+          max_seats: course.max_seats?.toString() || '',
+          start_date: course.start_date || '',
+          end_date: course.end_date || '',
+          is_active: course.is_active !== false,
+          sessions: sessions.length > 0 ? sessions : (course.course_type === 'live' ? [{ day_of_week: '', start_time: '', end_time: '' }] : []),
+          existingThumbnail: course.thumbnail || null
+        });
+
+        if (course.thumbnail) {
+          setThumbnailPreview(course.thumbnail);
+        }
+      } else {
+        setErrors({ fetch: data.message || 'فشل في تحميل بيانات الدورة' });
+      }
+    } catch (error) {
+      console.error('Error fetching course:', error);
+      setErrors({ fetch: 'حدث خطأ في الاتصال بالخادم' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
+
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const handleCourseTypeChange = (type: 'recorded' | 'live') => {
+    setFormData(prev => ({
+      ...prev,
+      course_type: type,
+      ...(type === 'recorded' ? {
+        max_seats: undefined,
+        start_date: undefined,
+        end_date: undefined,
+        sessions: []
+      } : {
+        sessions: prev.sessions?.length ? prev.sessions : [{ day_of_week: '', start_time: '', end_time: '' }]
+      })
+    }));
+  };
+
+  const addSession = () => {
+    setFormData(prev => ({
+      ...prev,
+      sessions: [...(prev.sessions || []), { day_of_week: '', start_time: '', end_time: '' }]
+    }));
+  };
+
+  const removeSession = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      sessions: prev.sessions?.filter((_, i) => i !== index) || []
+    }));
+  };
+
+  const updateSession = (index: number, field: keyof Session, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      sessions: prev.sessions?.map((session, i) =>
+        i === index ? { ...session, [field]: value } : session
+      ) || []
+    }));
+  };
+
+  const validateStep = (step: number): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    switch (step) {
+      case 1:
+        if (!formData.title.trim()) newErrors.title = 'عنوان الدورة مطلوب';
+        if (!formData.description.trim()) newErrors.description = 'وصف الدورة مطلوب';
+        if (!formData.category) newErrors.category = 'يرجى اختيار المادة';
+        if (!formData.grade) newErrors.grade = 'يرجى اختيار المرحلة الدراسية';
+        break;
+
+      case 2:
+        if (!formData.price || parseFloat(formData.price) <= 0) {
+          newErrors.price = 'السعر يجب أن يكون أكبر من صفر';
+        }
+        if (!formData.duration.trim()) newErrors.duration = 'مدة الدورة مطلوبة';
+        if (!formData.lessons_count || parseInt(formData.lessons_count) <= 0) {
+          newErrors.lessons_count = 'عدد الدروس يجب أن يكون أكبر من صفر';
+        }
+
+        if (formData.course_type === 'live') {
+          if (!formData.max_seats || parseInt(formData.max_seats) <= 0) {
+            newErrors.max_seats = 'عدد المقاعد يجب أن يكون أكبر من صفر';
+          }
+          if (!formData.start_date) newErrors.start_date = 'تاريخ البداية مطلوب';
+          if (!formData.end_date) newErrors.end_date = 'تاريخ النهاية مطلوب';
+          if (formData.start_date && formData.end_date && new Date(formData.start_date) >= new Date(formData.end_date)) {
+            newErrors.end_date = 'تاريخ النهاية يجب أن يكون بعد تاريخ البداية';
+          }
+
+          if (!formData.sessions || formData.sessions.length === 0) {
+            newErrors.sessions = 'يجب إضافة جلسة واحدة على الأقل';
+          } else {
+            formData.sessions.forEach((session, index) => {
+              if (!session.day_of_week) newErrors[`session_${index}_day`] = 'يرجى اختيار اليوم';
+              if (!session.start_time) newErrors[`session_${index}_start`] = 'وقت البداية مطلوب';
+              if (!session.end_time) newErrors[`session_${index}_end`] = 'وقت النهاية مطلوب';
+              if (session.start_time && session.end_time && session.start_time >= session.end_time) {
+                newErrors[`session_${index}_end`] = 'وقت النهاية يجب أن يكون بعد وقت البداية';
+              }
+            });
+          }
+        }
+        break;
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(prev => prev + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    setCurrentStep(prev => prev - 1);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateStep(2)) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const authData = JSON.parse(localStorage.getItem("authData") || "{}");
+
+      const submitData = new FormData();
+      submitData.append('title', formData.title);
+      submitData.append('description', formData.description);
+      submitData.append('category', formData.category);
+      submitData.append('grade', formData.grade);
+      submitData.append('course_type', formData.course_type);
+      submitData.append('price', formData.price);
+      if (formData.original_price) submitData.append('original_price', formData.original_price);
+      submitData.append('duration', formData.duration);
+      submitData.append('lessons_count', formData.lessons_count);
+      submitData.append('is_active', formData.is_active ? '1' : '0');
+
+      // Only append thumbnail if a new file was uploaded
+      if (formData.thumbnail) {
+        submitData.append('thumbnail', formData.thumbnail);
+      }
+
+      if (formData.course_type === 'live') {
+        submitData.append('max_seats', formData.max_seats || '');
+        submitData.append('start_date', formData.start_date || '');
+        submitData.append('end_date', formData.end_date || '');
+        submitData.append('sessions_per_week', String(formData.sessions?.length || 0));
+
+        formData.sessions?.forEach((session, index) => {
+          submitData.append(`sessions[${index}][day_of_week]`, session.day_of_week);
+          submitData.append(`sessions[${index}][start_time]`, session.start_time);
+          submitData.append(`sessions[${index}][end_time]`, session.end_time);
+        });
+      }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/api/teacher/courses/${courseId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${authData.token}`,
+            'Accept': 'application/json',
+          },
+          body: submitData
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        router.push(`/teacher/courses/${courseId}`);
+      } else {
+        setErrors({ submit: data.message || 'حدث خطأ في تحديث الدورة' });
+      }
+    } catch (error) {
+      console.error('Error updating course:', error);
+      setErrors({ submit: 'حدث خطأ في الاتصال بالخادم' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className={styles.stepContent}>
+            <h2>المعلومات الأساسية</h2>
+
+            <div className={styles.courseTypeSelection}>
+              <label>نوع الدورة</label>
+              <div className={styles.typeButtons}>
+                <button
+                  type="button"
+                  className={`${styles.typeButton} ${formData.course_type === 'recorded' ? styles.active : ''}`}
+                  onClick={() => handleCourseTypeChange('recorded')}
+                >
+                  <FaVideo />
+                  <span>دورة مسجلة</span>
+                  <small>دروس مسجلة مسبقاً</small>
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.typeButton} ${formData.course_type === 'live' ? styles.active : ''}`}
+                  onClick={() => handleCourseTypeChange('live')}
+                >
+                  <span className={styles.liveIcon}>🔴</span>
+                  <span>بث مباشر</span>
+                  <small>دروس مباشرة مع الطلاب</small>
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="title">عنوان الدورة *</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                placeholder="مثال: دورة شاملة في الرياضيات للصف الأول الإعدادي"
+                className={errors.title ? styles.error : ''}
+              />
+              {errors.title && <span className={styles.errorMessage}>{errors.title}</span>}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="description">وصف الدورة *</label>
+              <textarea
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="اكتب وصفاً تفصيلياً للدورة..."
+                rows={5}
+                className={errors.description ? styles.error : ''}
+              />
+              {errors.description && <span className={styles.errorMessage}>{errors.description}</span>}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="category">المادة *</label>
+              <div className={styles.categoryGrid}>
+                {CATEGORIES.map(cat => (
+                  <button
+                    key={cat.value}
+                    type="button"
+                    className={`${styles.categoryButton} ${formData.category === cat.value ? styles.active : ''}`}
+                    onClick={() => setFormData(prev => ({ ...prev, category: cat.value }))}
+                  >
+                    <span className={styles.categoryIcon}>{cat.icon}</span>
+                    <span>{cat.label}</span>
+                  </button>
+                ))}
+              </div>
+              {errors.category && <span className={styles.errorMessage}>{errors.category}</span>}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="grade">المرحلة الدراسية *</label>
+              <select
+                id="grade"
+                name="grade"
+                value={formData.grade}
+                onChange={handleInputChange}
+                className={errors.grade ? styles.error : ''}
+              >
+                <option value="">اختر المرحلة الدراسية</option>
+                {GRADES.map(group => (
+                  <optgroup key={group.group} label={group.group}>
+                    {group.options.map(grade => (
+                      <option key={grade.value} value={grade.value}>
+                        {grade.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+              {errors.grade && <span className={styles.errorMessage}>{errors.grade}</span>}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="thumbnail">صورة الدورة</label>
+              <div className={styles.thumbnailUpload}>
+                {thumbnailPreview ? (
+                  <div className={styles.thumbnailPreview}>
+                    <Image
+                      height={200}
+                      width={300}
+                      src={thumbnailPreview}
+                      alt="Course thumbnail"
+                      style={{ objectFit: 'cover' }}
+                    />
+                    <button
+                      type="button"
+                      className={styles.removeThumbnail}
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, thumbnail: null, existingThumbnail: null }));
+                        setThumbnailPreview(null);
+                      }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                ) : (
+                  <div {...getRootProps()} className={`${styles.uploadArea} ${isDragActive ? styles.dragging : ''}`}>
+                    <input {...getInputProps()} />
+                    <FaImage />
+                    <span>
+                      {isDragActive ? 'أفلت الصورة هنا' : 'اسحب الصورة هنا أو اضغط للاختيار'}
+                    </span>
+                    <small>PNG, JPG حتى 5MB</small>
+                  </div>
+                )}
+              </div>
+              {errors.thumbnail && <span className={styles.errorMessage}>{errors.thumbnail}</span>}
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className={styles.stepContent}>
+            <h2>تفاصيل الدورة</h2>
+
+            <div className={styles.formRow}>
+              <div className={styles.formGroup}>
+                <label htmlFor="price">السعر (جنيه) *</label>
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleInputChange}
+                  placeholder="150"
+                  min="0"
+                  step="0.01"
+                  className={errors.price ? styles.error : ''}
+                />
+                {errors.price && <span className={styles.errorMessage}>{errors.price}</span>}
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="original_price">السعر الأصلي (اختياري)</label>
+                <input
+                  type="number"
+                  id="original_price"
+                  name="original_price"
+                  value={formData.original_price}
+                  onChange={handleInputChange}
+                  placeholder="200"
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+            </div>
+
+            <div className={styles.formRow}>
+              <div className={styles.formGroup}>
+                <label htmlFor="duration">مدة الدورة *</label>
+                <input
+                  type="text"
+                  id="duration"
+                  name="duration"
+                  value={formData.duration}
+                  onChange={handleInputChange}
+                  placeholder="مثال: 20 ساعة"
+                  className={errors.duration ? styles.error : ''}
+                />
+                {errors.duration && <span className={styles.errorMessage}>{errors.duration}</span>}
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="lessons_count">عدد الدروس *</label>
+                <input
+                  type="number"
+                  id="lessons_count"
+                  name="lessons_count"
+                  value={formData.lessons_count}
+                  onChange={handleInputChange}
+                  placeholder="45"
+                  min="1"
+                  className={errors.lessons_count ? styles.error : ''}
+                />
+                {errors.lessons_count && <span className={styles.errorMessage}>{errors.lessons_count}</span>}
+              </div>
+            </div>
+
+            {formData.course_type === 'live' && (
+              <>
+                <div className={styles.liveSettings}>
+                  <h3>إعدادات البث المباشر</h3>
+
+                  <div className={styles.formRow}>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="max_seats">عدد المقاعد المتاحة *</label>
+                      <input
+                        type="number"
+                        id="max_seats"
+                        name="max_seats"
+                        value={formData.max_seats}
+                        onChange={handleInputChange}
+                        placeholder="30"
+                        min="1"
+                        className={errors.max_seats ? styles.error : ''}
+                      />
+                      {errors.max_seats && <span className={styles.errorMessage}>{errors.max_seats}</span>}
+                    </div>
+                  </div>
+
+                  <div className={styles.formRow}>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="start_date">تاريخ البداية *</label>
+                      <input
+                        type="date"
+                        id="start_date"
+                        name="start_date"
+                        value={formData.start_date}
+                        onChange={handleInputChange}
+                        className={errors.start_date ? styles.error : ''}
+                      />
+                      {errors.start_date && <span className={styles.errorMessage}>{errors.start_date}</span>}
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label htmlFor="end_date">تاريخ النهاية *</label>
+                      <input
+                        type="date"
+                        id="end_date"
+                        name="end_date"
+                        value={formData.end_date}
+                        onChange={handleInputChange}
+                        min={formData.start_date || undefined}
+                        className={errors.end_date ? styles.error : ''}
+                      />
+                      {errors.end_date && <span className={styles.errorMessage}>{errors.end_date}</span>}
+                    </div>
+                  </div>
+
+                  <div className={styles.sessionsSection}>
+                    <div className={styles.sectionHeader}>
+                      <h4>جدول الجلسات الأسبوعية</h4>
+                      <button
+                        type="button"
+                        className={styles.addSessionButton}
+                        onClick={addSession}
+                      >
+                        <FaPlus />
+                        <span>إضافة جلسة</span>
+                      </button>
+                    </div>
+
+                    {errors.sessions && <span className={styles.errorMessage}>{errors.sessions}</span>}
+
+                    {formData.sessions?.map((session, index) => (
+                      <div key={index} className={styles.sessionRow}>
+                        <div className={styles.sessionNumber}>جلسة {index + 1}</div>
+
+                        <div className={styles.sessionFields}>
+                          <div className={styles.formGroup}>
+                            <label>اليوم</label>
+                            <select
+                              value={session.day_of_week}
+                              onChange={(e) => updateSession(index, 'day_of_week', e.target.value)}
+                              className={errors[`session_${index}_day`] ? styles.error : ''}
+                            >
+                              <option value="">اختر اليوم</option>
+                              {DAYS_OF_WEEK.map(day => (
+                                <option key={day.value} value={day.value}>
+                                  {day.label}
+                                </option>
+                              ))}
+                            </select>
+                            {errors[`session_${index}_day`] && (
+                              <span className={styles.errorMessage}>{errors[`session_${index}_day`]}</span>
+                            )}
+                          </div>
+
+                          <div className={styles.formGroup}>
+                            <label>وقت البداية</label>
+                            <input
+                              type="time"
+                              value={session.start_time}
+                              onChange={(e) => updateSession(index, 'start_time', e.target.value)}
+                              className={errors[`session_${index}_start`] ? styles.error : ''}
+                            />
+                            {errors[`session_${index}_start`] && (
+                              <span className={styles.errorMessage}>{errors[`session_${index}_start`]}</span>
+                            )}
+                          </div>
+
+                          <div className={styles.formGroup}>
+                            <label>وقت النهاية</label>
+                            <input
+                              type="time"
+                              value={session.end_time}
+                              onChange={(e) => updateSession(index, 'end_time', e.target.value)}
+                              className={errors[`session_${index}_end`] ? styles.error : ''}
+                            />
+                            {errors[`session_${index}_end`] && (
+                              <span className={styles.errorMessage}>{errors[`session_${index}_end`]}</span>
+                            )}
+                          </div>
+
+                          <button
+                            type="button"
+                            className={styles.removeSessionButton}
+                            onClick={() => removeSession(index)}
+                            title="حذف الجلسة"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            <div className={styles.formGroup}>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="checkbox"
+                  name="is_active"
+                  checked={formData.is_active}
+                  onChange={handleInputChange}
+                />
+                <span>نشر الدورة مباشرة</span>
+                <small>يمكن للطلاب رؤية الدورة والتسجيل فيها</small>
+              </label>
+            </div>
+
+            {errors.submit && (
+              <div className={styles.submitError}>
+                {errors.submit}
+              </div>
+            )}
+          </div>
+        );
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <TeacherNav />
+        <main className={styles.main}>
+          <div className={styles.formContainer}>
+            <div className={styles.loadingContainer}>
+              <div className={styles.loadingSpinner}></div>
+              <p className={styles.loadingText}>{t("teacher.loadingCourse")}</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (errors.fetch) {
+    return (
+      <div className={styles.container}>
+        <TeacherNav />
+        <main className={styles.main}>
+          <div className={styles.formContainer}>
+            <div className={styles.loadingContainer}>
+              <p className={styles.loadingText}>{errors.fetch}</p>
+              <button
+                className={styles.backButton}
+                onClick={() => router.push('/teacher/dashboard')}
+                style={{ marginTop: '20px' }}
+              >
+                <FaArrowRight />
+                <span>العودة للوحة التحكم</span>
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.container}>
+      <TeacherNav />
+
+      <main className={styles.main}>
+        <div className={styles.header}>
+          <h1>{t("teacher.editCourse")}</h1>
+          <button
+            className={styles.backButton}
+            onClick={() => router.push(`/teacher/courses/${courseId}`)}
+          >
+            <FaArrowRight />
+            <span>العودة للدورة</span>
+          </button>
+        </div>
+
+        <div className={styles.formContainer}>
+          <div className={styles.progressSteps}>
+            <div className={`${styles.step} ${currentStep >= 1 ? styles.active : ''}`}>
+              <div className={styles.stepNumber}>1</div>
+              <div className={styles.stepLabel}>المعلومات الأساسية</div>
+            </div>
+            <div className={styles.stepLine} />
+            <div className={`${styles.step} ${currentStep >= 2 ? styles.active : ''}`}>
+              <div className={styles.stepNumber}>2</div>
+              <div className={styles.stepLabel}>تفاصيل الدورة</div>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className={styles.form}>
+            {renderStep()}
+
+            <div className={styles.formActions}>
+              {currentStep > 1 && (
+                <button
+                  type="button"
+                  className={styles.previousButton}
+                  onClick={handlePrevious}
+                >
+                  <FaArrowRight />
+                  <span>{t("common.previous")}</span>
+                </button>
+              )}
+
+              {currentStep < 2 ? (
+                <button
+                  type="button"
+                  className={styles.nextButton}
+                  onClick={handleNext}
+                >
+                  <span>{t("common.next")}</span>
+                  <FaArrowLeft />
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className={styles.submitButton}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className={styles.spinner} />
+                      <span>{t("teacher.updating")}</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaSave />
+                      <span>{t("teacher.updateCourse")}</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  );
+}
