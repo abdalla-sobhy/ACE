@@ -396,4 +396,200 @@ class TeacherController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Update course
+     */
+    public function updateCourse(Request $request, $id)
+    {
+        try {
+            $teacher = Auth::user();
+
+            if ($teacher->user_type !== 'teacher') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized. Teachers only.'
+                ], 403);
+            }
+
+            $course = Course::find($id);
+
+            if (!$course) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Course not found'
+                ], 404);
+            }
+
+            // Check if teacher owns this course
+            if ($course->teacher_id !== $teacher->id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized. You can only edit your own courses.'
+                ], 403);
+            }
+
+            $validator = Validator::make($request->all(), [
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'category' => 'required|string',
+                'grade' => 'required|string',
+                'course_type' => 'required|in:recorded,live',
+                'price' => 'required|numeric|min:0',
+                'duration' => 'required|string',
+                'lessons_count' => 'required|integer|min:1',
+                'thumbnail' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5120',
+
+                'max_seats' => 'required_if:course_type,live|nullable|integer|min:1',
+                'start_date' => 'required_if:course_type,live|nullable|date',
+                'end_date' => 'required_if:course_type,live|nullable|date|after:start_date',
+                'sessions' => 'required_if:course_type,live|nullable|array|min:1',
+                'sessions.*.day_of_week' => 'required|string',
+                'sessions.*.start_time' => 'required|date_format:H:i',
+                'sessions.*.end_time' => 'required|date_format:H:i',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            DB::beginTransaction();
+
+            try {
+                $courseData = [
+                    'title' => $request->title,
+                    'description' => $request->description,
+                    'category' => $request->category,
+                    'grade' => $request->grade,
+                    'course_type' => $request->course_type,
+                    'price' => $request->price,
+                    'original_price' => $request->original_price,
+                    'duration' => $request->duration,
+                    'lessons_count' => $request->lessons_count,
+                    'is_active' => $request->is_active ?? $course->is_active,
+                ];
+
+                if ($request->course_type === 'live') {
+                    $courseData['max_seats'] = $request->max_seats;
+                    $courseData['start_date'] = $request->start_date;
+                    $courseData['end_date'] = $request->end_date;
+                    $courseData['sessions_per_week'] = count($request->sessions);
+                }
+
+                if ($request->hasFile('thumbnail')) {
+                    // Delete old thumbnail if exists
+                    if ($course->thumbnail) {
+                        \Storage::delete('public/' . $course->thumbnail);
+                    }
+
+                    $file = $request->file('thumbnail');
+                    $filename = 'course_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('courses/thumbnails', $filename, 'public');
+                    $courseData['thumbnail'] = $path;
+                }
+
+                $course->update($courseData);
+
+                // Update live sessions if course type is live and sessions are provided
+                if ($request->course_type === 'live' && $request->has('sessions')) {
+                    // Delete existing sessions
+                    \App\Models\LiveSession::where('course_id', $course->id)->delete();
+
+                    // Create new sessions
+                    $this->createLiveSessions($course, $request->sessions, $request->start_date, $request->end_date);
+                }
+
+                DB::commit();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Course updated successfully',
+                    'course' => $course->fresh()
+                ], 200);
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                throw $e;
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Error updating course: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error updating course',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Delete course
+     */
+    public function deleteCourse($id)
+    {
+        try {
+            $teacher = Auth::user();
+
+            if ($teacher->user_type !== 'teacher') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized. Teachers only.'
+                ], 403);
+            }
+
+            $course = Course::find($id);
+
+            if (!$course) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Course not found'
+                ], 404);
+            }
+
+            // Check if teacher owns this course
+            if ($course->teacher_id !== $teacher->id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized. You can only delete your own courses.'
+                ], 403);
+            }
+
+            // Check if course has enrollments
+            $enrollmentsCount = CourseEnrollment::where('course_id', $course->id)->count();
+            if ($enrollmentsCount > 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cannot delete course with active enrollments. Please contact support.'
+                ], 400);
+            }
+
+            // Delete thumbnail if exists
+            if ($course->thumbnail) {
+                \Storage::delete('public/' . $course->thumbnail);
+            }
+
+            // Delete associated live sessions
+            \App\Models\LiveSession::where('course_id', $course->id)->delete();
+
+            // Delete the course
+            $course->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Course deleted successfully'
+            ], 200);
+
+        } catch (\Exception $e) {
+            Log::error('Error deleting course: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting course',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
