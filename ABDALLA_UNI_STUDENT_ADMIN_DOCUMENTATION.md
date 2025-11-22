@@ -1270,3 +1270,864 @@ You built the platform's infrastructure and key management features! 🚀
 - Real-time notifications
 
 Good luck with your presentation! 🎯
+
+---
+
+## Technical Deep Dive
+
+### 1. Admin RBAC (Role-Based Access Control)
+
+**Middleware Implementation:**
+```php
+class UserTypeMiddleware
+{
+    public function handle($request, Closure $next, $allowedType)
+    {
+        if (!auth()->check()) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        if (auth()->user()->user_type !== $allowedType) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        return $next($request);
+    }
+}
+
+// Usage in routes
+Route::middleware(['auth:sanctum', 'userType:admin'])->group(function() {
+    Route::get('/admin/users', [AdminController::class, 'index']);
+});
+```
+
+**Authorization Checks:**
+```tsx
+// Frontend guard
+const isAdmin = () => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  return user.type === 'admin'
+}
+
+// Protect routes
+useEffect(() => {
+  if (!isAdmin()) {
+    router.push('/')
+  }
+}, [])
+```
+
+---
+
+### 2. Dashboard Analytics
+
+**Aggregation Queries:**
+```php
+public function getDashboardStats()
+{
+    $stats = [
+        'totalUsers' => User::count(),
+        'totalCourses' => Course::count(),
+        'totalRevenue' => Payment::where('status', 'completed')->sum('amount'),
+        'pendingTeachers' => User::where('user_type', 'teacher')
+            ->where('is_approved', false)
+            ->count(),
+        
+        // Group by user type
+        'usersByType' => User::select('user_type', DB::raw('count(*) as count'))
+            ->groupBy('user_type')
+            ->pluck('count', 'user_type'),
+        
+        // Revenue by month
+        'revenueByMonth' => Payment::where('status', 'completed')
+            ->select(
+                DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+                DB::raw('SUM(amount) as total')
+            )
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+    ];
+
+    return response()->json($stats);
+}
+```
+
+**Chart Visualization:**
+```tsx
+import { Line, Bar, Pie } from 'react-chartjs-2'
+
+const AdminAnalytics = () => {
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
+    fetchAnalytics()
+  }, [])
+
+  const chartData = {
+    labels: data?.revenueByMonth.map(m => m.month),
+    datasets: [{
+      label: 'Revenue',
+      data: data?.revenueByMonth.map(m => m.total),
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    }]
+  }
+
+  return (
+    <div>
+      <Line data={chartData} />
+    </div>
+  )
+}
+```
+
+---
+
+### 3. Payment Integration Deep Dive
+
+**Stripe Backend:**
+```php
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
+
+public function createPaymentIntent($courseId)
+{
+    Stripe::setApiKey(config('services.stripe.secret'));
+
+    $course = Course::findOrFail($courseId);
+    
+    $paymentIntent = PaymentIntent::create([
+        'amount' => $course->price * 100, // Convert to cents
+        'currency' => 'usd',
+        'metadata' => [
+            'course_id' => $courseId,
+            'user_id' => auth()->id(),
+            'user_email' => auth()->user()->email
+        ]
+    ]);
+
+    // Store payment record
+    Payment::create([
+        'user_id' => auth()->id(),
+        'course_id' => $courseId,
+        'amount' => $course->price,
+        'payment_method' => 'stripe',
+        'status' => 'pending',
+        'transaction_id' => $paymentIntent->id
+    ]);
+
+    return response()->json([
+        'clientSecret' => $paymentIntent->client_secret,
+        'paymentIntentId' => $paymentIntent->id
+    ]);
+}
+```
+
+**Stripe Webhook Handling:**
+```php
+public function handleStripeWebhook(Request $request)
+{
+    $payload = $request->getContent();
+    $sigHeader = $request->header('Stripe-Signature');
+    $endpointSecret = config('services.stripe.webhook_secret');
+
+    try {
+        $event = \Stripe\Webhook::constructEvent(
+            $payload,
+            $sigHeader,
+            $endpointSecret
+        );
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Invalid signature'], 400);
+    }
+
+    switch ($event->type) {
+        case 'payment_intent.succeeded':
+            $paymentIntent = $event->data->object;
+            
+            // Update payment status
+            $payment = Payment::where('transaction_id', $paymentIntent->id)->first();
+            $payment->update(['status' => 'completed']);
+            
+            // Enroll user in course
+            CourseEnrollment::create([
+                'student_id' => $payment->user_id,
+                'course_id' => $payment->course_id,
+                'price_paid' => $payment->amount
+            ]);
+            
+            // Notify user
+            User::find($payment->user_id)->notify(new EnrollmentConfirmed($payment->course));
+            
+            break;
+            
+        case 'payment_intent.payment_failed':
+            $paymentIntent = $event->data->object;
+            
+            Payment::where('transaction_id', $paymentIntent->id)
+                ->update(['status' => 'failed']);
+            break;
+    }
+
+    return response()->json(['success' => true]);
+}
+```
+
+---
+
+### 4. Video Streaming Optimization
+
+**Range Request Handling:**
+```php
+public function streamLesson($lessonId, Request $request)
+{
+    $lesson = CourseLesson::findOrFail($lessonId);
+    
+    // Authorization check
+    $isEnrolled = CourseEnrollment::where('student_id', auth()->id())
+        ->where('course_id', $lesson->course_id)
+        ->exists();
+    
+    if (!$isEnrolled && !$lesson->is_preview) {
+        return response()->json(['error' => 'Unauthorized'], 403);
+    }
+    
+    $filePath = storage_path('app/' . $lesson->video_file_path);
+    
+    if (!file_exists($filePath)) {
+        return response()->json(['error' => 'Video not found'], 404);
+    }
+    
+    $fileSize = filesize($filePath);
+    $range = $request->header('Range');
+    
+    if ($range) {
+        // Parse range: bytes=0-1024
+        preg_match('/bytes=(\d+)-(\d*)/', $range, $matches);
+        $start = intval($matches[1]);
+        $end = $matches[2] ? intval($matches[2]) : $fileSize - 1;
+        
+        $length = $end - $start + 1;
+        
+        $file = fopen($filePath, 'rb');
+        fseek($file, $start);
+        $data = fread($file, $length);
+        fclose($file);
+        
+        return response($data, 206)
+            ->header('Content-Type', 'video/mp4')
+            ->header('Content-Length', $length)
+            ->header('Content-Range', "bytes $start-$end/$fileSize")
+            ->header('Accept-Ranges', 'bytes');
+    }
+    
+    // No range header - stream entire file
+    return response()->file($filePath, [
+        'Content-Type' => 'video/mp4',
+        'Content-Length' => $fileSize
+    ]);
+}
+```
+
+**Progressive Download:**
+```tsx
+<video
+  src={`/api/stream/lesson/${lessonId}?token=${token}`}
+  controls
+  preload="metadata" // Only load metadata initially
+  onLoadedMetadata={(e) => {
+    const video = e.target as HTMLVideoElement
+    console.log('Duration:', video.duration)
+  }}
+  onProgress={(e) => {
+    const video = e.target as HTMLVideoElement
+    const buffered = video.buffered
+    if (buffered.length > 0) {
+      const bufferedEnd = buffered.end(buffered.length - 1)
+      const bufferedPercent = (bufferedEnd / video.duration) * 100
+      setBufferedPercent(bufferedPercent)
+    }
+  }}
+/>
+```
+
+---
+
+### 5. Advanced Search & Filtering
+
+**Full-Text Search:**
+```php
+public function searchJobs(Request $request)
+{
+    $query = $request->input('q');
+    $filters = $request->only(['job_type', 'work_location', 'experience_level']);
+    
+    $jobs = JobPosting::where('is_active', true)
+        ->when($query, function($q) use ($query) {
+            $q->where(function($subQuery) use ($query) {
+                $subQuery->where('title', 'LIKE', "%{$query}%")
+                    ->orWhere('description', 'LIKE', "%{$query}%")
+                    ->orWhere('location', 'LIKE', "%{$query}%");
+            });
+        })
+        ->when($filters['job_type'], function($q) use ($filters) {
+            $q->where('job_type', $filters['job_type']);
+        })
+        ->when($filters['work_location'], function($q) use ($filters) {
+            $q->where('work_location', $filters['work_location']);
+        })
+        ->when($filters['experience_level'], function($q) use ($filters) {
+            $q->where('experience_level', $filters['experience_level']);
+        })
+        ->with('company')
+        ->paginate(20);
+    
+    return response()->json($jobs);
+}
+```
+
+**Faceted Search (Frontend):**
+```tsx
+const JobSearch = () => {
+  const [jobs, setJobs] = useState([])
+  const [filters, setFilters] = useState({
+    q: '',
+    job_type: '',
+    work_location: '',
+    experience_level: ''
+  })
+  const [facets, setFacets] = useState({
+    jobTypes: {},
+    workLocations: {},
+    experienceLevels: {}
+  })
+
+  useEffect(() => {
+    searchJobs()
+  }, [filters])
+
+  const searchJobs = async () => {
+    const params = new URLSearchParams()
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value) params.append(key, value)
+    })
+
+    const { data } = await axios.get(`/university/jobs?${params}`)
+    setJobs(data.data)
+
+    // Calculate facets (counts for each filter option)
+    const types = {}
+    const locations = {}
+    const levels = {}
+
+    data.data.forEach(job => {
+      types[job.job_type] = (types[job.job_type] || 0) + 1
+      locations[job.work_location] = (locations[job.work_location] || 0) + 1
+      levels[job.experience_level] = (levels[job.experience_level] || 0) + 1
+    })
+
+    setFacets({
+      jobTypes: types,
+      workLocations: locations,
+      experienceLevels: levels
+    })
+  }
+
+  return (
+    <div className="grid grid-cols-4 gap-6">
+      {/* Filters Sidebar */}
+      <div className="col-span-1">
+        <h3>Filters</h3>
+
+        <div>
+          <h4>Job Type</h4>
+          {Object.entries(facets.jobTypes).map(([type, count]) => (
+            <label key={type}>
+              <input
+                type="radio"
+                name="job_type"
+                value={type}
+                checked={filters.job_type === type}
+                onChange={(e) => setFilters({...filters, job_type: e.target.value})}
+              />
+              {type} ({count})
+            </label>
+          ))}
+        </div>
+
+        {/* More filters... */}
+      </div>
+
+      {/* Results */}
+      <div className="col-span-3">
+        {jobs.map(job => <JobCard key={job.id} job={job} />)}
+      </div>
+    </div>
+  )
+}
+```
+
+---
+
+## Technical Interview Questions (60+ Questions)
+
+### Admin & RBAC (15 questions)
+
+**1. What is RBAC?**
+- Role-Based Access Control
+- Users assigned roles (admin, teacher, student)
+- Permissions based on role
+
+**2. How do you implement RBAC in Laravel?**
+- Middleware checks user_type
+- Routes protected with middleware
+- Gates and Policies for fine-grained control
+
+**3. What is the difference between authentication and authorization?**
+- Authentication: Who are you? (login)
+- Authorization: What can you do? (permissions)
+
+**4. How do you protect admin routes?**
+```php
+Route::middleware(['auth:sanctum', 'userType:admin'])->group(function() {
+    // Admin routes
+});
+```
+
+**5. Should you trust frontend authorization checks?**
+- No! Always verify on backend
+- Frontend checks are for UX only
+- Attackers can bypass frontend
+
+**6. How do you implement audit logs?**
+```php
+// Log admin actions
+AuditLog::create([
+    'admin_id' => auth()->id(),
+    'action' => 'user.suspend',
+    'target_id' => $userId,
+    'ip_address' => request()->ip(),
+    'user_agent' => request()->userAgent()
+]);
+```
+
+**7. What is the principle of least privilege?**
+- Users should only have minimum permissions needed
+- Don't give admin access unless necessary
+- Reduces security risk
+
+**8. How do you implement user suspension?**
+```php
+public function suspend($userId) {
+    $user = User::findOrFail($userId);
+    $user->update(['status' => 'suspended']);
+    
+    // Invalidate all tokens
+    $user->tokens()->delete();
+    
+    // Notify user
+    $user->notify(new AccountSuspended());
+}
+```
+
+**9. How do you prevent privilege escalation?**
+- Validate user permissions on backend
+- Don't allow users to change their own role
+- Audit permission changes
+
+**10. What is two-factor authentication (2FA)?**
+- Second authentication factor beyond password
+- Examples: SMS code, authenticator app, email code
+- Increases security
+
+**11. How do you implement activity monitoring?**
+- Log user actions (login, logout, changes)
+- Track IP addresses and user agents
+- Alert on suspicious activity
+
+**12. What is session hijacking?**
+- Attacker steals user's session token
+- Prevention: HTTPS, secure cookies, token rotation
+
+**13. How do you implement user impersonation (for support)?**
+```php
+public function impersonate($userId) {
+    $admin = auth()->user();
+    $targetUser = User::findOrFail($userId);
+    
+    session(['impersonating' => $userId, 'admin_id' => $admin->id]);
+    
+    auth()->login($targetUser);
+}
+```
+
+**14. What are database transactions and when to use them?**
+```php
+DB::transaction(function() {
+    $user->update(['status' => 'suspended']);
+    $user->tokens()->delete();
+    AuditLog::create([...]);
+});
+```
+- All or nothing - if one fails, all revert
+- Use for related operations
+
+**15. How do you implement soft deletes?**
+```php
+use SoftDeletes;
+
+// Soft delete
+$user->delete(); // Sets deleted_at timestamp
+
+// Restore
+$user->restore();
+
+// Force delete (permanent)
+$user->forceDelete();
+
+// Include soft deleted
+User::withTrashed()->get();
+```
+
+---
+
+### Payment Systems (15 questions)
+
+**16. How does Stripe payment flow work?**
+1. Create payment intent on backend
+2. Frontend gets client secret
+3. Frontend collects card details (Stripe.js)
+4. Stripe processes payment
+5. Webhook confirms to backend
+6. Backend enrolls user
+
+**17. What is a payment intent?**
+- Stripe object representing payment
+- Tracks payment through lifecycle
+- Contains amount, currency, status
+
+**18. Why use Stripe.js instead of posting card data to your backend?**
+- PCI compliance
+- Stripe handles card data securely
+- You never touch sensitive data
+
+**19. What is PCI DSS?**
+- Payment Card Industry Data Security Standard
+- Rules for handling credit card data
+- Non-compliance = fines and liability
+
+**20. How do you handle payment failures?**
+```tsx
+const { error } = await stripe.confirmCardPayment(clientSecret)
+
+if (error) {
+  // Show user-friendly message
+  if (error.code === 'card_declined') {
+    alert('Your card was declined')
+  } else if (error.code === 'insufficient_funds') {
+    alert('Insufficient funds')
+  } else {
+    alert('Payment failed: ' + error.message)
+  }
+}
+```
+
+**21. What is idempotency in payments?**
+- Same request multiple times = same result
+- Prevents duplicate charges
+- Use idempotency keys
+
+**22. How do you implement refunds?**
+```php
+Stripe::setApiKey(config('services.stripe.secret'));
+
+$refund = \Stripe\Refund::create([
+    'payment_intent' => $paymentIntentId,
+    'amount' => $amount * 100 // Full or partial
+]);
+
+// Update database
+$payment->update(['status' => 'refunded']);
+```
+
+**23. What are webhooks and why use them?**
+- Server-to-server HTTP POST requests
+- Real-time payment status updates
+- Reliable (Stripe retries if fails)
+
+**24. How do you secure payment webhooks?**
+```php
+$payload = $request->getContent();
+$sigHeader = $request->header('Stripe-Signature');
+
+$event = \Stripe\Webhook::constructEvent(
+    $payload,
+    $sigHeader,
+    $webhookSecret
+);
+// Verifies signature from Stripe
+```
+
+**25. What payment statuses exist?**
+- pending: Payment initiated
+- processing: Being processed
+- completed: Successfully paid
+- failed: Payment failed
+- refunded: Money returned
+
+**26. How do you handle PayPal integration?**
+```tsx
+import { PayPalButtons } from '@paypal/react-paypal-js'
+
+<PayPalButtons
+  createOrder={(data, actions) => {
+    return actions.order.create({
+      purchase_units: [{
+        amount: { value: course.price }
+      }]
+    })
+  }}
+  onApprove={async (data, actions) => {
+    const order = await actions.order.capture()
+    await enrollInCourse(courseId, order.id)
+  }}
+/>
+```
+
+**27. What is 3D Secure?**
+- Additional authentication for card payments
+- Reduces fraud
+- Required in Europe (SCA)
+
+**28. How do you test payments in development?**
+- Stripe test mode
+- Test card numbers (4242 4242 4242 4242)
+- Test different scenarios (declined, insufficient funds)
+
+**29. What is recurring billing?**
+- Automatic charges at regular intervals
+- Subscriptions
+- Requires storing payment method
+
+**30. How do you handle disputes/chargebacks?**
+- Customer disputes charge with bank
+- Provide evidence to Stripe
+- May lose money + fee if lose dispute
+
+---
+
+### Video Streaming (10 questions)
+
+**31. What is progressive download?**
+- Video downloads while playing
+- Can seek to downloaded parts
+- Simple but less efficient than streaming
+
+**32. What is adaptive bitrate streaming?**
+- Multiple quality levels
+- Switches based on network speed
+- Technologies: HLS, DASH
+
+**33. What is HLS (HTTP Live Streaming)?**
+- Apple's streaming protocol
+- Breaks video into small segments
+- Widely supported
+
+**34. How do range requests work?**
+```
+Client: Range: bytes=1024-2048
+Server: Content-Range: bytes 1024-2048/5000
+```
+- Client requests specific byte range
+- Enables seeking in video
+
+**35. How do you protect video content?**
+- Token authentication in URL
+- Signed URLs with expiration
+- DRM for high-value content
+
+**36. What is video transcoding?**
+- Converting video to different formats/sizes
+- Create multiple quality levels
+- Tools: FFmpeg, AWS MediaConvert
+
+**37. How do you generate video thumbnails?**
+```bash
+ffmpeg -i video.mp4 -ss 00:00:05 -vframes 1 thumbnail.jpg
+```
+- Extract frame at specific time
+- Use as preview image
+
+**38. What is CDN and why use it for video?**
+- Content Delivery Network
+- Caches content near users
+- Faster delivery, less bandwidth cost
+
+**39. How do you track video analytics?**
+```tsx
+<video
+  onPlay={() => trackEvent('video_play')}
+  onPause={() => trackEvent('video_pause')}
+  onEnded={() => trackEvent('video_complete')}
+  onTimeUpdate={(e) => {
+    const percent = (e.target.currentTime / e.target.duration) * 100
+    if (percent >= 25 && !milestones.quarter) {
+      trackEvent('video_25_percent')
+      setMilestones({...milestones, quarter: true})
+    }
+  }}
+/>
+```
+
+**40. What video formats are web-compatible?**
+- MP4 (H.264): Most compatible
+- WebM (VP8/VP9): Open source, good compression
+- OGG: Less common
+
+---
+
+### Database & Performance (10 questions)
+
+**41. What is database indexing?**
+- Data structure to speed up queries
+- Trade-off: Faster reads, slower writes
+- Index columns used in WHERE, JOIN, ORDER BY
+
+**42. When should you add an index?**
+- Columns in WHERE clauses
+- Foreign keys
+- Columns used for sorting
+- Don't over-index (slows writes)
+
+**43. What is a composite index?**
+```php
+$table->index(['status', 'created_at']);
+```
+- Index on multiple columns
+- Order matters
+- Good for queries filtering on both
+
+**44. What is query optimization?**
+- Making queries faster
+- Techniques: Indexes, select specific columns, eager loading
+
+**45. What is the N+1 query problem?**
+```php
+// ❌ Bad - 1 + N queries
+$courses = Course::all();
+foreach ($courses as $course) {
+    echo $course->teacher->name; // N queries
+}
+
+// ✅ Good - 2 queries
+$courses = Course::with('teacher')->all();
+foreach ($courses as $course) {
+    echo $course->teacher->name;
+}
+```
+
+**46. How do you optimize large tables?**
+- Pagination (don't load all at once)
+- Indexing
+- Archiving old data
+- Partitioning
+
+**47. What is database caching?**
+```php
+$stats = Cache::remember('dashboard-stats', 600, function() {
+    return [
+        'totalUsers' => User::count(),
+        'totalCourses' => Course::count(),
+        // ...
+    ];
+});
+```
+- Store query results in memory
+- Faster than hitting database
+- Use for expensive, frequently accessed data
+
+**48. What is lazy loading vs eager loading?**
+- Lazy: Load relationships when accessed (N+1)
+- Eager: Load relationships upfront (with())
+
+**49. How do you handle database migrations in production?**
+- Test in staging first
+- Backup database
+- Run during low traffic
+- Have rollback plan
+
+**50. What is database normalization?**
+- Organizing data to reduce redundancy
+- Separate tables for different entities
+- Use foreign keys to relate
+
+---
+
+### API Design (10 questions)
+
+**51. What is REST?**
+- REpresentational State Transfer
+- Architectural style for APIs
+- Uses HTTP methods (GET, POST, PUT, DELETE)
+
+**52. What are idempotent operations?**
+- Same request multiple times = same result
+- GET, PUT, DELETE are idempotent
+- POST is not (creates new resource each time)
+
+**53. How do you version APIs?**
+```
+/api/v1/users
+/api/v2/users
+```
+- URL versioning
+- Header versioning
+- Allows breaking changes without breaking old clients
+
+**54. What is pagination and why use it?**
+- Return subset of results
+- Reduces payload size
+- Faster responses
+
+**55. What is rate limiting?**
+- Limit requests per time period
+- Prevents abuse
+- Example: 100 requests per minute
+
+**56. How do you handle API errors?**
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Email is required",
+    "fields": {
+      "email": ["Email is required"]
+    }
+  }
+}
+```
+
+**57. What is HATEOAS?**
+- Hypermedia As The Engine Of Application State
+- Include links to related resources in responses
+- Self-documenting API
+
+**58. What is GraphQL vs REST?**
+- REST: Multiple endpoints, over/under fetching
+- GraphQL: Single endpoint, request exact data needed
+
+**59. How do you document APIs?**
+- OpenAPI/Swagger
+- Postman collections
+- API documentation generators
+
+**60. What are API best practices?**
+- Use proper HTTP methods and status codes
+- Consistent naming (plural nouns)
+- Versioning
+- Authentication & authorization
+- Rate limiting
+- Error handling
+- Documentation
+

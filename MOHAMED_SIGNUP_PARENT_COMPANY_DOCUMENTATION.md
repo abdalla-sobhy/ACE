@@ -1410,3 +1410,1151 @@ export default function ViewApplications() {
 ✅ **Multi-step Forms:** Complex validation logic
 
 You built the entry point and key user portals! 🌟
+
+---
+
+## Technical Deep Dive
+
+### 1. Multi-Step Form Architecture
+
+**Wizard Pattern Implementation:**
+```tsx
+const [step, setStep] = useState(1) // Current step (1, 2, or 3)
+const [userType, setUserType] = useState('') // Selected user type
+const [formData, setFormData] = useState({}) // All form data
+
+// Step progression
+const nextStep = () => setStep(prev => prev + 1)
+const prevStep = () => setStep(prev => prev - 1)
+
+// Conditional rendering based on step
+{step === 1 && <UserTypeSelection />}
+{step === 2 && <BasicInformation />}
+{step === 3 && <TypeSpecificFields />}
+```
+
+**State Management Strategy:**
+- Single state object holds ALL form data
+- Step counter tracks progress
+- User type determines which fields to show in step 3
+- Data persists across steps (doesn't reset)
+
+---
+
+### 2. Conditional Validation
+
+**Dynamic Validation Rules:**
+```tsx
+const getValidationRules = (userType) => {
+  const baseRules = {
+    email: 'required|email|unique:users',
+    password: 'required|min:8|confirmed|regex:/^(?=.*[A-Z])(?=.*[0-9])/',
+    phone: 'required|regex:/^\+20[0-9]{10}$/'
+  }
+
+  const typeSpecificRules = {
+    student: {
+      grade: 'required|string',
+      birthDate: 'required|date|before:-6 years|after:-25 years'
+    },
+    teacher: {
+      specialization: 'required|string',
+      yearsOfExperience: 'required|integer|min:0',
+      cv: 'required|file|mimes:pdf,doc,docx|max:5120',
+      diditStatus: 'required|in:Approved'
+    },
+    university_student: {
+      email: 'required|regex:/@(cu|aus|alexu|helwan|...)\.edu\.eg$/',
+      faculty: 'required|string'
+    },
+    parent: {
+      childrenCount: 'required|integer|min:1',
+      diditStatus: 'required|in:Approved'
+    },
+    company: {
+      companyName: 'required|string',
+      industry: 'required|string',
+      companySize: 'required|string',
+      location: 'required|string'
+    }
+  }
+
+  return { ...baseRules, ...(typeSpecificRules[userType] || {}) }
+}
+```
+
+**Frontend Validation:**
+```tsx
+const validateCurrentStep = () => {
+  const errors = {}
+
+  if (step === 2) {
+    // Basic info validation
+    if (!formData.email?.includes('@')) {
+      errors.email = 'Invalid email format'
+    }
+    if (formData.password !== formData.password_confirmation) {
+      errors.password_confirmation = 'Passwords do not match'
+    }
+    if (!formData.phone?.match(/^\+20[0-9]{10}$/)) {
+      errors.phone = 'Phone must be +20 followed by 10 digits'
+    }
+  }
+
+  if (step === 3) {
+    // Type-specific validation
+    if (userType === 'student' && !formData.grade) {
+      errors.grade = 'Grade is required'
+    }
+    if (userType === 'teacher' && !formData.cv) {
+      errors.cv = 'CV is required'
+    }
+  }
+
+  setErrors(errors)
+  return Object.keys(errors).length === 0
+}
+
+const handleNext = () => {
+  if (validateCurrentStep()) {
+    nextStep()
+  }
+}
+```
+
+---
+
+### 3. Third-Party API Integration (Didit)
+
+**Didit Verification Flow:**
+```
+User clicks "Start Verification"
+    ↓
+Frontend: POST /api/didit/create-session
+    ↓
+Backend: Creates session with Didit API
+    ↓
+Backend: Returns sessionId and sessionUrl
+    ↓
+Frontend: Opens Didit popup (600x800)
+    ↓
+User completes verification on Didit
+    ↓
+Frontend: Polls /api/didit/session-status/{sessionId} every 3 seconds
+    ↓
+Didit webhook → Backend (status update)
+    ↓
+Frontend poll receives status="Approved"
+    ↓
+Frontend: Stores sessionId, sessionNumber, status
+    ↓
+Frontend: Closes popup, shows ✅ Verified
+```
+
+**Implementation:**
+```tsx
+const initiateDiditVerification = async () => {
+  try {
+    // 1. Create Didit session
+    const { data } = await axios.post('/api/didit/create-session')
+    const { sessionId, sessionUrl } = data
+
+    // 2. Open verification popup
+    const popup = window.open(
+      sessionUrl,
+      'didit-verification',
+      'width=600,height=800,scrollbars=yes'
+    )
+
+    // 3. Poll for status
+    const pollInterval = setInterval(async () => {
+      try {
+        const statusRes = await axios.get(
+          `/api/didit/session-status/${sessionId}`
+        )
+
+        if (statusRes.data.status === 'Approved') {
+          // Verification successful
+          setFormData(prev => ({
+            ...prev,
+            diditSessionId: sessionId,
+            diditSessionNumber: statusRes.data.sessionNumber,
+            diditStatus: 'Approved'
+          }))
+
+          clearInterval(pollInterval)
+          popup?.close()
+          alert('Verification successful!')
+        }
+
+        if (statusRes.data.status === 'Rejected') {
+          clearInterval(pollInterval)
+          popup?.close()
+          alert('Verification failed. Please try again.')
+        }
+
+      } catch (error) {
+        console.error('Poll error:', error)
+      }
+    }, 3000) // Poll every 3 seconds
+
+    // 4. Cleanup on popup close
+    const checkPopup = setInterval(() => {
+      if (popup?.closed) {
+        clearInterval(pollInterval)
+        clearInterval(checkPopup)
+      }
+    }, 1000)
+
+  } catch (error) {
+    alert('Failed to start verification')
+  }
+}
+```
+
+**Backend Webhook Handler:**
+```php
+public function handleDiditWebhook(Request $request)
+{
+    $sessionId = $request->input('sessionId');
+    $status = $request->input('status');
+    $personalInfo = $request->input('personalInfo');
+
+    // Update verification record
+    DiditVerification::where('session_id', $sessionId)->update([
+        'status' => $status,
+        'personal_info' => $personalInfo,
+        'metadata' => $request->all()
+    ]);
+
+    // If approved, mark user as approved
+    if ($status === 'Approved') {
+        $verification = DiditVerification::where('session_id', $sessionId)->first();
+        User::where('id', $verification->user_id)->update(['is_approved' => true]);
+    }
+
+    return response()->json(['success' => true]);
+}
+```
+
+---
+
+### 4. Parent Follow System
+
+**Search Implementation:**
+```tsx
+const handleSearchStudent = async () => {
+  setLoading(true)
+  try {
+    const { data } = await axios.post(
+      '/api/parent/search-student',
+      { query: searchQuery },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    setSearchResults(data.students)
+  } catch (error) {
+    alert('Search failed')
+  } finally {
+    setLoading(false)
+  }
+}
+```
+
+**Backend Search Logic:**
+```php
+public function searchStudent(Request $request)
+{
+    $query = $request->input('query');
+
+    $students = User::where('user_type', 'student')
+        ->where(function($q) use ($query) {
+            $q->where('email', 'LIKE', "%{$query}%")
+              ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$query}%"]);
+        })
+        ->with('studentProfile')
+        ->limit(10)
+        ->get();
+
+    return response()->json(['students' => $students]);
+}
+```
+
+**Follow Request:**
+```tsx
+const handleSendFollowRequest = async (studentId) => {
+  try {
+    await axios.post(
+      '/api/parent/follow-request',
+      { student_id: studentId },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    alert('Follow request sent! Waiting for student approval.')
+    setSearchResults([]) // Clear search
+  } catch (error) {
+    if (error.response?.status === 400) {
+      alert('Already sent follow request')
+    } else {
+      alert('Failed to send request')
+    }
+  }
+}
+```
+
+**Backend:**
+```php
+public function sendFollowRequest(Request $request)
+{
+    $parentId = auth()->id();
+    $studentId = $request->input('student_id');
+
+    // Check if already following or request pending
+    $existing = ParentStudentFollowRequest::where('parent_id', $parentId)
+        ->where('student_id', $studentId)
+        ->whereIn('status', ['pending', 'approved'])
+        ->first();
+
+    if ($existing) {
+        return response()->json(['message' => 'Request already sent'], 400);
+    }
+
+    // Create follow request
+    ParentStudentFollowRequest::create([
+        'parent_id' => $parentId,
+        'student_id' => $studentId,
+        'status' => 'pending'
+    ]);
+
+    // Notify student
+    $student = User::find($studentId);
+    $student->notify(new FollowRequestNotification(auth()->user()));
+
+    return response()->json(['success' => true]);
+}
+```
+
+**Student Approval:**
+```tsx
+const handleApproveRequest = async (requestId) => {
+  try {
+    await axios.post(
+      `/api/follow-request/${requestId}`,
+      { action: 'approve' },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    alert('Parent can now view your progress')
+    fetchFollowRequests()
+  } catch (error) {
+    alert('Failed to approve')
+  }
+}
+```
+
+---
+
+### 5. Company Job Posting
+
+**Form State:**
+```tsx
+interface JobFormData {
+  title: string
+  description: string
+  jobType: 'full-time' | 'part-time' | 'internship' | 'contract'
+  workLocation: 'remote' | 'onsite' | 'hybrid'
+  location: string
+  salaryRange?: string
+  experienceLevel: 'entry' | 'mid' | 'senior'
+  positionsAvailable: number
+  applicationDeadline?: string
+}
+
+const [formData, setFormData] = useState<JobFormData>({
+  title: '',
+  description: '',
+  jobType: 'full-time',
+  workLocation: 'onsite',
+  location: '',
+  experienceLevel: 'entry',
+  positionsAvailable: 1
+})
+```
+
+**Rich Text Editor (Description):**
+```tsx
+import dynamic from 'next/dynamic'
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
+
+<ReactQuill
+  value={formData.description}
+  onChange={(value) => setFormData({...formData, description: value})}
+  modules={{
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{'list': 'ordered'}, {'list': 'bullet'}],
+      ['link']
+    ]
+  }}
+/>
+```
+
+**Submission:**
+```tsx
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  // Validation
+  if (!formData.title || !formData.description) {
+    alert('Please fill required fields')
+    return
+  }
+
+  try {
+    const { data } = await axios.post(
+      '/api/company/jobs',
+      formData,
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    router.push(`/company/jobs/${data.job.id}`)
+  } catch (error) {
+    alert('Failed to post job')
+  }
+}
+```
+
+---
+
+### 6. Application Management
+
+**Application Statuses:**
+```
+applied → interview → accepted
+              ↓
+           rejected
+```
+
+**Update Status:**
+```tsx
+const handleUpdateStatus = async (applicationId, newStatus) => {
+  try {
+    await axios.put(
+      `/api/company/applications/${applicationId}/status`,
+      { status: newStatus },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    // Optimistic update
+    setApplications(prev =>
+      prev.map(app =>
+        app.id === applicationId
+          ? { ...app, status: newStatus }
+          : app
+      )
+    )
+
+    // Notify candidate
+    if (newStatus === 'interview') {
+      alert('Candidate notified about interview')
+    }
+
+  } catch (error) {
+    alert('Failed to update status')
+    fetchApplications() // Revert on error
+  }
+}
+```
+
+**Filter Applications:**
+```tsx
+const [filter, setFilter] = useState('all')
+
+const filteredApplications = useMemo(() => {
+  if (filter === 'all') return applications
+
+  return applications.filter(app => app.status === filter)
+}, [applications, filter])
+
+// UI
+<select value={filter} onChange={e => setFilter(e.target.value)}>
+  <option value="all">All</option>
+  <option value="applied">New</option>
+  <option value="interview">Interview</option>
+  <option value="accepted">Accepted</option>
+  <option value="rejected">Rejected</option>
+</select>
+```
+
+**Download CV:**
+```tsx
+const handleDownloadCV = async (studentId) => {
+  try {
+    const response = await axios.get(
+      `/api/company/students/${studentId}/cv`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: 'blob' // Important for file download
+      }
+    )
+
+    // Create download link
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', `CV_${studentId}.pdf`)
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.URL.revokeObjectURL(url)
+
+  } catch (error) {
+    alert('Failed to download CV')
+  }
+}
+```
+
+---
+
+### 7. Complex Form Patterns
+
+**Dependent Fields:**
+```tsx
+// Show salary range only for full-time jobs
+{formData.jobType === 'full-time' && (
+  <input
+    type="text"
+    placeholder="Salary Range"
+    value={formData.salaryRange || ''}
+    onChange={e => setFormData({...formData, salaryRange: e.target.value})}
+  />
+)}
+
+// Deadline must be in future
+<input
+  type="date"
+  min={new Date().toISOString().split('T')[0]} // Today
+  value={formData.applicationDeadline || ''}
+  onChange={e => setFormData({...formData, applicationDeadline: e.target.value})}
+/>
+```
+
+**Field Array (Multiple Children for Parent):**
+```tsx
+const [children, setChildren] = useState([{ name: '', age: '' }])
+
+const addChild = () => {
+  setChildren([...children, { name: '', age: '' }])
+}
+
+const removeChild = (index) => {
+  setChildren(children.filter((_, i) => i !== index))
+}
+
+const updateChild = (index, field, value) => {
+  const updated = children.map((child, i) =>
+    i === index ? { ...child, [field]: value } : child
+  )
+  setChildren(updated)
+}
+
+// Render
+{children.map((child, index) => (
+  <div key={index}>
+    <input
+      value={child.name}
+      onChange={e => updateChild(index, 'name', e.target.value)}
+      placeholder="Child Name"
+    />
+    <input
+      type="number"
+      value={child.age}
+      onChange={e => updateChild(index, 'age', e.target.value)}
+      placeholder="Age"
+    />
+    <button onClick={() => removeChild(index)}>Remove</button>
+  </div>
+))}
+
+<button onClick={addChild}>+ Add Child</button>
+```
+
+---
+
+## Technical Interview Questions (60+ Questions)
+
+### Multi-Step Forms (15 questions)
+
+**1. How do you implement a multi-step form?**
+- Use step counter state
+- Conditional rendering based on step
+- Single state object for all data
+- Navigation buttons (Next/Back)
+
+**2. How do you preserve form data between steps?**
+- Store all data in single state object
+- Data persists across steps
+- Don't reset state when changing steps
+
+**3. How do you validate each step?**
+- Create step-specific validation functions
+- Validate before allowing next step
+- Show errors for current step only
+
+**4. Should you POST data after each step?**
+- No, collect all data first
+- Submit once at the end
+- Saves API calls and improves UX
+
+**5. How do you handle "Back" button?**
+```tsx
+const prevStep = () => {
+  setStep(prev => Math.max(1, prev - 1))
+  // Keep existing data intact
+}
+```
+
+**6. How do you show progress indicator?**
+```tsx
+<div className="flex justify-between mb-8">
+  {[1, 2, 3].map(num => (
+    <div
+      key={num}
+      className={`w-8 h-8 rounded-full ${
+        step >= num ? 'bg-blue-600' : 'bg-gray-300'
+      }`}
+    >
+      {num}
+    </div>
+  ))}
+</div>
+```
+
+**7. How do you handle conditional fields?**
+```tsx
+{userType === 'teacher' && (
+  <input name="specialization" required />
+)}
+```
+
+**8. What is the wizard pattern?**
+- UI pattern for multi-step processes
+- One step visible at a time
+- Clear progress indication
+- Easy navigation
+
+**9. How do you prevent skipping steps?**
+- Disable "Next" until validation passes
+- Don't show step numbers as links
+- Programmatic navigation only
+
+**10. How do you handle form submission?**
+```tsx
+const handleSubmit = async () => {
+  const formData = new FormData()
+  Object.keys(data).forEach(key => {
+    formData.append(key, data[key])
+  })
+  await axios.post('/api/register', formData)
+}
+```
+
+**11. Should you save draft progress?**
+- Optional: Save to localStorage
+- Auto-save every N seconds
+- Restore on page load
+```tsx
+useEffect(() => {
+  localStorage.setItem('signupDraft', JSON.stringify(formData))
+}, [formData])
+```
+
+**12. How do you handle errors from backend?**
+```tsx
+catch (error) {
+  if (error.response?.status === 422) {
+    // Validation errors
+    const errors = error.response.data.errors
+    setErrors(errors)
+    
+    // Go back to step with error
+    if (errors.email) setStep(2)
+    if (errors.grade) setStep(3)
+  }
+}
+```
+
+**13. What is optimistic UI update?**
+- Update UI before API responds
+- Makes app feel faster
+- Revert if API fails
+
+**14. How do you test multi-step forms?**
+- Test each step individually
+- Test navigation (Next/Back)
+- Test validation
+- Test submission
+- Test error handling
+
+**15. What accessibility considerations?**
+- ARIA labels for progress
+- Keyboard navigation
+- Focus management
+- Screen reader announcements
+```tsx
+<div role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={3}>
+```
+
+---
+
+### Validation (15 questions)
+
+**16. What is client-side validation?**
+- Validation in browser before submission
+- Improves UX (immediate feedback)
+- Not secure (can be bypassed)
+
+**17. What is server-side validation?**
+- Validation on backend
+- Secure (can't be bypassed)
+- Required for security
+
+**18. Should you do both?**
+- Yes! Client for UX, server for security
+
+**19. How do you validate email format?**
+```tsx
+const isValidEmail = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+```
+
+**20. How do you validate Egyptian phone numbers?**
+```tsx
+const isValidPhone = (phone) => {
+  return /^\+20[0-9]{10}$/.test(phone)
+}
+// Must be: +20 followed by exactly 10 digits
+```
+
+**21. How do you validate university emails?**
+```tsx
+const validDomains = [
+  'cu.edu.eg', 'aus.edu.eg', 'alexu.edu.eg',
+  'helwan.edu.eg', 'mans.edu.eg'
+]
+
+const isUniversityEmail = (email) => {
+  return validDomains.some(domain => email.endsWith('@' + domain))
+}
+```
+
+**22. How do you validate password strength?**
+```tsx
+const validatePassword = (password) => {
+  const minLength = password.length >= 8
+  const hasUppercase = /[A-Z]/.test(password)
+  const hasNumber = /[0-9]/.test(password)
+  
+  return minLength && hasUppercase && hasNumber
+}
+```
+
+**23. How do you validate password confirmation?**
+```tsx
+if (formData.password !== formData.password_confirmation) {
+  errors.password_confirmation = 'Passwords do not match'
+}
+```
+
+**24. How do you validate file uploads?**
+```tsx
+const validateFile = (file) => {
+  // Size check (max 5MB)
+  if (file.size > 5 * 1024 * 1024) {
+    return 'File too large (max 5MB)'
+  }
+  
+  // Type check
+  const allowedTypes = ['application/pdf', 'application/msword']
+  if (!allowedTypes.includes(file.type)) {
+    return 'Invalid file type (PDF or DOC only)'
+  }
+  
+  return null
+}
+```
+
+**25. How do you show validation errors?**
+```tsx
+{errors.email && (
+  <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+)}
+
+// Or
+<input
+  className={errors.email ? 'border-red-500' : 'border-gray-300'}
+/>
+```
+
+**26. When should validation run?**
+- onChange: Real-time feedback
+- onBlur: When field loses focus
+- onSubmit: Before submission
+- Combination based on UX needs
+
+**27. What is debounced validation?**
+```tsx
+const debouncedValidate = useCallback(
+  debounce((value) => {
+    if (!isValidEmail(value)) {
+      setErrors({email: 'Invalid email'})
+    }
+  }, 500),
+  []
+)
+
+<input onChange={e => debouncedValidate(e.target.value)} />
+```
+- Delays validation until user stops typing
+- Prevents validation on every keystroke
+
+**28. How do you validate date ranges?**
+```tsx
+// Student must be 6-25 years old
+const minDate = new Date()
+minDate.setFullYear(minDate.getFullYear() - 25)
+
+const maxDate = new Date()
+maxDate.setFullYear(maxDate.getFullYear() - 6)
+
+<input
+  type="date"
+  min={minDate.toISOString().split('T')[0]}
+  max={maxDate.toISOString().split('T')[0]}
+/>
+```
+
+**29. What are HTML5 validation attributes?**
+- required, min, max, minLength, maxLength
+- pattern (regex), type (email, url, tel)
+- Browser provides basic validation
+
+**30. Should you rely on HTML5 validation?**
+- No, add JavaScript validation too
+- HTML5 can be disabled
+- JS provides better UX and error messages
+
+---
+
+### Third-Party APIs (10 questions)
+
+**31. What is an API webhook?**
+- URL that receives POST requests from external service
+- Used for real-time updates
+- Didit sends status updates via webhook
+
+**32. How do you secure webhooks?**
+- Verify signature/secret key
+- Check source IP
+- Validate payload structure
+```php
+if ($request->header('X-Webhook-Secret') !== config('didit.secret')) {
+    return response()->json(['error' => 'Unauthorized'], 401);
+}
+```
+
+**33. What is polling?**
+- Repeatedly checking for updates
+- Alternative to webhooks
+- Less efficient but simpler
+
+**34. How often should you poll?**
+- Balance freshness vs server load
+- 3-5 seconds for active processes
+- 30-60 seconds for background updates
+
+**35. How do you stop polling?**
+```tsx
+useEffect(() => {
+  const interval = setInterval(() => {
+    checkStatus()
+  }, 3000)
+  
+  return () => clearInterval(interval) // Cleanup
+}, [])
+```
+
+**36. What is exponential backoff?**
+```tsx
+let retryDelay = 1000
+const retry = async () => {
+  try {
+    await apiCall()
+  } catch (error) {
+    setTimeout(retry, retryDelay)
+    retryDelay *= 2 // 1s, 2s, 4s, 8s...
+  }
+}
+```
+
+**37. How do you handle API rate limits?**
+- Respect Retry-After header
+- Implement exponential backoff
+- Cache responses when possible
+
+**38. What is CORS?**
+- Cross-Origin Resource Sharing
+- Security feature in browsers
+- Backend must allow frontend origin
+
+**39. How do you call third-party APIs from backend?**
+```php
+$response = Http::withHeaders([
+    'Authorization' => 'Bearer ' . config('didit.api_key'),
+])->post('https://api.didit.io/sessions', [
+    'userId' => $user->id,
+]);
+
+return $response->json();
+```
+
+**40. What is an API key vs OAuth?**
+- API Key: Simple, single string for auth
+- OAuth: Complex, token-based, more secure
+
+---
+
+### State Management (10 questions)
+
+**41. How do you manage complex form state?**
+```tsx
+const [formData, setFormData] = useState({
+  // All fields in one object
+  email: '',
+  password: '',
+  grade: '',
+  // ...
+})
+
+// Generic update handler
+const handleChange = (e) => {
+  const { name, value } = e.target
+  setFormData(prev => ({ ...prev, [name]: value }))
+}
+```
+
+**42. What is the spread operator?**
+```tsx
+{...formData, email: newValue}
+// Copies all fields from formData
+// Then overrides email with newValue
+```
+
+**43. How do you handle nested state?**
+```tsx
+setUser(prev => ({
+  ...prev,
+  profile: {
+    ...prev.profile,
+    name: 'New Name'
+  }
+}))
+```
+
+**44. What is computed state?**
+```tsx
+const isValid = formData.email && formData.password
+// Derived from other state
+// Don't need separate useState
+```
+
+**45. When to split state?**
+- Split if independently updated
+- Combine if always updated together
+
+**46. What is state initialization?**
+```tsx
+// Simple
+const [count, setCount] = useState(0)
+
+// From props
+const [value, setValue] = useState(props.initialValue)
+
+// From localStorage
+const [theme, setTheme] = useState(() => {
+  return localStorage.getItem('theme') || 'light'
+})
+```
+
+**47. What is lazy initialization?**
+```tsx
+const [state, setState] = useState(() => {
+  // Expensive calculation
+  return heavyComputation()
+})
+// Function only runs once on mount
+```
+
+**48. How do you reset form state?**
+```tsx
+const initialState = {
+  email: '',
+  password: ''
+}
+
+const [formData, setFormData] = useState(initialState)
+
+const resetForm = () => setFormData(initialState)
+```
+
+**49. What is controlled vs uncontrolled?**
+- Controlled: React state controls value
+- Uncontrolled: DOM controls value (refs)
+
+**50. When to use refs?**
+- File inputs (uncontrolled by nature)
+- Focus management
+- DOM measurements
+- Third-party libraries
+
+---
+
+### Company Features (10 questions)
+
+**51. How do you implement job search?**
+```tsx
+const [filters, setFilters] = useState({
+  jobType: '',
+  location: '',
+  experienceLevel: ''
+})
+
+const filteredJobs = jobs.filter(job => {
+  if (filters.jobType && job.jobType !== filters.jobType) return false
+  if (filters.location && !job.location.includes(filters.location)) return false
+  return true
+})
+```
+
+**52. How do you sort job listings?**
+```tsx
+const [sortBy, setSortBy] = useState('date')
+
+const sortedJobs = [...jobs].sort((a, b) => {
+  if (sortBy === 'date') {
+    return new Date(b.created_at) - new Date(a.created_at)
+  }
+  if (sortBy === 'salary') {
+    return b.salary - a.salary
+  }
+})
+```
+
+**53. How do you paginate results?**
+```tsx
+const [page, setPage] = useState(1)
+const perPage = 10
+
+const paginatedJobs = jobs.slice(
+  (page - 1) * perPage,
+  page * perPage
+)
+
+const totalPages = Math.ceil(jobs.length / perPage)
+```
+
+**54. How do you track application views?**
+```php
+// Backend
+public function viewApplication($id) {
+    $application = JobApplication::findOrFail($id);
+    $application->increment('view_count');
+    $application->update(['last_viewed_at' => now()]);
+}
+```
+
+**55. How do you implement favorite/bookmark?**
+```tsx
+const [favorites, setFavorites] = useState([])
+
+const toggleFavorite = async (applicationId) => {
+  await axios.post(`/api/company/applications/${applicationId}/favorite`)
+  
+  setFavorites(prev =>
+    prev.includes(applicationId)
+      ? prev.filter(id => id !== applicationId)
+      : [...prev, applicationId]
+  )
+}
+```
+
+**56. How do you send notifications to candidates?**
+```php
+public function updateApplicationStatus($id, $status) {
+    $application = JobApplication::findOrFail($id);
+    $application->update(['status' => $status]);
+    
+    // Notify candidate
+    $student = $application->student;
+    $student->notify(new ApplicationStatusChanged($application));
+}
+```
+
+**57. How do you export applications to CSV?**
+```tsx
+const exportToCSV = () => {
+  const csv = applications.map(app => ({
+    Name: app.student.name,
+    Email: app.student.email,
+    Status: app.status,
+    Date: app.application_date
+  }))
+  
+  const csvString = Papa.unparse(csv)
+  const blob = new Blob([csvString], { type: 'text/csv' })
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = 'applications.csv'
+  link.click()
+}
+```
+
+**58. How do you bulk update applications?**
+```tsx
+const [selected, setSelected] = useState([])
+
+const bulkUpdateStatus = async (newStatus) => {
+  await Promise.all(
+    selected.map(id =>
+      axios.put(`/api/company/applications/${id}/status`, { status: newStatus })
+    )
+  )
+  
+  fetchApplications()
+  setSelected([])
+}
+```
+
+**59. How do you implement search across applications?**
+```tsx
+const [searchTerm, setSearchTerm] = useState('')
+
+const searchedApplications = applications.filter(app => {
+  const searchStr = searchTerm.toLowerCase()
+  return (
+    app.student.name.toLowerCase().includes(searchStr) ||
+    app.student.email.toLowerCase().includes(searchStr) ||
+    app.job.title.toLowerCase().includes(searchStr)
+  )
+})
+```
+
+**60. What is an ATS (Applicant Tracking System)?**
+- Software to manage recruitment
+- Track applications through hiring pipeline
+- Features: Search, filter, status updates
+- We built a simple ATS for companies
+
