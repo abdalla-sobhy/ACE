@@ -487,8 +487,13 @@ class UniversityJobController extends Controller
 
             $applications = $query->paginate(10);
 
-            // Transform the data
+            // Transform the data and filter out applications with deleted job postings
             $applications->getCollection()->transform(function ($application) {
+                // Skip applications where job posting has been deleted
+                if (!$application->jobPosting || !$application->jobPosting->company) {
+                    return null;
+                }
+
                 return [
                     'id' => $application->id,
                     'job' => [
@@ -511,7 +516,7 @@ class UniversityJobController extends Controller
                     'updated_at' => $application->updated_at,
                     'status_history' => $application->status_history,
                 ];
-            });
+            })->filter();
 
             return response()->json([
                 'success' => true,
