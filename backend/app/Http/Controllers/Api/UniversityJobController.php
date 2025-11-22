@@ -490,7 +490,11 @@ class UniversityJobController extends Controller
             // Transform the data and filter out applications with deleted job postings
             $applications->getCollection()->transform(function ($application) {
                 // Skip applications where job posting has been deleted
-                if (!$application->jobPosting || !$application->jobPosting->company) {
+                if (!$application->jobPosting) {
+                    return null;
+                }
+
+                if (!$application->jobPosting->company) {
                     return null;
                 }
 
