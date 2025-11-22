@@ -473,6 +473,9 @@ class UniversityJobController extends Controller
             $user = Auth::user();
 
             $query = JobApplication::where('student_id', $user->id)
+                ->whereHas('jobPosting', function ($q) {
+                    $q->whereHas('company');
+                })
                 ->with(['jobPosting.company']);
 
             // Filter by status
@@ -522,11 +525,31 @@ class UniversityJobController extends Controller
                 'success' => true,
                 'applications' => $applications,
                 'stats' => [
-                    'total' => $user->jobApplications()->count(),
-                    'pending' => $user->jobApplications()->where('status', 'pending')->count(),
-                    'shortlisted' => $user->jobApplications()->where('status', 'shortlisted')->count(),
-                    'interviewed' => $user->jobApplications()->where('status', 'interviewed')->count(),
-                    'accepted' => $user->jobApplications()->where('status', 'accepted')->count(),
+                    'total' => $user->jobApplications()
+                        ->whereHas('jobPosting', function ($q) {
+                            $q->whereHas('company');
+                        })
+                        ->count(),
+                    'pending' => $user->jobApplications()
+                        ->whereHas('jobPosting', function ($q) {
+                            $q->whereHas('company');
+                        })
+                        ->where('status', 'pending')->count(),
+                    'shortlisted' => $user->jobApplications()
+                        ->whereHas('jobPosting', function ($q) {
+                            $q->whereHas('company');
+                        })
+                        ->where('status', 'shortlisted')->count(),
+                    'interviewed' => $user->jobApplications()
+                        ->whereHas('jobPosting', function ($q) {
+                            $q->whereHas('company');
+                        })
+                        ->where('status', 'interviewed')->count(),
+                    'accepted' => $user->jobApplications()
+                        ->whereHas('jobPosting', function ($q) {
+                            $q->whereHas('company');
+                        })
+                        ->where('status', 'accepted')->count(),
                 ]
             ]);
 
@@ -565,8 +588,10 @@ class UniversityJobController extends Controller
             // Update status
             $application->updateStatus('withdrawn', 'تم سحب الطلب بواسطة المتقدم');
 
-            // Decrement applications count
-            $application->jobPosting->decrement('applications_count');
+            // Decrement applications count (check if job posting still exists)
+            if ($application->jobPosting) {
+                $application->jobPosting->decrement('applications_count');
+            }
 
             return response()->json([
                 'success' => true,
