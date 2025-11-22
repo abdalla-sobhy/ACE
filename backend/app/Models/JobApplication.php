@@ -36,6 +36,7 @@ class JobApplication extends Model
     const STATUS_INTERVIEWED = 'interviewed';
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_REJECTED = 'rejected';
+    const STATUS_WITHDRAWN = 'withdrawn';
 
     public static $statuses = [
         self::STATUS_PENDING => 'قيد الانتظار',
@@ -44,6 +45,7 @@ class JobApplication extends Model
         self::STATUS_INTERVIEWED => 'تمت المقابلة',
         self::STATUS_ACCEPTED => 'مقبول',
         self::STATUS_REJECTED => 'مرفوض',
+        self::STATUS_WITHDRAWN => 'تم السحب',
     ];
 
     public function jobPosting()
@@ -100,6 +102,7 @@ class JobApplication extends Model
             self::STATUS_INTERVIEWED => '#6f42c1',
             self::STATUS_ACCEPTED => '#3fb950',
             self::STATUS_REJECTED => '#f85149',
+            self::STATUS_WITHDRAWN => '#8b949e',
         ][$this->status] ?? '#6e7681';
     }
 }
