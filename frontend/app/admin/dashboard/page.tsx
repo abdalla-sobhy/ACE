@@ -164,7 +164,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className={styles.statCard}>
-              <div className={styles.statIcon} style={{ background: "#2ea043" }}>
+              <div className={styles.statIcon}>
                 <FaUserGraduate />
               </div>
               <div className={styles.statContent}>
@@ -174,7 +174,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className={styles.statCard}>
-              <div className={styles.statIcon} style={{ background: "#1f6feb" }}>
+              <div className={styles.statIcon}>
                 <FaChalkboardTeacher />
               </div>
               <div className={styles.statContent}>
@@ -184,7 +184,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className={styles.statCard}>
-              <div className={styles.statIcon} style={{ background: "#fb8500" }}>
+              <div className={styles.statIcon}>
                 <FaBook />
               </div>
               <div className={styles.statContent}>
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className={styles.statCard}>
-              <div className={styles.statIcon} style={{ background: "#8b5cf6" }}>
+              <div className={styles.statIcon}>
                 <FaBuilding />
               </div>
               <div className={styles.statContent}>
@@ -204,7 +204,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className={styles.statCard}>
-              <div className={styles.statIcon} style={{ background: "#06ffa5" }}>
+              <div className={styles.statIcon}>
                 <FaClock />
               </div>
               <div className={styles.statContent}>
@@ -225,7 +225,7 @@ export default function AdminDashboard() {
           </div>
           <div className={styles.statsRow}>
             <div className={styles.statCard}>
-              <div className={styles.statIcon} style={{ background: "#2ea043" }}>
+              <div className={styles.statIcon}>
                 <FaUserCheck />
               </div>
               <div className={styles.statContent}>
@@ -235,7 +235,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className={styles.statCard}>
-              <div className={styles.statIcon} style={{ background: "#fb8500" }}>
+              <div className={styles.statIcon}>
                 <FaClock />
               </div>
               <div className={styles.statContent}>

@@ -3,7 +3,11 @@
   min-height: 100vh;
   background: var(--input-color);
   color: var(--main-text-white);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.container[dir="rtl"] {
+  font-family: var(--font-alexandria), 'Noto Sans Arabic', sans-serif;
 }
 
 /* Hero Section */

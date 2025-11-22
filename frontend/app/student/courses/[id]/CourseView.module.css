@@ -4,9 +4,13 @@
   min-height: 100vh;
   background: var(--main-color);
   color: var(--main-text-white);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   direction: rtl;
 }
+.container[dir="rtl"] {
+  font-family: var(--font-cairo), 'Noto Sans Arabic', sans-serif;
+}
+
 
 .main {
   padding: 80px 24px 48px; /* Fixed padding-top for navbar clearance */

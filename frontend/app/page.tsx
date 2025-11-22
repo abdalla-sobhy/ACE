@@ -9,7 +9,7 @@ export default function LandingPage() {
   const { t, dir } = useLanguage();
 
   return (
-    <div className={styles.container} style={{ direction: dir, textAlign: dir === 'rtl' ? 'right' : 'left' }}>
+    <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
       <NavigationBar />
 
       {/* Hero Section */}
@@ -35,71 +35,6 @@ export default function LandingPage() {
             <Link href="/company/register" className={styles.secondaryButton}>
               {t("landing.joinAsCompany")}
             </Link>
-          </div>
-
-          {/* User Types */}
-          {/* <div className={styles.userTypes}>
-            <div className={styles.userType}>
-              <span className={styles.userIcon}>🎓</span>
-              <span>{t("landing.students")}</span>
-            </div>
-            <div className={styles.userType}>
-              <span className={styles.userIcon}>👨‍🏫</span>
-              <span>{t("landing.teachers")}</span>
-            </div>
-            <div className={styles.userType}>
-              <span className={styles.userIcon}>👨‍👩‍👧</span>
-              <span>{t("landing.parents")}</span>
-            </div>
-          </div> */}
-        </div>
-
-        <div className={styles.heroVisual}>
-          <div className={styles.problemSolutionFlow}>
-            <div className={styles.flowHeader}>
-              <span className={styles.flowTitle}>{t("landing.scheduleTitle")}</span>
-            </div>
-
-            {/* Problem Section */}
-            <div className={styles.flowStep}>
-              <div className={styles.stepBadge} style={{ backgroundColor: '#ef4444' }}>
-                <span className={styles.stepIcon}>❌</span>
-                <span className={styles.stepLabel}>{t("landing.problemBadge")}</span>
-              </div>
-              <div className={styles.stepContent}>
-                <h4 className={styles.stepTitle}>{t("landing.mathematics")}</h4>
-                <p className={styles.stepDescription}>{t("landing.physics")}</p>
-                <p className={styles.stepDescription}>{t("landing.chemistry")}</p>
-              </div>
-            </div>
-
-            {/* Arrow Down */}
-            <div className={styles.flowArrow}>↓</div>
-
-            {/* Result Section */}
-            <div className={styles.flowStep}>
-              <div className={styles.stepBadge} style={{ backgroundColor: '#f59e0b' }}>
-                <span className={styles.stepIcon}>⚠️</span>
-                <span className={styles.stepLabel}>{t("landing.resultBadge")}</span>
-              </div>
-              <div className={styles.stepContent}>
-                <p className={styles.stepDescription}>{t("landing.seatsAvailablePlural")}</p>
-              </div>
-            </div>
-
-            {/* Arrow Down */}
-            <div className={styles.flowArrow}>↓</div>
-
-            {/* Solution Section */}
-            <div className={styles.flowStep}>
-              <div className={styles.stepBadge} style={{ backgroundColor: '#10b981' }}>
-                <span className={styles.stepIcon}>✅</span>
-                <span className={styles.stepLabel}>{t("landing.solutionBadge")}</span>
-              </div>
-              <div className={styles.stepContent}>
-                <p className={styles.stepDescriptionBold}>{t("landing.full")}</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
