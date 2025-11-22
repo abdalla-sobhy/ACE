@@ -1031,13 +1031,13 @@ function SignupContent() {
               <p className={styles.subtitle}>{t("auth.selectUserType")}</p>
 
               <div className={styles.userTypeGrid}>
-                {userTypes.map((type) => (
+                {userTypes.map((type, index) => (
                   <button
                     key={type.type}
                     className={styles.userTypeCard}
                     onClick={() => handleUserTypeSelect(type.type)}
                     style={
-                      { "--accent-color": type.color } as React.CSSProperties
+                      { "--accent-color": index === 3 ? "tan" : type.color } as React.CSSProperties
                     }
                   >
                     <div className={styles.userTypeIcon}>{type.icon}</div>

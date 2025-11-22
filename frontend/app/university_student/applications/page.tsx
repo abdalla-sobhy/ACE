@@ -203,7 +203,7 @@ export default function MyApplications() {
         <div className={styles.header}>
           <h1>{t("universityStudent.myJobApplications")}</h1>
           <Link href="/university_student/jobs" className={styles.browseButton}>
-            <FaBriefcase /> تصفح الوظائف
+            <FaBriefcase /> {t("student.browseJobs")}
           </Link>
         </div>
 

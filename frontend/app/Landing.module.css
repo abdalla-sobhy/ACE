@@ -3,7 +3,11 @@
   min-height: 100vh;
   background: var(--input-color);
   color: var(--main-text-white);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.container[dir="rtl"] {
+  font-family: var(--font-cairo), 'Noto Sans Arabic', sans-serif;
 }
 
 /* Hero Section */
@@ -12,7 +16,6 @@
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 64px;
   align-items: center;
 }
@@ -58,7 +61,7 @@
 
 .primaryButton {
   background: var(--btn-primary);
-  color: var(--white);
+  color: white;
   padding: 14px 28px;
   text-decoration: none;
   border-radius: 6px;
@@ -134,8 +137,15 @@
   -webkit-text-fill-color: transparent;
 }
 
+.flowContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .flowStep {
-  margin-bottom: 24px;
+  flex: 1;
+  min-width: 0;
 }
 
 .stepBadge {
@@ -154,9 +164,11 @@
 .stepLabel {
   font-size: 14px;
   font-weight: 600;
-  color: white;
+  color: black;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: bold;
+  font-size: large;
 }
 
 .stepContent {
@@ -334,7 +346,7 @@
 
 .ctaButton {
   background: var(--btn-primary);
-  color: var(--white);
+  color: white;
   padding: 14px 40px;
   text-decoration: none;
   border-radius: 6px;
