@@ -1059,7 +1059,8 @@
       "shortlisted": "مرشح مبدئياً",
       "interviewed": "تمت المقابلة",
       "accepted": "مقبول",
-      "rejected": "مرفوض"
+      "rejected": "مرفوض",
+      "withdrawn": "تم سحبه"
     }
   },
   "parent": {

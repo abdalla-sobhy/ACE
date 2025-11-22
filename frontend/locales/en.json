@@ -910,7 +910,8 @@
       "shortlisted": "Shortlisted",
       "interviewed": "Interviewed",
       "accepted": "Accepted",
-      "rejected": "Rejected"
+      "rejected": "Rejected",
+      "withdrawn": "Withdrawn"
     }
   },
   "parent": {
