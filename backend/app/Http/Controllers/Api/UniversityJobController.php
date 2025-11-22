@@ -509,7 +509,7 @@ class UniversityJobController extends Controller
                         'location' => $application->jobPosting->location,
                     ],
                     'status' => $application->status,
-                    'status_label' => JobApplication::$statuses[$application->status],
+                    'status_label' => JobApplication::$statuses[$application->status] ?? $application->status,
                     'status_color' => $application->status_color,
                     'cover_letter' => $application->cover_letter,
                     'viewed_at' => $application->viewed_at,
