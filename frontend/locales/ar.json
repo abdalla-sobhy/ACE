@@ -1331,36 +1331,49 @@
     "ctaStudentButton": "انضم كطالب",
     "ctaTeacherButton": "انضم كمحاضر",
     "ctaContactButton": "تواصل معنا",
+    "supervisorName": "ENG. Basma Abdelhalim",
+    "specialThanks": "شكر خاص",
+    "supervisorRole": "إشراف",
     "developers": [
       {
         "name": "Abdullah Sobhy",
         "role": "Team Leader & Full-Stack Developer",
-        "bio": "القيادة التقنية والرؤية الشاملة للمشروع"
+        "bio": "القيادة التقنية والرؤية الشاملة للمشروع",
+        "github": "https://github.com/abdalla-sobhy",
+        "linkedin": "https://www.linkedin.com/in/abdallah-sobhy-6488932a1",
+        "image": "/images/team/Abdalla_Sobhy.png"
       },
       {
         "name": "Mohammed Mahmoud",
-        "role": "Frontend Developer",
-        "bio": "بناء واجهات مستخدم سلسة وتفاعلية"
+        "role": "Full-Stack Developer",
+        "bio": "بناء واجهات مستخدم سلسة وتفاعلية",
+        "github": "https://github.com/abdalla-sobhy",
+        "linkedin": "https://www.linkedin.com/in/abdallah-sobhy-6488932a1",
+        "image": "/images/team/Mohammed_Mahmoud.jpg"
       },
       {
         "name": "Malak Magdy",
         "role": "Frontend Developer",
-        "bio": "تصميم تجربة مستخدم متميزة"
+        "bio": "تصميم تجربة مستخدم متميزة",
+        "github": "https://github.com/abdalla-sobhy",
+        "linkedin": "https://www.linkedin.com/in/abdallah-sobhy-6488932a1",
+        "image": "/images/team/Malak_Magdy.jpg"
       },
       {
         "name": "Salsabeel Shehata",
         "role": "Frontend Developer",
-        "bio": "تطوير مكونات واجهات المستخدم"
+        "bio": "تطوير مكونات واجهات المستخدم",
+        "github": "https://github.com/abdalla-sobhy",
+        "linkedin": "https://www.linkedin.com/in/abdallah-sobhy-6488932a1",
+        "image": "/images/team/Salsabeel_Shehata.jpg"
       },
       {
         "name": "Ziad Mahmoud",
         "role": "Backend Developer",
-        "bio": "بناء البنية التحتية والأنظمة الخلفية"
-      },
-      {
-        "name": "ENG. Basma Abdelhalim",
-        "role": "إشراف",
-        "bio": "الدعم الأكاديمي والإشراف على المشروع"
+        "bio": "بناء البنية التحتية والأنظمة الخلفية",
+        "github": "https://github.com/ziadazza",
+        "linkedin": "https://www.linkedin.com/in/ziad-mahmoud-4a1ba5302/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+        "image": "/images/team/Ziad_Mahmoud.jpg"
       }
     ]
   },

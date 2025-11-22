@@ -214,12 +214,8 @@
 }
 
 .userMessage .messageContent {
-  background: linear-gradient(
-    135deg,
-    var(--gradient-blue-start),
-    var(--gradient-blue-end)
-  );
-  color: white;
+  background: var(--accent-dark-blue-bg);
+  color: var(--main-text-white);
   border-radius: 12px 12px 2px 12px;
 }
 
@@ -229,11 +225,11 @@
   line-height: 1.5;
   word-wrap: break-word;
   white-space: pre-line;
-  color: white;
+  color: var(--main-text-white);
 }
 
 .userMessage .messageText {
-  color: white;
+  color: var(--main-text-white);
 }
 
 .messageTime {
@@ -241,7 +237,7 @@
   font-size: 11px;
   margin-top: 4px;
   opacity: 0.7;
-  color: white;
+  color: var(--main-text-white);
 }
 
 /* Typing Indicator */
@@ -302,7 +298,7 @@
 
 .quickReply:hover {
   background: var(--blue);
-  color: white;
+  color: var(--main-text-white);
   transform: translateY(-2px);
   box-shadow: 0 2px 8px rgba(9, 105, 218, 0.2);
 }
@@ -352,7 +348,7 @@
     var(--gradient-blue-start),
     var(--gradient-blue-end)
   );
-  color: white;
+  color: var(--main-text-white);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -89,6 +89,7 @@
   --accent-blue: #0969da;
   --accent-blue-hover: #0550ae;
   --accent-blue-bg: rgba(9, 105, 218, 0.1);
+  --accent-dark-blue-bg: rgba(0, 12, 25, 0.1);
 }
 
 
@@ -130,4 +131,5 @@
   --accent-blue: #58a6ff;
   --accent-blue-hover: #388bfd;
   --accent-blue-bg: rgba(88, 166, 255, 0.1);
+  --accent-dark-blue-bg: rgba(179, 216, 255, 0.1);
 }

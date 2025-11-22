@@ -216,10 +216,22 @@
   font-size: 14px;
 }
 
+/* Special Thanks Section */
+.specialThanks {
+  padding: 80px 24px;
+  background: var(--sections-color);
+  border-top: 1px solid var(--input-border-color);
+}
+
+.supervisorCard {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
 /* Team Section */
 .team {
   padding: 80px 24px;
-  background: var(--sections-color);
+  background: var(--input-color);
   border-top: 1px solid var(--input-border-color);
 }
 
@@ -228,7 +240,8 @@
   margin: 0 auto;
 }
 
-.team h2 {
+.team h2,
+.specialThanks h2 {
   font-size: 32px;
   font-weight: 700;
   text-align: center;
@@ -246,63 +259,102 @@
 }
 
 .teamGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* New Vertical Card Design */
 .teamCard {
-  background: var(--input-color);
-  border: 1px solid var(--input-border-color);
-  border-radius: 12px;
-  padding: 24px;
-  text-align: center;
-  transition: transform 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .teamCard:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent-blue);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.cardImage {
+.cardImageVertical {
   position: relative;
-  width: 150px;
-  height: 150px;
-  margin: 0 auto 24px;
-  border-radius: 50%;
+  width: 100%;
+  height: 450px;
   overflow: hidden;
-  border: 2px solid var(--input-border-color);
-}
-.cardImageTL{
-  position: relative;
-  width: 150px;
-  height: 150px;
-  margin: 0 auto 24px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid var(--input-border-color);
+  border-radius: 16px;
 }
 
-.cardImage img {
+.cardImageVertical img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
 }
 
+.teamCard:hover .cardImageVertical img {
+  transform: scale(1.05);
+}
+
+/* Gradient Overlay */
+.cardGradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.9) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Card Info at Bottom */
+.cardInfo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  z-index: 2;
+  text-align: center;
+}
+
+.cardInfo h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.cardRole {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Social Media Overlay */
 .cardOverlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--main-color-transparent);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 24px;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.3s ease;
+  z-index: 3;
 }
 
 .teamCard:hover .cardOverlay {
@@ -310,39 +362,28 @@
 }
 
 .cardOverlay a {
-  color: var(--main-text-white);
-  transition: color 0.2s;
+  color: white;
+  transition: all 0.2s ease;
+  padding: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .cardOverlay a:hover {
   color: var(--accent-blue);
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
 }
 
-.teamCard h3 {
-  font-size: 18px;
-  margin: 0 0 8px;
-  color: var(--main-text-white-lighter);
-}
-
-.role {
+.cardOverlay svg {
   display: block;
-  color: var(--accent-blue);
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 16px;
-}
-
-.bio {
-  color: var(--p-text);
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 0;
 }
 
 /* Values Section */
 .values {
   padding: 80px 24px;
-  background: var(--input-color);
+  background: var(--sections-color);
+  border-top: 1px solid var(--input-border-color);
 }
 
 .valuesContainer {
@@ -487,6 +528,7 @@
 .missionVisual,
 .timelineItem,
 .teamCard,
+.supervisorCard,
 .value {
   animation: fadeIn 0.8s ease-out forwards;
   opacity: 0;
@@ -495,6 +537,7 @@
 .heroContent { animation-delay: 0.1s; }
 .missionContent { animation-delay: 0.2s; }
 .missionVisual { animation-delay: 0.3s; }
+.supervisorCard { animation-delay: 0.3s; }
 .timelineItem:nth-child(1) { animation-delay: 0.4s; }
 .timelineItem:nth-child(2) { animation-delay: 0.5s; }
 .timelineItem:nth-child(3) { animation-delay: 0.6s; }
@@ -503,6 +546,7 @@
 .teamCard:nth-child(2) { animation-delay: 0.4s; }
 .teamCard:nth-child(3) { animation-delay: 0.5s; }
 .teamCard:nth-child(4) { animation-delay: 0.6s; }
+.teamCard:nth-child(5) { animation-delay: 0.7s; }
 .value:nth-child(1) { animation-delay: 0.3s; }
 .value:nth-child(2) { animation-delay: 0.4s; }
 .value:nth-child(3) { animation-delay: 0.5s; }
@@ -516,7 +560,7 @@
   }
   
   .teamGrid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
   
   .valuesGrid {
@@ -525,30 +569,44 @@
 }
 
 @media (max-width: 768px) {
-  .navLeft a:not(.logo) {
-    display: none;
+  .hero {
+    padding: 150px 24px 80px;
   }
   
   .hero h1 {
-    font-size: 36px;
+    font-size: 32px;
   }
   
   .hero p {
-    font-size: 18px;
+    font-size: 16px;
   }
   
   .mission h2,
   .story h2,
   .team h2,
+  .specialThanks h2,
   .values h2,
   .contactCta h2 {
-    font-size: 32px;
+    font-size: 28px;
+  }
+  
+  .mission,
+  .story,
+  .team,
+  .specialThanks,
+  .values,
+  .contactCta {
+    padding: 60px 24px;
   }
   
   .teamGrid {
     grid-template-columns: 1fr;
-    max-width: 400px;
+    max-width: 350px;
     margin: 0 auto;
+  }
+  
+  .cardImageVertical {
+    height: 420px;
   }
   
   .valuesGrid {
@@ -573,7 +631,7 @@
   }
   
   .statNumber {
-    font-size: 36px;
+    font-size: 32px;
   }
   
   .timeline {
@@ -585,33 +643,26 @@
   }
 }
 
-.teamCard {
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-.teamCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at center, var(--accent-blue-bg) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.teamCard:hover::before {
-  opacity: 1;
+@media (max-width: 480px) {
+  .cardImageVertical {
+    height: 380px;
+  }
+  
+  .cardInfo h3 {
+    font-size: 20px;
+  }
+  
+  .cardRole {
+    font-size: 13px;
+  }
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-button:focus {
+button:focus,
+a:focus {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }

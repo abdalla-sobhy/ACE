@@ -1186,32 +1186,42 @@
       {
         "name": "Abdullah Sobhy",
         "role": "Team Leader & Full-Stack Developer",
-        "bio": "Technical leadership and comprehensive project vision"
+        "bio": "Technical leadership and comprehensive project vision",
+        "github": "https://github.com/abdalla-sobhy",
+        "linkedin": "https://www.linkedin.com/in/abdallah-sobhy-6488932a1",
+        "image": "/images/team/Abdalla_Sobhy.png"
       },
       {
-        "name": "Salsabeel Shehata",
-        "role": "Frontend Developer",
-        "bio": "Developing user interface components"
+        "name": "Mohammed Mahmoud",
+        "role": "Full-Stack Developer",
+        "bio": "Building smooth and interactive user interfaces",
+        "github": "https://github.com/abdalla-sobhy",
+        "linkedin": "https://www.linkedin.com/in/abdallah-sobhy-6488932a1",
+        "image": "/images/team/Mohammed_Mahmoud.jpg"
       },
       {
         "name": "Malak Magdy",
         "role": "Frontend Developer",
-        "bio": "Designing outstanding user experience"
+        "bio": "Designing outstanding user experience",
+        "github": "https://github.com/abdalla-sobhy",
+        "linkedin": "https://www.linkedin.com/in/abdallah-sobhy-6488932a1",
+        "image": "/images/team/Malak_Magdy.jpg"
       },
       {
-        "name": "Mohammed Mahmoud",
+        "name": "Salsabeel Shehata",
         "role": "Frontend Developer",
-        "bio": "Building smooth and interactive user interfaces"
+        "bio": "Developing user interface components",
+        "github": "https://github.com/abdalla-sobhy",
+        "linkedin": "https://www.linkedin.com/in/abdallah-sobhy-6488932a1",
+        "image": "/images/team/Salsabeel_Shehata.jpg"
       },
       {
         "name": "Ziad Mahmoud",
         "role": "Backend Developer",
-        "bio": "Building infrastructure and backend systems"
-      },
-      {
-        "name": "ENG. Basma Abdelhalim",
-        "role": "Project Supervisor",
-        "bio": "Academic support and project supervision"
+        "bio": "Building infrastructure and backend systems",
+        "github": "https://github.com/ziadazza",
+        "linkedin": "https://www.linkedin.com/in/ziad-mahmoud-4a1ba5302/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+        "image": "/images/team/Ziad_Mahmoud.jpg"
       }
     ]
   },
