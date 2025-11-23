@@ -78,6 +78,7 @@
 
 .message {
   margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
   line-height: 1.6;
   color: var(--main-text-white, #666);
   font-size: 1rem;

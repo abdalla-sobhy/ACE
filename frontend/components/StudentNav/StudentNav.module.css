@@ -7,16 +7,12 @@
   border-bottom: 1px solid var(--borders);
   z-index: 1000;
   padding: 12px 0;
-  display: flex;
 }
 
 .navContainer {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0;
-  width: 100%;
-  justify-content: center;
-  display: flex;
+  padding: 0 24px;
 }
 
 .navHeader {

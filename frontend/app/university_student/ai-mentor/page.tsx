@@ -60,6 +60,11 @@ export default function AiMentorPage() {
     message: "",
     type: "info",
   });
+  const [confirmPopup, setConfirmPopup] = useState({
+  isOpen: false,
+  message: "",
+  onConfirm: () => {},
+});
 
   useEffect(() => {
     const token = getAuthToken();
@@ -179,11 +184,16 @@ export default function AiMentorPage() {
     sendMessage(inputMessage);
   };
 
-  const clearHistory = async () => {
-    if (!confirm(t("aiMentor.clearHistoryConfirm"))) {
-      return;
-    }
+  const clearHistory = () => {
+  setConfirmPopup({
+    isOpen: true,
+    message: t("aiMentor.clearHistoryConfirm"),
+    onConfirm: executeClearHistory,
+  });
+};
 
+
+  const executeClearHistory = async () => {
     try {
       const token = getAuthToken();
       const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
@@ -438,6 +448,19 @@ export default function AiMentorPage() {
         onClose={() => setPopupState({ ...popupState, isOpen: false })}
         message={popupState.message}
         type={popupState.type}
+      />
+      <Popup
+        isOpen={confirmPopup.isOpen}
+        onClose={() => setConfirmPopup({ ...confirmPopup, isOpen: false })}
+        message={confirmPopup.message}
+        type="warning"
+        confirmText={t("common.confirm")}
+        cancelText={t("common.cancel")}
+        showCancel={true}
+        onConfirm={() => {
+          confirmPopup.onConfirm();
+          setConfirmPopup({ ...confirmPopup, isOpen: false });
+        }}
       />
     </div>
   );
