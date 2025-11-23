@@ -488,52 +488,98 @@ function SignupContent() {
     const isValid = await activeForm.trigger();
     if (!isValid) return;
 
-    if (userType === "university_student") {
-      const email = baseForm.getValues("email");
-      setEmailVerificationLoading(true);
+    // Get email from appropriate form
+    const email = userType === "student"
+      ? studentForm.getValues("email")
+      : baseForm.getValues("email");
 
-      try {
-        const result = await verifyAcademicEmail(email);
+    // Check email availability for all user types first
+    setEmailVerificationLoading(true);
 
-        if (result.valid && result.isAcademic && result.requiresOtp) {
-          const formData = {
-            ...baseForm.getValues(),
-            userType,
-            step: 2,
-            skipStep3: true,
-          };
-          sessionStorage.setItem("signupFormData", JSON.stringify(formData));
+    try {
+      // Check if email is already taken
+      const checkEmailResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"}/api/auth/check-email`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
 
-          // Redirect to OTP verification
-          const params = new URLSearchParams({
-            email: email,
-            institution: result.institutionName,
-            userType: "university_student",
+      const checkEmailData = await checkEmailResponse.json();
+
+      if (!checkEmailData.available) {
+        // Email is already taken
+        if (userType === "student") {
+          studentForm.setError("email", {
+            type: "manual",
+            message: checkEmailData.message || "البريد الإلكتروني مستخدم بالفعل",
           });
-
-          router.push(`/verifyEmail?${params.toString()}`);
-          return;
-        } else if (result.valid && result.isAcademic) {
-          universityStudentForm.setValue("faculty", result.institutionName);
-          setStep(4);
         } else {
           baseForm.setError("email", {
             type: "manual",
-            message:
-              result.message || "يجب استخدام بريد إلكتروني جامعي مصري صالح",
+            message: checkEmailData.message || "البريد الإلكتروني مستخدم بالفعل",
           });
         }
-      } catch (error) {
-        console.error("Email verification failed:", error);
-        baseForm.setError("email", {
-          type: "manual",
-          message: "حدث خطأ في التحقق من البريد الإلكتروني",
-        });
-      } finally {
         setEmailVerificationLoading(false);
+        return;
       }
-    } else {
-      setStep(3);
+
+      // Email is available, proceed with university student verification if needed
+      if (userType === "university_student") {
+        try {
+          const result = await verifyAcademicEmail(email);
+
+          if (result.valid && result.isAcademic && result.requiresOtp) {
+            const formData = {
+              ...baseForm.getValues(),
+              userType,
+              step: 2,
+              skipStep3: true,
+            };
+            sessionStorage.setItem("signupFormData", JSON.stringify(formData));
+
+            // Redirect to OTP verification
+            const params = new URLSearchParams({
+              email: email,
+              institution: result.institutionName,
+              userType: "university_student",
+            });
+
+            router.push(`/verifyEmail?${params.toString()}`);
+            return;
+          } else if (result.valid && result.isAcademic) {
+            universityStudentForm.setValue("faculty", result.institutionName);
+            setStep(4);
+          } else {
+            baseForm.setError("email", {
+              type: "manual",
+              message:
+                result.message || "يجب استخدام بريد إلكتروني جامعي مصري صالح",
+            });
+          }
+        } catch (error) {
+          console.error("Academic email verification failed:", error);
+          baseForm.setError("email", {
+            type: "manual",
+            message: "حدث خطأ في التحقق من البريد الإلكتروني",
+          });
+        }
+      } else {
+        // For non-university students, proceed to next step
+        setStep(3);
+      }
+    } catch (error) {
+      console.error("Email availability check failed:", error);
+      // If the check fails, show a generic error
+      const targetForm = userType === "student" ? studentForm : baseForm;
+      targetForm.setError("email", {
+        type: "manual",
+        message: "حدث خطأ في التحقق من البريد الإلكتروني",
+      });
+    } finally {
+      setEmailVerificationLoading(false);
     }
   };
 
