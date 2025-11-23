@@ -1,7 +1,13 @@
 .container {
   min-height: 100vh;
   background: var(--main-color);
+  color: var(--main-text-white);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  direction: rtl;
   padding-bottom: 2rem;
+}
+.container[dir="rtl"] {
+  font-family: var(--font-cairo), 'Noto Sans Arabic', sans-serif;
 }
 
 .mainContent {

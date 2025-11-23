@@ -51,6 +51,12 @@ export default function AiMentorPage() {
     message: "",
     type: "info",
   });
+  const [confirmPopup, setConfirmPopup] = useState({
+  isOpen: false,
+  message: "",
+  onConfirm: () => {},
+});
+
 
   useEffect(() => {
     const token = getAuthToken();
@@ -170,11 +176,16 @@ export default function AiMentorPage() {
     sendMessage(inputMessage);
   };
 
-  const clearHistory = async () => {
-    if (!confirm(t("aiMentor.clearHistoryConfirm"))) {
-      return;
-    }
+  const clearHistory = () => {
+  setConfirmPopup({
+    isOpen: true,
+    message: t("aiMentor.clearHistoryConfirm"),
+    onConfirm: executeClearHistory,
+  });
+};
 
+
+  const executeClearHistory = async () => {
     try {
       const token = getAuthToken();
       const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
@@ -317,6 +328,12 @@ export default function AiMentorPage() {
     },
   ];
 
+  function formatText(text: string) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+    .replace(/^\* (.*)$/gm, "• $1");
+}
+
   return (
     <div className={styles.container}>
       <StudentNav />
@@ -328,9 +345,9 @@ export default function AiMentorPage() {
               <FaRobot />
             </div>
             <div>
-              <h1 className={styles.title}>{t("aiMentor.title")}</h1>
+              <h1 className={styles.title}>{t("aiMentor.studentTitle")}</h1>
               <p className={styles.subtitle}>
-                {t("aiMentor.subtitle")}
+                {t("aiMentor.studentSubtitle")}
               </p>
             </div>
           </div>
@@ -346,9 +363,9 @@ export default function AiMentorPage() {
             <div className={styles.welcomeIcon}>
               <FaGraduationCap />
             </div>
-            <h2>{t("aiMentor.welcomeTitle")}</h2>
+            <h2>{t("aiMentor.studentWelcomeTitle")}</h2>
             <p>
-              {t("aiMentor.welcomeDescription")}
+              {t("aiMentor.studentWelcomeDescription")}
             </p>
 
             <div className={styles.quickActions}>
@@ -382,7 +399,12 @@ export default function AiMentorPage() {
                     {message.role === "user" ? t("aiMentor.you") : <FaRobot />}
                   </div>
                   <div className={styles.messageContent}>
-                    <div className={styles.messageText}>{message.content}</div>
+                    <div
+                        className={styles.messageText}
+                        dangerouslySetInnerHTML={{
+                          __html: formatText(message.content),
+                        }}
+                      />
                     <div className={styles.messageTime}>
                       {message.timestamp.toLocaleTimeString()}
                     </div>
@@ -429,6 +451,19 @@ export default function AiMentorPage() {
         onClose={() => setPopupState({ ...popupState, isOpen: false })}
         message={popupState.message}
         type={popupState.type}
+      />
+      <Popup
+        isOpen={confirmPopup.isOpen}
+        onClose={() => setConfirmPopup({ ...confirmPopup, isOpen: false })}
+        message={confirmPopup.message}
+        type="warning"
+        confirmText={t("common.confirm")}
+        cancelText={t("common.cancel")}
+        showCancel={true}
+        onConfirm={() => {
+          confirmPopup.onConfirm();
+          setConfirmPopup({ ...confirmPopup, isOpen: false });
+        }}
       />
     </div>
   );

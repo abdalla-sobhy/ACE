@@ -95,7 +95,7 @@ export default function LoginPage() {
 
     if (!password) {
       errors.password = t("auth.requiredField");
-    } else if (password.length < 6) {
+    } else if (password.length < 8) {
       errors.password = t("auth.passwordTooShort");
     }
 

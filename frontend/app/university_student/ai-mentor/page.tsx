@@ -336,6 +336,12 @@ export default function AiMentorPage() {
     },
   ];
 
+  function formatText(text: string) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+    .replace(/^\* (.*)$/gm, "• $1");
+}
+
   return (
     <div className={styles.container}>
       <UniversityStudentNav />
@@ -401,7 +407,12 @@ export default function AiMentorPage() {
                     {message.role === "user" ? t("aiMentor.you") : <FaRobot />}
                   </div>
                   <div className={styles.messageContent}>
-                    <div className={styles.messageText}>{message.content}</div>
+                    <div
+                        className={styles.messageText}
+                        dangerouslySetInnerHTML={{
+                          __html: formatText(message.content),
+                        }}
+                      />
                     <div className={styles.messageTime}>
                       {message.timestamp.toLocaleTimeString()}
                     </div>
