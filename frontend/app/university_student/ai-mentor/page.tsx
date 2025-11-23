@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import UniversityStudentNav from "@/components/UniversityStudentNav/UniversityStudentNav";
+import Popup from "@/components/Popup/Popup";
 import styles from "./AiMentor.module.css";
 import { getAuthToken } from "@/lib/auth";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -50,6 +51,15 @@ export default function AiMentorPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [popupState, setPopupState] = useState<{
+    isOpen: boolean;
+    message: string;
+    type?: "info" | "success" | "error" | "warning";
+  }>({
+    isOpen: false,
+    message: "",
+    type: "info",
+  });
 
   useEffect(() => {
     const token = getAuthToken();
@@ -226,10 +236,18 @@ export default function AiMentorPage() {
         };
         setMessages((prev) => [...prev, userMsg, assistantMsg]);
       } else {
-        alert(data.message || t("aiMentor.uploadCvFirst"));
+        setPopupState({
+          isOpen: true,
+          message: data.message || t("aiMentor.uploadCvFirst"),
+          type: "warning",
+        });
       }
     } catch {
-      alert(t("aiMentor.errorAnalyzingCv"));
+      setPopupState({
+        isOpen: true,
+        message: t("aiMentor.errorAnalyzingCv"),
+        type: "error",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -414,6 +432,13 @@ export default function AiMentorPage() {
           </form>
         </div>
       </div>
+
+      <Popup
+        isOpen={popupState.isOpen}
+        onClose={() => setPopupState({ ...popupState, isOpen: false })}
+        message={popupState.message}
+        type={popupState.type}
+      />
     </div>
   );
 }
