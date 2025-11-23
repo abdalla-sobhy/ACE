@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./AiMentor.module.css";
+import { getAuthToken } from "@/lib/auth";
 import {
   FaRobot,
   FaPaperPlane,
@@ -40,13 +41,12 @@ export default function AiMentorPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = getAuthToken();
     if (!token) {
       router.push("/login");
       return;
     }
 
-    fetchUser();
     loadHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -59,29 +59,9 @@ export default function AiMentorPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const fetchUser = async () => {
-    try {
-      const token = localStorage.getItem("authToken");
-      const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
-
-      const response = await fetch(`${BACKEND_URL}/api/auth/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        await response.json();
-      }
-    } catch (error) {
-      console.error("Error fetching user:", error);
-    }
-  };
-
   const loadHistory = async () => {
     try {
-      const token = localStorage.getItem("authToken");
+      const token = getAuthToken();
       const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
 
       const response = await fetch(`${BACKEND_URL}/api/ai-career/history`, {
@@ -132,7 +112,7 @@ export default function AiMentorPage() {
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem("authToken");
+      const token = getAuthToken();
       const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
 
       const response = await fetch(`${BACKEND_URL}/api/ai-career/chat`, {
@@ -184,7 +164,7 @@ export default function AiMentorPage() {
     }
 
     try {
-      const token = localStorage.getItem("authToken");
+      const token = getAuthToken();
       const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
 
       const response = await fetch(`${BACKEND_URL}/api/ai-career/history`, {
