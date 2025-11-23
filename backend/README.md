@@ -1,60 +1,171 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Edvance"></a></p>
+# ACE Backend - Laravel Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+ACE (Academic Career Excellence) is a comprehensive educational platform built with Laravel.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Student Management**: Support for both K-12 students and university students
+- **Teacher Platform**: Course creation and management
+- **Parent Portal**: Track student progress
+- **Company Portal**: Job postings and recruitment
+- **AI Career Mentor**: Powered by Google Gemini AI for personalized career guidance
+- **Live Streaming**: Integrated with Agora for live classes
+- **Payment Processing**: Stripe and PayPal integration
 
--   [Simple, fast routing engine](https://laravel.com/docs/routing).
--   [Powerful dependency injection container](https://laravel.com/docs/container).
--   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
--   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
--   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
--   [Robust background job processing](https://laravel.com/docs/queues).
--   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prerequisites
 
-## Learning Laravel
+- PHP 8.1 or higher
+- Composer
+- SQLite (default) or MySQL/PostgreSQL
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Setup Steps
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd ACE/backend
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Install dependencies**
+   ```bash
+   composer install
+   ```
 
-## Laravel Sponsors
+3. **Configure environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. **Configure database**
 
-### Premium Partners
+   The application uses SQLite by default. For production, update `.env` with your database credentials:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=ace
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
--   **[Vehikl](https://vehikl.com)**
--   **[Tighten Co.](https://tighten.co)**
--   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
--   **[64 Robots](https://64robots.com)**
--   **[Curotec](https://www.curotec.com/services/technologies/laravel)**
--   **[DevSquad](https://devsquad.com/hire-laravel-developers)**
--   **[Redberry](https://redberry.international/laravel-development)**
--   **[Active Logic](https://activelogic.com)**
+5. **Run migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-## Contributing
+6. **Create storage link**
+   ```bash
+   php artisan storage:link
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. **Start the development server**
+   ```bash
+   php artisan serve
+   ```
 
-## Code of Conduct
+## AI Career Mentor Setup
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The AI Career Mentor feature uses Google's Gemini AI to provide personalized career guidance, CV analysis, learning paths, and job recommendations.
 
-## Security Vulnerabilities
+### Getting Your Gemini API Key
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Sign in with your Google account
+3. Click "Create API Key"
+4. Copy your API key
+
+### Configuration
+
+Add the following to your `.env` file:
+
+```env
+# Gemini AI Configuration
+GEMINI_API_KEY=your_api_key_here
+GEMINI_MODEL=gemini-1.5-flash
+GEMINI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/models
+```
+
+**Note**: Without configuring the Gemini API key, AI features including CV analysis will return an error. The API key is **required** for the AI Career Mentor to function.
+
+### AI Features
+
+Once configured, the following endpoints will be available:
+
+- `POST /api/ai-career/chat` - General career guidance chat
+- `POST /api/ai-career/analyze-cv` - Analyze uploaded CV/resume
+- `POST /api/ai-career/learning-path` - Get personalized learning recommendations
+- `POST /api/ai-career/job-recommendations` - Get job role recommendations
+- `POST /api/ai-career/skills-gap` - Analyze skills gap for target roles
+
+## Other Configuration
+
+### Payment Gateways
+
+**Stripe:**
+```env
+STRIPE_KEY=your_stripe_publishable_key
+STRIPE_SECRET=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_webhook_secret
+```
+
+**PayPal:**
+```env
+PAYPAL_MODE=sandbox
+PAYPAL_SANDBOX_CLIENT_ID=your_client_id
+PAYPAL_SANDBOX_SECRET=your_secret
+```
+
+### Live Streaming (Agora)
+
+```env
+AGORA_APP_ID=your_app_id
+AGORA_APP_CERTIFICATE=your_certificate
+```
+
+### Job Search API (JSearch)
+
+```env
+JSEARCH_API_KEY=your_rapidapi_key
+JSEARCH_DEFAULT_LOCATION="United States"
+JSEARCH_DEFAULT_SEARCH="developer OR engineer OR intern"
+```
+
+Get your JSearch API key from [RapidAPI](https://rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch).
+
+## Development
+
+### Running Tests
+
+```bash
+php artisan test
+```
+
+### Code Style
+
+This project follows PSR-12 coding standards.
+
+## Troubleshooting
+
+### SSL Certificate Issues
+
+If you encounter SSL verification errors during development:
+
+```env
+HTTP_VERIFY_SSL=false
+```
+
+**Warning**: Never disable SSL verification in production!
+
+### AI Service Not Configured Error
+
+If you see "AI service is not configured" error:
+
+1. Ensure `GEMINI_API_KEY` is set in your `.env` file
+2. Get your API key from https://aistudio.google.com/app/apikey
+3. Restart your Laravel server after updating `.env`
 
 ## License
 

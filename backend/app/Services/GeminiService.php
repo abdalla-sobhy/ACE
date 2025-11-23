@@ -34,7 +34,7 @@ class GeminiService
                 Log::warning('Gemini API key not configured');
                 return [
                     'success' => false,
-                    'error' => 'AI service is not configured',
+                    'error' => 'AI service is not configured. Please add your GEMINI_API_KEY to the .env file. Get your API key from https://aistudio.google.com/app/apikey',
                 ];
             }
 
@@ -107,9 +107,10 @@ class GeminiService
     {
         try {
             if (empty($this->apiKey)) {
+                Log::warning('Gemini API key not configured for CV analysis');
                 return [
                     'success' => false,
-                    'error' => 'AI service is not configured',
+                    'error' => 'AI service is not configured. Please add your GEMINI_API_KEY to the .env file. Get your API key from https://aistudio.google.com/app/apikey',
                 ];
             }
 
