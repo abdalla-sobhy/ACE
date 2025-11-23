@@ -11,6 +11,7 @@ import {
   FaUsers,
   FaUserCircle,
   FaSignOutAlt,
+  FaRobot,
 } from "react-icons/fa";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
@@ -72,6 +73,16 @@ export default function CompanyNav() {
             >
               <FaUsers />
               <span>{t("company.applications")}</span>
+            </Link>
+
+            <Link
+              href="/company/ai-mentor"
+              className={`${styles.navLink} ${
+                isActive("/company/ai-mentor") ? styles.active : ""
+              }`}
+            >
+              <FaRobot />
+              <span>AI Talent Advisor</span>
             </Link>
 
             <div id="themeIcon">

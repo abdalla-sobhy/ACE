@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminCourseController;
 use App\Http\Controllers\Admin\AdminCompanyController;
 use App\Http\Controllers\Admin\TeacherManagementController;
+use App\Http\Controllers\Api\AiCareerController;
 
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -240,5 +241,19 @@ Route::middleware('auth:sanctum')->group(function () {
         // Chat routes
         Route::get('/session/{sessionId}/messages', [LiveStreamController::class, 'getMessages']);
         Route::post('/session/{sessionId}/message', [LiveStreamController::class, 'sendMessage']);
+    });
+
+    // AI Career Mentor routes (available to all authenticated users)
+    Route::prefix('ai-career')->group(function () {
+        // Chat/conversation
+        Route::post('/chat', [AiCareerController::class, 'chat']);
+        Route::get('/history', [AiCareerController::class, 'getHistory']);
+        Route::delete('/history', [AiCareerController::class, 'clearHistory']);
+
+        // Specialized AI features
+        Route::post('/analyze-cv', [AiCareerController::class, 'analyzeCv']);
+        Route::post('/learning-path', [AiCareerController::class, 'getLearningPath']);
+        Route::post('/job-recommendations', [AiCareerController::class, 'getJobRecommendations']);
+        Route::post('/skills-gap', [AiCareerController::class, 'getSkillsGap']);
     });
 });

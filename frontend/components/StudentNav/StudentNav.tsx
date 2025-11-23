@@ -12,6 +12,7 @@ import {
   FaUser,
   FaSignOutAlt,
   FaBars,
+  FaRobot,
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
@@ -86,6 +87,7 @@ export default function StudentNav() {
   const navItems = [
     { href: "/student/dashboard", label: t("common.dashboard"), icon: <FaHome /> },
     { href: "/student/my-courses", label: t("student.myCourses"), icon: <FaBook /> },
+    { href: "/student/ai-mentor", label: "AI Study Guide", icon: <FaRobot /> },
     { href: "/student/exams", label: t("landing.exams"), icon: <FaGraduationCap /> },
     { href: "/student/progress", label: t("student.myProgress"), icon: <FaChartLine /> },
   ];
