@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\AiCareerController;
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/check-email', [AuthController::class, 'checkEmail']);
 Route::post('/send-otp', [AuthController::class, 'sendOtp']);
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);

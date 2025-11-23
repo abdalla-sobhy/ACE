@@ -421,4 +421,35 @@ public function verifyOtp(Request $request)
         'institution_name' => $otpData['institution_name']
     ]);
 }
+
+    public function checkEmail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'البريد الإلكتروني غير صحيح',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $exists = User::where('email', $request->email)->exists();
+
+        if ($exists) {
+            return response()->json([
+                'success' => false,
+                'available' => false,
+                'message' => 'البريد الإلكتروني مستخدم بالفعل'
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => true,
+            'available' => true,
+            'message' => 'البريد الإلكتروني متاح'
+        ], 200);
+    }
 }
