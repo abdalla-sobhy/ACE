@@ -288,31 +288,31 @@ export default function AiMentorPage() {
 
   const quickActions: QuickAction[] = [
     {
-      icon: <FaFileAlt />,
-      title: t("aiMentor.analyzeCv"),
-      description: t("aiMentor.analyzeCvDesc"),
-      action: analyzeCv,
-      gradient: "linear-gradient(135deg, var(--gradient-blue-start, #58a6ff) 0%, var(--gradient-blue-end, #1f6feb) 100%)",
-    },
-    {
       icon: <FaLightbulb />,
-      title: t("aiMentor.learningPath"),
-      description: t("aiMentor.learningPathDesc"),
-      action: getLearningPath,
+      title: t("aiMentor.learningRecommendations"),
+      description: t("aiMentor.learningRecommendationsDesc"),
+      action: () => sendMessage(t("aiMentor.learningRecommendationsRequest")),
       gradient: "linear-gradient(135deg, var(--gradient-blue-start, #58a6ff) 0%, var(--gradient-blue-end, #1f6feb) 100%)",
     },
     {
       icon: <FaBriefcase />,
-      title: t("aiMentor.jobRecommendations"),
-      description: t("aiMentor.jobRecommendationsDesc"),
-      action: getJobRecommendations,
+      title: t("aiMentor.courseSuggestions"),
+      description: t("aiMentor.courseSuggestionsDesc"),
+      action: () => sendMessage(t("aiMentor.courseSuggestionsRequest")),
       gradient: "linear-gradient(135deg, var(--gradient-blue-start, #58a6ff) 0%, var(--gradient-blue-end, #1f6feb) 100%)",
     },
     {
       icon: <FaChartLine />,
-      title: t("aiMentor.skillsGapAnalysis"),
-      description: t("aiMentor.skillsGapAnalysisDesc"),
-      action: () => sendMessage(t("aiMentor.skillsGapRequest")),
+      title: t("aiMentor.careerExploration"),
+      description: t("aiMentor.careerExplorationDesc"),
+      action: () => sendMessage(t("aiMentor.careerExplorationRequest")),
+      gradient: "linear-gradient(135deg, var(--gradient-blue-start, #58a6ff) 0%, var(--gradient-blue-end, #1f6feb) 100%)",
+    },
+    {
+      icon: <FaFileAlt />,
+      title: t("aiMentor.studyTips"),
+      description: t("aiMentor.studyTipsDesc"),
+      action: () => sendMessage(t("aiMentor.studyTipsRequest")),
       gradient: "linear-gradient(135deg, var(--gradient-blue-start, #58a6ff) 0%, var(--gradient-blue-end, #1f6feb) 100%)",
     },
   ];
