@@ -457,6 +457,26 @@ class AiCareerController extends Controller
                     'looking_for_opportunities' => $universityProfile->looking_for_opportunities,
                 ]);
             }
+
+            // Add job applications data for university students
+            $applications = \App\Models\JobApplication::where('student_id', $user->id)
+                ->with(['jobPosting:id,title,company_id', 'jobPosting.company:id,company_name'])
+                ->get()
+                ->map(function ($app) {
+                    return [
+                        'job_title' => $app->jobPosting->title ?? 'N/A',
+                        'company_name' => $app->jobPosting->company->company_name ?? 'N/A',
+                        'status' => $app->status,
+                        'applied_at' => $app->created_at->format('Y-m-d'),
+                        'cover_letter' => $app->cover_letter,
+                    ];
+                });
+
+            $profile['job_applications'] = [
+                'total_applications' => $applications->count(),
+                'applications' => $applications->toArray(),
+                'applications_by_status' => $applications->groupBy('status')->map->count()->toArray(),
+            ];
         } elseif ($user->user_type === 'student') {
             $studentProfile = StudentProfile::where('user_id', $user->id)->first();
             if ($studentProfile) {
@@ -466,6 +486,25 @@ class AiCareerController extends Controller
                     'goal' => $studentProfile->goal,
                 ]);
             }
+
+            // Add course enrollments for students
+            $enrollments = \App\Models\CourseEnrollment::where('student_id', $user->id)
+                ->with(['course:id,title,category', 'course.teacher:id,first_name,last_name'])
+                ->get()
+                ->map(function ($enrollment) {
+                    return [
+                        'course_title' => $enrollment->course->title ?? 'N/A',
+                        'category' => $enrollment->course->category ?? 'N/A',
+                        'teacher_name' => ($enrollment->course->teacher->first_name ?? '') . ' ' . ($enrollment->course->teacher->last_name ?? ''),
+                        'progress' => $enrollment->progress ?? 0,
+                        'enrolled_at' => $enrollment->created_at->format('Y-m-d'),
+                    ];
+                });
+
+            $profile['course_enrollments'] = [
+                'total_courses' => $enrollments->count(),
+                'courses' => $enrollments->toArray(),
+            ];
         } elseif ($user->user_type === 'company') {
             $company = Company::where('user_id', $user->id)->first();
             if ($company) {
@@ -475,6 +514,56 @@ class AiCareerController extends Controller
                     'company_size' => $company->company_size,
                     'description' => $company->description,
                 ]);
+
+                // Add job postings data
+                $jobPostings = \App\Models\JobPosting::where('company_id', $company->id)
+                    ->withCount('applications')
+                    ->get()
+                    ->map(function ($job) {
+                        return [
+                            'title' => $job->title,
+                            'job_type' => $job->job_type,
+                            'location' => $job->location,
+                            'is_active' => $job->is_active,
+                            'applications_count' => $job->applications_count,
+                            'views_count' => $job->views_count,
+                            'deadline' => $job->application_deadline?->format('Y-m-d'),
+                        ];
+                    });
+
+                // Get all applications for this company's jobs
+                $allApplications = \App\Models\JobApplication::whereHas('jobPosting', function ($query) use ($company) {
+                    $query->where('company_id', $company->id);
+                })
+                ->with(['student:id,first_name,last_name,email', 'student.universityStudentProfile:user_id,university,faculty,gpa,skills', 'jobPosting:id,title'])
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->map(function ($app) {
+                    return [
+                        'applicant_name' => ($app->student->first_name ?? '') . ' ' . ($app->student->last_name ?? ''),
+                        'applicant_email' => $app->student->email ?? 'N/A',
+                        'job_title' => $app->jobPosting->title ?? 'N/A',
+                        'university' => $app->student->universityStudentProfile->university ?? 'N/A',
+                        'faculty' => $app->student->universityStudentProfile->faculty ?? 'N/A',
+                        'gpa' => $app->student->universityStudentProfile->gpa ?? 'N/A',
+                        'skills' => $app->student->universityStudentProfile->skills ?? [],
+                        'status' => $app->status,
+                        'applied_at' => $app->created_at->format('Y-m-d'),
+                        'is_favorite' => $app->is_favorite,
+                    ];
+                });
+
+                $profile['job_postings'] = [
+                    'total_postings' => $jobPostings->count(),
+                    'active_postings' => $jobPostings->where('is_active', true)->count(),
+                    'postings' => $jobPostings->toArray(),
+                ];
+
+                $profile['applications'] = [
+                    'total_applications' => $allApplications->count(),
+                    'applications_by_status' => $allApplications->groupBy('status')->map->count()->toArray(),
+                    'recent_applications' => $allApplications->take(20)->toArray(),
+                ];
             }
         }
 
