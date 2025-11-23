@@ -84,7 +84,7 @@ Add the following to your `.env` file:
 ```env
 # Gemini AI Configuration
 GEMINI_API_KEY=your_api_key_here
-GEMINI_MODEL=gemini-1.5-flash
+GEMINI_MODEL=gemini-1.5-flash-latest
 GEMINI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/models
 ```
 
