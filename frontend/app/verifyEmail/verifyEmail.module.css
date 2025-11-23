@@ -11,12 +11,17 @@
   background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
+  width: 100%;
+  display: flex;
 }
 
 .navContainer {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0;
+  width: 100%;
+  justify-content: center;
+  display: flex;
 }
 
 .logo {

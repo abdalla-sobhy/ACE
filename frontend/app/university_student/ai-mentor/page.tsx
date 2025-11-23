@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import UniversityStudentNav from "@/components/UniversityStudentNav/UniversityStudentNav";
 import styles from "./AiMentor.module.css";
 import { getAuthToken } from "@/lib/auth";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   FaRobot,
   FaPaperPlane,
@@ -42,6 +43,7 @@ interface UserProfile {
 }
 
 export default function AiMentorPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -153,7 +155,7 @@ export default function AiMentorPage() {
       const errorMessage: Message = {
         id: `error-${Date.now()}`,
         role: "assistant",
-        content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`,
+        content: `${t("aiMentor.errorMessage")} ${error instanceof Error ? error.message : ''}`,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -168,7 +170,7 @@ export default function AiMentorPage() {
   };
 
   const clearHistory = async () => {
-    if (!confirm("Are you sure you want to clear your conversation history?")) {
+    if (!confirm(t("aiMentor.clearHistoryConfirm"))) {
       return;
     }
 
@@ -213,7 +215,7 @@ export default function AiMentorPage() {
         const userMsg: Message = {
           id: `user-${Date.now()}`,
           role: "user",
-          content: "Please analyze my CV and give me feedback",
+          content: t("aiMentor.analyzeCvRequest"),
           timestamp: new Date(),
         };
         const assistantMsg: Message = {
@@ -224,17 +226,17 @@ export default function AiMentorPage() {
         };
         setMessages((prev) => [...prev, userMsg, assistantMsg]);
       } else {
-        alert(data.message || "Please upload your CV first in your profile.");
+        alert(data.message || t("aiMentor.uploadCvFirst"));
       }
     } catch {
-      alert("Error analyzing CV. Please try again.");
+      alert(t("aiMentor.errorAnalyzingCv"));
     } finally {
       setIsLoading(false);
     }
   };
 
   const getLearningPath = async () => {
-    sendMessage("Based on my profile, what skills should I learn next and what courses do you recommend? Create a detailed learning path for me.");
+    sendMessage(t("aiMentor.learningPathRequest"));
   };
 
   const getJobRecommendations = async () => {
@@ -257,7 +259,7 @@ export default function AiMentorPage() {
         const userMsg: Message = {
           id: `user-${Date.now()}`,
           role: "user",
-          content: "What jobs suit my profile?",
+          content: t("aiMentor.jobSuitRequest"),
           timestamp: new Date(),
         };
         const assistantMsg: Message = {
@@ -278,31 +280,31 @@ export default function AiMentorPage() {
   const quickActions: QuickAction[] = [
     {
       icon: <FaFileAlt />,
-      title: "Analyze My CV",
-      description: "Get professional feedback on your resume",
+      title: t("aiMentor.analyzeCv"),
+      description: t("aiMentor.analyzeCvDesc"),
       action: analyzeCv,
-      gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      gradient: "linear-gradient(135deg, var(--gradient-blue-start, #58a6ff) 0%, var(--gradient-blue-end, #1f6feb) 100%)",
     },
     {
       icon: <FaLightbulb />,
-      title: "Learning Path",
-      description: "Discover what skills to learn next",
+      title: t("aiMentor.learningPath"),
+      description: t("aiMentor.learningPathDesc"),
       action: getLearningPath,
-      gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      gradient: "linear-gradient(135deg, var(--gradient-blue-start, #58a6ff) 0%, var(--gradient-blue-end, #1f6feb) 100%)",
     },
     {
       icon: <FaBriefcase />,
-      title: "Job Recommendations",
-      description: "Find roles that match your profile",
+      title: t("aiMentor.jobRecommendations"),
+      description: t("aiMentor.jobRecommendationsDesc"),
       action: getJobRecommendations,
-      gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      gradient: "linear-gradient(135deg, var(--gradient-blue-start, #58a6ff) 0%, var(--gradient-blue-end, #1f6feb) 100%)",
     },
     {
       icon: <FaChartLine />,
-      title: "Skills Gap Analysis",
-      description: "Compare your skills with market demands",
-      action: () => sendMessage("What are the skill gaps in my profile for a Software Engineer position?"),
-      gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+      title: t("aiMentor.skillsGapAnalysis"),
+      description: t("aiMentor.skillsGapAnalysisDesc"),
+      action: () => sendMessage(t("aiMentor.skillsGapRequest")),
+      gradient: "linear-gradient(135deg, var(--gradient-blue-start, #58a6ff) 0%, var(--gradient-blue-end, #1f6feb) 100%)",
     },
   ];
 
@@ -317,15 +319,15 @@ export default function AiMentorPage() {
               <FaRobot />
             </div>
             <div>
-              <h1 className={styles.title}>AI Career Mentor</h1>
+              <h1 className={styles.title}>{t("aiMentor.title")}</h1>
               <p className={styles.subtitle}>
-                Your personal AI assistant for career guidance, powered by Gemini
+                {t("aiMentor.subtitle")}
               </p>
             </div>
           </div>
           {messages.length > 0 && (
             <button onClick={clearHistory} className={styles.clearButton}>
-              <FaTrash /> Clear History
+              <FaTrash /> {t("aiMentor.clearHistory")}
             </button>
           )}
         </div>
@@ -335,10 +337,9 @@ export default function AiMentorPage() {
             <div className={styles.welcomeIcon}>
               <FaGraduationCap />
             </div>
-            <h2>Welcome to Your AI Career Mentor!</h2>
+            <h2>{t("aiMentor.welcomeTitle")}</h2>
             <p>
-              I can help you with career guidance, CV analysis, learning paths, job recommendations, and more.
-              Try one of the quick actions below or start a conversation!
+              {t("aiMentor.welcomeDescription")}
             </p>
 
             <div className={styles.quickActions}>
@@ -369,7 +370,7 @@ export default function AiMentorPage() {
                   }`}
                 >
                   <div className={styles.messageIcon}>
-                    {message.role === "user" ? "You" : <FaRobot />}
+                    {message.role === "user" ? t("aiMentor.you") : <FaRobot />}
                   </div>
                   <div className={styles.messageContent}>
                     <div className={styles.messageText}>{message.content}</div>
@@ -387,7 +388,7 @@ export default function AiMentorPage() {
                   <div className={styles.messageContent}>
                     <div className={styles.loadingDots}>
                       <FaSpinner className={styles.spinner} />
-                      Thinking...
+                      {t("aiMentor.thinking")}
                     </div>
                   </div>
                 </div>
@@ -403,7 +404,7 @@ export default function AiMentorPage() {
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Ask me anything about your career..."
+              placeholder={t("aiMentor.inputPlaceholder")}
               className={styles.input}
               disabled={isLoading}
             />

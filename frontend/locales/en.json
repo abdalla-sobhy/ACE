@@ -1225,6 +1225,32 @@
       }
     ]
   },
+  "aiMentor": {
+    "title": "AI Career Mentor",
+    "subtitle": "Your personal AI assistant for career guidance, powered by Gemini",
+    "clearHistory": "Clear History",
+    "clearHistoryConfirm": "Are you sure you want to clear your conversation history?",
+    "welcomeTitle": "Welcome to Your AI Career Mentor!",
+    "welcomeDescription": "I can help you with career guidance, CV analysis, learning paths, job recommendations, and more. Try one of the quick actions below or start a conversation!",
+    "analyzeCv": "Analyze My CV",
+    "analyzeCvDesc": "Get professional feedback on your resume",
+    "learningPath": "Learning Path",
+    "learningPathDesc": "Discover what skills to learn next",
+    "jobRecommendations": "Job Recommendations",
+    "jobRecommendationsDesc": "Find roles that match your profile",
+    "skillsGapAnalysis": "Skills Gap Analysis",
+    "skillsGapAnalysisDesc": "Compare your skills with market demands",
+    "you": "You",
+    "thinking": "Thinking...",
+    "inputPlaceholder": "Ask me anything about your career...",
+    "errorMessage": "Sorry, I encountered an error. Please try again.",
+    "uploadCvFirst": "Please upload your CV first in your profile.",
+    "errorAnalyzingCv": "Error analyzing CV. Please try again.",
+    "analyzeCvRequest": "Please analyze my CV and give me feedback",
+    "jobSuitRequest": "What jobs suit my profile?",
+    "learningPathRequest": "Based on my profile, what skills should I learn next and what courses do you recommend? Create a detailed learning path for me.",
+    "skillsGapRequest": "What are the skill gaps in my profile for a Software Engineer position?"
+  },
   "contact": {
     "title": "Contact Us",
     "description": "We're here to help you on your journey",

@@ -115,11 +115,6 @@ export default function UniversityStudentNav() {
       label: t("student.myCourses"),
       icon: <FaGraduationCap />,
     },
-    {
-      href: "/university_student/profile",
-      label: t("universityStudent.myProfile"),
-      icon: <FaFileAlt />,
-    },
   ];
 
   return (
