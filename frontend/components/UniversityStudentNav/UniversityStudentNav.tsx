@@ -8,7 +8,6 @@ import {
   FaHome,
   FaBriefcase,
   FaFileAlt,
-  FaBook,
   FaUser,
   FaSignOutAlt,
   FaBars,

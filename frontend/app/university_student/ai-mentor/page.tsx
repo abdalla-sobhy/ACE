@@ -31,6 +31,15 @@ interface QuickAction {
   gradient: string;
 }
 
+interface UserProfile {
+  name?: string;
+  email?: string;
+  universityStudentProfile?: {
+    faculty?: string;
+    university?: string;
+  };
+}
+
 export default function AiMentorPage() {
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -38,7 +47,6 @@ export default function AiMentorPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -49,6 +57,7 @@ export default function AiMentorPage() {
 
     fetchUser();
     loadHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -72,8 +81,7 @@ export default function AiMentorPage() {
       });
 
       if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
+        await response.json();
       }
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -96,7 +104,7 @@ export default function AiMentorPage() {
         const data = await response.json();
         if (data.success && data.conversations.length > 0) {
           const loadedMessages: Message[] = [];
-          data.conversations.reverse().forEach((conv: any) => {
+          data.conversations.reverse().forEach((conv: { id: number; user_message: string; ai_response: string; created_at: string }) => {
             loadedMessages.push({
               id: `user-${conv.id}`,
               role: "user",
@@ -118,7 +126,7 @@ export default function AiMentorPage() {
     }
   };
 
-  const sendMessage = async (message: string, isQuickAction = false) => {
+  const sendMessage = async (message: string) => {
     if (!message.trim()) return;
 
     const userMessage: Message = {
@@ -161,11 +169,11 @@ export default function AiMentorPage() {
       } else {
         throw new Error(data.message || "Failed to get response");
       }
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage: Message = {
         id: `error-${Date.now()}`,
         role: "assistant",
-        content: `Sorry, I encountered an error: ${error.message}. Please try again.`,
+        content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -238,7 +246,7 @@ export default function AiMentorPage() {
       } else {
         alert(data.message || "Please upload your CV first in your profile.");
       }
-    } catch (error: any) {
+    } catch {
       alert("Error analyzing CV. Please try again.");
     } finally {
       setIsLoading(false);
