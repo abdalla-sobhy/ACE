@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--main-color);
   padding-bottom: 2rem;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .header {
-  background: white;
+  background: var(--sections-color);
   border-radius: 20px;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -20,6 +20,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid var(--borders);
 }
 
 .headerContent {
@@ -30,8 +31,8 @@
 
 .headerIcon {
   font-size: 3rem;
-  color: #667eea;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--accent-blue);
+  background: linear-gradient(135deg, var(--gradient-blue-start) 0%, var(--gradient-blue-end) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -41,7 +42,7 @@
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--gradient-blue-start) 0%, var(--gradient-blue-end) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -49,12 +50,12 @@
 
 .subtitle {
   margin: 0.5rem 0 0 0;
-  color: #666;
+  color: var(--main-text-white);
   font-size: 1rem;
 }
 
 .clearButton {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #ea6699 0%, #ed4c4e 100%);
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -73,29 +74,30 @@
 }
 
 .welcomeSection {
-  background: white;
+  background: var(--sections-color);
   border-radius: 20px;
   padding: 3rem 2rem;
   text-align: center;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+  border: 1px solid var(--borders);
 }
 
 .welcomeIcon {
   font-size: 4rem;
-  color: #667eea;
+  color: var(--accent-blue);
   margin-bottom: 1rem;
 }
 
 .welcomeSection h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--white);
 }
 
 .welcomeSection p {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--main-text-white);
   max-width: 600px;
   margin: 0 auto 2rem;
   line-height: 1.6;
@@ -113,13 +115,15 @@
   border-radius: 16px;
   color: white;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
   text-align: center;
+  border: 1px solid var(--borders);
 }
 
 .quickActionCard:hover {
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 15px 40px var(--accent-blue-bg, rgba(88, 166, 255, 0.2));
+  border-color: var(--accent-blue);
 }
 
 .quickActionIcon {
@@ -137,16 +141,18 @@
   font-size: 0.95rem;
   opacity: 0.9;
   margin: 0;
+  color: white;
 }
 
 .chatContainer {
-  background: white;
+  background: var(--sections-color);
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
   height: 600px;
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--borders);
 }
 
 .messagesContainer {
@@ -163,12 +169,12 @@
 }
 
 .messagesContainer::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--sections-color);
   border-radius: 10px;
 }
 
 .messagesContainer::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--gradient-blue-start) 0%, var(--gradient-blue-end) 100%);
   border-radius: 10px;
 }
 
@@ -194,12 +200,12 @@
 }
 
 .userMessage .messageIcon {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--gradient-blue-start) 0%, var(--gradient-blue-end) 100%);
   color: white;
 }
 
 .assistantMessage .messageIcon {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, var(--gradient-blue-start) 0%, var(--gradient-blue-end) 100%);
   color: white;
   font-size: 1.2rem;
 }
@@ -224,14 +230,14 @@
 }
 
 .userMessage .messageText {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--borders);
+  color: var(--white);
   border-bottom-right-radius: 4px;
 }
 
 .assistantMessage .messageText {
-  background: #f8f9fa;
-  color: #333;
+  background: var(--main-color);
+  color: var(--main-text-white);
   border-bottom-left-radius: 4px;
 }
 
@@ -246,17 +252,19 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 1.5rem;
-  background: #f8f9fa;
+  background: var(--main-color);
   border-radius: 16px;
-  color: #667eea;
+  color: var(--accent-blue);
   font-weight: 500;
 }
 
 .inputContainer {
-  background: white;
+  background: var(--sections-color);
   border-radius: 20px;
   padding: 1.5rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  color: var(--main-text-white);
+  border: 1px solid var(--borders);
 }
 
 .inputForm {
@@ -268,24 +276,26 @@
 .input {
   flex: 1;
   padding: 1rem 1.5rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--borders);
   border-radius: 12px;
   font-size: 1rem;
   transition: border-color 0.3s;
+  color: var(--main-text-white);
+  background: var(--main-color);
 }
 
 .input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--accent-blue);
 }
 
 .input:disabled {
-  background: #f5f5f5;
+  background: var(--sections-color);
   cursor: not-allowed;
 }
 
 .sendButton {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--gradient-blue-start) 0%, var(--gradient-blue-end) 100%);
   color: white;
   border: none;
   padding: 1rem 1.5rem;
@@ -301,7 +311,7 @@
 
 .sendButton:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 5px 15px var(--accent-blue-bg, rgba(88, 166, 255, 0.4));
 }
 
 .sendButton:disabled {
