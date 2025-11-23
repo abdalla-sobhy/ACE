@@ -8,12 +8,12 @@ import {
   FaHome,
   FaBriefcase,
   FaFileAlt,
-  FaBook,
   FaUser,
   FaSignOutAlt,
   FaBars,
   FaGraduationCap,
   FaClipboardList,
+  FaRobot,
 } from "react-icons/fa";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
@@ -104,6 +104,11 @@ export default function UniversityStudentNav() {
       href: "/university_student/applications",
       label: t("universityStudent.myApplications"),
       icon: <FaClipboardList />,
+    },
+    {
+      href: "/university_student/ai-mentor",
+      label: "AI Career Mentor",
+      icon: <FaRobot />,
     },
     {
       href: "/university_student/my-courses",
