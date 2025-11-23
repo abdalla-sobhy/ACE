@@ -34,7 +34,7 @@ class GeminiService
                 Log::warning('Gemini API key not configured');
                 return [
                     'success' => false,
-                    'error' => 'AI service is not configured',
+                    'error' => 'AI service is not configured. Please set GEMINI_API_KEY in your environment configuration. Get your API key from https://makersuite.google.com/app/apikey',
                 ];
             }
 
@@ -109,7 +109,7 @@ class GeminiService
             if (empty($this->apiKey)) {
                 return [
                     'success' => false,
-                    'error' => 'AI service is not configured',
+                    'error' => 'AI service is not configured. Please set GEMINI_API_KEY in your environment configuration. Get your API key from https://makersuite.google.com/app/apikey',
                 ];
             }
 
@@ -266,14 +266,24 @@ class GeminiService
             }
 
             $errorData = $response->json();
+            $errorMessage = $errorData['error']['message'] ?? 'API request failed';
+
             Log::error('Gemini API error response', [
                 'status' => $response->status(),
                 'error' => $errorData,
             ]);
 
+            // Check for leaked API key error
+            if (strpos($errorMessage, 'API key was reported as leaked') !== false) {
+                return [
+                    'success' => false,
+                    'error' => 'The AI service API key has been disabled for security reasons. Please contact the system administrator to update the GEMINI_API_KEY in the environment configuration with a new key from https://makersuite.google.com/app/apikey',
+                ];
+            }
+
             return [
                 'success' => false,
-                'error' => $errorData['error']['message'] ?? 'API request failed',
+                'error' => $errorMessage,
             ];
 
         } catch (\Exception $e) {
