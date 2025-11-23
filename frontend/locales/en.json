@@ -168,6 +168,7 @@
     "invalidEmail": "Invalid email address",
     "requiredField": "This field is required",
     "loginFailed": "Login failed. Check your credentials",
+    "Forbidden": "Your account is under review. You will be notified once it is approved",
     "tooManyRequests": "Too many attempts. Please try again after 15 minutes.",
     "signupFailed": "Account creation failed. Try again",
     "emailExists": "Email is already registered",

@@ -1820,8 +1820,7 @@ function SignupContent() {
               <div className={styles.successAnimation}>
                 <div className={styles.successCheckmark}>
                   <div className={styles.checkIcon}>
-                    <span className={styles.iconLineTip}></span>
-                    <span className={styles.iconLineLong}></span>
+                    ✓
                   </div>
                 </div>
               </div>

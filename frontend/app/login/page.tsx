@@ -157,7 +157,7 @@ export default function LoginPage() {
             setError(t("auth.loginFailed"));
             break;
           case 403:
-            setError(t("auth.loginFailed"));
+            setError(t("auth.Forbidden"));
             break;
           case 404:
             setError(t("auth.loginFailed"));
