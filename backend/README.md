@@ -84,11 +84,11 @@ Add the following to your `.env` file:
 ```env
 # Gemini AI Configuration
 GEMINI_API_KEY=your_api_key_here
-GEMINI_MODEL=gemini-2.0-flash-exp
+GEMINI_MODEL=gemini-2.0-flash
 GEMINI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/models
 ```
 
-**Note**: As of late 2024/early 2025, Google has upgraded to Gemini 2.0 and 2.5 models. The older Gemini 1.5 models are no longer available. Use `gemini-2.0-flash-exp` for the latest experimental version or check the [Gemini API documentation](https://ai.google.dev/gemini-api/docs/models) for the current stable models.
+**Note**: As of late 2024/early 2025, Google has upgraded to Gemini 2.0 and 2.5 models. The older Gemini 1.5 models are no longer available. Use `gemini-2.0-flash` for the stable free-tier version or check the [Gemini API documentation](https://ai.google.dev/gemini-api/docs/models) for other available models.
 
 **Note**: Without configuring the Gemini API key, AI features including CV analysis will return an error. The API key is **required** for the AI Career Mentor to function.
 
