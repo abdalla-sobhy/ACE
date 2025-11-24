@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import UniversityStudentNav from "@/components/UniversityStudentNav/UniversityStudentNav";
 import styles from "./UniversityProfile.module.css";
 import { useLanguage } from "@/hooks/useLanguage";
+import Image from "next/image";
 import {
   FaUser,
   FaEdit,
@@ -237,7 +238,6 @@ export default function UniversityStudentProfile() {
           ...user!,
           profile_picture: data.profile_picture_url,
         });
-        alert("Profile picture uploaded successfully!");
       } else {
         alert("Error uploading profile picture");
       }
@@ -481,26 +481,15 @@ const handleRemoveCertification = (index: number) => {
               {uploadingProfilePicture ? (
                 <div>Uploading...</div>
               ) : user?.profile_picture ? (
-                <img
+                <Image
+                  height={150}
+                  width={150}
                   src={user.profile_picture}
                   alt="Profile"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                 />
               ) : (
-                <div style={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '2rem',
-                  fontWeight: 'bold',
-                  color: 'white',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  borderRadius: '50%'
-                }}>
-                  {user?.first_name?.[0]}{user?.last_name?.[0]}
-                </div>
+                <FaUser />
               )}
             </div>
             <input
