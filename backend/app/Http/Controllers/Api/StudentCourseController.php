@@ -67,7 +67,7 @@ class StudentCourseController extends Controller
 
             // Add thumbnail URL if exists
             if ($lesson->thumbnail) {
-                $lessonData['thumbnail'] = asset('storage/' . $lesson->thumbnail);
+                $lessonData['thumbnail'] = url('api/storage/' . $lesson->thumbnail);
             }
 
             // Only include video URL if enrolled or preview
@@ -131,7 +131,7 @@ class StudentCourseController extends Controller
             'lessons_count' => $course->lessons->count(),
             'students_count' => $enrolledStudentsCount,
             'rating' => (float) ($course->rating ?? 0),
-            'thumbnail' => $course->thumbnail ? asset('storage/' . $course->thumbnail) : null,
+            'thumbnail' => $course->thumbnail ? url('api/storage/' . $course->thumbnail) : null,
             'category' => $course->category,
             'grade' => $course->grade,
             'course_type' => $course->course_type,
@@ -426,7 +426,7 @@ class StudentCourseController extends Controller
 
             // Add profile picture URL if exists
             if ($profile->profile_picture) {
-                $profileData['profile_picture_url'] = asset('storage/' . $profile->profile_picture);
+                $profileData['profile_picture_url'] = url('api/storage/' . $profile->profile_picture);
             }
 
             return response()->json([
@@ -544,7 +544,7 @@ class StudentCourseController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Profile picture uploaded successfully',
-                'profile_picture_url' => asset('storage/' . $path)
+                'profile_picture_url' => url('api/storage/' . $path)
             ]);
         } catch (\Exception $e) {
             \Log::error('Error uploading student profile picture: ' . $e->getMessage());
