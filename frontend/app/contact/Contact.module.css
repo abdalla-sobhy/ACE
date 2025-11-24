@@ -211,7 +211,7 @@
   border: 1px solid var(--input-border-color);
   border-radius: 6px;
   padding: 12px 16px;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 16px;
   transition: all 0.2s;
   font-family: inherit;

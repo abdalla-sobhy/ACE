@@ -544,7 +544,7 @@ const handleRemoveCertification = (index: number) => {
             }`}
             onClick={() => setActiveTab("skills")}
           >
-            المهارات
+            {t("universityStudent.skills")}
           </button>
         </div>
 

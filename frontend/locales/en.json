@@ -1349,7 +1349,8 @@
     "mapTitle": "Our Location",
     "mapDescription": "Visit us at our headquarters with prior appointment",
     "mapLocation": "Cairo, Egypt",
-    "mapAddress": "For companies: business@edvance-platform.com | For universities: universities@edvance-platform.com"
+    "mapAddress": "For companies: business@edvance-platform.com | For universities: universities@edvance-platform.com",
+    "successMessage": "Your message has been sent successfully!"
   },
   "faq": {
     "title": "Frequently Asked Questions",

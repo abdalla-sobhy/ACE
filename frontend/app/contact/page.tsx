@@ -16,6 +16,7 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
+  const [success, setSuccess] = useState(false);
 
   const [activeCategory, setActiveCategory] = useState("general");
 
@@ -67,9 +68,19 @@ export default function ContactPage() {
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-  };
+  e.preventDefault();
+  setSuccess(true);
+  setFormData({
+    name: "",
+    email: "",
+    userType: "student",
+    subject: "",
+    message: "",
+  });
+  setTimeout(() => {
+    setSuccess(false);
+  }, 3000);
+};
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -212,7 +223,14 @@ export default function ContactPage() {
                     rows={6}
                   />
                 </div>
-
+                {success && (
+                  <div
+                    className="mb-3 rounded-lg border border-green-300 bg-green-100 px-4 py-2 text-green-800 text-sm"
+                    style={{ direction: dir, textAlign: dir === "rtl" ? "right" : "left" }}
+                  >
+                    {t("contact.successMessage")}
+                  </div>
+                )}
                 <button type="submit" className={styles.submitButton}>
                   <span>{t("contact.sendMessage")}</span>
                   <span className={styles.sendIcon}>📤</span>

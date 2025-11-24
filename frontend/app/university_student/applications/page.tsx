@@ -145,7 +145,6 @@ export default function MyApplications() {
       );
 
       if (response.ok) {
-        alert(t("universityStudent.withdrawSuccess"));
         fetchApplications();
       }
     } catch (error) {

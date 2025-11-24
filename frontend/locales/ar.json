@@ -1501,7 +1501,8 @@
     "mapTitle": "موقعنا",
     "mapDescription": "قم بزيارتنا في مقرنا الرئيسي بموعد مسبق",
     "mapLocation": "القاهرة، مصر",
-    "mapAddress": "للشركات: business@edvance-platform.com | للجامعات: universities@edvance-platform.com"
+    "mapAddress": "للشركات: business@edvance-platform.com | للجامعات: universities@edvance-platform.com",
+    "successMessage": "تم إرسال رسالتك بنجاح!"
   },
   "faq": {
     "title": "الأسئلة الشائعة",

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
-import StudentNav from "@/components/StudentNav/StudentNav";
+import UniversityStudentNav from "@/components/UniversityStudentNav/UniversityStudentNav";
 import styles from "./CourseView.module.css";
 import { FaPlay, FaLock, FaClock, FaArrowRight, FaShoppingCart, FaCreditCard } from "react-icons/fa";
 
@@ -124,7 +124,7 @@ export default function StudentCourseView() {
   }, [currentLesson]);
 
   const handlePayment = () => {
-    router.push(`/student/payment/${courseId}`);
+    router.push(`/university_student/payment/${courseId}`);
   };
 
   const handleEnroll = async () => {
@@ -134,7 +134,7 @@ export default function StudentCourseView() {
         const authData = JSON.parse(localStorage.getItem("authData") || "{}");
         
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/student/courses/${courseId}/enroll`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/university_student/courses/${courseId}/enroll`,
           {
             method: "POST",
             headers: {
@@ -212,7 +212,7 @@ export default function StudentCourseView() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <StudentNav />
+        <UniversityStudentNav />
         <div className={styles.loader}>{t("courseView.loading")}</div>
       </div>
     );
@@ -220,12 +220,12 @@ export default function StudentCourseView() {
 
   return (
     <div className={styles.container}>
-      <StudentNav />
+      <UniversityStudentNav />
       
       <main className={styles.main}>
         {/* Header */}
         <div className={styles.header}>
-          <button onClick={() => router.push('/student/dashboard')}>
+          <button onClick={() => router.push('/university_student/dashboard')}>
             <FaArrowRight /> {t("courseView.back")}
           </button>
           <h1>{course?.title}</h1>
