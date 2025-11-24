@@ -449,7 +449,7 @@ function SignupContent() {
       type: "student" as UserType,
       icon: <FaUser />,
       title: t("auth.student"),
-      description: t("landing.heroDescription"),
+      description: t("landing.joinAsStudent"),
       color: "#58a6ff",
     },
     {
@@ -463,14 +463,14 @@ function SignupContent() {
       type: "parent" as UserType,
       icon: <FaUserFriends />,
       title: t("auth.parent"),
-      description: t("parent.viewProgress"),
+      description: t("landing.joinAsParent"),
       color: "#f85149",
     },
     {
       type: "university_student" as UserType,
       icon: <FaUserGraduate />,
       title: t("auth.universityStudent"),
-      description: t("universityStudent.browseJobs"),
+      description: t("landing.joinAsUniversityStudent"),
       color: "#fff",
     },
   ];
