@@ -147,9 +147,6 @@ export default function CompanyDashboard() {
 
         <div className={styles.statsGrid}>
           <div className={styles.statCard}>
-            <div className={styles.statIcon}>
-              <FaBriefcase />
-            </div>
             <div className={styles.statContent}>
               <h3>{stats.total_jobs}</h3>
               <p>{t("company.totalJobs")}</p>
@@ -157,9 +154,6 @@ export default function CompanyDashboard() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#2ea043" }}>
-              <FaChartLine />
-            </div>
             <div className={styles.statContent}>
               <h3>{stats.active_jobs}</h3>
               <p>{t("company.activeJobs")}</p>
@@ -167,9 +161,6 @@ export default function CompanyDashboard() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#1f6feb" }}>
-              <FaUsers />
-            </div>
             <div className={styles.statContent}>
               <h3>{stats.total_applications}</h3>
               <p>{t("company.totalApplications")}</p>
@@ -177,9 +168,6 @@ export default function CompanyDashboard() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#fb8500" }}>
-              <FaClock />
-            </div>
             <div className={styles.statContent}>
               <h3>{stats.new_applications}</h3>
               <p>{t("company.newApplications")}</p>
@@ -187,9 +175,6 @@ export default function CompanyDashboard() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#8b5cf6" }}>
-              <FaUserCheck />
-            </div>
             <div className={styles.statContent}>
               <h3>{stats.shortlisted_candidates}</h3>
               <p>{t("company.shortlistedCandidates")}</p>
@@ -197,9 +182,6 @@ export default function CompanyDashboard() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#06ffa5" }}>
-              <FaCalendarAlt />
-            </div>
             <div className={styles.statContent}>
               <h3>{stats.interviews_scheduled}</h3>
               <p className="whitespace-nowrap">{t("company.interviewsScheduled")}</p>

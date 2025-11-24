@@ -66,6 +66,7 @@
   align-items: center;
   gap: 20px;
   transition: all 0.3s;
+  justify-content: center;
 }
 
 .statCard:hover {
@@ -90,6 +91,14 @@
   font-weight: 700;
   margin: 0;
   color: var(--main-text-white-lighter);
+  justify-content: center;
+  display: flex;
+}
+
+.statContent{
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .statContent p {
