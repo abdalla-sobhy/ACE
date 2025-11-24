@@ -395,7 +395,7 @@ const findNextSessionFromSchedule = (
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeContent}>
             <h1>{t("common.welcome")} {user?.name?.split(' ')[0]}</h1>
-            <p>استكشف الكورسات المتاحة لـ{getGradeLabel(user?.profile?.grade || "")}</p>
+            <p>{t("student.availableCoursesFor")}{getGradeLabel(user?.profile?.grade || "")}</p>
           </div>
           <div className={styles.statsCards}>
             <div className={styles.statCard}>
@@ -480,7 +480,7 @@ const findNextSessionFromSchedule = (
                 fetchCourses(teacherNameFilter, 'all');
               }}
             >
-              جميع الكورسات
+              {t("student.allCourses")}
             </button>
             <button 
               className={`${styles.typeButton} ${courseTypeFilter === 'recorded' ? styles.active : ''}`}
@@ -489,7 +489,7 @@ const findNextSessionFromSchedule = (
                 fetchCourses(teacherNameFilter, 'recorded');
               }}
             >
-              <FaVideo /> كورسات مسجلة
+              <FaVideo />{t("student.recordedCourses")}
             </button>
             <button 
               className={`${styles.typeButton} ${courseTypeFilter === 'live' ? styles.active : ''}`}
@@ -498,7 +498,7 @@ const findNextSessionFromSchedule = (
                 fetchCourses(teacherNameFilter, 'live');
               }}
             >
-              <span className={styles.liveIcon}>🔴</span> بث مباشر
+              <span className={styles.liveIcon}>🔴</span>{t("student.liveStream")}
             </button>
           </div>
 
@@ -514,7 +514,7 @@ const findNextSessionFromSchedule = (
         <section className={styles.coursesSection}>
           <div className={styles.coursesHeader}>
             <h2>{t("student.availableCourses")}</h2>
-            <p>{filteredCourses.length} كورس</p>
+            <p>{filteredCourses.length} {t("student.courses")}</p>
           </div>
 
           {filteredCourses.length === 0 ? (
@@ -617,11 +617,11 @@ const findNextSessionFromSchedule = (
                         </div>
                         <div className={styles.courseStat}>
                           <FaBook />
-                          <span>{course.lessons_count} درس</span>
+                          <span>{course.lessons_count} {t("student.lesson")}</span>
                         </div>
                         <div className={styles.courseStat}>
                           <FaUsers />
-                          <span>{course.students_count} طالب</span>
+                          <span>{course.students_count} {t("student.student")}</span>
                         </div>
                         <div className={styles.courseStat}>
                           <FaStar />
@@ -633,10 +633,10 @@ const findNextSessionFromSchedule = (
                         <div className={styles.coursePrice}>
                           {course.original_price && (
                             <span className={styles.originalPrice}>
-                              {course.original_price} جنيه
+                              {course.original_price} EGP
                             </span>
                           )}
-                          <span className={styles.currentPrice}>{course.price} جنيه</span>
+                          <span className={styles.currentPrice}>{course.price} EGP</span>
                         </div>
                         <button
                           className={`${styles.enrollButton} ${course.is_enrolled ? styles.enrolled : ''} ${course.is_full && !course.is_enrolled ? styles.disabled : ''}`}

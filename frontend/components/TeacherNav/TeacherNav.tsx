@@ -87,11 +87,9 @@ export default function TeacherNav() {
 
   const navItems = [
     { href: "/teacher/dashboard", label: t("common.dashboard"), icon: <FaHome /> },
-    { href: "/teacher/courses", label: t("teacher.myCourses"), icon: <FaBook /> },
     { href: "/teacher/students", label: t("teacher.students"), icon: <FaUsers /> },
     { href: "/teacher/schedule", label: "جدول المحاضرات", icon: <FaCalendarAlt /> },
     { href: "/teacher/analytics", label: t("teacher.statistics"), icon: <FaChartBar /> },
-    { href: "/teacher/earnings", label: t("teacher.earnings"), icon: <FaMoneyBillWave /> },
   ];
 
   return (
@@ -168,6 +166,10 @@ export default function TeacherNav() {
                   <Link href="/teacher/profile" className={styles.dropdownItem}>
                     <FaUser />
                     <span>{t("common.profile")}</span>
+                  </Link>
+                  <Link href="/teacher/earnings" className={styles.dropdownItem}>
+                    <FaMoneyBillWave />
+                    <span>{t("teacher.earnings")}</span>
                   </Link>
                   <button
                     className={styles.dropdownItem}
