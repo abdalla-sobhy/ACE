@@ -372,7 +372,7 @@ export default function CompanyApplicationsPage() {
         ) : (
           <div className={styles.applicationsList}>
             <div className={styles.listHeader}>
-              <span>عرض {filteredApplications.length} من {applications.length} طلب</span>
+              <span>{t("common.view")} {filteredApplications.length} {t("common.from")} {applications.length} {t("common.application")}</span>
             </div>
 
             {filteredApplications.map((application) => (
@@ -434,7 +434,7 @@ export default function CompanyApplicationsPage() {
                       <FaClock />
                       <span>
                         {new Date(application.created_at).toLocaleDateString(
-                          "ar-EG",
+                          "en-EG",
                           {
                             year: "numeric",
                             month: "short",

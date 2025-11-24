@@ -625,7 +625,7 @@ export default function ApplicationDetailsPage() {
                       <strong>{t("companyApplications.applicationDate")}</strong>
                       <span>
                         {new Date(application.created_at).toLocaleDateString(
-                          "ar-EG",
+                          "en-EG",
                           {
                             year: "numeric",
                             month: "long",
@@ -639,7 +639,7 @@ export default function ApplicationDetailsPage() {
                         <strong>{t("companyApplications.viewedDate")}</strong>
                         <span>
                           {new Date(application.viewed_at).toLocaleDateString(
-                            "ar-EG"
+                            "en-EG"
                           )}
                         </span>
                       </div>
@@ -661,7 +661,7 @@ export default function ApplicationDetailsPage() {
                       <FaCalendarAlt />
                       <span>
                         {new Date(application.interview_date).toLocaleDateString(
-                          "ar-EG",
+                          "en-EG",
                           {
                             year: "numeric",
                             month: "long",

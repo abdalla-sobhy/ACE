@@ -334,7 +334,7 @@ export default function MyCourses() {
                           </div>
                           {course.start_date && (
                             <p className={styles.startDate}>
-                              {t("student.startsOn")} {new Date(course.start_date).toLocaleDateString('ar-EG')}
+                              {t("student.startsOn")} {new Date(course.start_date).toLocaleDateString('en-EG')}
                             </p>
                           )}
                         </div>

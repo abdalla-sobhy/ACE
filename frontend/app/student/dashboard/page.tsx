@@ -567,7 +567,7 @@ const findNextSessionFromSchedule = (
     </div>
     {course.start_date && (
       <p className={styles.startDate}>
-        تبدأ في: {new Date(course.start_date + 'T00:00:00').toLocaleDateString('ar-EG', {
+        تبدأ في: {new Date(course.start_date + 'T00:00:00').toLocaleDateString('en-EG', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
@@ -604,7 +604,7 @@ const findNextSessionFromSchedule = (
                           </div>
                           {course.start_date && (
                             <p className={styles.startDate}>
-                              تبدأ في: {new Date(course.start_date).toLocaleDateString('ar-EG')}
+                              {t("student.startsOn")}  {new Date(course.start_date).toLocaleDateString('en-EG')}
                             </p>
                           )}
                         </div>

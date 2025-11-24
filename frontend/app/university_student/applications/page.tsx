@@ -331,7 +331,7 @@ export default function MyApplications() {
                   <div className={styles.interviewInfo}>
                     <FaCalendarAlt />
                     <span>
-                      موعد المقابلة: {new Date(application.interview_date).toLocaleString("ar-EG")}
+                      موعد المقابلة: {new Date(application.interview_date).toLocaleString("en-EG")}
                     </span>
                     {application.interview_location && (
                       <span> - {application.interview_location}</span>
@@ -406,7 +406,7 @@ export default function MyApplications() {
                   {selectedApplication.status_history.map((history, index) => (
                     <div key={index} className={styles.historyItem}>
                       <div className={styles.historyDate}>
-                        {new Date(history.changed_at).toLocaleString("ar-EG")}
+                        {new Date(history.changed_at).toLocaleString("en-EG")}
                       </div>
                       <div className={styles.historyStatus}>
                         {history.status}
