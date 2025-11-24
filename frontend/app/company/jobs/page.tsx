@@ -405,7 +405,7 @@ export default function CompanyJobsPage() {
                 <div className="flex items-center gap-1.5 text-xs text-[var(--p-text)] pt-3 border-t border-[var(--borders)]">
                   <FaClock />
                   <span>
-                    {t("companyJobs.postedOn")} {new Date(job.created_at).toLocaleDateString("ar-EG")}
+                    {t("companyJobs.postedOn")} {new Date(job.created_at).toLocaleDateString("en-EG")}
                   </span>
                 </div>
               </div>

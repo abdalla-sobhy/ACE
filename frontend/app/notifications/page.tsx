@@ -140,7 +140,7 @@ export default function NotificationsPage() {
     if (diffInSeconds < 604800)
       return `${t("notifications.daysAgo").replace("{n}", Math.floor(diffInSeconds / 86400).toString())}`;
 
-    return date.toLocaleDateString("ar-EG", {
+    return date.toLocaleDateString("en-EG", {
       year: "numeric",
       month: "long",
       day: "numeric",

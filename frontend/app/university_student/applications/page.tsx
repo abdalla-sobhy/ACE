@@ -316,7 +316,7 @@ export default function MyApplications() {
                   <div className={styles.detailItem}>
                     <FaClock />
                     <span>
-                      تقدمت في {new Date(application.created_at).toLocaleDateString("ar-EG")}
+                      تقدمت في {new Date(application.created_at).toLocaleDateString("en-EG")}
                     </span>
                   </div>
                   {application.viewed_at && (

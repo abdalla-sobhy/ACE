@@ -381,7 +381,7 @@ export default function StudentProfile() {
             ) : (
               <p>
                 {profile.birth_date
-                  ? new Date(profile.birth_date).toLocaleDateString("ar-EG", {
+                  ? new Date(profile.birth_date).toLocaleDateString("en-EG", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",

@@ -143,7 +143,7 @@ export default function NotificationDropdown() {
     if (diffInSeconds < 86400) return `منذ ${Math.floor(diffInSeconds / 3600)} ساعة`;
     if (diffInSeconds < 604800) return `منذ ${Math.floor(diffInSeconds / 86400)} يوم`;
 
-    return date.toLocaleDateString("ar-EG", {
+    return date.toLocaleDateString("en-EG", {
       month: "short",
       day: "numeric",
     });

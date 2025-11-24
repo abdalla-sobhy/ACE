@@ -328,7 +328,7 @@ export default function JobDetailPage() {
               <div>
                 <div className="text-sm font-bold">
                   {job.application_deadline
-                    ? new Date(job.application_deadline).toLocaleDateString("ar-EG")
+                    ? new Date(job.application_deadline).toLocaleDateString("en-EG")
                     : "مفتوح"}
                 </div>
                 <div className="text-sm text-[var(--p-text)]">{t("companyJobs.applicationDeadline")}</div>
@@ -506,7 +506,7 @@ export default function JobDetailPage() {
                 <div className="pt-3 border-t border-[var(--borders)]">
                   <div className="text-[var(--p-text)] mb-1">{t("common.publicationDate")}</div>
                   <div className="font-medium">
-                    {new Date(job.created_at).toLocaleDateString("ar-EG", {
+                    {new Date(job.created_at).toLocaleDateString("en-EG", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -516,7 +516,7 @@ export default function JobDetailPage() {
                 <div>
                   <div className="text-[var(--p-text)] mb-1">{t("common.lastUpdated")}</div>
                   <div className="font-medium">
-                    {new Date(job.updated_at).toLocaleDateString("ar-EG", {
+                    {new Date(job.updated_at).toLocaleDateString("en-EG", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",

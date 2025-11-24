@@ -423,7 +423,7 @@ export default function UniversityJobs() {
                       <div className={styles.timeInfo}>
                         <FaClock />
                         <span>
-                          {new Date(job.created_at).toLocaleDateString("ar-EG")}
+                          {new Date(job.created_at).toLocaleDateString("en-EG")}
                         </span>
                         {job.application_deadline && (
                           <>
@@ -432,7 +432,7 @@ export default function UniversityJobs() {
                               {t("universityStudent.lastDate")}{" "}
                               {new Date(
                                 job.application_deadline
-                              ).toLocaleDateString("ar-EG")}
+                              ).toLocaleDateString("en-EG")}
                             </span>
                           </>
                         )}

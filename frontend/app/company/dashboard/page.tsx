@@ -244,7 +244,7 @@ export default function CompanyDashboard() {
                         </span>
                       </td>
                       <td>
-                        {new Date(application.created_at).toLocaleDateString("ar-EG")}
+                        {new Date(application.created_at).toLocaleDateString("en-EG")}
                       </td>
                       <td>
                         <Link

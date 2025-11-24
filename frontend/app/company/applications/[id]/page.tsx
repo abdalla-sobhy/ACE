@@ -750,7 +750,7 @@ export default function ApplicationDetailsPage() {
                           {getStatusLabel(item.status)}
                         </div>
                         <div className={styles.historyDate}>
-                          {new Date(item.changed_at).toLocaleDateString("ar-EG")}
+                          {new Date(item.changed_at).toLocaleDateString("en-EG")}
                         </div>
                         {item.notes && (
                           <div className={styles.historyNotes}>{item.notes}</div>
