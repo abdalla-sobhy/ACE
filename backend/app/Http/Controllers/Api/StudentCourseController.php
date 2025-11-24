@@ -424,6 +424,11 @@ class StudentCourseController extends Controller
                 $profileData['preferred_subjects'] = json_decode($profileData['preferred_subjects'], true) ?? [];
             }
 
+            // Add profile picture URL if exists
+            if ($profile->profile_picture) {
+                $profileData['profile_picture_url'] = asset('storage/' . $profile->profile_picture);
+            }
+
             return response()->json([
                 'success' => true,
                 'user' => $user,

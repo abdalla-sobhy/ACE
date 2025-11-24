@@ -188,6 +188,11 @@ class UniversityStudentController extends Controller
             $profileData['certifications'] = json_decode($profile->certifications, true) ?? [];
             $profileData['preferred_job_types'] = json_decode($profile->preferred_job_types, true) ?? [];
 
+            // Add profile picture URL if exists
+            if ($profile->profile_picture) {
+                $profileData['profile_picture_url'] = asset('storage/' . $profile->profile_picture);
+            }
+
             // Add CV download URL if exists
             if ($profile->cv_path) {
                 $profileData['cv_download_url'] = route('api.university.download-cv');
