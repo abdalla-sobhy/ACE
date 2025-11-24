@@ -81,6 +81,7 @@ export default function UniversityStudentProfile() {
   const { t } = useLanguage();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const profilePictureInputRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UniversityProfile>({
     faculty: "",
@@ -99,6 +100,7 @@ export default function UniversityStudentProfile() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploadingCV, setUploadingCV] = useState(false);
+  const [uploadingProfilePicture, setUploadingProfilePicture] = useState(false);
   const [newSkill, setNewSkill] = useState("");
   const [newAchievement, setNewAchievement] = useState("");
   const [activeTab, setActiveTab] = useState<
@@ -194,6 +196,56 @@ export default function UniversityStudentProfile() {
       alert(t("universityStudent.profileError"));
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleProfilePictureUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png", "image/jpg", "image/gif"].includes(file.type)) {
+      alert("Please upload a valid image file (JPEG, PNG, JPG, or GIF)");
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert("File size must be less than 2MB");
+      return;
+    }
+
+    try {
+      setUploadingProfilePicture(true);
+      const authData = JSON.parse(localStorage.getItem("authData") || "{}");
+
+      const formData = new FormData();
+      formData.append("profile_picture", file);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/university/upload-profile-picture`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${authData.token}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser({
+          ...user!,
+          profile_picture: data.profile_picture_url,
+        });
+        alert("Profile picture uploaded successfully!");
+      } else {
+        alert("Error uploading profile picture");
+      }
+    } catch (error) {
+      console.error("Error uploading profile picture:", error);
+      alert("Error uploading profile picture");
+    } finally {
+      setUploadingProfilePicture(false);
     }
   };
 
@@ -420,9 +472,44 @@ const handleRemoveCertification = (index: number) => {
         <section className={styles.profileHeader}>
           <div className={styles.headerBackground} />
           <div className={styles.headerContent}>
-            <div className={styles.profilePicture}>
-              <FaUser />
+            <div
+              className={styles.profilePicture}
+              onClick={() => profilePictureInputRef.current?.click()}
+              style={{ cursor: 'pointer' }}
+              title="Click to upload profile picture"
+            >
+              {uploadingProfilePicture ? (
+                <div>Uploading...</div>
+              ) : user?.profile_picture ? (
+                <img
+                  src={user.profile_picture}
+                  alt="Profile"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                />
+              ) : (
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '2rem',
+                  fontWeight: 'bold',
+                  color: 'white',
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  borderRadius: '50%'
+                }}>
+                  {user?.first_name?.[0]}{user?.last_name?.[0]}
+                </div>
+              )}
             </div>
+            <input
+              ref={profilePictureInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleProfilePictureUpload}
+              style={{ display: 'none' }}
+            />
             <div className={styles.profileInfo}>
               <h1>
                 {user?.first_name} {user?.last_name}

@@ -25,8 +25,23 @@ use App\Http\Controllers\Admin\AdminCourseController;
 use App\Http\Controllers\Admin\AdminCompanyController;
 use App\Http\Controllers\Admin\TeacherManagementController;
 use App\Http\Controllers\Api\AiCareerController;
+use Illuminate\Support\Facades\Storage;
 
-// Public routes
+// Public routes - Image serving route (works without symlink)
+Route::get('/storage/{path}', function ($path) {
+    $fullPath = storage_path('app/public/' . $path);
+
+    if (!file_exists($fullPath)) {
+        abort(404, 'Image not found');
+    }
+
+    $mimeType = mime_content_type($fullPath);
+    return response()->file($fullPath, [
+        'Content-Type' => $mimeType,
+        'Cache-Control' => 'public, max-age=31536000',
+    ]);
+})->where('path', '.*');
+
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/check-email', [AuthController::class, 'checkEmail']);
@@ -74,6 +89,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Admin routes
     Route::prefix('admin')->middleware(\App\Http\Middleware\UserTypeMiddleware::class . ':admin')->group(function () {
+        // Profile management
+        Route::post('/upload-profile-picture', [AuthController::class, 'uploadProfilePicture']);
+
         // Dashboard
         Route::get('/dashboard/stats', [AdminDashboardController::class, 'getStats']);
         Route::get('/analytics/{period?}', [AdminDashboardController::class, 'getAnalytics']);
@@ -115,6 +133,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/profile', [CompanyJobController::class, 'getProfile']);
         Route::put('/profile', [CompanyJobController::class, 'updateProfile']);
         Route::post('/upload-logo', [CompanyJobController::class, 'uploadLogo']);
+        Route::post('/upload-profile-picture', [CompanyJobController::class, 'uploadProfilePicture']);
 
         // Job postings management
         Route::get('/jobs', [CompanyJobController::class, 'getJobPostings']);
@@ -140,6 +159,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // Profile management
         Route::get('/profile', [UniversityStudentController::class, 'getProfile']);
         Route::put('/profile', [UniversityStudentController::class, 'updateProfile']);
+        Route::post('/upload-profile-picture', [UniversityStudentController::class, 'uploadProfilePicture']);
 
         // CV management
         Route::post('/upload-cv', [UniversityStudentController::class, 'uploadCV']);
@@ -171,6 +191,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/profile', [TeacherController::class, 'getProfile']);
         Route::put('/profile', [TeacherController::class, 'updateProfile']);
         Route::post('/upload-cv', [TeacherController::class, 'uploadCV']);
+        Route::post('/upload-profile-picture', [TeacherController::class, 'uploadProfilePicture']);
 
         Route::get('/courses', [TeacherController::class, 'getCourses']);
         Route::get('/stats', [TeacherController::class, 'getStats']);
@@ -191,6 +212,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // Profile management
         Route::get('/profile', [ParentStudentController::class, 'getProfile']);
         Route::put('/profile', [ParentStudentController::class, 'updateProfile']);
+        Route::post('/upload-profile-picture', [ParentStudentController::class, 'uploadProfilePicture']);
 
         Route::post('/search-student', [ParentStudentController::class, 'searchStudent']);
         Route::post('/follow-request', [ParentStudentController::class, 'sendFollowRequest']);
@@ -207,6 +229,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // Profile management
         Route::get('/profile', [StudentCourseController::class, 'getProfile']);
         Route::put('/profile', [StudentCourseController::class, 'updateProfile']);
+        Route::post('/upload-profile-picture', [StudentCourseController::class, 'uploadProfilePicture']);
 
         Route::get('/courses/{id}/view', [StudentCourseController::class, 'viewCourse']);
         Route::post('/courses/{id}/enroll', [StudentCourseController::class, 'enrollInCourse']);

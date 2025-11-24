@@ -332,6 +332,77 @@ class UniversityStudentController extends Controller
     }
 
     /**
+     * Upload profile picture
+     */
+    public function uploadProfilePicture(Request $request)
+    {
+        try {
+            $user = Auth::user();
+
+            if ($user->user_type !== 'university_student') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized. University students only.'
+                ], 403);
+            }
+
+            $validator = Validator::make($request->all(), [
+                'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $profile = UniversityStudentProfile::where('user_id', $user->id)->first();
+
+            if (!$profile) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Profile not found. Please create profile first.'
+                ], 404);
+            }
+
+            // Delete old profile picture if exists
+            if ($profile->profile_picture && Storage::disk('public')->exists($profile->profile_picture)) {
+                Storage::disk('public')->delete($profile->profile_picture);
+            }
+
+            // Upload new profile picture
+            $file = $request->file('profile_picture');
+            $filename = 'profile_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('profile_pictures/university_students', $filename, 'public');
+
+            // Update profile with picture path
+            $profile->update([
+                'profile_picture' => $path
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile picture uploaded successfully',
+                'profile_picture_url' => asset('storage/' . $path)
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Profile picture upload failed', [
+                'user_id' => Auth::id(),
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error uploading profile picture',
+                'error' => config('app.debug') ? $e->getMessage() : 'An error occurred'
+            ], 500);
+        }
+    }
+
+    /**
      * Upload CV
      */
     public function uploadCV(Request $request)
