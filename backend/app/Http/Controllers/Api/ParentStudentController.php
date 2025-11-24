@@ -300,7 +300,7 @@ class ParentStudentController extends Controller
 
             // Add profile picture URL if exists
             if ($profile->profile_picture) {
-                $profileData['profile_picture_url'] = asset('storage/' . $profile->profile_picture);
+                $profileData['profile_picture_url'] = url('api/storage/' . $profile->profile_picture);
             }
 
             return response()->json([
@@ -408,7 +408,7 @@ class ParentStudentController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Profile picture uploaded successfully',
-                'profile_picture_url' => asset('storage/' . $path)
+                'profile_picture_url' => url('api/storage/' . $path)
             ]);
         } catch (\Exception $e) {
             \Log::error('Error uploading parent profile picture: ' . $e->getMessage());

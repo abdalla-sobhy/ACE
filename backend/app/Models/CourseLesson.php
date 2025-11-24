@@ -62,7 +62,7 @@ class CourseLesson extends Model
                 return $this->video_url;
 
             case 'upload':
-                return $this->video_file_path ? asset('storage/' . $this->video_file_path) : null;
+                return $this->video_file_path ? url('api/storage/' . $this->video_file_path) : null;
 
             default:
                 return $this->video_url;

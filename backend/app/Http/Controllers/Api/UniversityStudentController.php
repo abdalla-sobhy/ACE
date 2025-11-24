@@ -118,7 +118,7 @@ class UniversityStudentController extends Controller
                     'lessons_count' => $course->lessons_count,
                     'students_count' => $course->students_count,
                     'rating' => (float) $course->rating,
-                    'thumbnail' => $course->thumbnail ? asset('storage/' . $course->thumbnail) : null,
+                    'thumbnail' => $course->thumbnail ? url('api/storage/' . $course->thumbnail) : null,
                     'category' => $course->category,
                     'course_type' => $course->course_type,
                     'is_enrolled' => $course->students->contains($user->id)
@@ -190,7 +190,7 @@ class UniversityStudentController extends Controller
 
             // Add profile picture URL if exists
             if ($profile->profile_picture) {
-                $profileData['profile_picture_url'] = asset('storage/' . $profile->profile_picture);
+                $profileData['profile_picture_url'] = url('api/storage/' . $profile->profile_picture);
             }
 
             // Add CV download URL if exists
@@ -390,7 +390,7 @@ class UniversityStudentController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Profile picture uploaded successfully',
-                'profile_picture_url' => asset('storage/' . $path)
+                'profile_picture_url' => url('api/storage/' . $path)
             ]);
 
         } catch (\Exception $e) {

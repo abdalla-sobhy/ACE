@@ -62,7 +62,7 @@ class CourseController extends Controller
                     'lessons_count' => $course->lessons_count,
                     'students_count' => $course->students_count,
                     'rating' => $course->rating,
-                    'thumbnail' => $course->thumbnail ? asset('storage/' . $course->thumbnail) : null,
+                    'thumbnail' => $course->thumbnail ? url('api/storage/' . $course->thumbnail) : null,
                     'category' => $course->category,
                     'grade' => $course->grade,
                     'course_type' => $course->course_type,

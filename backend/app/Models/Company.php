@@ -48,12 +48,12 @@ class Company extends Model
 
     public function getLogoUrlAttribute()
     {
-        return $this->logo_path ? asset('storage/' . $this->logo_path) : null;
+        return $this->logo_path ? url('api/storage/' . $this->logo_path) : null;
     }
 
     public function getProfilePictureUrlAttribute()
     {
-        return $this->profile_picture ? asset('storage/' . $this->profile_picture) : null;
+        return $this->profile_picture ? url('api/storage/' . $this->profile_picture) : null;
     }
 
     public function getTotalApplicationsAttribute()

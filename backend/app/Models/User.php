@@ -88,7 +88,7 @@ class User extends Authenticatable
 
     public function getProfilePictureUrlAttribute()
     {
-        return $this->profile_picture ? asset('storage/' . $this->profile_picture) : null;
+        return $this->profile_picture ? url('api/storage/' . $this->profile_picture) : null;
     }
 
     public function teachingCourses()
