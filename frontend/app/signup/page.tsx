@@ -1242,18 +1242,18 @@ function SignupContent() {
                         }
                       >
                         <option value="">{t("auth.selectUserType")}</option>
-                        <option value="primary-1">الصف الأول الابتدائي</option>
-                        <option value="primary-2">الصف الثاني الابتدائي</option>
-                        <option value="primary-3">الصف الثالث الابتدائي</option>
-                        <option value="primary-4">الصف الرابع الابتدائي</option>
-                        <option value="primary-5">الصف الخامس الابتدائي</option>
-                        <option value="primary-6">الصف السادس الابتدائي</option>
-                        <option value="prep-1">الصف الأول الإعدادي</option>
-                        <option value="prep-2">الصف الثاني الإعدادي</option>
-                        <option value="prep-3">الصف الثالث الإعدادي</option>
-                        <option value="secondary-1">الصف الأول الثانوي</option>
-                        <option value="secondary-2">الصف الثاني الثانوي</option>
-                        <option value="secondary-3">الصف الثالث الثانوي</option>
+                        <option value="primary-1">{t("grades.primary_1")}</option>
+                        <option value="primary-2">{t("grades.primary_2")}</option>
+                        <option value="primary-3">{t("grades.primary_3")}</option>
+                        <option value="primary-4">{t("grades.primary_4")}</option>
+                        <option value="primary-5">{t("grades.primary_5")}</option>
+                        <option value="primary-6">{t("grades.primary_6")}</option>
+                        <option value="prep-1">{t("grades.prep_1")}</option>
+                        <option value="prep-2">{t("grades.prep_2")}</option>
+                        <option value="prep-3">{t("grades.prep_3")}</option>
+                        <option value="secondary-1">{t("grades.secondary_1")}</option>
+                        <option value="secondary-2">{t("grades.secondary_2")}</option>
+                        <option value="secondary-3">{t("grades.secondary_3")}</option>
                       </select>
                       {studentForm.formState.errors.grade && (
                         <span className={styles.errorMessage}>
