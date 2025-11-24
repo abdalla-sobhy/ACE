@@ -1001,7 +1001,7 @@ class CompanyJobController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Profile picture uploaded successfully',
-                'profile_picture_url' => asset('storage/' . $path)
+                'profile_picture_url' => url('api/storage/' . $path)
             ]);
         } catch (\Exception $e) {
             Log::error('Error uploading company profile picture: ' . $e->getMessage());
