@@ -452,4 +452,50 @@ public function verifyOtp(Request $request)
             'message' => 'البريد الإلكتروني متاح'
         ], 200);
     }
+
+    /**
+     * Upload profile picture (for admin users)
+     */
+    public function uploadProfilePicture(Request $request)
+    {
+        try {
+            $user = auth()->user();
+
+            $validator = Validator::make($request->all(), [
+                'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            // Delete old profile picture if exists
+            if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+
+            // Store new profile picture
+            $file = $request->file('profile_picture');
+            $filename = 'profile_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('profile_pictures/admins', $filename, 'public');
+
+            $user->update(['profile_picture' => $path]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile picture uploaded successfully',
+                'profile_picture_url' => asset('storage/' . $path)
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error uploading profile picture: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload profile picture'
+            ], 500);
+        }
+    }
 }

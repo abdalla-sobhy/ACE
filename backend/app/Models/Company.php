@@ -17,6 +17,7 @@ class Company extends Model
         'website',
         'description',
         'logo_path',
+        'profile_picture',
         'location',
         'founded_year',
         'benefits',
@@ -48,6 +49,11 @@ class Company extends Model
     public function getLogoUrlAttribute()
     {
         return $this->logo_path ? asset('storage/' . $this->logo_path) : null;
+    }
+
+    public function getProfilePictureUrlAttribute()
+    {
+        return $this->profile_picture ? asset('storage/' . $this->profile_picture) : null;
     }
 
     public function getTotalApplicationsAttribute()

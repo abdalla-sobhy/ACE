@@ -15,6 +15,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'profile_picture',
         'phone',
         'password',
         'user_type',
@@ -83,6 +84,11 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function getProfilePictureUrlAttribute()
+    {
+        return $this->profile_picture ? asset('storage/' . $this->profile_picture) : null;
     }
 
     public function teachingCourses()

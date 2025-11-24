@@ -958,4 +958,57 @@ class CompanyJobController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Upload company profile picture
+     */
+    public function uploadProfilePicture(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $company = Auth::user()->company;
+
+            if (!$company) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Company profile not found'
+                ], 404);
+            }
+
+            // Delete old profile picture if exists
+            if ($company->profile_picture && Storage::disk('public')->exists($company->profile_picture)) {
+                Storage::disk('public')->delete($company->profile_picture);
+            }
+
+            // Store new profile picture
+            $file = $request->file('profile_picture');
+            $filename = 'profile_' . Auth::id() . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('profile_pictures/companies', $filename, 'public');
+
+            $company->update(['profile_picture' => $path]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile picture uploaded successfully',
+                'profile_picture_url' => asset('storage/' . $path)
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error uploading company profile picture: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload profile picture'
+            ], 500);
+        }
+    }
 }
