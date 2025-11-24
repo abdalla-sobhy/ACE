@@ -30,6 +30,7 @@ import {
 } from "react-icons/fa";
 
 interface UniversityProfile {
+  profile_picture_url?: string;
   faculty: string;
   goal: string;
   university?: string;
@@ -238,6 +239,10 @@ export default function UniversityStudentProfile() {
           ...user!,
           profile_picture: data.profile_picture_url,
         });
+        setProfile({
+        ...profile,
+        profile_picture_url: data.profile_picture_url,
+      });
       } else {
         alert("Error uploading profile picture");
       }
@@ -480,11 +485,11 @@ const handleRemoveCertification = (index: number) => {
             >
               {uploadingProfilePicture ? (
                 <div>Uploading...</div>
-              ) : user?.profile_picture ? (
+              ) : profile?.profile_picture_url ? (
                 <Image
                   height={150}
                   width={150}
-                  src={user.profile_picture}
+                  src={profile.profile_picture_url}
                   alt="Profile"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                 />

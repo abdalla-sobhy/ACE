@@ -21,6 +21,8 @@ import {
 } from "react-icons/fa";
 
 interface TeacherProfile {
+  profile_picture: string;
+  profile_picture_url?: string;
   specialization: string;
   years_of_experience?: number;
   cv_path?: string;
@@ -45,6 +47,7 @@ export default function TeacherProfile() {
   const [profile, setProfile] = useState<TeacherProfile>({
     specialization: "",
     years_of_experience: 0,
+    profile_picture:""
   });
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -182,6 +185,10 @@ export default function TeacherProfile() {
           ...user!,
           profile_picture: data.profile_picture_url,
         });
+        setProfile({
+    ...profile,
+    profile_picture_url: data.profile_picture_url,
+  });
       } else {
         alert("Error uploading profile picture");
       }
@@ -277,11 +284,11 @@ export default function TeacherProfile() {
             >
               {uploadingProfilePicture ? (
                 <div>Uploading...</div>
-              ) : user?.profile_picture ? (
+              ) : profile?.profile_picture_url   ? (
                 <Image
                   height={150}
                   width={150}
-                  src={user.profile_picture}
+                  src={profile?.profile_picture_url  }
                   alt="Profile"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                 />
