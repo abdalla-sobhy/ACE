@@ -43,12 +43,14 @@ interface User {
   last_name: string;
   email: string;
   phone: string;
+  profile_picture?: string;
 }
 
 export default function CompanyProfile() {
   const { t } = useLanguage();
   const router = useRouter();
   const logoInputRef = useRef<HTMLInputElement>(null);
+  const profilePictureInputRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<CompanyProfile>({
     company_name: "",
@@ -59,6 +61,7 @@ export default function CompanyProfile() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [uploadingProfilePicture, setUploadingProfilePicture] = useState(false);
   const [newBenefit, setNewBenefit] = useState("");
   const [activeTab, setActiveTab] = useState<"overview" | "details">(
     "overview"
@@ -204,6 +207,56 @@ export default function CompanyProfile() {
       alert(t("profilePage.logoUploadError"));
     } finally {
       setUploadingLogo(false);
+    }
+  };
+
+  const handleProfilePictureUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png", "image/jpg", "image/gif"].includes(file.type)) {
+      alert("Please upload a valid image file (JPEG, PNG, JPG, or GIF)");
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert("File size must be less than 2MB");
+      return;
+    }
+
+    try {
+      setUploadingProfilePicture(true);
+      const authData = JSON.parse(localStorage.getItem("authData") || "{}");
+
+      const formData = new FormData();
+      formData.append("profile_picture", file);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/upload-profile-picture`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${authData.token}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser({
+          ...user!,
+          profile_picture: data.profile_picture_url,
+        });
+        alert("Profile picture uploaded successfully!");
+      } else {
+        alert("Error uploading profile picture");
+      }
+    } catch (error) {
+      console.error("Error uploading profile picture:", error);
+      alert("Error uploading profile picture");
+    } finally {
+      setUploadingProfilePicture(false);
     }
   };
 
