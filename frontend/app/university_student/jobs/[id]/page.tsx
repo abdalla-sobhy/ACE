@@ -145,29 +145,29 @@ export default function JobDetailsPage() {
 
   const getJobTypeLabel = (type: string) => {
     const labels: { [key: string]: string } = {
-      full_time: "دوام كامل",
-      part_time: "دوام جزئي",
-      internship: "تدريب",
-      contract: "عقد",
+      full_time: `${t("universityStudent.fullTime")}`,
+      part_time: `${t("universityStudent.partTime")}`,
+      internship: `${t("universityStudent.internship")}`,
+      contract: `${t("universityStudent.contract")}`,
     };
     return labels[type] || type;
   };
 
   const getWorkLocationLabel = (location: string) => {
     const labels: { [key: string]: string } = {
-      onsite: "حضور مكتبي",
-      remote: "عن بُعد",
-      hybrid: "هجين",
+      onsite: `${t("universityStudent.onsite")}`,
+      remote: `${t("universityStudent.remote")}`,
+      hybrid: `${t("universityStudent.hybrid")}`,
     };
     return labels[location] || location;
   };
 
   const getExperienceLevelLabel = (level: string) => {
     const labels: { [key: string]: string } = {
-      entry: "مبتدئ",
-      junior: "خبرة قليلة",
-      mid: "متوسط",
-      senior: "خبير",
+      entry: `${t("universityStudent.entry")}`,
+      junior: `${t("universityStudent.junior")}`,
+      mid: `${t("universityStudent.mid")}`,
+      senior: `${t("universityStudent.senior")}`,
     };
     return labels[level] || level;
   };
@@ -277,16 +277,16 @@ export default function JobDetailsPage() {
               </div>
 
               <div className={styles.stats}>
-                <span>{job.views_count} مشاهدة</span>
-                <span>{job.applications_count} متقدم</span>
-                <span>{job.positions_available} وظيفة متاحة</span>
+                <span>{job.views_count} {t("universityStudent.views")}</span>
+                <span>{job.applications_count} {t("universityStudent.applicants")}</span>
+                <span>{job.positions_available} {t("universityStudent.positionsAvailable")}</span>
               </div>
 
               {job.application_deadline && (
                 <div className={styles.deadline}>
                   <FaCalendarAlt />
-                  آخر موعد للتقديم:{" "}
-                  {new Date(job.application_deadline).toLocaleDateString("ar-EG")}
+                  {t("universityStudent.applicationDeadline")}{" "}
+                  {new Date(job.application_deadline).toLocaleDateString("en-EG")}
                 </div>
               )}
 
@@ -434,7 +434,7 @@ export default function JobDetailsPage() {
                 minLength={50}
               />
               <p className={styles.charCount}>
-                {coverLetter.length} حرف (الحد الأدنى 50 حرف)
+                {coverLetter.length} {t("universityStudent.charCount")}
               </p>
               <div className={styles.modalActions}>
                 <button
