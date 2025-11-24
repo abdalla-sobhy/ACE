@@ -1095,7 +1095,7 @@ function SignupContent() {
 
               <div className={styles.adminLink}>
                 <p>
-                  {t("common.settings")}? <Link href="/admin/login">{t("nav.login")}</Link>
+                  {t("companyRegister.haveAccount")} <Link href="/admin/login">{t("nav.login")}</Link>
                 </p>
               </div>
             </div>
