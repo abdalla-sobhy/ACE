@@ -298,6 +298,11 @@ class ParentStudentController extends Controller
                 $profileData['didit_data'] = json_decode($profileData['didit_data'], true) ?? [];
             }
 
+            // Add profile picture URL if exists
+            if ($profile->profile_picture) {
+                $profileData['profile_picture_url'] = asset('storage/' . $profile->profile_picture);
+            }
+
             return response()->json([
                 'success' => true,
                 'user' => $user,

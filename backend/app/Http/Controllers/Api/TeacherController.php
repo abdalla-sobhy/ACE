@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseEnrollment;
+use App\Models\TeacherProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -280,6 +282,11 @@ class TeacherController extends Controller
             $profileData = $profile->toArray();
             if (is_string($profileData['didit_data'] ?? null)) {
                 $profileData['didit_data'] = json_decode($profileData['didit_data'], true) ?? [];
+            }
+
+            // Add profile picture URL if exists
+            if ($profile->profile_picture) {
+                $profileData['profile_picture_url'] = asset('storage/' . $profile->profile_picture);
             }
 
             return response()->json([
