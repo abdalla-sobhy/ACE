@@ -178,7 +178,12 @@
     "tooManyRequests": "Too many attempts. Please try again after 15 minutes.",
     "signupFailed": "Account creation failed. Try again",
     "emailExists": "Email is already registered",
-    "sessionExpired": "Session expired. Please login again"
+    "sessionExpired": "Session expired. Please login again",
+    "sendResetLink": "Send Reset Link",
+    "forgotPasswordDescription": "Enter your email and we will send you a password reset link",
+    "rememberPassword": "Remember your password?",
+    "emailSendFailed": "Failed to send email",
+    "emailNotFound": "Email not found"
   },
   "student": {
     "dashboard": "Student Dashboard",

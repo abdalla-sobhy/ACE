@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
             setError(t("auth.invalidEmail"));
             break;
           case 500:
-            setError(t("auth.emailSendFailed") || "فشل في إرسال البريد الإلكتروني");
+            setError(t("auth.emailSendFailed"));
             break;
           default:
             setError(data.message || t("errors.genericError"));
@@ -236,17 +236,15 @@ export default function ForgotPasswordPage() {
                     transform="rotate(-90 12 12)"
                   />
                 </svg>
-              ) : (
-                t("auth.sendResetLink") || "إرسال رابط إعادة التعيين"
-              )}
+              ) : (t("auth.sendResetLink"))}
             </button>
           </form>
 
           <div className={styles.signupPrompt}>
             <p>
-              {t("auth.rememberPassword") || "تذكرت كلمة المرور؟"}
+              {t("auth.rememberPassword")}
               <Link href="/login" className={styles.signupLink}>
-                {t("auth.loginButton") || "تسجيل الدخول"}
+                {t("auth.loginButton")}
               </Link>
             </p>
           </div>
