@@ -32,6 +32,13 @@ function ResetPasswordContent() {
   const [email, setEmail] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!searchParams) {
+      setError(
+        t("auth.invalidResetLink") || "رابط إعادة التعيين غير صحيح أو منتهي الصلاحية"
+      );
+      return;
+    }
+
     const tokenParam = searchParams.get("token");
     const emailParam = searchParams.get("email");
 
