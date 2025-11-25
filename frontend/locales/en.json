@@ -298,6 +298,7 @@
   },
   "teacher": {
     "dashboard": "Instructor Dashboard",
+    "welcome": "Welcome",
     "welcomeBack": "Welcome Back",
     "myCourses": "My Courses",
     "createCourse": "Create New Course",
