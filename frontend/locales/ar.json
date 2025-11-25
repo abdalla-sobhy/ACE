@@ -68,7 +68,8 @@
     "loadingData": "جاري تحميل البيانات...",
     "updating": "جاري التحديث...",
     "publicationDate": "تاريخ النشر",
-    "lastUpdated": "آخر تحديث"
+    "lastUpdated": "آخر تحديث",
+    "currency": "جنيه"
   },
   "nav": {
     "features": "المميزات",
@@ -324,7 +325,7 @@
     "createFirstCourse": "إنشاء كورس",
     "lesson": "درس",
     "lessons": "دروس",
-    "totalProfit": "إجمالي الربح",
+    "totalProfit": "إجمالي الأرباح",
     "joinLiveStream": "الدخول للبث المباشر",
     "seat": "مقعد",
     "seats": "مقاعد",
@@ -384,6 +385,7 @@
     "raiseHand": "رفع اليد",
     "whiteboard": "السبورة",
     "statistics": "الإحصائيات",
+    "schedule":"جدول المحاضرات",
     "earnings": "الأرباح",
     "thisMonth": "هذا الشهر",
     "lastMonth": "الشهر الماضي",
