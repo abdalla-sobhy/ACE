@@ -185,22 +185,22 @@ export default function AboutPage() {
           <h2>{t("about.values")}</h2>
           <div className={styles.valuesGrid}>
             <div className={styles.value}>
-              <div className={styles.valueIcon}>💡</div>
+              {/* <div className={styles.valueIcon}>💡</div> */}
               <h3>{t("about.valueInnovation")}</h3>
               <p>{t("about.valueInnovationDescription")}</p>
             </div>
             <div className={styles.value}>
-              <div className={styles.valueIcon}>🤝</div>
+              {/* <div className={styles.valueIcon}>🤝</div> */}
               <h3>{t("about.valueEquality")}</h3>
               <p>{t("about.valueEqualityDescription")}</p>
             </div>
             <div className={styles.value}>
-              <div className={styles.valueIcon}>🌟</div>
+              {/* <div className={styles.valueIcon}>🌟</div> */}
               <h3>{t("about.valueQuality")}</h3>
               <p>{t("about.valueQualityDescription")}</p>
             </div>
             <div className={styles.value}>
-              <div className={styles.valueIcon}>❤️</div>
+              {/* <div className={styles.valueIcon}>❤️</div> */}
               <h3>{t("about.valuePassion")}</h3>
               <p>{t("about.valuePassionDescription")}</p>
             </div>

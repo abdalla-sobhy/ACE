@@ -418,16 +418,17 @@
 }
 
 .value h3 {
-  font-size: 18px;
+  font-size: 30px;
   margin: 0 0 12px;
   color: var(--main-text-white-lighter);
+  font-weight: bold;
 }
 
 .value p {
   color: var(--p-text);
   line-height: 1.5;
   margin: 0;
-  font-size: 14px;
+  font-size: 17px;
 }
 
 /* Contact CTA */

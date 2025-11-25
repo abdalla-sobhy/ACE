@@ -74,35 +74,35 @@ export default function TeacherAnalytics() {
       value: "24",
       change: "+3",
       icon: <FaBook />,
-      color: "green"
+      color: "blue"
     },
     {
       title: t("teacher.monthlyRevenue"),
-      value: "45,680 " + (language === "ar" ? "جنيه" : "EGP"),
+      value: "45,680 EGP",
       change: "+18.2%",
       icon: <FaMoneyBillWave />,
-      color: "purple"
+      color: "blue"
     },
     {
       title: t("teacher.averageRating"),
       value: "4.8",
       change: "+0.3",
       icon: <FaStar />,
-      color: "yellow"
+      color: "blue"
     },
     {
       title: t("teacher.completionRate"),
       value: "87.5%",
       change: "+5.2%",
       icon: <FaChartLine />,
-      color: "cyan"
+      color: "blue"
     },
     {
       title: t("teacher.totalTeachingHours"),
       value: "342 " + t("teacher.hours"),
       change: "+28",
       icon: <FaClock />,
-      color: "orange"
+      color: "blue"
     }
   ];
 
