@@ -18,9 +18,152 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    public function forgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'البريد الإلكتروني غير صحيح',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'البريد الإلكتروني غير موجود'
+            ], 404);
+        }
+
+        // Generate password reset token
+        $token = Str::random(64);
+
+        // Store token in database
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $request->email],
+            [
+                'token' => Hash::make($token),
+                'created_at' => now()
+            ]
+        );
+
+        // Send password reset email
+        try {
+            Mail::send('emails.password-reset', [
+                'token' => $token,
+                'email' => $request->email,
+                'name' => $user->full_name
+            ], function ($message) use ($request) {
+                $message->to($request->email)
+                        ->subject('إعادة تعيين كلمة المرور - Edvance');
+            });
+
+            Log::info('Password reset email sent', ['email' => $request->email]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Failed to send password reset email: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'فشل في إرسال البريد الإلكتروني. حاول مرة أخرى.'
+            ], 500);
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'token' => 'required|string',
+            'password' => [
+                'required',
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'confirmed'
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'البيانات غير صحيحة',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Check if token exists and is not expired (valid for 1 hour)
+        $resetRecord = DB::table('password_reset_tokens')
+            ->where('email', $request->email)
+            ->first();
+
+        if (!$resetRecord) {
+            return response()->json([
+                'success' => false,
+                'message' => 'رابط إعادة التعيين غير صحيح أو منتهي الصلاحية'
+            ], 400);
+        }
+
+        // Check if token is expired (1 hour)
+        if (now()->diffInMinutes($resetRecord->created_at) > 60) {
+            DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+            return response()->json([
+                'success' => false,
+                'message' => 'رابط إعادة التعيين منتهي الصلاحية. يرجى طلب رابط جديد.'
+            ], 400);
+        }
+
+        // Verify token
+        if (!Hash::check($request->token, $resetRecord->token)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'رابط إعادة التعيين غير صحيح'
+            ], 400);
+        }
+
+        // Update user password
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'المستخدم غير موجود'
+            ], 404);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        // Delete all password reset tokens for this email
+        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+
+        // Delete all existing tokens for this user (force re-login)
+        $user->tokens()->delete();
+
+        Log::info('Password reset successful', ['email' => $request->email]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم إعادة تعيين كلمة المرور بنجاح. يمكنك تسجيل الدخول الآن.'
+        ]);
+    }
+
     public function register(Request $request)
     {
         DB::beginTransaction();
