@@ -290,7 +290,7 @@ export default function TeacherDashboard() {
         <section className={styles.welcomeSection}>
           <div className={styles.welcomeContent}>
             <h1>{t("teacher.welcome")} {user?.name?.split(' ')[0]}</h1>
-            <p>إليك نظرة عامة على أداء كورساتك</p>
+            <p>{t("teacher.performanceOverview")}</p>
           </div>
           
           {/* Stats Cards */}
@@ -301,7 +301,7 @@ export default function TeacherDashboard() {
               </div>
               <div className={styles.statInfo}>
                 <h3>{stats?.total_courses || 0}</h3>
-                <p>كورس</p>
+                <p>{t("teacher.course")}</p>
               </div>
               <div className={styles.statTrend}>
                 <FaChartLine />
@@ -315,7 +315,7 @@ export default function TeacherDashboard() {
               </div>
               <div className={styles.statInfo}>
                 <h3>{stats?.total_students || 0}</h3>
-                <p>طالب</p>
+                <p>{t("teacher.student")}</p>
               </div>
               <div className={styles.statTrend}>
                 <FaChartLine />
@@ -328,8 +328,8 @@ export default function TeacherDashboard() {
                 <FaMoneyBillWave style={{ color: '#f85149' }} />
               </div>
               <div className={styles.statInfo}>
-                <h3>{stats?.total_revenue || 0} جنيه</h3>
-                <p>إجمالي الأرباح</p>
+                <h3>{stats?.total_revenue || 0}{t("teacher.egp")}</h3>
+                <p> {t("teacher.totalProfit")}</p>
               </div>
               <div className={styles.statTrend}>
                 <FaChartLine />
@@ -343,7 +343,7 @@ export default function TeacherDashboard() {
               </div>
               <div className={styles.statInfo}>
                 <h3>{stats?.average_rating || 0}</h3>
-                <p>متوسط التقييم</p>
+                <p>{t("teacher.averageRating")} </p>
               </div>
             </div>
           </div>
@@ -357,11 +357,11 @@ export default function TeacherDashboard() {
           </button>
           <button className={styles.scheduleButton}>
             <FaCalendarAlt />
-            <span>جدول المحاضرات</span>
+            <span>{t("teacher.lectureSchedule")}</span>
           </button>
           <button className={styles.studentsButton}>
             <FaUsers />
-            <span>إدارة الطلاب</span>
+            <span>{t("teacher.manageStudents")}</span>
           </button>
         </section>
 
@@ -374,19 +374,19 @@ export default function TeacherDashboard() {
                 className={`${styles.tabButton} ${activeTab === 'all' ? styles.active : ''}`}
                 onClick={() => setActiveTab('all')}
               >
-                الكل ({courses.length})
+                {t("common.all")} ({courses.length})
               </button>
               <button 
                 className={`${styles.tabButton} ${activeTab === 'live' ? styles.active : ''}`}
                 onClick={() => setActiveTab('live')}
               >
-                <FaVideo /> بث مباشر ({courses.filter(c => c.course_type === 'live').length})
+                <FaVideo /> {t("common.live")}  ({courses.filter(c => c.course_type === 'live').length})
               </button>
               <button 
                 className={`${styles.tabButton} ${activeTab === 'recorded' ? styles.active : ''}`}
                 onClick={() => setActiveTab('recorded')}
               >
-                <FaBook /> مسجلة ({courses.filter(c => c.course_type === 'recorded').length})
+                <FaBook /> {t("common.recorded")} ({courses.filter(c => c.course_type === 'recorded').length})
               </button>
             </div>
           </div>
