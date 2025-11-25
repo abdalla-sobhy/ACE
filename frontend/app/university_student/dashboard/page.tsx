@@ -565,7 +565,7 @@ export default function UniversityStudentDashboard() {
                   >
                     <div className={styles.courseThumbnail}>
                       {course.thumbnail ? (
-                        <Image
+                        <img
                           src={course.thumbnail}
                           alt={course.title}
                           width={320}
