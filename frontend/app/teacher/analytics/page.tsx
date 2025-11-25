@@ -31,17 +31,9 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  type: string;
-}
-
 export default function TeacherAnalytics() {
   const { t, language } = useLanguage();
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -61,8 +53,7 @@ export default function TeacherAnalytics() {
     }
 
     try {
-      const parsedUser = JSON.parse(userData);
-      setUser(parsedUser);
+      JSON.parse(userData);
     } catch (error) {
       console.error("Error parsing user data:", error);
       router.push("/login");
@@ -149,9 +140,6 @@ export default function TeacherAnalytics() {
     { name: t("teacher.newStudents"), value: 545, color: "var(--accent-blue)" },
     { name: t("teacher.returningStudents"), value: 702, color: "var(--success)" }
   ];
-
-  // Chart colors
-  const COLORS = ["var(--accent-blue)", "var(--success)", "var(--warning)", "var(--error)"];
 
   if (loading) {
     return (
@@ -321,7 +309,7 @@ export default function TeacherAnalytics() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  label={({ name, percent }) => `${name}: ${((percent || 0) * 100).toFixed(0)}%`}
                   outerRadius={100}
                   fill="#8884d8"
                   dataKey="value"

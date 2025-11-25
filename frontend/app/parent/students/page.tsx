@@ -9,7 +9,6 @@ import {
   FaSearch,
   FaUsers,
   FaBook,
-  FaChartLine,
   FaClock,
   FaCheckCircle,
   FaTimesCircle,
@@ -17,14 +16,6 @@ import {
   FaTrophy,
   FaCalendarAlt
 } from "react-icons/fa";
-
-interface User {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  type: string;
-}
 
 interface FollowedStudent {
   id: number;
@@ -43,7 +34,6 @@ interface FollowedStudent {
 export default function ParentStudents() {
   const { t, language } = useLanguage();
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<'followed' | 'search'>('followed');
@@ -79,8 +69,6 @@ export default function ParentStudents() {
         router.push("/");
         return;
       }
-
-      setUser(parsedUser);
     } catch (error) {
       console.error("Error parsing user data:", error);
       router.push("/login");
