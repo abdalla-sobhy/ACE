@@ -19,6 +19,7 @@ import {
   FaBroadcastTower
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { useLanguage } from "@/hooks/useLanguage";
 interface Course {
@@ -404,139 +405,150 @@ export default function TeacherDashboard() {
             <div className={styles.coursesGrid}>
               {getFilteredCourses().map((course) => (
                 <div key={course.id} className={styles.courseCard}>
-                  <div 
-                    className={styles.courseHeader}
-                    style={{
-                      backgroundImage: `url(${course.thumbnail || '/default-course-thumbnail.png'})`,
-                      backgroundColor: course.thumbnail ? 'transparent' : '#161b22'
-                    }}
-                  >
-                    <div className={styles.courseHeaderOverlay}>
-                      <div className={styles.courseInfo}>
-                        <h3>{course.title}</h3>
-                        <div className={styles.courseMeta}>
-                          <span className={styles.category}>{getCategoryLabel(course.category)}</span>
-                          {course.grade && <span className={styles.grade}>{getGradeLabel(course.grade)}</span>}
-                        </div>
+                  {/* Thumbnail */}
+                  <div className={styles.courseThumbnail}>
+                    {course.thumbnail ? (
+                      <Image
+                        src={course.thumbnail}
+                        alt={course.title}
+                        width={380}
+                        height={200}
+                        style={{ objectFit: "cover" }}
+                      />
+                    ) : (
+                      <div className={styles.placeholderImage}>
+                        <FaBook />
                       </div>
-                      <div className={styles.courseActions}>
-                        <button 
-                          className={styles.actionButton} 
-                          onClick={() => handleViewCourse(course.id)}
-                          title={t("common.view")}
-                        >
-                          <FaEye />
-                        </button>
-                        <button 
-                          className={styles.actionButton} 
-                          onClick={() => handleEditCourse(course.id)}
-                          title={t("common.edit")}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button 
-                          className={styles.actionButton} 
-                          onClick={() => handleDeleteCourse(course.id)}
-                          title={t("common.delete")}
-                        >
-                          <FaTrash />
-                        </button>
+                    )}
+                    {course.course_type === 'live' && (
+                      <div className={styles.liveBadge}>
+                        <span>🔴</span> مباشر
                       </div>
-                      {course.course_type === 'live' && (
-                        <div className={styles.liveBadge}>
-                          <span>🔴</span> مباشر
-                        </div>
-                      )}
-                    </div>
+                    )}
+                    {!course.is_active && (
+                      <div className={styles.inactiveBadge}>{t("common.inactive")}</div>
+                    )}
                   </div>
 
-                  <div className={styles.courseStats}>
-                    <div className={styles.courseStat}>
-                      <FaUsers />
-                      <span>{course.students_count} طالب</span>
-                    </div>
-                    <div className={styles.courseStat}>
-                      <FaBook />
-                      <span>{course.lessons_count} درس</span>
-                    </div>
-                    <div className={styles.courseStat}>
-                      <FaClock />
-                      <span>{course.duration}</span>
-                    </div>
-                    <div className={styles.courseStat}>
-                      <FaStar />
-                      <span>{course.rating}</span>
-                    </div>
-                  </div>
-
-                  {course.course_type === 'live' && course.schedule && (
-                    <div className={styles.schedulePreview}>
-                      <div className={styles.scheduleHeader}>
-                        <FaCalendarAlt />
-                        <span>الجدول الأسبوعي</span>
+                  {/* Content */}
+                  <div className={styles.courseContent}>
+                    <div className={styles.courseHeader}>
+                      <h3>{course.title}</h3>
+                      <div className={styles.courseMeta}>
+                        <span className={styles.category}>{getCategoryLabel(course.category)}</span>
+                        {course.grade && <span className={styles.grade}>{getGradeLabel(course.grade)}</span>}
                       </div>
-                      <div className={styles.sessionsList}>
-                        {course.schedule.slice(0, 2).map((session, index) => (
-                          <div key={index} className={styles.sessionItem}>
-                            <span>{session.day_arabic}</span>
-                            <span>{session.start_time}</span>
-                          </div>
-                        ))}
-                        {course.schedule.length > 2 && (
-                          <span className={styles.moreSchedule}>
-                            +{course.schedule.length - 2} جلسات أخرى
-                          </span>
+                    </div>
+
+                    <div className={styles.courseStats}>
+                      <div className={styles.courseStat}>
+                        <FaUsers />
+                        <span>{course.students_count} طالب</span>
+                      </div>
+                      <div className={styles.courseStat}>
+                        <FaBook />
+                        <span>{course.lessons_count} درس</span>
+                      </div>
+                      <div className={styles.courseStat}>
+                        <FaClock />
+                        <span>{course.duration}</span>
+                      </div>
+                      <div className={styles.courseStat}>
+                        <FaStar />
+                        <span>{course.rating}</span>
+                      </div>
+                    </div>
+
+                    {course.course_type === 'live' && course.schedule && (
+                      <div className={styles.schedulePreview}>
+                        <div className={styles.scheduleHeader}>
+                          <FaCalendarAlt />
+                          <span>الجدول الأسبوعي</span>
+                        </div>
+                        <div className={styles.sessionsList}>
+                          {course.schedule.slice(0, 2).map((session, index) => (
+                            <div key={index} className={styles.sessionItem}>
+                              <span>{session.day_arabic}</span>
+                              <span>{session.start_time}</span>
+                            </div>
+                          ))}
+                          {course.schedule.length > 2 && (
+                            <span className={styles.moreSchedule}>
+                              +{course.schedule.length - 2} جلسات أخرى
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className={styles.courseFooter}>
+                      <div className={styles.priceInfo}>
+                        <span className={styles.price}>{course.price} جنيه</span>
+                        {course.original_price && (
+                          <span className={styles.originalPrice}>{course.original_price} جنيه</span>
                         )}
                       </div>
-                    </div>
-                  )}
-
-                  <div className={styles.courseFooter}>
-                    <div className={styles.priceInfo}>
-                      <span className={styles.price}>{course.price} جنيه</span>
-                      {course.original_price && (
-                        <span className={styles.originalPrice}>{course.original_price} جنيه</span>
-                      )}
-                    </div>
-                    <div className={styles.revenueInfo}>
-                      <span className={styles.revenue}>
-                        {course.total_revenue || course.price * course.students_count} جنيه
-                      </span>
-                      <span className={styles.revenueLabel}>إجمالي الربح</span>
-                    </div>
-                  </div>
-
-                  {/* Live Session Join Button for Teachers */}
-                  {course.course_type === 'live' && (
-                    <>
-                      <button 
-                        className={styles.joinLiveButton}
-                        onClick={() => handleJoinLiveSession(course)}
-                      >
-                        <FaBroadcastTower />
-                        <span>الدخول للبث المباشر</span>
-                      </button>
-                      
-                      <div className={styles.seatsBar}>
-                        <div className={styles.seatsInfo}>
-                          <span>{course.enrolled_seats || 0} / {course.max_seats || 0} مقعد</span>
-                        </div>
-                        <div className={styles.seatsProgress}>
-                          <div 
-                            className={styles.seatsProgressFill} 
-                            style={{ 
-                              width: `${((course.enrolled_seats || 0) / (course.max_seats || 1)) * 100}%`,
-                              backgroundColor: course.is_full ? '#f85149' : '#3fb950'
-                            }}
-                          />
-                        </div>
+                      <div className={styles.revenueInfo}>
+                        <span className={styles.revenue}>
+                          {course.total_revenue || course.price * course.students_count} جنيه
+                        </span>
+                        <span className={styles.revenueLabel}>إجمالي الربح</span>
                       </div>
-                    </>
-                  )}
+                    </div>
 
-                  {!course.is_active && (
-                    <div className={styles.inactiveBadge}>{t("common.inactive")}</div>
-                  )}
+                    {/* Action Buttons */}
+                    <div className={styles.courseActions}>
+                      <button 
+                        className={styles.actionButton} 
+                        onClick={() => handleViewCourse(course.id)}
+                        title={t("common.view")}
+                      >
+                        <FaEye /> {t("common.view")}
+                      </button>
+                      <button 
+                        className={styles.actionButton} 
+                        onClick={() => handleEditCourse(course.id)}
+                        title={t("common.edit")}
+                      >
+                        <FaEdit /> {t("common.edit")}
+                      </button>
+                      <button 
+                        className={`${styles.actionButton} ${styles.deleteButton}`}
+                        onClick={() => handleDeleteCourse(course.id)}
+                        title={t("common.delete")}
+                      >
+                        <FaTrash /> {t("common.delete")}
+                      </button>
+                    </div>
+
+                    {/* Live Session Join Button for Teachers */}
+                    {course.course_type === 'live' && (
+                      <>
+                        <button 
+                          className={styles.joinLiveButton}
+                          onClick={() => handleJoinLiveSession(course)}
+                        >
+                          <FaBroadcastTower />
+                          <span>الدخول للبث المباشر</span>
+                        </button>
+                        
+                        <div className={styles.seatsBar}>
+                          <div className={styles.seatsInfo}>
+                            <span>{course.enrolled_seats || 0} / {course.max_seats || 0} مقعد</span>
+                          </div>
+                          <div className={styles.seatsProgress}>
+                            <div 
+                              className={styles.seatsProgressFill} 
+                              style={{ 
+                                width: `${((course.enrolled_seats || 0) / (course.max_seats || 1)) * 100}%`,
+                                backgroundColor: course.is_full ? '#f85149' : '#3fb950'
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
