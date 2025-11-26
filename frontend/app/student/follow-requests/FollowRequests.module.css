@@ -1,0 +1,297 @@
+.container {
+  min-height: 100vh;
+  background: var(--main-color);
+  color: var(--main-text-white);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.container[dir="rtl"] {
+  font-family: var(--font-cairo), 'Noto Sans Arabic', sans-serif;
+}
+
+.main {
+  padding-top: 70px;
+  min-height: calc(100vh - 70px);
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 70px);
+  gap: 24px;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #30363d;
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.requestsSection {
+  padding: 48px 24px;
+}
+
+.requestsContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.container[dir="ltr"] .header h1 {
+  background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header p {
+  font-size: 16px;
+  color: var(--p-text);
+  margin: 0;
+}
+
+.message {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.message.success {
+  background: var(--success-bg);
+  border: 1px solid var(--success);
+  color: var(--success);
+}
+
+.message.error {
+  background: var(--error-bg);
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+.requestsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.requestCard {
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s;
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.requestCard:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--accent-blue-bg);
+}
+
+.requestAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  border: 2px solid var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.requestInfo {
+  flex: 1;
+}
+
+.requestInfo h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--main-text-white-lighter);
+}
+
+.requestEmail {
+  font-size: 14px;
+  color: var(--p-text);
+  margin: 0 0 8px;
+}
+
+.requestMessage {
+  font-size: 14px;
+  color: var(--accent-blue);
+  margin: 0 0 4px;
+  font-weight: 500;
+}
+
+.requestTime {
+  font-size: 12px;
+  color: var(--p-text);
+  margin: 0;
+}
+
+.requestActions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.approveButton,
+.rejectButton {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+}
+
+.approveButton {
+  background: var(--success);
+  color: white;
+}
+
+.approveButton:hover:not(:disabled) {
+  background: var(--success-hover);
+  transform: translateY(-1px);
+}
+
+.rejectButton {
+  background: var(--error);
+  color: white;
+}
+
+.rejectButton:hover:not(:disabled) {
+  background: var(--error-hover);
+  transform: translateY(-1px);
+}
+
+.approveButton:disabled,
+.rejectButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.emptyIcon {
+  font-size: 64px;
+  color: var(--p-text);
+  opacity: 0.5;
+  margin-bottom: 24px;
+}
+
+.emptyState h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--main-text-white-lighter);
+}
+
+.emptyState p {
+  font-size: 16px;
+  color: var(--p-text);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .requestCard {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .requestAvatar {
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+  }
+
+  .requestActions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .approveButton,
+  .rejectButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .requestsSection {
+    padding: 32px 16px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .requestCard {
+    padding: 20px;
+  }
+
+  .requestAvatar {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .requestInfo h3 {
+    font-size: 16px;
+  }
+}

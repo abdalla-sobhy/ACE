@@ -69,7 +69,8 @@
     "updating": "Updating...",
     "publicationDate": "Publication Date",
     "lastUpdated": "Last Updated",
-    "currency": "EGP"
+    "currency": "EGP",
+    "days": "days"
   },
   "nav": {
     "features": "Features",
@@ -1039,7 +1040,29 @@
     "completedLesson": "Completed a lesson",
     "joinedCourse": "Joined a course",
     "achievedCertificate": "Achieved a certificate",
-    "ago": "ago"
+    "ago": "ago",
+    "searchByEmail": "Search by email",
+    "enterStudentEmail": "Enter student email",
+    "search": "Search",
+    "alreadyLinked": "Already linked",
+    "requestPending": "Request pending",
+    "studentNotFound": "Student not found",
+    "linkStudent": "Link Student",
+    "studentDetails": "Student Details",
+    "courseName": "Course Name",
+    "progress": "Progress",
+    "noCoursesEnrolled": "No courses enrolled",
+    "followRequests": "Follow Requests",
+    "newFollowRequests": "New Follow Requests",
+    "acceptRequest": "Accept Request",
+    "rejectRequest": "Reject Request",
+    "noFollowRequests": "No follow requests",
+    "requestFrom": "Request from",
+    "wantsToFollowYou": "wants to follow your progress",
+    "acceptedSuccessfully": "Accepted successfully",
+    "rejectedSuccessfully": "Rejected successfully",
+    "students": "Students",
+    "myLinkedStudents": "My Linked Students"
   },
   "profile": {
     "myProfile": "My Profile",
