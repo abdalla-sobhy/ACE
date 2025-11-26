@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
       if (!response.ok) {
         switch (response.status) {
           case 404:
-            setError(t("auth.emailNotFound") || "البريد الإلكتروني غير موجود");
+            setError(t("auth.emailNotFound"));
             break;
           case 422:
             setError(t("auth.invalidEmail"));
@@ -137,10 +137,9 @@ export default function ForgotPasswordPage() {
                 </defs>
               </svg>
             </div>
-            <h1>{t("auth.forgotPassword") || "نسيت كلمة المرور"}</h1>
+            <h1>{t("auth.forgotPassword")}</h1>
             <p>
-              {t("auth.forgotPasswordDescription") ||
-                "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة تعيين كلمة المرور"}
+              {t("auth.forgotPasswordDescription")}
             </p>
           </div>
 
@@ -157,8 +156,7 @@ export default function ForgotPasswordPage() {
                   fill="#3fb950"
                 />
               </svg>
-              {t("auth.resetEmailSent") ||
-                "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني"}
+              {t("auth.resetEmailSent")}
             </div>
           )}
 

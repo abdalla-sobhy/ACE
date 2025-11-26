@@ -183,7 +183,8 @@
     "forgotPasswordDescription": "Enter your email and we will send you a password reset link",
     "rememberPassword": "Remember your password?",
     "emailSendFailed": "Failed to send email",
-    "emailNotFound": "Email not found"
+    "emailNotFound": "Email not found",
+    "resetEmailSent": "A password reset link has been sent to your email"
   },
   "student": {
     "dashboard": "Student Dashboard",
