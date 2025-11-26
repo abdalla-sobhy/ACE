@@ -69,7 +69,8 @@
     "updating": "جاري التحديث...",
     "publicationDate": "تاريخ النشر",
     "lastUpdated": "آخر تحديث",
-    "currency": "جنيه"
+    "currency": "جنيه",
+    "days": "أيام"
   },
   "nav": {
     "features": "المميزات",
@@ -1172,7 +1173,29 @@
     "completedLesson": "أكمل درساً",
     "joinedCourse": "انضم إلى كورس",
     "achievedCertificate": "حصل على شهادة",
-    "ago": "منذ"
+    "ago": "منذ",
+    "searchByEmail": "ابحث باستخدام البريد الإلكتروني",
+    "enterStudentEmail": "أدخل البريد الإلكتروني للطالب",
+    "search": "بحث",
+    "alreadyLinked": "مرتبط بالفعل",
+    "requestPending": "الطلب قيد الانتظار",
+    "studentNotFound": "لم يتم العثور على الطالب",
+    "linkStudent": "ربط طالب",
+    "studentDetails": "تفاصيل الطالب",
+    "courseName": "اسم الكورس",
+    "progress": "التقدم",
+    "noCoursesEnrolled": "لا يوجد كورسات مسجلة",
+    "followRequests": "طلبات المتابعة",
+    "newFollowRequests": "طلبات متابعة جديدة",
+    "acceptRequest": "قبول الطلب",
+    "rejectRequest": "رفض الطلب",
+    "noFollowRequests": "لا توجد طلبات متابعة",
+    "requestFrom": "طلب من",
+    "wantsToFollowYou": "يريد متابعة تقدمك",
+    "acceptedSuccessfully": "تم القبول بنجاح",
+    "rejectedSuccessfully": "تم الرفض بنجاح",
+    "students": "الطلاب",
+    "myLinkedStudents": "الطلاب المرتبطين"
   },
   "profile": {
     "myProfile": "ملفي الشخصي",
