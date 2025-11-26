@@ -7,14 +7,12 @@
   border-bottom: 1px solid var(--borders);
   z-index: 1000;
   padding: 12px 0;
-  display: flex;
 }
 
 .navContainer {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0;
-  width: 100%;
+  padding: 0 24px;
   justify-content: center;
   display: flex;
 }
@@ -35,26 +33,45 @@
   gap: 32px;
 }
 
-.logo {
+.logo,
+.logoDesktop {
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--main-text-white-lighter);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
 }
 
 .logoDesktop {
+  font-size: 26px;
+}
+
+.logo:hover,
+.logoDesktop:hover {
+  color: var(--accent-blue);
+}
+
+.logoIcon {
   font-size: 28px;
-  font-weight: 700;
   background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-decoration: none;
+}
+
+.logoSubtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  background: linear-gradient(to right, var(--blue-lighter), var(--blue-lighter));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .navLeft a:not(.logoDesktop) {
-  color: var(--main-text-white);;
+  color: var(--main-text-white);
   text-decoration: none;
   font-size: 15px;
   display: flex;
@@ -89,7 +106,7 @@
   position: relative;
   background: none;
   border: none;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 20px;
   cursor: pointer;
   padding: 8px;
@@ -131,7 +148,7 @@
 }
 
 .profileButton:hover {
-  background: rgba(139, 148, 158, 0.1);
+  background: var(--hover-bg);
 }
 
 .avatar {
@@ -145,6 +162,7 @@
   font-weight: 600;
   font-size: 14px;
   color: white;
+  border: 2px solid var(--accent-blue-bg);
 }
 
 .userName {
@@ -187,32 +205,41 @@
 }
 
 .dropdownAvatar {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   color: white;
+  flex-shrink: 0;
+  border: 2px solid var(--accent-blue-bg);
 }
 
 .dropdownInfo {
   flex: 1;
+  min-width: 0;
 }
 
 .dropdownName {
   color: var(--main-text-white-lighter);
   font-weight: 600;
   margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdownEmail {
-  color: #8b949e;
+  color: var(--text-secondary);
   font-size: 12px;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdownDivider {
@@ -243,18 +270,20 @@
 
 .dropdownItem svg {
   font-size: 16px;
+  flex-shrink: 0;
 }
 
 .hamburger {
   display: none;
   background: none;
   border: none;
-  color: #c9d1d9;
+  color: var(--main-text-white);
   font-size: 24px;
   cursor: pointer;
   padding: 8px;
 }
 
+/* Mobile Styles */
 @media (max-width: 968px) {
   .navContainer {
     display: block;
@@ -303,13 +332,14 @@
 
   .navLeft a:not(.logoDesktop) {
     padding: 15px 0;
-    border-bottom: 1px solid #30363d;
+    border-bottom: 1px solid var(--borders);
     width: 100%;
     border-radius: 0;
+    justify-content: flex-start;
   }
 
   .navLeft a:first-child {
-    border-top: 1px solid #30363d;
+    border-top: 1px solid var(--borders);
   }
 
   .navRight {
@@ -317,7 +347,7 @@
     justify-content: space-between;
     padding-top: 20px;
   }
-  
+
   .dropdownMenu {
     position: fixed;
     top: auto;
@@ -325,6 +355,16 @@
     left: 0;
     right: 0;
     border-radius: 12px 12px 0 0;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
 }
 
@@ -332,12 +372,26 @@
   .logo {
     font-size: 20px;
   }
-  
+
+  .logoIcon {
+    font-size: 24px;
+  }
+
+  .logoSubtitle {
+    font-size: 10px;
+  }
+
   .navLeft a:not(.logoDesktop) {
     font-size: 14px;
   }
 
   .userName {
     display: none;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
   }
 }
