@@ -20,17 +20,9 @@ interface SearchResult {
   follow_status: "not_following" | "pending" | "following";
 }
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  type: string;
-}
-
 export default function SearchStudents() {
   const router = useRouter();
   const { t, language } = useLanguage();
-  const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -65,8 +57,6 @@ export default function SearchStudents() {
       router.push("/");
       return;
     }
-
-    setUser(parsedUser);
   };
 
   const handleSearch = async (e: React.FormEvent) => {

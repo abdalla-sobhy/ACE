@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./FollowRequests.module.css";
-import { FaUserPlus, FaCheck, FaTimes, FaUsers } from "react-icons/fa";
+import { FaCheck, FaTimes, FaUsers } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/hooks/useLanguage";
 
@@ -17,17 +17,9 @@ interface FollowRequest {
   created_at: string;
 }
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  type: string;
-}
-
 export default function FollowRequests() {
   const router = useRouter();
   const { t, language } = useLanguage();
-  const [user, setUser] = useState<User | null>(null);
   const [requests, setRequests] = useState<FollowRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState<number | null>(null);
@@ -62,8 +54,6 @@ export default function FollowRequests() {
       router.push("/");
       return;
     }
-
-    setUser(parsedUser);
   };
 
   const fetchFollowRequests = async () => {

@@ -45,16 +45,17 @@ export default function StudentDetailsPage() {
   const router = useRouter();
   const params = useParams();
   const { t, language } = useLanguage();
-  const [user, setUser] = useState<User | null>(null);
   const [student, setStudent] = useState<StudentDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     checkAuth();
-    fetchStudentDetails();
+    if (params?.id) {
+      fetchStudentDetails();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id]);
+  }, [params?.id]);
 
   const checkAuth = () => {
     const userData = localStorage.getItem("user");
@@ -79,14 +80,12 @@ export default function StudentDetailsPage() {
       router.push("/");
       return;
     }
-
-    setUser(parsedUser);
   };
 
   const fetchStudentDetails = async () => {
     try {
       const authData = localStorage.getItem("authData");
-      if (!authData) return;
+      if (!authData || !params?.id) return;
 
       const { token } = JSON.parse(authData);
       const response = await fetch(
