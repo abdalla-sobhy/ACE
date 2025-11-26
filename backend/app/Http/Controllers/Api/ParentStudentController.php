@@ -43,15 +43,28 @@ class ParentStudentController extends Controller
                                                      ->where('student_id', $student->id)
                                                      ->first();
 
+        // Determine follow status
+        $followStatus = 'not_following';
+        if ($existingRequest) {
+            if ($existingRequest->status === 'approved') {
+                $followStatus = 'following';
+            } elseif ($existingRequest->status === 'pending') {
+                $followStatus = 'pending';
+            }
+        }
+
         return response()->json([
             'success' => true,
             'student' => [
                 'id' => $student->id,
                 'name' => $student->full_name,
                 'email' => $student->email,
-                'grade' => $student->studentProfile->grade ?? null,
+                'profile' => [
+                    'grade' => $student->studentProfile->grade ?? null,
+                    'profile_picture' => $student->studentProfile->profile_picture ?? null,
+                ]
             ],
-            'followStatus' => $existingRequest ? $existingRequest->status : 'none'
+            'follow_status' => $followStatus
         ]);
     }
 
@@ -194,21 +207,44 @@ class ParentStudentController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        // Now IntelliSense should recognize followedStudents
-        $students = $user->followedStudents()
-                            ->with('studentProfile')
-                            ->get();
+        // Get approved follow requests
+        $followedStudents = ParentStudentFollowRequest::where('parent_id', $user->id)
+            ->where('status', 'approved')
+            ->with(['student.studentProfile'])
+            ->get();
 
         return response()->json([
             'success' => true,
-            'students' => $students->map(function ($student) {
+            'students' => $followedStudents->map(function ($followRequest) {
+                $student = $followRequest->student;
+
+                // Get enrolled courses count
+                $enrolledCoursesCount = \DB::table('course_enrollments')
+                    ->where('student_id', $student->id)
+                    ->count();
+
+                // Get overall progress
+                $overallProgress = 0;
+                if ($enrolledCoursesCount > 0) {
+                    $overallProgress = \DB::table('course_enrollments')
+                        ->where('student_id', $student->id)
+                        ->avg('progress');
+                    $overallProgress = round($overallProgress ?? 0);
+                }
+
                 return [
                     'id' => $student->id,
                     'name' => $student->full_name,
                     'email' => $student->email,
-                    'grade' => $student->studentProfile->grade ?? null,
-                    'birth_date' => $student->studentProfile->birth_date ?? null,
-                    'follow_date' => $student->pivot->created_at->format('Y-m-d'),
+                    'profile' => [
+                        'grade' => $student->studentProfile->grade ?? null,
+                        'profile_picture' => $student->studentProfile->profile_picture
+                            ? url('api/storage/' . $student->studentProfile->profile_picture)
+                            : null,
+                    ],
+                    'enrolled_courses_count' => $enrolledCoursesCount,
+                    'overall_progress' => $overallProgress,
+                    'follow_date' => $followRequest->created_at->format('Y-m-d'),
                 ];
             })
         ]);
@@ -219,12 +255,13 @@ class ParentStudentController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        // Fix: Use proper type hinting
-        $isFollowing = $user->followedStudents()
+        // Check if parent is following this student
+        $followRequest = ParentStudentFollowRequest::where('parent_id', $user->id)
                             ->where('student_id', $studentId)
-                            ->exists();
+                            ->where('status', 'approved')
+                            ->first();
 
-        if (!$isFollowing) {
+        if (!$followRequest) {
             return response()->json([
                 'success' => false,
                 'message' => 'غير مصرح لك بعرض بيانات هذا الطالب'
@@ -233,21 +270,69 @@ class ParentStudentController extends Controller
 
         $student = User::with(['studentProfile'])->find($studentId);
 
+        // Get student's enrolled courses with progress
+        $enrolledCourses = \DB::table('course_enrollments')
+            ->join('courses', 'course_enrollments.course_id', '=', 'courses.id')
+            ->where('course_enrollments.student_id', $studentId)
+            ->select(
+                'courses.id',
+                'courses.title',
+                'courses.description',
+                'courses.thumbnail',
+                'course_enrollments.progress',
+                'course_enrollments.enrolled_at'
+            )
+            ->get();
+
+        $courses = $enrolledCourses->map(function ($enrollment) {
+            // Get lesson counts
+            $totalLessons = \DB::table('lessons')
+                ->where('course_id', $enrollment->id)
+                ->count();
+
+            $completedLessons = \DB::table('lesson_progress')
+                ->join('lessons', 'lesson_progress.lesson_id', '=', 'lessons.id')
+                ->where('lessons.course_id', $enrollment->id)
+                ->where('lesson_progress.student_id', request()->route('id'))
+                ->where('lesson_progress.completed', true)
+                ->count();
+
+            return [
+                'id' => $enrollment->id,
+                'title' => $enrollment->title,
+                'description' => $enrollment->description,
+                'thumbnail' => $enrollment->thumbnail ? url('api/storage/' . $enrollment->thumbnail) : null,
+                'progress' => $enrollment->progress ?? 0,
+                'enrolled_at' => $enrollment->enrolled_at,
+                'lessons_count' => $totalLessons,
+                'completed_lessons' => $completedLessons,
+            ];
+        });
+
+        // Calculate overall stats
+        $enrolledCoursesCount = $courses->count();
+        $completedCoursesCount = $courses->where('progress', 100)->count();
+        $overallProgress = $enrolledCoursesCount > 0
+            ? round($courses->avg('progress'))
+            : 0;
+
         return response()->json([
             'success' => true,
             'student' => [
                 'id' => $student->id,
                 'name' => $student->full_name,
                 'email' => $student->email,
-                'phone' => $student->phone,
                 'profile' => [
-                    'grade' => $student->studentProfile->grade,
-                    'birth_date' => $student->studentProfile->birth_date,
-                    'preferred_subjects' => $student->studentProfile->preferred_subjects,
-                    'goal' => $student->studentProfile->goal,
+                    'grade' => $student->studentProfile->grade ?? null,
+                    'birth_date' => $student->studentProfile->birth_date ?? null,
+                    'profile_picture' => $student->studentProfile->profile_picture
+                        ? url('api/storage/' . $student->studentProfile->profile_picture)
+                        : null,
                 ],
-                'grades' => [],
-                'attendance' => [],
+                'courses' => $courses,
+                'overall_progress' => $overallProgress,
+                'enrolled_courses_count' => $enrolledCoursesCount,
+                'completed_courses_count' => $completedCoursesCount,
             ]
         ]);
     }
