@@ -1,0 +1,340 @@
+.container {
+  min-height: 100vh;
+  background: var(--main-color);
+  color: var(--main-text-white);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.container[dir="rtl"] {
+  font-family: var(--font-cairo), 'Noto Sans Arabic', sans-serif;
+}
+
+.main {
+  padding-top: 70px;
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchSection {
+  padding: 48px 24px;
+  width: 100%;
+}
+
+.searchContent {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.searchContent h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  text-align: center;
+  background: linear-gradient(to left, var(--gradient-blue-start), var(--gradient-blue-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.container[dir="ltr"] .searchContent h1 {
+  background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.searchContent > p {
+  font-size: 16px;
+  color: var(--p-text);
+  margin: 0 0 32px;
+  text-align: center;
+}
+
+.searchForm {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.searchBox {
+  flex: 1;
+  position: relative;
+  background: var(--sections-color);
+  border: 2px solid var(--borders);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  transition: all 0.3s;
+}
+
+.searchBox:focus-within {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-bg);
+}
+
+.searchIcon {
+  font-size: 18px;
+  color: #6e7681;
+  margin-inline-end: 12px;
+}
+
+.searchInput {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 16px 0;
+  font-size: 16px;
+  color: var(--main-text-white);
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: #6e7681;
+}
+
+.searchInput:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.searchButton {
+  background: var(--btn-primary);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.searchButton:hover:not(:disabled) {
+  background: var(--btn-primary-hover);
+  transform: translateY(-1px);
+}
+
+.searchButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  background: var(--error-bg);
+  border: 1px solid var(--error);
+  color: var(--error);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.successMessage {
+  background: var(--success-bg);
+  border: 1px solid var(--success);
+  color: var(--success);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.resultCard {
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.studentAvatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--accent-blue);
+}
+
+.studentAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.studentInfo {
+  text-align: center;
+  width: 100%;
+}
+
+.studentInfo h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--main-text-white-lighter);
+}
+
+.studentEmail {
+  font-size: 14px;
+  color: var(--p-text);
+  margin: 0 0 8px;
+}
+
+.studentGrade {
+  font-size: 14px;
+  color: var(--accent-blue);
+  margin: 0;
+  font-weight: 500;
+}
+
+.actionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+}
+
+.statusBadge {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusBadge.following {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.statusBadge.pending {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning);
+}
+
+.sendRequestButton {
+  background: var(--btn-primary);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.sendRequestButton:hover:not(:disabled) {
+  background: var(--btn-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--success-bg);
+}
+
+.sendRequestButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.viewDetailsButton {
+  background: var(--accent-blue);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+
+.viewDetailsButton:hover {
+  background: var(--accent-blue-hover);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .searchContent h1 {
+    font-size: 28px;
+  }
+
+  .searchForm {
+    flex-direction: column;
+  }
+
+  .searchButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchSection {
+    padding: 32px 16px;
+  }
+
+  .searchContent h1 {
+    font-size: 24px;
+  }
+
+  .resultCard {
+    padding: 24px;
+  }
+
+  .studentAvatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .avatarPlaceholder {
+    font-size: 32px;
+  }
+
+  .studentInfo h3 {
+    font-size: 20px;
+  }
+}
