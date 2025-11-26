@@ -186,7 +186,7 @@ export default function NotificationDropdown() {
             ) : notifications.length === 0 ? (
               <div className={styles.emptyState}>
                 <FaBell className={styles.emptyIcon} />
-                <p>لا توجد إشعارات</p>
+                <p>{t("notifications.noNotifications")}</p>
               </div>
             ) : (
               notifications.map((notification) => {
