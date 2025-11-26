@@ -242,6 +242,16 @@
   text-overflow: ellipsis;
 }
 
+.dropdownFaculty {
+  color: var(--accent-blue);
+  font-size: 11px;
+  margin: 4px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
 .dropdownDivider {
   height: 1px;
   background: var(--borders);
@@ -347,7 +357,7 @@
     justify-content: space-between;
     padding-top: 20px;
   }
-
+  
   .dropdownMenu {
     position: fixed;
     top: auto;
@@ -380,7 +390,7 @@
   .logoSubtitle {
     font-size: 10px;
   }
-
+  
   .navLeft a:not(.logoDesktop) {
     font-size: 14px;
   }

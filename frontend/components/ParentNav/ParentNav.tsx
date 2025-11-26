@@ -20,6 +20,9 @@ import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 interface User {
   name: string;
   email: string;
+  parentProfile?: {
+    phone?: string;
+  };
 }
 
 export default function ParentNav() {
@@ -118,7 +121,7 @@ export default function ParentNav() {
         </div>
 
         <div
-          className={`${styles.navContent} ${isMenuOpen ? styles.open : ""}`}
+          className={`${styles.navContent} w-full ${isMenuOpen ? styles.open : ""}`}
         >
           <div className={styles.navLeft}>
             <Link
@@ -129,6 +132,11 @@ export default function ParentNav() {
               <span>{t("common.edvance")}</span>
               <span className={styles.logoSubtitle}>Parent</span>
             </Link>
+            
+          </div>
+
+
+          <div className={styles.navLeft}>
             {navItems.map((item) => (
               <Link
                 key={item.href}

@@ -96,7 +96,7 @@ export default function ParentDashboard() {
 
   if (loading) {
     return (
-      <div className={styles.container} dir={language === "ar" ? "rtl" : "ltr"}>
+      <div className={styles.container} dir={language === "ar" ? "rtl" : "rtl"}>
         <ParentNav />
         <main className={styles.main}>
           <div className={styles.loadingContainer}>
@@ -109,7 +109,7 @@ export default function ParentDashboard() {
   }
 
   return (
-    <div className={styles.container} dir={language === "ar" ? "rtl" : "ltr"}>
+    <div className={styles.container} dir={language === "ar" ? "rtl" : "rtl"}>
       <ParentNav />
       <main className={styles.main}>
         {/* Welcome Section */}
