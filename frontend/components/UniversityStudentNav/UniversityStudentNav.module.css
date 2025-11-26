@@ -43,6 +43,7 @@
   align-items: center;
   gap: 10px;
   transition: all 0.2s;
+  direction: ltr;
 }
 
 .logoDesktop {
