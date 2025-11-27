@@ -121,7 +121,13 @@ class ParentStudentController extends Controller
         );
 
         // Fix: Use Auth facade
-        $student->notify(new FollowRequestNotification(Auth::user()));
+        $parent = Auth::user();
+
+        // Send database notification
+        $student->notify(new FollowRequestNotification($parent));
+
+        // Send email notification
+        FollowRequestNotification::sendEmail($student, $parent);
 
         return response()->json([
             'success' => true,

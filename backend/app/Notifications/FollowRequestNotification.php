@@ -20,18 +20,21 @@ class FollowRequestNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
-    public function toMail($notifiable)
+    /**
+     * Send email notification to student about follow request
+     */
+    public static function sendEmail($notifiable, $parent)
     {
         // Get the appropriate email address
-        $email = $this->getEmailAddress($notifiable);
+        $email = $notifiable->email;
 
         // Arabic content
         $title = 'طلب متابعة جديد';
         $greeting = 'مرحباً ' . $notifiable->first_name;
-        $messageContent = 'لديك طلب متابعة جديد من ولي الأمر: ' . $this->parent->full_name;
+        $messageContent = 'لديك طلب متابعة جديد من ولي الأمر: ' . $parent->full_name;
         $additionalInfo = ['يمكنك قبول أو رفض الطلب من لوحة التحكم الخاصة بك.'];
         $actionUrl = url('/student/follow-requests');
         $actionText = 'عرض الطلب';
@@ -39,7 +42,7 @@ class FollowRequestNotification extends Notification
         // English content
         $titleEn = 'New Follow Request';
         $greetingEn = 'Hello ' . $notifiable->first_name;
-        $messageContentEn = 'You have a new follow request from parent: ' . $this->parent->full_name;
+        $messageContentEn = 'You have a new follow request from parent: ' . $parent->full_name;
         $additionalInfoEn = ['You can accept or reject the request from your dashboard.'];
         $actionTextEn = 'View Request';
 
@@ -50,8 +53,6 @@ class FollowRequestNotification extends Notification
         ), function ($mail) use ($email, $title) {
             $mail->to($email)->subject($title . ' - New Follow Request');
         });
-
-        return null;
     }
 
     public function toDatabase($notifiable)
@@ -63,13 +64,5 @@ class FollowRequestNotification extends Notification
             'parent_id' => $this->parent->id,
             'parent_name' => $this->parent->full_name,
         ];
-    }
-
-    /**
-     * Get the email address for the notification
-     */
-    private function getEmailAddress($notifiable)
-    {
-        return $notifiable->email;
     }
 }
