@@ -290,17 +290,17 @@ class ParentStudentController extends Controller
             )
             ->get();
 
-        $courses = $enrolledCourses->map(function ($enrollment) {
+        $courses = $enrolledCourses->map(function ($enrollment) use ($studentId) {
             // Get lesson counts
-            $totalLessons = \DB::table('lessons')
+            $totalLessons = \DB::table('course_lessons')
                 ->where('course_id', $enrollment->id)
                 ->count();
 
             $completedLessons = \DB::table('lesson_progress')
-                ->join('lessons', 'lesson_progress.lesson_id', '=', 'lessons.id')
-                ->where('lessons.course_id', $enrollment->id)
-                ->where('lesson_progress.student_id', request()->route('id'))
-                ->where('lesson_progress.completed', true)
+                ->join('course_lessons', 'lesson_progress.lesson_id', '=', 'course_lessons.id')
+                ->where('course_lessons.course_id', $enrollment->id)
+                ->where('lesson_progress.user_id', $studentId)
+                ->where('lesson_progress.is_completed', true)
                 ->count();
 
             return [
