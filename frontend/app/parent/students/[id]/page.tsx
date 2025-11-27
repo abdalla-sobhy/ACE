@@ -148,7 +148,7 @@ export default function StudentDetailsPage() {
           <div className={styles.errorContainer}>
             <h2>{error}</h2>
             <button onClick={() => router.push("/parent/dashboard")}>
-              {t("common.backToDashboard")}
+              {t("courseForm.backToDashboard")}
             </button>
           </div>
         </main>

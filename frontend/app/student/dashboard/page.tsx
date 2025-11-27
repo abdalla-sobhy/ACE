@@ -542,7 +542,9 @@ const findNextSessionFromSchedule = (
                           style={{ objectFit: 'cover' }}
                         />
                       ) : (
-                        ``
+                        <div className={styles.placeholderImage}>
+                          <FaBook />
+                        </div>
                       )}
                       <div className={styles.courseCategory}>
                         {category.icon} {category.label}
