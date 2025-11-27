@@ -31,7 +31,7 @@ class FollowRequestNotification extends Notification
         // Arabic content
         $title = 'طلب متابعة جديد';
         $greeting = 'مرحباً ' . $notifiable->first_name;
-        $message = 'لديك طلب متابعة جديد من ولي الأمر: ' . $this->parent->full_name;
+        $messageContent = 'لديك طلب متابعة جديد من ولي الأمر: ' . $this->parent->full_name;
         $additionalInfo = ['يمكنك قبول أو رفض الطلب من لوحة التحكم الخاصة بك.'];
         $actionUrl = url('/student/follow-requests');
         $actionText = 'عرض الطلب';
@@ -39,13 +39,13 @@ class FollowRequestNotification extends Notification
         // English content
         $titleEn = 'New Follow Request';
         $greetingEn = 'Hello ' . $notifiable->first_name;
-        $messageEn = 'You have a new follow request from parent: ' . $this->parent->full_name;
+        $messageContentEn = 'You have a new follow request from parent: ' . $this->parent->full_name;
         $additionalInfoEn = ['You can accept or reject the request from your dashboard.'];
         $actionTextEn = 'View Request';
 
         Mail::send('emails.notification', compact(
-            'title', 'greeting', 'message', 'additionalInfo',
-            'titleEn', 'greetingEn', 'messageEn', 'additionalInfoEn',
+            'title', 'greeting', 'messageContent', 'additionalInfo',
+            'titleEn', 'greetingEn', 'messageContentEn', 'additionalInfoEn',
             'actionUrl', 'actionText', 'actionTextEn'
         ), function ($mail) use ($email, $title) {
             $mail->to($email)->subject($title . ' - New Follow Request');
