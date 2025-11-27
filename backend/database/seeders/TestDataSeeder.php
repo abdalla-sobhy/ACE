@@ -1280,7 +1280,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Karim - Shortlisted for Legal Intern
         JobApplication::create([
-            'job_posting_id' => $createdJobPostings[17]->id, // Legal Intern - Corporate Law
+            'job_posting_id' => $createdJobPostings[16]->id, // Legal Intern - Corporate Law (last job posting)
             'student_id' => $karim->id,
             'cover_letter' => 'أنا طالب قانون متميز مع اهتمام خاص بقانون الشركات والملكية الفكرية. الفائز بمسابقة محاكاة المحاكم الوطنية وحاصل على شهادات متخصصة من WIPO.',
             'status' => 'shortlisted',
