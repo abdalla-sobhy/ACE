@@ -30,7 +30,7 @@ class TeacherRejectedNotification extends Notification
         // Arabic content
         $title = 'طلب التسجيل كمحاضر';
         $greeting = 'عزيزي ' . $notifiable->first_name;
-        $message = 'نأسف لإبلاغك أنه تم رفض طلبك للتسجيل كمحاضر.';
+        $messageContent = 'نأسف لإبلاغك أنه تم رفض طلبك للتسجيل كمحاضر.';
         $additionalInfo = [
             'السبب: ' . $this->reason,
             'يمكنك التواصل معنا للحصول على مزيد من المعلومات.',
@@ -40,7 +40,7 @@ class TeacherRejectedNotification extends Notification
         // English content
         $titleEn = 'Teacher Registration Application';
         $greetingEn = 'Dear ' . $notifiable->first_name;
-        $messageEn = 'We regret to inform you that your teacher registration application has been rejected.';
+        $messageContentEn = 'We regret to inform you that your teacher registration application has been rejected.';
         $additionalInfoEn = [
             'Reason: ' . $this->reason,
             'You can contact us for more information.',
@@ -48,8 +48,8 @@ class TeacherRejectedNotification extends Notification
         ];
 
         Mail::send('emails.notification', compact(
-            'title', 'greeting', 'message', 'additionalInfo',
-            'titleEn', 'greetingEn', 'messageEn', 'additionalInfoEn'
+            'title', 'greeting', 'messageContent', 'additionalInfo',
+            'titleEn', 'greetingEn', 'messageContentEn', 'additionalInfoEn'
         ), function ($mail) use ($email, $title) {
             $mail->to($email)->subject($title . ' - Teacher Application Rejected');
         });
