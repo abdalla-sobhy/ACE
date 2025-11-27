@@ -29,6 +29,22 @@ export default function SearchStudents() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // Grade labels mapping
+  const gradeLabels: Record<string, string> = {
+    'primary_1': t('grades.primary_1'),
+    'primary_2': t('grades.primary_2'),
+    'primary_3': t('grades.primary_3'),
+    'primary_4': t('grades.primary_4'),
+    'primary_5': t('grades.primary_5'),
+    'primary_6': t('grades.primary_6'),
+    'prep_1': t('grades.prep_1'),
+    'prep_2': t('grades.prep_2'),
+    'prep_3': t('grades.prep_3'),
+    'secondary_1': t('grades.secondary_1'),
+    'secondary_2': t('grades.secondary_2'),
+    'secondary_3': t('grades.secondary_3'),
+  };
+
   useEffect(() => {
     checkAuth();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -231,7 +247,7 @@ export default function SearchStudents() {
                   {searchResult.student.profile?.grade && (
                     <p className={styles.studentGrade}>
                       {t("parent.currentGrade")}:{" "}
-                      {searchResult.student.profile.grade}
+                      {gradeLabels[searchResult.student.profile.grade] || searchResult.student.profile.grade}
                     </p>
                   )}
                 </div>
