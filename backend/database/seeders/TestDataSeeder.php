@@ -517,12 +517,14 @@ $jobPostings = [
     ],
 ];
 
+$createdJobPostings = [];
 foreach ($jobPostings as $job) {
-    JobPosting::create(array_merge($job, [
+    $jobPosting = JobPosting::create(array_merge($job, [
         'is_active' => true,
         'views_count' => rand(50, 300),
         'applications_count' => rand(5, 50),
     ]));
+    $createdJobPostings[] = $jobPosting;
 }
 
 $this->command->info('');
@@ -1086,7 +1088,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Application 1: PENDING - Just submitted, awaiting review
         JobApplication::create([
-            'job_posting_id' => 1, // Mobile Dev Internship
+            'job_posting_id' => $createdJobPostings[0]->id, // Mobile Dev Internship
             'student_id' => $yasmin->id,
             'cover_letter' => 'أنا مهتمة جداً بفرصة التدريب في تطوير تطبيقات الموبايل. لدي خبرة في React وأعمل على تطوير مشاريع شخصية باستخدام React Native. معرض أعمالي يتضمن مشروع تجارة إلكترونية وتطبيق دردشة ذكي باستخدام الذكاء الاصطناعي.',
             'status' => 'pending',
@@ -1096,7 +1098,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Application 2: REVIEWING - Company is actively reviewing
         JobApplication::create([
-            'job_posting_id' => 4, // Junior Financial Analyst
+            'job_posting_id' => $createdJobPostings[3]->id, // Junior Financial Analyst
             'student_id' => $yasmin->id,
             'cover_letter' => 'على الرغم من تخصصي في هندسة الحاسبات، أمتلك مهارات قوية في تحليل البيانات وأتقن Excel وPython. أرغب في تطبيق مهاراتي التقنية في مجال التحليل المالي.',
             'status' => 'reviewing',
@@ -1108,7 +1110,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Application 3: SHORTLISTED - Made it to shortlist for further consideration
         JobApplication::create([
-            'job_posting_id' => 2, // Full Stack Developer
+            'job_posting_id' => $createdJobPostings[1]->id, // Full Stack Developer
             'student_id' => $yasmin->id,
             'cover_letter' => 'أنا طالبة هندسة حاسبات متحمسة للعمل كمطور Full Stack. أتقن React و Node.js ولدي خبرة عملية في بناء تطبيقات ويب متكاملة. عملت كفريلانسر لمدة 6 أشهر وطورت عدة مشاريع.',
             'status' => 'shortlisted',
@@ -1121,7 +1123,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Application 4: INTERVIEWED - Had interview, awaiting decision
         JobApplication::create([
-            'job_posting_id' => 6, // Social Media Specialist
+            'job_posting_id' => $createdJobPostings[5]->id, // Social Media Specialist
             'student_id' => $yasmin->id,
             'cover_letter' => 'أمتلك مهارات تواصل قوية وخبرة في إدارة المحتوى الرقمي. على الرغم من خلفيتي التقنية، أرغب في دمج مهاراتي البرمجية مع التسويق الرقمي.',
             'status' => 'interviewed',
@@ -1136,7 +1138,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Application 5: ACCEPTED - Got the job!
         JobApplication::create([
-            'job_posting_id' => 5, // Investment Analysis Summer Internship
+            'job_posting_id' => $createdJobPostings[4]->id, // Investment Analysis Summer Internship
             'student_id' => $yasmin->id,
             'cover_letter' => 'أتطلع للحصول على تدريب صيفي في التحليل الاستثماري. مهاراتي في البرمجة وتحليل البيانات ستساعدني في تحليل البيانات المالية بكفاءة. حاصلة على شهادة في Data Analysis.',
             'status' => 'accepted',
@@ -1151,7 +1153,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Application 6: REJECTED - Didn't get this one
         JobApplication::create([
-            'job_posting_id' => 8, // Graphic Design Intern
+            'job_posting_id' => $createdJobPostings[7]->id, // Graphic Design Intern
             'student_id' => $yasmin->id,
             'cover_letter' => 'على الرغم من أنني مهندسة حاسبات، لدي اهتمام كبير بالتصميم ودرست أساسيات Photoshop و Illustrator بنفسي. أحب الدمج بين التقنية والفن.',
             'status' => 'rejected',
@@ -1163,7 +1165,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Application 7: WITHDRAWN - She withdrew herself
         JobApplication::create([
-            'job_posting_id' => 14, // Journalist Editor
+            'job_posting_id' => $createdJobPostings[13]->id, // Journalist Editor
             'student_id' => $yasmin->id,
             'cover_letter' => 'أمتلك مهارات كتابة جيدة وأحب الصحافة التقنية. أرغب في الكتابة عن التكنولوجيا والابتكار.',
             'status' => 'withdrawn',
@@ -1177,7 +1179,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Ahmed - Accepted for Financial Analyst
         JobApplication::create([
-            'job_posting_id' => 4, // Junior Financial Analyst
+            'job_posting_id' => $createdJobPostings[3]->id, // Junior Financial Analyst
             'student_id' => $ahmed->id,
             'cover_letter' => 'كطالب متميز في قسم إدارة الأعمال بالجامعة الأمريكية، أمتلك خلفية قوية في التحليل المالي والتسويق الرقمي. حاصل على شهادات من Google و HubSpot ولدي خبرة في استخدام PowerBI و Excel.',
             'status' => 'accepted',
@@ -1193,7 +1195,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Ahmed - Shortlisted for Investment Summer Internship
         JobApplication::create([
-            'job_posting_id' => 5, // Investment Analysis Summer Internship
+            'job_posting_id' => $createdJobPostings[4]->id, // Investment Analysis Summer Internship
             'student_id' => $ahmed->id,
             'cover_letter' => 'أطمح للحصول على تدريب صيفي في التحليل الاستثماري. رئيس نادي ريادة الأعمال بالجامعة ولدي شغف كبير بالأسواق المالية.',
             'status' => 'shortlisted',
@@ -1206,7 +1208,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Ahmed - Reviewing for Social Media role
         JobApplication::create([
-            'job_posting_id' => 6, // Social Media Specialist
+            'job_posting_id' => $createdJobPostings[5]->id, // Social Media Specialist
             'student_id' => $ahmed->id,
             'cover_letter' => 'لدي خبرة قوية في التسويق الرقمي وإدارة السوشيال ميديا. حاصل على شهادة Google Digital Marketing وأدرت حملات إعلانية ناجحة.',
             'status' => 'reviewing',
@@ -1220,7 +1222,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Omar - Rejected for Mobile Dev (wrong fit)
         JobApplication::create([
-            'job_posting_id' => 1, // Mobile Dev Internship
+            'job_posting_id' => $createdJobPostings[0]->id, // Mobile Dev Internship
             'student_id' => $omar->id,
             'cover_letter' => 'أنا مصمم UI/UX شغوف بتصميم تطبيقات الموبايل. لدي معرض أعمال على Behance يوضح مشاريعي في تصميم تطبيقات الموبايل. أعتقد أن مهاراتي في التصميم ستكون إضافة قيمة.',
             'status' => 'rejected',
@@ -1232,7 +1234,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Omar - Accepted for Graphic Design Internship
         JobApplication::create([
-            'job_posting_id' => 8, // Graphic Design Intern
+            'job_posting_id' => $createdJobPostings[7]->id, // Graphic Design Intern
             'student_id' => $omar->id,
             'cover_letter' => 'أنا طالب تصميم جرافيكي متحمس بمهارات قوية في Photoshop و Illustrator و Figma. معرض أعمالي يتضمن مشاريع متنوعة في تصميم الهوية البصرية والسوشيال ميديا.',
             'status' => 'accepted',
@@ -1250,7 +1252,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Nour - Interviewed for Journalist Editor
         JobApplication::create([
-            'job_posting_id' => 14, // Journalist Editor
+            'job_posting_id' => $createdJobPostings[13]->id, // Journalist Editor
             'student_id' => $nour->id,
             'cover_letter' => 'أنا طالبة صحافة شغوفة بالصحافة الاستقصائية. أكتب في عدة منصات رقمية وحاصلة على جائزة أفضل تقرير صحفي. مهاراتي في البحث والكتابة وصحافة البيانات ستكون إضافة قيمة لفريقكم.',
             'status' => 'interviewed',
@@ -1266,7 +1268,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Nour - Pending for Content Writer
         JobApplication::create([
-            'job_posting_id' => 7, // Content Writer
+            'job_posting_id' => $createdJobPostings[6]->id, // Content Writer
             'student_id' => $nour->id,
             'cover_letter' => 'لدي خبرة واسعة في كتابة المحتوى التسويقي والصحفي. أتقن اللغتين العربية والإنجليزية وأمتلك أسلوب كتابة جذاب ومؤثر.',
             'status' => 'pending',
@@ -1278,7 +1280,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Karim - Shortlisted for Legal Intern
         JobApplication::create([
-            'job_posting_id' => 18, // Legal Intern - Corporate Law
+            'job_posting_id' => $createdJobPostings[17]->id, // Legal Intern - Corporate Law
             'student_id' => $karim->id,
             'cover_letter' => 'أنا طالب قانون متميز مع اهتمام خاص بقانون الشركات والملكية الفكرية. الفائز بمسابقة محاكاة المحاكم الوطنية وحاصل على شهادات متخصصة من WIPO.',
             'status' => 'shortlisted',
@@ -1293,7 +1295,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Lina - Interviewed for AI Engineer
         JobApplication::create([
-            'job_posting_id' => 3, // AI Engineer - Remote
+            'job_posting_id' => $createdJobPostings[2]->id, // AI Engineer - Remote
             'student_id' => $lina->id,
             'cover_letter' => 'أنا طالبة علوم حاسب متخصصة في الذكاء الاصطناعي والتعلم العميق. نشرت ورقة بحثية في مؤتمر IEEE الدولي وفزت بمسابقة Kaggle. أمتلك خبرة عملية قوية في TensorFlow و PyTorch.',
             'status' => 'interviewed',
@@ -1309,7 +1311,7 @@ $this->command->info('💼 Job postings created with various opportunities for u
 
         // Lina - Pending for Full Stack role
         JobApplication::create([
-            'job_posting_id' => 2, // Full Stack Developer
+            'job_posting_id' => $createdJobPostings[1]->id, // Full Stack Developer
             'student_id' => $lina->id,
             'cover_letter' => 'بالإضافة لتخصصي في الذكاء الاصطناعي، أمتلك مهارات قوية في تطوير الويب Full Stack. أتقن React و Node.js وطورت عدة تطبيقات ويب.',
             'status' => 'pending',
