@@ -20,13 +20,16 @@ class FollowRequestNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
-    public function toMail($notifiable)
+    /**
+     * Send email notification to student about follow request
+     */
+    public static function sendEmail($notifiable, $parent)
     {
         // Get the appropriate email address
-        $email = $this->getEmailAddress($notifiable);
+        $email = $notifiable->email;
 
         // Arabic content
         $title = 'طلب متابعة جديد';
@@ -50,8 +53,6 @@ class FollowRequestNotification extends Notification
         ), function ($mail) use ($email, $title) {
             $mail->to($email)->subject($title . ' - New Follow Request');
         });
-
-        return null;
     }
 
     public function toDatabase($notifiable)
@@ -63,13 +64,5 @@ class FollowRequestNotification extends Notification
             'parent_id' => $this->parent->id,
             'parent_name' => $this->parent->full_name,
         ];
-    }
-
-    /**
-     * Get the email address for the notification
-     */
-    private function getEmailAddress($notifiable)
-    {
-        return $notifiable->email;
     }
 }
