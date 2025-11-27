@@ -101,7 +101,7 @@
         <div class="content">
             <p class="greeting">{{ $greeting }}</p>
             <div class="message-box">
-                <p style="margin: 0;">{{ $message }}</p>
+                <p style="margin: 0;">{{ $messageContent }}</p>
             </div>
             @if(isset($additionalInfo) && !empty($additionalInfo))
                 @foreach($additionalInfo as $info)
@@ -128,7 +128,7 @@
             <div class="content">
                 <p class="greeting">{{ $greetingEn }}</p>
                 <div class="message-box">
-                    <p style="margin: 0;">{{ $messageEn }}</p>
+                    <p style="margin: 0;">{{ $messageContentEn }}</p>
                 </div>
                 @if(isset($additionalInfoEn) && !empty($additionalInfoEn))
                     @foreach($additionalInfoEn as $info)
