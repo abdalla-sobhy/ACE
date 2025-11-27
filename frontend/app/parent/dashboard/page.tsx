@@ -33,6 +33,20 @@ export default function ParentDashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
+  const gradeLabels: Record<string, string> = {
+    'primary_1': t('grades.primary_1'),
+    'primary_2': t('grades.primary_2'),
+    'primary_3': t('grades.primary_3'),
+    'primary_4': t('grades.primary_4'),
+    'primary_5': t('grades.primary_5'),
+    'primary_6': t('grades.primary_6'),
+    'prep_1': t('grades.prep_1'),
+    'prep_2': t('grades.prep_2'),
+    'prep_3': t('grades.prep_3'),
+    'secondary_1': t('grades.secondary_1'),
+    'secondary_2': t('grades.secondary_2'),
+    'secondary_3': t('grades.secondary_3'),
+  };
 
   useEffect(() => {
     checkAuth();
@@ -96,7 +110,7 @@ export default function ParentDashboard() {
 
   if (loading) {
     return (
-      <div className={styles.container} dir={language === "ar" ? "rtl" : "rtl"}>
+      <div className={styles.container} dir={language === "ar" ? "rtl" : "ltr"}>
         <ParentNav />
         <main className={styles.main}>
           <div className={styles.loadingContainer}>
@@ -109,7 +123,7 @@ export default function ParentDashboard() {
   }
 
   return (
-    <div className={styles.container} dir={language === "ar" ? "rtl" : "rtl"}>
+    <div className={styles.container} dir={language === "ar" ? "rtl" : "ltr"}>
       <ParentNav />
       <main className={styles.main}>
         {/* Welcome Section */}
@@ -220,7 +234,7 @@ export default function ParentDashboard() {
                     <p className={styles.studentEmail}>{student.email}</p>
                     {student.profile?.grade && (
                       <p className={styles.studentGrade}>
-                        {t("parent.currentGrade")}: {student.profile.grade}
+                        {t("parent.currentGrade")}: {gradeLabels[student.profile.grade] || student.profile.grade}
                       </p>
                     )}
                   </div>
