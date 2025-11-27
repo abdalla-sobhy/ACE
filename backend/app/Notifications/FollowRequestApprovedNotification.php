@@ -31,7 +31,7 @@ class FollowRequestApprovedNotification extends Notification
         // Arabic content
         $title = 'تمت الموافقة على طلب المتابعة';
         $greeting = 'مرحباً ' . $notifiable->first_name;
-        $message = 'وافق الطالب ' . $this->student->full_name . ' على طلب متابعتك.';
+        $messageContent = 'وافق الطالب ' . $this->student->full_name . ' على طلب متابعتك.';
         $additionalInfo = [
             'يمكنك الآن متابعة تقدمه الدراسي من لوحة التحكم.',
             'شكراً لاهتمامك بمتابعة التقدم الدراسي.'
@@ -42,7 +42,7 @@ class FollowRequestApprovedNotification extends Notification
         // English content
         $titleEn = 'Follow Request Approved';
         $greetingEn = 'Hello ' . $notifiable->first_name;
-        $messageEn = 'Student ' . $this->student->full_name . ' has approved your follow request.';
+        $messageContentEn = 'Student ' . $this->student->full_name . ' has approved your follow request.';
         $additionalInfoEn = [
             'You can now track their academic progress from your dashboard.',
             'Thank you for your interest in following their academic progress.'
@@ -50,8 +50,8 @@ class FollowRequestApprovedNotification extends Notification
         $actionTextEn = 'View Student';
 
         Mail::send('emails.notification', compact(
-            'title', 'greeting', 'message', 'additionalInfo',
-            'titleEn', 'greetingEn', 'messageEn', 'additionalInfoEn',
+            'title', 'greeting', 'messageContent', 'additionalInfo',
+            'titleEn', 'greetingEn', 'messageContentEn', 'additionalInfoEn',
             'actionUrl', 'actionText', 'actionTextEn'
         ), function ($mail) use ($email, $title) {
             $mail->to($email)->subject($title . ' - Follow Request Approved');

@@ -23,7 +23,7 @@ class TeacherApprovedNotification extends Notification
         // Arabic content
         $title = 'تمت الموافقة على حسابك!';
         $greeting = 'مبروك ' . $notifiable->first_name . '!';
-        $message = 'تمت الموافقة على طلبك للانضمام كمحاضر في Edvance.';
+        $messageContent = 'تمت الموافقة على طلبك للانضمام كمحاضر في Edvance.';
         $additionalInfo = [
             'يمكنك الآن تسجيل الدخول والبدء في إنشاء المحاضرات.',
             'نتطلع لرؤية محتواك التعليمي المميز!'
@@ -34,7 +34,7 @@ class TeacherApprovedNotification extends Notification
         // English content
         $titleEn = 'Your Account Has Been Approved!';
         $greetingEn = 'Congratulations ' . $notifiable->first_name . '!';
-        $messageEn = 'Your request to join as a teacher on Edvance has been approved.';
+        $messageContentEn = 'Your request to join as a teacher on Edvance has been approved.';
         $additionalInfoEn = [
             'You can now log in and start creating lectures.',
             'We look forward to seeing your amazing educational content!'
@@ -42,8 +42,8 @@ class TeacherApprovedNotification extends Notification
         $actionTextEn = 'Login';
 
         Mail::send('emails.notification', compact(
-            'title', 'greeting', 'message', 'additionalInfo',
-            'titleEn', 'greetingEn', 'messageEn', 'additionalInfoEn',
+            'title', 'greeting', 'messageContent', 'additionalInfo',
+            'titleEn', 'greetingEn', 'messageContentEn', 'additionalInfoEn',
             'actionUrl', 'actionText', 'actionTextEn'
         ), function ($mail) use ($email, $title) {
             $mail->to($email)->subject($title . ' - Teacher Account Approved');
