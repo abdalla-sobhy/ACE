@@ -12,6 +12,7 @@ use App\Models\UniversityStudentProfile;
 use App\Models\JobPosting;
 use App\Models\Company;
 use App\Models\JobApplication;
+use App\Models\ParentStudentFollowRequest;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -1092,6 +1093,13 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $yasmin->id,
             'cover_letter' => 'أنا مهتمة جداً بفرصة التدريب في تطوير تطبيقات الموبايل. لدي خبرة في React وأعمل على تطوير مشاريع شخصية باستخدام React Native. معرض أعمالي يتضمن مشروع تجارة إلكترونية وتطبيق دردشة ذكي باستخدام الذكاء الاصطناعي.',
             'status' => 'pending',
+            'status_history' => json_encode([
+                [
+                    'status' => 'pending',
+                    'changed_at' => now()->subDays(2)->toDateTimeString(),
+                    'note' => 'تم تقديم الطلب بنجاح'
+                ]
+            ]),
             'created_at' => now()->subDays(2),
             'updated_at' => now()->subDays(2),
         ]);
@@ -1102,6 +1110,18 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $yasmin->id,
             'cover_letter' => 'على الرغم من تخصصي في هندسة الحاسبات، أمتلك مهارات قوية في تحليل البيانات وأتقن Excel وPython. أرغب في تطبيق مهاراتي التقنية في مجال التحليل المالي.',
             'status' => 'reviewing',
+            'status_history' => json_encode([
+                [
+                    'status' => 'pending',
+                    'changed_at' => now()->subDays(5)->toDateTimeString(),
+                    'note' => 'تم تقديم الطلب بنجاح'
+                ],
+                [
+                    'status' => 'reviewing',
+                    'changed_at' => now()->subDays(3)->toDateTimeString(),
+                    'note' => 'بدأت الشركة في مراجعة الطلب'
+                ]
+            ]),
             'viewed_at' => now()->subDays(3),
             'company_notes' => 'خلفية تقنية قوية، سنراجع مدى ملاءمتها للدور المالي.',
             'created_at' => now()->subDays(5),
@@ -1114,6 +1134,23 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $yasmin->id,
             'cover_letter' => 'أنا طالبة هندسة حاسبات متحمسة للعمل كمطور Full Stack. أتقن React و Node.js ولدي خبرة عملية في بناء تطبيقات ويب متكاملة. عملت كفريلانسر لمدة 6 أشهر وطورت عدة مشاريع.',
             'status' => 'shortlisted',
+            'status_history' => json_encode([
+                [
+                    'status' => 'pending',
+                    'changed_at' => now()->subDays(10)->toDateTimeString(),
+                    'note' => 'تم تقديم الطلب بنجاح'
+                ],
+                [
+                    'status' => 'reviewing',
+                    'changed_at' => now()->subDays(8)->toDateTimeString(),
+                    'note' => 'بدأت الشركة في مراجعة الطلب'
+                ],
+                [
+                    'status' => 'shortlisted',
+                    'changed_at' => now()->subDays(7)->toDateTimeString(),
+                    'note' => 'تم اختيارك ضمن القائمة المختصرة للمقابلة'
+                ]
+            ]),
             'viewed_at' => now()->subDays(8),
             'company_notes' => 'مرشحة قوية! خلفية ممتازة في React و Node.js. تم ترشيحها للمقابلة الفنية.',
             'is_favorite' => true,
@@ -1127,6 +1164,28 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $yasmin->id,
             'cover_letter' => 'أمتلك مهارات تواصل قوية وخبرة في إدارة المحتوى الرقمي. على الرغم من خلفيتي التقنية، أرغب في دمج مهاراتي البرمجية مع التسويق الرقمي.',
             'status' => 'interviewed',
+            'status_history' => json_encode([
+                [
+                    'status' => 'pending',
+                    'changed_at' => now()->subDays(15)->toDateTimeString(),
+                    'note' => 'تم تقديم الطلب بنجاح'
+                ],
+                [
+                    'status' => 'reviewing',
+                    'changed_at' => now()->subDays(12)->toDateTimeString(),
+                    'note' => 'بدأت الشركة في مراجعة الطلب'
+                ],
+                [
+                    'status' => 'shortlisted',
+                    'changed_at' => now()->subDays(8)->toDateTimeString(),
+                    'note' => 'تم اختيارك ضمن القائمة المختصرة للمقابلة'
+                ],
+                [
+                    'status' => 'interviewed',
+                    'changed_at' => now()->subDays(3)->toDateTimeString(),
+                    'note' => 'تمت المقابلة بنجاح - في انتظار القرار النهائي'
+                ]
+            ]),
             'viewed_at' => now()->subDays(12),
             'interview_date' => now()->subDays(3),
             'interview_location' => 'مكتب الشركة - القاهرة الجديدة',
@@ -1142,6 +1201,33 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $yasmin->id,
             'cover_letter' => 'أتطلع للحصول على تدريب صيفي في التحليل الاستثماري. مهاراتي في البرمجة وتحليل البيانات ستساعدني في تحليل البيانات المالية بكفاءة. حاصلة على شهادة في Data Analysis.',
             'status' => 'accepted',
+            'status_history' => json_encode([
+                [
+                    'status' => 'pending',
+                    'changed_at' => now()->subDays(30)->toDateTimeString(),
+                    'note' => 'تم تقديم الطلب بنجاح'
+                ],
+                [
+                    'status' => 'reviewing',
+                    'changed_at' => now()->subDays(25)->toDateTimeString(),
+                    'note' => 'بدأت الشركة في مراجعة الطلب'
+                ],
+                [
+                    'status' => 'shortlisted',
+                    'changed_at' => now()->subDays(18)->toDateTimeString(),
+                    'note' => 'تم اختيارك ضمن القائمة المختصرة للمقابلة'
+                ],
+                [
+                    'status' => 'interviewed',
+                    'changed_at' => now()->subDays(10)->toDateTimeString(),
+                    'note' => 'تمت المقابلة بنجاح - في انتظار القرار النهائي'
+                ],
+                [
+                    'status' => 'accepted',
+                    'changed_at' => now()->subDays(8)->toDateTimeString(),
+                    'note' => 'مبروك! تم قبولك في الوظيفة'
+                ]
+            ]),
             'viewed_at' => now()->subDays(25),
             'interview_date' => now()->subDays(10),
             'interview_location' => 'مكتب الشركة - الجيزة',
@@ -1157,6 +1243,23 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $yasmin->id,
             'cover_letter' => 'على الرغم من أنني مهندسة حاسبات، لدي اهتمام كبير بالتصميم ودرست أساسيات Photoshop و Illustrator بنفسي. أحب الدمج بين التقنية والفن.',
             'status' => 'rejected',
+            'status_history' => json_encode([
+                [
+                    'status' => 'pending',
+                    'changed_at' => now()->subDays(22)->toDateTimeString(),
+                    'note' => 'تم تقديم الطلب بنجاح'
+                ],
+                [
+                    'status' => 'reviewing',
+                    'changed_at' => now()->subDays(20)->toDateTimeString(),
+                    'note' => 'بدأت الشركة في مراجعة الطلب'
+                ],
+                [
+                    'status' => 'rejected',
+                    'changed_at' => now()->subDays(18)->toDateTimeString(),
+                    'note' => 'نعتذر، تم اختيار مرشح آخر أكثر ملاءمة للوظيفة'
+                ]
+            ]),
             'viewed_at' => now()->subDays(20),
             'company_notes' => 'نقدر اهتمامها بالتصميم، لكن الوظيفة تتطلب خريج فنون تطبيقية مع معرض أعمال قوي. نحتاج لمزيد من الخبرة العملية في التصميم.',
             'created_at' => now()->subDays(22),
@@ -1169,6 +1272,23 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $yasmin->id,
             'cover_letter' => 'أمتلك مهارات كتابة جيدة وأحب الصحافة التقنية. أرغب في الكتابة عن التكنولوجيا والابتكار.',
             'status' => 'withdrawn',
+            'status_history' => json_encode([
+                [
+                    'status' => 'pending',
+                    'changed_at' => now()->subDays(20)->toDateTimeString(),
+                    'note' => 'تم تقديم الطلب بنجاح'
+                ],
+                [
+                    'status' => 'reviewing',
+                    'changed_at' => now()->subDays(18)->toDateTimeString(),
+                    'note' => 'بدأت الشركة في مراجعة الطلب'
+                ],
+                [
+                    'status' => 'withdrawn',
+                    'changed_at' => now()->subDays(16)->toDateTimeString(),
+                    'note' => 'تم سحب الطلب من قبل الطالب'
+                ]
+            ]),
             'viewed_at' => now()->subDays(18),
             'company_notes' => 'سحبت الطالبة طلبها. أخبرتنا أنها قبلت فرصة أخرى أكثر تماشياً مع تخصصها.',
             'created_at' => now()->subDays(20),
@@ -1183,6 +1303,13 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $ahmed->id,
             'cover_letter' => 'كطالب متميز في قسم إدارة الأعمال بالجامعة الأمريكية، أمتلك خلفية قوية في التحليل المالي والتسويق الرقمي. حاصل على شهادات من Google و HubSpot ولدي خبرة في استخدام PowerBI و Excel.',
             'status' => 'accepted',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(20)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح'],
+                ['status' => 'reviewing', 'changed_at' => now()->subDays(15)->toDateTimeString(), 'note' => 'بدأت الشركة في مراجعة الطلب'],
+                ['status' => 'shortlisted', 'changed_at' => now()->subDays(12)->toDateTimeString(), 'note' => 'تم اختيارك ضمن القائمة المختصرة للمقابلة'],
+                ['status' => 'interviewed', 'changed_at' => now()->subDays(7)->toDateTimeString(), 'note' => 'تمت المقابلة بنجاح - في انتظار القرار النهائي'],
+                ['status' => 'accepted', 'changed_at' => now()->subDays(5)->toDateTimeString(), 'note' => 'مبروك! تم قبولك في الوظيفة']
+            ]),
             'viewed_at' => now()->subDays(15),
             'interview_date' => now()->subDays(7),
             'interview_location' => 'مكتب الشركة - الجيزة',
@@ -1199,6 +1326,11 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $ahmed->id,
             'cover_letter' => 'أطمح للحصول على تدريب صيفي في التحليل الاستثماري. رئيس نادي ريادة الأعمال بالجامعة ولدي شغف كبير بالأسواق المالية.',
             'status' => 'shortlisted',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(12)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح'],
+                ['status' => 'reviewing', 'changed_at' => now()->subDays(10)->toDateTimeString(), 'note' => 'بدأت الشركة في مراجعة الطلب'],
+                ['status' => 'shortlisted', 'changed_at' => now()->subDays(9)->toDateTimeString(), 'note' => 'تم اختيارك ضمن القائمة المختصرة للمقابلة']
+            ]),
             'viewed_at' => now()->subDays(10),
             'company_notes' => 'خلفية ممتازة. مرشح قوي للتدريب الصيفي.',
             'is_favorite' => true,
@@ -1212,6 +1344,10 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $ahmed->id,
             'cover_letter' => 'لدي خبرة قوية في التسويق الرقمي وإدارة السوشيال ميديا. حاصل على شهادة Google Digital Marketing وأدرت حملات إعلانية ناجحة.',
             'status' => 'reviewing',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(6)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح'],
+                ['status' => 'reviewing', 'changed_at' => now()->subDays(4)->toDateTimeString(), 'note' => 'بدأت الشركة في مراجعة الطلب']
+            ]),
             'viewed_at' => now()->subDays(4),
             'company_notes' => 'شهادات معتمدة وخبرة جيدة. سنراجع ونحدد موعد مقابلة.',
             'created_at' => now()->subDays(6),
@@ -1226,6 +1362,11 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $omar->id,
             'cover_letter' => 'أنا مصمم UI/UX شغوف بتصميم تطبيقات الموبايل. لدي معرض أعمال على Behance يوضح مشاريعي في تصميم تطبيقات الموبايل. أعتقد أن مهاراتي في التصميم ستكون إضافة قيمة.',
             'status' => 'rejected',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(12)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح'],
+                ['status' => 'reviewing', 'changed_at' => now()->subDays(10)->toDateTimeString(), 'note' => 'بدأت الشركة في مراجعة الطلب'],
+                ['status' => 'rejected', 'changed_at' => now()->subDays(9)->toDateTimeString(), 'note' => 'نعتذر، تم اختيار مرشح آخر أكثر ملاءمة للوظيفة']
+            ]),
             'viewed_at' => now()->subDays(10),
             'company_notes' => 'خلفية قوية في التصميم ولكن الوظيفة تتطلب خبرة برمجية أكثر. المهارات التقنية غير كافية للدور.',
             'created_at' => now()->subDays(12),
@@ -1238,6 +1379,13 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $omar->id,
             'cover_letter' => 'أنا طالب تصميم جرافيكي متحمس بمهارات قوية في Photoshop و Illustrator و Figma. معرض أعمالي يتضمن مشاريع متنوعة في تصميم الهوية البصرية والسوشيال ميديا.',
             'status' => 'accepted',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(18)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح'],
+                ['status' => 'reviewing', 'changed_at' => now()->subDays(15)->toDateTimeString(), 'note' => 'بدأت الشركة في مراجعة الطلب'],
+                ['status' => 'shortlisted', 'changed_at' => now()->subDays(12)->toDateTimeString(), 'note' => 'تم اختيارك ضمن القائمة المختصرة للمقابلة'],
+                ['status' => 'interviewed', 'changed_at' => now()->subDays(8)->toDateTimeString(), 'note' => 'تمت المقابلة بنجاح - في انتظار القرار النهائي'],
+                ['status' => 'accepted', 'changed_at' => now()->subDays(7)->toDateTimeString(), 'note' => 'مبروك! تم قبولك في الوظيفة']
+            ]),
             'viewed_at' => now()->subDays(15),
             'interview_date' => now()->subDays(8),
             'interview_location' => 'مكتب الشركة - القاهرة الجديدة',
@@ -1256,6 +1404,12 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $nour->id,
             'cover_letter' => 'أنا طالبة صحافة شغوفة بالصحافة الاستقصائية. أكتب في عدة منصات رقمية وحاصلة على جائزة أفضل تقرير صحفي. مهاراتي في البحث والكتابة وصحافة البيانات ستكون إضافة قيمة لفريقكم.',
             'status' => 'interviewed',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(15)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح'],
+                ['status' => 'reviewing', 'changed_at' => now()->subDays(12)->toDateTimeString(), 'note' => 'بدأت الشركة في مراجعة الطلب'],
+                ['status' => 'shortlisted', 'changed_at' => now()->subDays(8)->toDateTimeString(), 'note' => 'تم اختيارك ضمن القائمة المختصرة للمقابلة'],
+                ['status' => 'interviewed', 'changed_at' => now()->subDays(4)->toDateTimeString(), 'note' => 'تمت المقابلة بنجاح - في انتظار القرار النهائي']
+            ]),
             'viewed_at' => now()->subDays(12),
             'interview_date' => now()->subDays(4),
             'interview_location' => 'مقر الأهرام - القاهرة',
@@ -1272,6 +1426,9 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $nour->id,
             'cover_letter' => 'لدي خبرة واسعة في كتابة المحتوى التسويقي والصحفي. أتقن اللغتين العربية والإنجليزية وأمتلك أسلوب كتابة جذاب ومؤثر.',
             'status' => 'pending',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(3)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح']
+            ]),
             'created_at' => now()->subDays(3),
             'updated_at' => now()->subDays(3),
         ]);
@@ -1284,6 +1441,11 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $karim->id,
             'cover_letter' => 'أنا طالب قانون متميز مع اهتمام خاص بقانون الشركات والملكية الفكرية. الفائز بمسابقة محاكاة المحاكم الوطنية وحاصل على شهادات متخصصة من WIPO.',
             'status' => 'shortlisted',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(10)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح'],
+                ['status' => 'reviewing', 'changed_at' => now()->subDays(8)->toDateTimeString(), 'note' => 'بدأت الشركة في مراجعة الطلب'],
+                ['status' => 'shortlisted', 'changed_at' => now()->subDays(7)->toDateTimeString(), 'note' => 'تم اختيارك ضمن القائمة المختصرة للمقابلة']
+            ]),
             'viewed_at' => now()->subDays(8),
             'company_notes' => 'مرشح ممتاز! خلفية أكاديمية قوية وجوائز مهمة في مجال القانون.',
             'is_favorite' => true,
@@ -1299,6 +1461,12 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $lina->id,
             'cover_letter' => 'أنا طالبة علوم حاسب متخصصة في الذكاء الاصطناعي والتعلم العميق. نشرت ورقة بحثية في مؤتمر IEEE الدولي وفزت بمسابقة Kaggle. أمتلك خبرة عملية قوية في TensorFlow و PyTorch.',
             'status' => 'interviewed',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(15)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح'],
+                ['status' => 'reviewing', 'changed_at' => now()->subDays(10)->toDateTimeString(), 'note' => 'بدأت الشركة في مراجعة الطلب'],
+                ['status' => 'shortlisted', 'changed_at' => now()->subDays(7)->toDateTimeString(), 'note' => 'تم اختيارك ضمن القائمة المختصرة للمقابلة'],
+                ['status' => 'interviewed', 'changed_at' => now()->subDays(3)->toDateTimeString(), 'note' => 'تمت المقابلة بنجاح - في انتظار القرار النهائي']
+            ]),
             'viewed_at' => now()->subDays(10),
             'interview_date' => now()->subDays(3),
             'interview_location' => 'مقابلة عن بعد - Zoom',
@@ -1315,6 +1483,9 @@ $this->command->info('💼 Job postings created with various opportunities for u
             'student_id' => $lina->id,
             'cover_letter' => 'بالإضافة لتخصصي في الذكاء الاصطناعي، أمتلك مهارات قوية في تطوير الويب Full Stack. أتقن React و Node.js وطورت عدة تطبيقات ويب.',
             'status' => 'pending',
+            'status_history' => json_encode([
+                ['status' => 'pending', 'changed_at' => now()->subDays(1)->toDateTimeString(), 'note' => 'تم تقديم الطلب بنجاح']
+            ]),
             'created_at' => now()->subDays(1),
             'updated_at' => now()->subDays(1),
         ]);
@@ -1417,8 +1588,13 @@ $this->command->info('💼 Job postings created with various opportunities for u
             foreach ($parentData['student_indices'] as $studentIndex) {
                 if (isset($createdStudents[$studentIndex])) {
                     $studentUser = $createdStudents[$studentIndex]['user'];
-                    // Update student's parent_id
-                    $studentUser->update(['parent_id' => $parent->id]);
+                    // Create approved parent-student relationship
+                    ParentStudentFollowRequest::create([
+                        'parent_id' => $parent->id,
+                        'student_id' => $studentUser->id,
+                        'status' => 'approved',
+                        'approved_at' => now(),
+                    ]);
                 }
             }
         }
