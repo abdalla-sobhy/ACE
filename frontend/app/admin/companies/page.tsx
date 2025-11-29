@@ -20,6 +20,15 @@ interface Company {
   };
 }
 
+interface PaginationData {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+  from: number;
+  to: number;
+}
+
 export default function CompaniesPage() {
   const router = useRouter();
   const { t } = useLanguage();
@@ -27,11 +36,31 @@ export default function CompaniesPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [verifiedFilter, setVerifiedFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagination, setPagination] = useState<PaginationData>({
+    current_page: 1,
+    last_page: 1,
+    per_page: 15,
+    total: 0,
+    from: 0,
+    to: 0,
+  });
 
   useEffect(() => {
     checkAuth();
-    fetchCompanies();
+  }, []);
+
+  useEffect(() => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    } else {
+      fetchCompanies();
+    }
   }, [verifiedFilter]);
+
+  useEffect(() => {
+    fetchCompanies();
+  }, [currentPage]);
 
   const checkAuth = () => {
     const userData = localStorage.getItem("user");
@@ -52,6 +81,7 @@ export default function CompaniesPage() {
       const params = new URLSearchParams();
       if (verifiedFilter) params.append("is_verified", verifiedFilter);
       if (search) params.append("search", search);
+      params.append("page", currentPage.toString());
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/companies?${params}`,
@@ -66,6 +96,14 @@ export default function CompaniesPage() {
       if (response.ok) {
         const data = await response.json();
         setCompanies(data.data.data || data.data);
+        setPagination({
+          current_page: data.data.current_page,
+          last_page: data.data.last_page,
+          per_page: data.data.per_page,
+          total: data.data.total,
+          from: data.data.from,
+          to: data.data.to,
+        });
       }
     } catch (error) {
       console.error("Error fetching companies:", error);
@@ -118,6 +156,28 @@ export default function CompaniesPage() {
     } catch (error) {
       console.error("Error unverifying company:", error);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= pagination.last_page) {
+      setCurrentPage(page);
+    }
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxPages = 5;
+    let start = Math.max(1, currentPage - Math.floor(maxPages / 2));
+    const end = Math.min(pagination.last_page, start + maxPages - 1);
+
+    if (end - start < maxPages - 1) {
+      start = Math.max(1, end - maxPages + 1);
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
   };
 
   return (
@@ -216,6 +276,53 @@ export default function CompaniesPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {!loading && pagination.last_page > 1 && (
+          <div className={styles.pagination}>
+            <div className={styles.paginationInfo}>
+              Showing {pagination.from} to {pagination.to} of {pagination.total} companies
+            </div>
+            <div className={styles.paginationControls}>
+              <button
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+                className={styles.pageButton}
+              >
+                First
+              </button>
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={styles.pageButton}
+              >
+                Previous
+              </button>
+              {getPageNumbers().map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`${styles.pageButton} ${currentPage === page ? styles.activePage : ''}`}
+                >
+                  {page}
+                </button>
+              ))}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === pagination.last_page}
+                className={styles.pageButton}
+              >
+                Next
+              </button>
+              <button
+                onClick={() => handlePageChange(pagination.last_page)}
+                disabled={currentPage === pagination.last_page}
+                className={styles.pageButton}
+              >
+                Last
+              </button>
+            </div>
           </div>
         )}
       </main>

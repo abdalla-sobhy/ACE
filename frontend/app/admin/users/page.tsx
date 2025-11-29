@@ -170,7 +170,7 @@ export default function UsersPage() {
     const pages = [];
     const maxPages = 5;
     let start = Math.max(1, currentPage - Math.floor(maxPages / 2));
-    let end = Math.min(pagination.last_page, start + maxPages - 1);
+    const end = Math.min(pagination.last_page, start + maxPages - 1);
 
     if (end - start < maxPages - 1) {
       start = Math.max(1, end - maxPages + 1);

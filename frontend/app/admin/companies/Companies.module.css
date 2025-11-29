@@ -188,6 +188,55 @@
   }
 }
 
+.pagination {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.paginationInfo {
+  color: var(--p-text);
+  font-size: 14px;
+}
+
+.paginationControls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pageButton {
+  padding: 8px 16px;
+  background: var(--sections-color);
+  border: 1px solid var(--borders);
+  border-radius: 6px;
+  color: var(--main-text-white);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 44px;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+.pageButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageButton.activePage {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: white;
+}
+
 @media (max-width: 1024px) {
   .companiesTable {
     overflow-x: auto;
@@ -195,5 +244,15 @@
 
   .companiesTable table {
     min-width: 800px;
+  }
+
+  .paginationControls {
+    gap: 4px;
+  }
+
+  .pageButton {
+    padding: 6px 12px;
+    font-size: 13px;
+    min-width: 36px;
   }
 }
