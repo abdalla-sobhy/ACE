@@ -403,7 +403,7 @@ export default function MyApplications() {
 
                 <h3>{t("universityStudent.statusHistory")}</h3>
                 <div className={styles.statusHistory}>
-                  {selectedApplication.status_history.map((history, index) => (
+                  {selectedApplication.status_history?.map((history, index) => (
                     <div key={index} className={styles.historyItem}>
                       <div className={styles.historyDate}>
                         {new Date(history.changed_at).toLocaleString("en-EG")}

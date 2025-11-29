@@ -12,6 +12,7 @@ use App\Models\UniversityStudentProfile;
 use App\Models\JobPosting;
 use App\Models\Company;
 use App\Models\JobApplication;
+use App\Models\ParentStudentFollowRequest;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -1417,8 +1418,13 @@ $this->command->info('💼 Job postings created with various opportunities for u
             foreach ($parentData['student_indices'] as $studentIndex) {
                 if (isset($createdStudents[$studentIndex])) {
                     $studentUser = $createdStudents[$studentIndex]['user'];
-                    // Update student's parent_id
-                    $studentUser->update(['parent_id' => $parent->id]);
+                    // Create approved parent-student relationship
+                    ParentStudentFollowRequest::create([
+                        'parent_id' => $parent->id,
+                        'student_id' => $studentUser->id,
+                        'status' => 'approved',
+                        'approved_at' => now(),
+                    ]);
                 }
             }
         }
