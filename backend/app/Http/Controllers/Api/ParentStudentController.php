@@ -191,8 +191,11 @@ class ParentStudentController extends Controller
                 'approved_at' => now()
             ]);
 
-            // Notify the parent
+            // Send database notification to parent
             $followRequest->parent->notify(new FollowRequestApprovedNotification($followRequest->student));
+
+            // Send email notification
+            FollowRequestApprovedNotification::sendEmail($followRequest->parent, $followRequest->student);
 
             return response()->json([
                 'success' => true,
