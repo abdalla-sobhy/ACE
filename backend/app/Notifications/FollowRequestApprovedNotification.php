@@ -20,29 +20,32 @@ class FollowRequestApprovedNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
-    public function toMail($notifiable)
+    /**
+     * Send email notification to parent about follow request approval
+     */
+    public static function sendEmail($notifiable, $student)
     {
         // Get the appropriate email address
-        $email = $this->getEmailAddress($notifiable);
+        $email = $notifiable->email;
 
         // Arabic content
         $title = 'تمت الموافقة على طلب المتابعة';
         $greeting = 'مرحباً ' . $notifiable->first_name;
-        $messageContent = 'وافق الطالب ' . $this->student->full_name . ' على طلب متابعتك.';
+        $messageContent = 'وافق الطالب ' . $student->full_name . ' على طلب متابعتك.';
         $additionalInfo = [
             'يمكنك الآن متابعة تقدمه الدراسي من لوحة التحكم.',
             'شكراً لاهتمامك بمتابعة التقدم الدراسي.'
         ];
-        $actionUrl = url('/parent/student/' . $this->student->id);
+        $actionUrl = url('/parent/student/' . $student->id);
         $actionText = 'عرض الطالب';
 
         // English content
         $titleEn = 'Follow Request Approved';
         $greetingEn = 'Hello ' . $notifiable->first_name;
-        $messageContentEn = 'Student ' . $this->student->full_name . ' has approved your follow request.';
+        $messageContentEn = 'Student ' . $student->full_name . ' has approved your follow request.';
         $additionalInfoEn = [
             'You can now track their academic progress from your dashboard.',
             'Thank you for your interest in following their academic progress.'
@@ -56,8 +59,6 @@ class FollowRequestApprovedNotification extends Notification
         ), function ($mail) use ($email, $title) {
             $mail->to($email)->subject($title . ' - Follow Request Approved');
         });
-
-        return null;
     }
 
     public function toDatabase($notifiable)
@@ -69,13 +70,5 @@ class FollowRequestApprovedNotification extends Notification
             'student_id' => $this->student->id,
             'student_name' => $this->student->full_name,
         ];
-    }
-
-    /**
-     * Get the email address for the notification
-     */
-    private function getEmailAddress($notifiable)
-    {
-        return $notifiable->email;
     }
 }
