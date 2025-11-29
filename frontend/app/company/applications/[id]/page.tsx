@@ -61,7 +61,7 @@ interface Job {
 interface StatusHistoryItem {
   status: string;
   changed_at: string;
-  notes: string | null;
+  note?: string;
 }
 
 interface Application {
@@ -69,7 +69,7 @@ interface Application {
   cover_letter: string;
   status: string;
   status_color: string;
-  status_history: StatusHistoryItem[];
+  status_history: StatusHistoryItem[] | string | null;
   company_notes: string | null;
   viewed_at: string | null;
   is_favorite: boolean;
@@ -737,14 +737,21 @@ export default function ApplicationDetailsPage() {
             </div>
 
             {/* Status History */}
-            {application.status_history && application.status_history.length > 0 && (
-              <div className={styles.card}>
-                <div className={styles.cardHeader}>
-                  <h3>{t("companyApplications.statusHistory")}</h3>
-                </div>
-                <div className={styles.cardContent}>
-                  <div className={styles.statusHistory}>
-                    {application.status_history.map((item, index) => (
+            <div className={styles.card}>
+              <div className={styles.cardHeader}>
+                <h3>{t("companyApplications.statusHistory")}</h3>
+              </div>
+              <div className={styles.cardContent}>
+                <div className={styles.statusHistory}>
+                  {(() => {
+                    // Parse status_history if it's a string, or use as-is if array, or empty array if null
+                    let statusHistory: Array<{status: string; changed_at: string; note?: string}> = [];
+                    if (application.status_history) {
+                      statusHistory = typeof application.status_history === 'string'
+                        ? JSON.parse(application.status_history)
+                        : application.status_history;
+                    }
+                    return statusHistory.map((item, index) => (
                       <div key={index} className={styles.historyItem}>
                         <div className={styles.historyStatus}>
                           {getStatusLabel(item.status)}
@@ -752,15 +759,15 @@ export default function ApplicationDetailsPage() {
                         <div className={styles.historyDate}>
                           {new Date(item.changed_at).toLocaleDateString("en-EG")}
                         </div>
-                        {item.notes && (
-                          <div className={styles.historyNotes}>{item.notes}</div>
+                        {item.note && (
+                          <div className={styles.historyNotes}>{item.note}</div>
                         )}
                       </div>
-                    ))}
-                  </div>
+                    ));
+                  })()}
                 </div>
               </div>
-            )}
+            </div>
 
             {/* Company Notes */}
             {application.company_notes && (

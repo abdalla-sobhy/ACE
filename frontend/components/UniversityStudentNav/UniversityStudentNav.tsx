@@ -110,11 +110,6 @@ export default function UniversityStudentNav() {
       label: "AI Career Mentor",
       icon: <FaRobot />,
     },
-    {
-      href: "/university_student/my-courses",
-      label: t("student.myCourses"),
-      icon: <FaGraduationCap />,
-    },
   ];
 
   return (
@@ -208,11 +203,11 @@ export default function UniversityStudentNav() {
                     <span>{t("common.profile")}</span>
                   </Link>
                   <Link
-                    href="/university_student/applications"
+                    href="/university_student/my-courses"
                     className={styles.dropdownItem}
                   >
-                    <FaClipboardList />
-                    <span>{t("universityStudent.myApplications")}</span>
+                    <FaGraduationCap />
+                    <span>{t("student.myCourses")}</span>
                   </Link>
                   <button
                     className={styles.dropdownItem}
