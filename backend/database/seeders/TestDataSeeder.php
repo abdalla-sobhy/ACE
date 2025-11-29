@@ -759,7 +759,10 @@ $this->command->info('💼 Job postings created with various opportunities for u
                     ['name' => 'E-Commerce Platform', 'description' => 'Built with React & Node.js'],
                     ['name' => 'AI Chatbot', 'description' => 'NLP-powered customer service bot'],
                 ],
-                'certifications' => ['AWS Cloud Practitioner', 'Meta React Certification'],
+                'certifications' => [
+                    ['name' => 'AWS Cloud Practitioner', 'issuer' => 'Amazon Web Services', 'date' => '2024-03-15'],
+                    ['name' => 'Meta React Certification', 'issuer' => 'Meta', 'date' => '2024-06-20'],
+                ],
             ],
             // Student 2: Business student
             [
@@ -776,7 +779,10 @@ $this->command->info('💼 Job postings created with various opportunities for u
                 'looking_for_opportunities' => true,
                 'portfolio_url' => 'https://ahmed-khaled-portfolio.com',
                 'linkedin_url' => 'https://linkedin.com/in/ahmed-khaled',
-                'certifications' => ['Google Digital Marketing', 'HubSpot Content Marketing'],
+                'certifications' => [
+                    ['name' => 'Google Digital Marketing', 'issuer' => 'Google', 'date' => '2024-01-10'],
+                    ['name' => 'HubSpot Content Marketing', 'issuer' => 'HubSpot Academy', 'date' => '2024-04-25'],
+                ],
                 'achievements' => ['President of Entrepreneurship Club', 'Dean\'s List 3 semesters'],
             ],
             // Student 3: Medical student (not looking)
@@ -855,7 +861,10 @@ $this->command->info('💼 Job postings created with various opportunities for u
                     'الفائز بمسابقة محاكاة المحاكم الوطنية',
                     'عضو فريق البحث القانوني بالكلية',
                 ],
-                'certifications' => ['Intellectual Property Law - WIPO', 'Corporate Law Fundamentals'],
+                'certifications' => [
+                    ['name' => 'Intellectual Property Law', 'issuer' => 'WIPO', 'date' => '2024-02-18'],
+                    ['name' => 'Corporate Law Fundamentals', 'issuer' => 'Legal Academy', 'date' => '2024-05-12'],
+                ],
             ],
             // Student 7: Engineering student - Mechanical
             [
@@ -949,7 +958,10 @@ $this->command->info('💼 Job postings created with various opportunities for u
                     ['name' => 'Medical Image Classification', 'description' => 'Deep learning model for disease detection'],
                     ['name' => 'Arabic NLP System', 'description' => 'Sentiment analysis for Arabic text'],
                 ],
-                'certifications' => ['Deep Learning Specialization - Coursera', 'TensorFlow Developer Certificate'],
+                'certifications' => [
+                    ['name' => 'Deep Learning Specialization', 'issuer' => 'Coursera', 'date' => '2024-07-30'],
+                    ['name' => 'TensorFlow Developer Certificate', 'issuer' => 'Google', 'date' => '2024-09-15'],
+                ],
             ],
             // Student 12: Architecture student
             [
@@ -993,7 +1005,10 @@ $this->command->info('💼 Job postings created with various opportunities for u
                     ['title' => 'Freelance Translator', 'company' => 'Upwork', 'duration' => '1 year'],
                     ['title' => 'English Tutor', 'company' => 'Private', 'duration' => '8 months'],
                 ],
-                'certifications' => ['IELTS - Band 8', 'CELTA (In Progress)'],
+                'certifications' => [
+                    ['name' => 'IELTS - Band 8', 'issuer' => 'British Council', 'date' => '2024-05-20'],
+                    ['name' => 'CELTA (In Progress)', 'issuer' => 'Cambridge Assessment English', 'date' => '2025-01-15'],
+                ],
             ],
             // Student 14: Tourism student
             [
@@ -1009,7 +1024,10 @@ $this->command->info('💼 Job postings created with various opportunities for u
                 'skills' => ['Tour Guiding', 'Customer Service', 'History Knowledge', 'Event Planning', 'Hospitality Management'],
                 'looking_for_opportunities' => true,
                 'linkedin_url' => 'https://linkedin.com/in/tamer-fawzy',
-                'certifications' => ['Licensed Tour Guide - Ministry of Tourism', 'First Aid Certificate'],
+                'certifications' => [
+                    ['name' => 'Licensed Tour Guide', 'issuer' => 'Ministry of Tourism', 'date' => '2024-08-10'],
+                    ['name' => 'First Aid Certificate', 'issuer' => 'Red Crescent', 'date' => '2024-10-05'],
+                ],
             ],
             // Student 15: Veterinary student
             [
