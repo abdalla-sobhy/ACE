@@ -403,19 +403,28 @@ export default function MyApplications() {
 
                 <h3>{t("universityStudent.statusHistory")}</h3>
                 <div className={styles.statusHistory}>
-                  {selectedApplication.status_history.map((history, index) => (
-                    <div key={index} className={styles.historyItem}>
-                      <div className={styles.historyDate}>
-                        {new Date(history.changed_at).toLocaleString("en-EG")}
+                  {(() => {
+                    // Parse status_history if it's a string, or use as-is if array, or empty array if null
+                    let statusHistory = [];
+                    if (selectedApplication.status_history) {
+                      statusHistory = typeof selectedApplication.status_history === 'string'
+                        ? JSON.parse(selectedApplication.status_history)
+                        : selectedApplication.status_history;
+                    }
+                    return statusHistory.map((history: any, index: number) => (
+                      <div key={index} className={styles.historyItem}>
+                        <div className={styles.historyDate}>
+                          {new Date(history.changed_at).toLocaleString("en-EG")}
+                        </div>
+                        <div className={styles.historyStatus}>
+                          {history.status}
+                        </div>
+                        {history.note && (
+                          <div className={styles.historyNotes}>{history.note}</div>
+                        )}
                       </div>
-                      <div className={styles.historyStatus}>
-                        {history.status}
-                      </div>
-                      {history.notes && (
-                        <div className={styles.historyNotes}>{history.notes}</div>
-                      )}
-                    </div>
-                  ))}
+                    ));
+                  })()}
                 </div>
               </div>
             </div>
