@@ -237,7 +237,7 @@ export default function CompanyApplicationsPage() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#ffa657" }}>
+            <div className={styles.statIcon}>
               <FaClock />
             </div>
             <div className={styles.statContent}>
@@ -247,7 +247,7 @@ export default function CompanyApplicationsPage() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#58a6ff" }}>
+            <div className={styles.statIcon}>
               <FaHourglassHalf />
             </div>
             <div className={styles.statContent}>
@@ -257,7 +257,7 @@ export default function CompanyApplicationsPage() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#a371f7" }}>
+            <div className={styles.statIcon}>
               <FaUserCheck />
             </div>
             <div className={styles.statContent}>
@@ -267,7 +267,7 @@ export default function CompanyApplicationsPage() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#79c0ff" }}>
+            <div className={styles.statIcon}>
               <FaUserCheck />
             </div>
             <div className={styles.statContent}>
@@ -277,7 +277,7 @@ export default function CompanyApplicationsPage() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#3fb950" }}>
+            <div className={styles.statIcon}>
               <FaCheckCircle />
             </div>
             <div className={styles.statContent}>
@@ -287,7 +287,7 @@ export default function CompanyApplicationsPage() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#f85149" }}>
+            <div className={styles.statIcon}>
               <FaTimesCircle />
             </div>
             <div className={styles.statContent}>
@@ -297,7 +297,7 @@ export default function CompanyApplicationsPage() {
           </div>
 
           <div className={styles.statCard}>
-            <div className={styles.statIcon} style={{ background: "#ffd700" }}>
+            <div className={styles.statIcon}>
               <FaStar />
             </div>
             <div className={styles.statContent}>
