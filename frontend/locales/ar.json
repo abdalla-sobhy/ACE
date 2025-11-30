@@ -72,7 +72,11 @@
     "publicationDate": "تاريخ النشر",
     "lastUpdated": "آخر تحديث",
     "currency": "جنيه",
-    "days": "أيام"
+    "days": "أيام",
+    "showing": "عرض",
+    "to": "إلى",
+    "of": "من",
+    "entries": "سجل"
   },
   "nav": {
     "features": "المميزات",

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Pagination.module.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface PaginationProps {
   currentPage: number;
@@ -17,6 +18,8 @@ export default function Pagination({
   perPage,
   onPageChange,
 }: PaginationProps) {
+  const { t } = useLanguage();
+
   if (lastPage <= 1) return null;
 
   const startItem = (currentPage - 1) * perPage + 1;
@@ -60,7 +63,7 @@ export default function Pagination({
   return (
     <div className={styles.paginationContainer}>
       <div className={styles.info}>
-        Showing {startItem} to {endItem} of {total} entries
+        {t("common.showing")} {startItem} {t("common.to")} {endItem} {t("common.of")} {total} {t("common.entries")}
       </div>
       <div className={styles.pagination}>
         <button
@@ -68,7 +71,7 @@ export default function Pagination({
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          <FaChevronLeft /> Previous
+          <FaChevronLeft /> {t("common.previous")}
         </button>
 
         {getPageNumbers().map((page, index) => (
@@ -93,7 +96,7 @@ export default function Pagination({
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === lastPage}
         >
-          Next <FaChevronRight />
+          {t("common.next")} <FaChevronRight />
         </button>
       </div>
     </div>
