@@ -328,7 +328,6 @@ export default function FeaturesPage() {
             </Link>
           </div>
           <p className={styles.ctaNote}>
-            <span className={styles.ctaIcon}>🎁</span>
             {t("features.ctaNote")}
           </p>
         </div>
