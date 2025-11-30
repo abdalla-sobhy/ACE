@@ -340,8 +340,8 @@ export default function CompanyApplicationsPage() {
               onChange={(e) => setSortBy(e.target.value)}
               className={styles.filterSelect}
             >
-              <option value="newest">{t("common.next")}</option>
-              <option value="oldest">{t("common.previous")}</option>
+              <option value="newest">{t("common.mostRecent")}</option>
+              <option value="oldest">{t("common.oldest")}</option>
               <option value="name">{t("common.name")}</option>
             </select>
 
