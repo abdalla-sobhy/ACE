@@ -130,7 +130,6 @@ export default function Features() {
     {
       title: "Online Learning",
       description: "Access courses anytime, anywhere",
-      icon: "📚",
       userTypes: ["student"]
     },
     {

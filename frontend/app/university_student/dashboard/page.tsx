@@ -310,14 +310,14 @@ export default function UniversityStudentDashboard() {
   };
 
   const categories = [
-    { value: "all", label: t("universityStudent.allSpecializations"), icon: "📚" },
-    { value: "programming", label: t("universityStudent.programming"), icon: "💻" },
-    { value: "business", label: t("universityStudent.business"), icon: "💼" },
-    { value: "design", label: t("universityStudent.design"), icon: "🎨" },
-    { value: "marketing", label: t("universityStudent.marketing"), icon: "📈" },
-    { value: "data", label: t("universityStudent.dataAnalysis"), icon: "📊" },
-    { value: "languages", label: t("universityStudent.languages"), icon: "🌍" },
-    { value: "soft_skills", label: t("universityStudent.softSkills"), icon: "🤝" },
+    { value: "all", label: t("universityStudent.allSpecializations")},
+    { value: "programming", label: t("universityStudent.programming")},
+    { value: "business", label: t("universityStudent.business")},
+    { value: "design", label: t("universityStudent.design")},
+    { value: "marketing", label: t("universityStudent.marketing")},
+    { value: "data", label: t("universityStudent.dataAnalysis")},
+    { value: "languages", label: t("universityStudent.languages")},
+    { value: "soft_skills", label: t("universityStudent.softSkills")},
   ];
 
   if (loading) {

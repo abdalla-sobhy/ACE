@@ -586,7 +586,6 @@ export default function AdminDashboard() {
         <StatCard
           title="Total Courses"
           value={stats.totalCourses}
-          icon="📚"
           color="green"
         />
         <StatCard
@@ -639,7 +638,6 @@ export default function AdminDashboard() {
           onClick={() => router.push('/admin/courses')}
           className="bg-green-600 text-white p-6 rounded-lg hover:bg-green-700"
         >
-          <p className="text-3xl mb-2">📚</p>
           <p className="font-bold">Manage Courses</p>
           <p className="text-sm">Review course content</p>
         </button>

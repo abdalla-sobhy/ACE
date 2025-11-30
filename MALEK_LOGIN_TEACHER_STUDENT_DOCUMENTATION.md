@@ -290,7 +290,6 @@ export default function TeacherDashboard() {
         <StatCard
           title="Total Courses"
           value={stats.totalCourses}
-          icon="📚"
         />
         <StatCard
           title="Total Students"
