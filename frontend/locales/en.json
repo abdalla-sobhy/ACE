@@ -72,7 +72,11 @@
     "publicationDate": "Publication Date",
     "lastUpdated": "Last Updated",
     "currency": "EGP",
-    "days": "days"
+    "days": "days",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "entries": "entries"
   },
   "nav": {
     "features": "Features",
