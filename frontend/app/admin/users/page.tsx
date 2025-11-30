@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AdminNav from "@/components/AdminNav/AdminNav";
+import Pagination from "@/components/Pagination/Pagination";
 import styles from "./Users.module.css";
 import { FaUsers, FaSearch, FaBan, FaCheck } from "react-icons/fa";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -25,11 +26,15 @@ export default function UsersPage() {
   const [search, setSearch] = useState("");
   const [userType, setUserType] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [perPage, setPerPage] = useState(15);
 
   useEffect(() => {
     checkAuth();
     fetchUsers();
-  }, [userType, statusFilter]);
+  }, [userType, statusFilter, currentPage]);
 
   const checkAuth = () => {
     const userData = localStorage.getItem("user");
@@ -51,6 +56,7 @@ export default function UsersPage() {
       if (userType) params.append("user_type", userType);
       if (statusFilter) params.append("status", statusFilter);
       if (search) params.append("search", search);
+      params.append("page", currentPage.toString());
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/users?${params}`,
@@ -64,7 +70,12 @@ export default function UsersPage() {
 
       if (response.ok) {
         const data = await response.json();
-        setUsers(data.data.data || data.data);
+        const paginatedData = data.data;
+        setUsers(paginatedData.data || data.data);
+        setCurrentPage(paginatedData.current_page || 1);
+        setLastPage(paginatedData.last_page || 1);
+        setTotal(paginatedData.total || 0);
+        setPerPage(paginatedData.per_page || 15);
       }
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -121,6 +132,14 @@ export default function UsersPage() {
     }
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleFilterChange = () => {
+    setCurrentPage(1);
+  };
+
   return (
     <div className={styles.container}>
       <AdminNav />
@@ -143,7 +162,10 @@ export default function UsersPage() {
           </div>
           <select
             value={userType}
-            onChange={(e) => setUserType(e.target.value)}
+            onChange={(e) => {
+              setUserType(e.target.value);
+              handleFilterChange();
+            }}
             className={styles.select}
           >
             <option value="">{t("admin.users.allUserTypes")}</option>
@@ -155,7 +177,10 @@ export default function UsersPage() {
           </select>
           <select
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
+            onChange={(e) => {
+              setStatusFilter(e.target.value);
+              handleFilterChange();
+            }}
             className={styles.select}
           >
             <option value="">{t("admin.users.allStatuses")}</option>
@@ -220,6 +245,13 @@ export default function UsersPage() {
                 ))}
               </tbody>
             </table>
+            <Pagination
+              currentPage={currentPage}
+              lastPage={lastPage}
+              total={total}
+              perPage={perPage}
+              onPageChange={handlePageChange}
+            />
           </div>
         )}
       </main>
