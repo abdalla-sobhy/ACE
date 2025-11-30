@@ -511,7 +511,6 @@ export default function UniversityStudentDashboard() {
                 }`}
                 onClick={() => setSelectedCategory(category.value)}
               >
-                <span className={styles.categoryIcon}>{category.icon}</span>
                 <span>{category.label}</span>
               </button>
             ))}
