@@ -155,10 +155,10 @@ export default function MyApplications() {
 
   const getJobTypeLabel = (type: string) => {
     const labels: { [key: string]: string } = {
-      full_time: "دوام كامل",
-      part_time: "دوام جزئي",
-      internship: "تدريب",
-      contract: "عقد",
+      full_time: t("companyJobs.fullTime"),
+      part_time: t("companyJobs.partTime"),
+      internship: t("companyJobs.internship"),
+      contract: t("companyJobs.contract"),
     };
     return labels[type] || type;
   };
@@ -316,7 +316,7 @@ export default function MyApplications() {
                   <div className={styles.detailItem}>
                     <FaClock />
                     <span>
-                      تقدمت في {new Date(application.created_at).toLocaleDateString("en-EG")}
+                      {t("universityStudent.appliedOn")} {new Date(application.created_at).toLocaleDateString("en-EG")}
                     </span>
                   </div>
                   {application.viewed_at && (
@@ -331,11 +331,11 @@ export default function MyApplications() {
                   <div className={styles.interviewInfo}>
                     <FaCalendarAlt />
                     <span>
-                      موعد المقابلة: {new Date(application.interview_date).toLocaleString("en-EG")}
+                      {t("universityStudent.interviewDate")}: {new Date(application.interview_date).toLocaleString("en-EG")}
+                      {application.interview_location && (
+                        <> - {application.interview_location}</>
+                      )}
                     </span>
-                    {application.interview_location && (
-                      <span> - {application.interview_location}</span>
-                    )}
                   </div>
                 )}
 
@@ -368,17 +368,17 @@ export default function MyApplications() {
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
-              السابق
+              {t("common.previous")}
             </button>
             <span className={styles.pageInfo}>
-              صفحة {currentPage} من {totalPages}
+              {t("common.page")} {currentPage} {t("common.of")} {totalPages}
             </span>
             <button
               className={styles.pageButton}
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >
-              التالي
+              {t("common.next")}
             </button>
           </div>
         )}
