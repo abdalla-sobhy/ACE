@@ -161,8 +161,8 @@ export default function CoursesPage() {
                         ? `${course.teacher.first_name} ${course.teacher.last_name}`
                         : t("admin.courses.na")}
                     </td>
-                    <td>{course.grade}</td>
-                    <td>${course.price}</td>
+                    <td>{t(`grades.${course.grade}`)}</td>
+                    <td>EGP {course.price}</td>
                     <td>
                       <span className={`${styles.statusBadge} ${styles[course.status]}`}>
                         {course.status}
