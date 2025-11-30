@@ -388,7 +388,7 @@ export default function MyApplications() {
           <div className={styles.modal}>
             <div className={styles.modalContent}>
               <div className={styles.modalHeader}>
-                <h2>{t("company.applicationDetails")}</h2>
+                <h2>{t("companyApplications.applicationDetails")}</h2>
                 <button
                   className={styles.closeButton}
                   onClick={() => setSelectedApplication(null)}
