@@ -1103,7 +1103,7 @@ const handleRemoveCertification = (index: number) => {
                   <div className={styles.achievementsList}>
                     {profile.achievements.map((achievement, index) => (
                       <div key={index} className={styles.achievementItem}>
-                        <FaTrophy className={styles.achievementIcon} />
+                        {/* <FaTrophy className={styles.achievementIcon} /> */}
                         <span>{achievement}</span>
                         {isEditing && (
                           <button
