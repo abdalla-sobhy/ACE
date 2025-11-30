@@ -164,16 +164,16 @@ export default function MyCourses() {
 
   const getCategoryLabel = (category: string) => {
     const categoryLabels: { [key: string]: { label: string; icon: string } } = {
-      arabic: { label: t("subjects.arabic"), icon: "📝" },
-      english: { label: t("subjects.english"), icon: "🌍" },
-      math: { label: t("subjects.math"), icon: "🔢" },
-      science: { label: t("subjects.science"), icon: "🔬" },
-      social: { label: t("subjects.social"), icon: "🗺️" },
-      religion: { label: t("subjects.religion"), icon: "🕌" },
-      french: { label: t("subjects.french"), icon: "🇫🇷" },
-      german: { label: t("subjects.german"), icon: "🇩🇪" },
+      arabic: { label: t("subjects.arabic"), icon: "" },
+      english: { label: t("subjects.english"), icon: "" },
+      math: { label: t("subjects.math"), icon: "" },
+      science: { label: t("subjects.science"), icon: "" },
+      social: { label: t("subjects.social"), icon: "" },
+      religion: { label: t("subjects.religion"), icon: "" },
+      french: { label: t("subjects.french"), icon: "" },
+      german: { label: t("subjects.german"), icon: "" },
     };
-    return categoryLabels[category || ''] || { label: category || t("subjects.general"), icon: "📚" };
+    return categoryLabels[category || ''] || { label: category || t("subjects.general")};
   };
 
   if (loading) {
