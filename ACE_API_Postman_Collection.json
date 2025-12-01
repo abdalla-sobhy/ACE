@@ -1,0 +1,2650 @@
+{
+	"info": {
+		"_postman_id": "ace-api-collection-2025",
+		"name": "ACE Platform API Collection",
+		"description": "Complete API collection for ACE (Academic Career Enhancement) Platform - Laravel Backend API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"user_type\": \"university_student\",\n  \"phone\": \"+201234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"access_token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "logout"]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/user",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "user"]
+						}
+					}
+				},
+				{
+					"name": "Check Email",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/check-email",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "check-email"]
+						}
+					}
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/forgot-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "forgot-password"]
+						}
+					}
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\": \"reset_token\",\n  \"email\": \"john@example.com\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/reset-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "reset-password"]
+						}
+					}
+				},
+				{
+					"name": "Send OTP",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/send-otp",
+							"host": ["{{base_url}}"],
+							"path": ["send-otp"]
+						}
+					}
+				},
+				{
+					"name": "Verify OTP",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john@example.com\",\n  \"otp\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/verify-otp",
+							"host": ["{{base_url}}"],
+							"path": ["verify-otp"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get All Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notifications",
+							"host": ["{{base_url}}"],
+							"path": ["notifications"]
+						}
+					}
+				},
+				{
+					"name": "Get Unread Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notifications/unread-count",
+							"host": ["{{base_url}}"],
+							"path": ["notifications", "unread-count"]
+						}
+					}
+				},
+				{
+					"name": "Mark As Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notifications/:id/read",
+							"host": ["{{base_url}}"],
+							"path": ["notifications", ":id", "read"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Mark All As Read",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notifications/mark-all-read",
+							"host": ["{{base_url}}"],
+							"path": ["notifications", "mark-all-read"]
+						}
+					}
+				},
+				{
+					"name": "Delete Notification",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notifications/:id",
+							"host": ["{{base_url}}"],
+							"path": ["notifications", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete All Read",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notifications/read/all",
+							"host": ["{{base_url}}"],
+							"path": ["notifications", "read", "all"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Dashboard",
+					"item": [
+						{
+							"name": "Get Dashboard Stats",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/dashboard/stats",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "dashboard", "stats"]
+								}
+							}
+						},
+						{
+							"name": "Get Analytics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/analytics/:period?",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "analytics", ":period?"],
+									"variable": [
+										{
+											"key": "period?",
+											"value": "week"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Get All Users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/users",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users"]
+								}
+							}
+						},
+						{
+							"name": "Get User By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/users/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Update User Status",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"active\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/users/:id/status",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users", ":id", "status"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Suspend User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/users/:id/suspend",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users", ":id", "suspend"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Activate User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/users/:id/activate",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users", ":id", "activate"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/users/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Create Admin",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Admin User\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword123\",\n  \"password_confirmation\": \"adminpassword123\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/users/create-admin",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users", "create-admin"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Teachers",
+					"item": [
+						{
+							"name": "Get Pending Teachers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/teachers/pending",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "teachers", "pending"]
+								}
+							}
+						},
+						{
+							"name": "Get Teacher Details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/teachers/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "teachers", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Approve Teacher",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/teachers/:id/approve",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "teachers", ":id", "approve"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Reject Teacher",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"rejection_reason\": \"Insufficient qualifications\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/teachers/:id/reject",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "teachers", ":id", "reject"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Download Teacher CV",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/teachers/:id/cv",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "teachers", ":id", "cv"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Courses",
+					"item": [
+						{
+							"name": "Get All Courses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/courses",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "courses"]
+								}
+							}
+						},
+						{
+							"name": "Update Course Status",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"approved\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/courses/:id/status",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "courses", ":id", "status"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Delete Course",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/courses/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "courses", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Companies",
+					"item": [
+						{
+							"name": "Get All Companies",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/companies",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "companies"]
+								}
+							}
+						},
+						{
+							"name": "Verify Company",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/companies/:id/verify",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "companies", ":id", "verify"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Unverify Company",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/companies/:id/unverify",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "companies", ":id", "unverify"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Upload Profile Picture",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "profile_picture",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/upload-profile-picture",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "upload-profile-picture"]
+								}
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "Register Company (Public)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"company_name\": \"Tech Corp\",\n  \"email\": \"contact@techcorp.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"industry\": \"Technology\",\n  \"website\": \"https://techcorp.com\",\n  \"description\": \"Leading tech company\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/company/register",
+							"host": ["{{base_url}}"],
+							"path": ["company", "register"]
+						}
+					}
+				},
+				{
+					"name": "Dashboard",
+					"item": [
+						{
+							"name": "Get Dashboard Stats",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/dashboard/stats",
+									"host": ["{{base_url}}"],
+									"path": ["company", "dashboard", "stats"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get Profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/profile",
+									"host": ["{{base_url}}"],
+									"path": ["company", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Update Profile",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"company_name\": \"Updated Tech Corp\",\n  \"industry\": \"Technology\",\n  \"website\": \"https://techcorp.com\",\n  \"description\": \"Updated description\",\n  \"location\": \"Cairo, Egypt\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/company/profile",
+									"host": ["{{base_url}}"],
+									"path": ["company", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Upload Logo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "logo",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/company/upload-logo",
+									"host": ["{{base_url}}"],
+									"path": ["company", "upload-logo"]
+								}
+							}
+						},
+						{
+							"name": "Upload Profile Picture",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "profile_picture",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/company/upload-profile-picture",
+									"host": ["{{base_url}}"],
+									"path": ["company", "upload-profile-picture"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Jobs",
+					"item": [
+						{
+							"name": "Get All Jobs",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/jobs",
+									"host": ["{{base_url}}"],
+									"path": ["company", "jobs"]
+								}
+							}
+						},
+						{
+							"name": "Get Job By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/jobs/:id",
+									"host": ["{{base_url}}"],
+									"path": ["company", "jobs", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Create Job",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"Software Engineer\",\n  \"description\": \"We are looking for a talented software engineer\",\n  \"requirements\": \"3+ years experience with JavaScript\",\n  \"location\": \"Cairo, Egypt\",\n  \"job_type\": \"full-time\",\n  \"salary_range\": \"50000-80000 EGP\",\n  \"deadline\": \"2025-12-31\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/company/jobs",
+									"host": ["{{base_url}}"],
+									"path": ["company", "jobs"]
+								}
+							}
+						},
+						{
+							"name": "Update Job",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"Senior Software Engineer\",\n  \"description\": \"Updated job description\",\n  \"requirements\": \"5+ years experience\",\n  \"location\": \"Cairo, Egypt\",\n  \"job_type\": \"full-time\",\n  \"salary_range\": \"80000-120000 EGP\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/company/jobs/:id",
+									"host": ["{{base_url}}"],
+									"path": ["company", "jobs", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Delete Job",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/jobs/:id",
+									"host": ["{{base_url}}"],
+									"path": ["company", "jobs", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Applications",
+					"item": [
+						{
+							"name": "Get All Applications",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/applications",
+									"host": ["{{base_url}}"],
+									"path": ["company", "applications"]
+								}
+							}
+						},
+						{
+							"name": "Get Applications For Job",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/jobs/:jobId/applications",
+									"host": ["{{base_url}}"],
+									"path": ["company", "jobs", ":jobId", "applications"],
+									"variable": [
+										{
+											"key": "jobId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Get Application Details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/applications/:id",
+									"host": ["{{base_url}}"],
+									"path": ["company", "applications", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Update Application Status",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"accepted\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/company/applications/:id/status",
+									"host": ["{{base_url}}"],
+									"path": ["company", "applications", ":id", "status"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Toggle Favorite",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/applications/:id/favorite",
+									"host": ["{{base_url}}"],
+									"path": ["company", "applications", ":id", "favorite"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Download Student CV",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/company/students/:studentId/cv",
+									"host": ["{{base_url}}"],
+									"path": ["company", "students", ":studentId", "cv"],
+									"variable": [
+										{
+											"key": "studentId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "University Student",
+			"item": [
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get Profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/profile",
+									"host": ["{{base_url}}"],
+									"path": ["university", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Update Profile",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John Doe\",\n  \"phone\": \"+201234567890\",\n  \"university\": \"Cairo University\",\n  \"major\": \"Computer Science\",\n  \"graduation_year\": 2026,\n  \"bio\": \"Passionate about software development\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/university/profile",
+									"host": ["{{base_url}}"],
+									"path": ["university", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Upload Profile Picture",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "profile_picture",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/university/upload-profile-picture",
+									"host": ["{{base_url}}"],
+									"path": ["university", "upload-profile-picture"]
+								}
+							}
+						},
+						{
+							"name": "Get Profile Stats",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/profile-stats",
+									"host": ["{{base_url}}"],
+									"path": ["university", "profile-stats"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "CV Management",
+					"item": [
+						{
+							"name": "Upload CV",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "cv",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/university/upload-cv",
+									"host": ["{{base_url}}"],
+									"path": ["university", "upload-cv"]
+								}
+							}
+						},
+						{
+							"name": "Download CV",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/download-cv",
+									"host": ["{{base_url}}"],
+									"path": ["university", "download-cv"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Courses",
+					"item": [
+						{
+							"name": "Get All Courses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/courses",
+									"host": ["{{base_url}}"],
+									"path": ["university", "courses"]
+								}
+							}
+						},
+						{
+							"name": "View Course",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/courses/:id/view",
+									"host": ["{{base_url}}"],
+									"path": ["university", "courses", ":id", "view"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Enroll In Course",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/courses/:id/enroll",
+									"host": ["{{base_url}}"],
+									"path": ["university", "courses", ":id", "enroll"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Get My Courses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/my-courses",
+									"host": ["{{base_url}}"],
+									"path": ["university", "my-courses"]
+								}
+							}
+						},
+						{
+							"name": "Update Lesson Progress",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"completed\": true\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/university/lessons/:id/progress",
+									"host": ["{{base_url}}"],
+									"path": ["university", "lessons", ":id", "progress"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Jobs",
+					"item": [
+						{
+							"name": "Get All Jobs",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/jobs",
+									"host": ["{{base_url}}"],
+									"path": ["university", "jobs"]
+								}
+							}
+						},
+						{
+							"name": "Get Job By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/jobs/:id",
+									"host": ["{{base_url}}"],
+									"path": ["university", "jobs", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Apply For Job",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cover_letter\": \"I am very interested in this position...\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/university/jobs/:id/apply",
+									"host": ["{{base_url}}"],
+									"path": ["university", "jobs", ":id", "apply"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Test JSearch API",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/test-jsearch",
+									"host": ["{{base_url}}"],
+									"path": ["university", "test-jsearch"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Applications",
+					"item": [
+						{
+							"name": "Get My Applications",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/applications",
+									"host": ["{{base_url}}"],
+									"path": ["university", "applications"]
+								}
+							}
+						},
+						{
+							"name": "Withdraw Application",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/applications/:id",
+									"host": ["{{base_url}}"],
+									"path": ["university", "applications", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Public Profiles",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/university/public-profiles",
+							"host": ["{{base_url}}"],
+							"path": ["university", "public-profiles"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Teacher",
+			"item": [
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get Profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/teacher/profile",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Update Profile",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Dr. Jane Smith\",\n  \"phone\": \"+201234567890\",\n  \"bio\": \"Experienced educator with 10+ years\",\n  \"specialization\": \"Computer Science\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/teacher/profile",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Upload CV",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "cv",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/teacher/upload-cv",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "upload-cv"]
+								}
+							}
+						},
+						{
+							"name": "Upload Profile Picture",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "profile_picture",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/teacher/upload-profile-picture",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "upload-profile-picture"]
+								}
+							}
+						},
+						{
+							"name": "Get Stats",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/teacher/stats",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "stats"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Courses",
+					"item": [
+						{
+							"name": "Get All Courses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/teacher/courses",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "courses"]
+								}
+							}
+						},
+						{
+							"name": "Get Course With Lessons",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/teacher/courses/:id",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "courses", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Create Course",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"Introduction to Programming\",\n  \"description\": \"Learn the basics of programming\",\n  \"category\": \"Programming\",\n  \"price\": 500,\n  \"difficulty_level\": \"beginner\",\n  \"thumbnail\": \"https://example.com/image.jpg\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/teacher/courses",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "courses"]
+								}
+							}
+						},
+						{
+							"name": "Update Course",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"Advanced Programming\",\n  \"description\": \"Updated description\",\n  \"price\": 750\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/teacher/courses/:id",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "courses", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Delete Course",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/teacher/courses/:id",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "courses", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Lessons",
+					"item": [
+						{
+							"name": "Create Lesson",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"Lesson 1: Introduction\",\n  \"description\": \"Introduction to the course\",\n  \"video_url\": \"https://example.com/video.mp4\",\n  \"duration\": 1800,\n  \"order\": 1\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/teacher/courses/:course/lessons",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "courses", ":course", "lessons"],
+									"variable": [
+										{
+											"key": "course",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Update Lesson",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"Updated Lesson Title\",\n  \"description\": \"Updated description\",\n  \"video_url\": \"https://example.com/new-video.mp4\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/teacher/lessons/:lesson",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "lessons", ":lesson"],
+									"variable": [
+										{
+											"key": "lesson",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Delete Lesson",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/teacher/lessons/:lesson",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "lessons", ":lesson"],
+									"variable": [
+										{
+											"key": "lesson",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Reorder Lessons",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"lessons\": [\n    {\"id\": 1, \"order\": 2},\n    {\"id\": 2, \"order\": 1}\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/teacher/courses/:course/lessons/reorder",
+									"host": ["{{base_url}}"],
+									"path": ["teacher", "courses", ":course", "lessons", "reorder"],
+									"variable": [
+										{
+											"key": "course",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Parent",
+			"item": [
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get Profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/parent/profile",
+									"host": ["{{base_url}}"],
+									"path": ["parent", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Update Profile",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Parent Name\",\n  \"phone\": \"+201234567890\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/parent/profile",
+									"host": ["{{base_url}}"],
+									"path": ["parent", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Upload Profile Picture",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "profile_picture",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/parent/upload-profile-picture",
+									"host": ["{{base_url}}"],
+									"path": ["parent", "upload-profile-picture"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Students",
+					"item": [
+						{
+							"name": "Search Student",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"student@example.com\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/parent/search-student",
+									"host": ["{{base_url}}"],
+									"path": ["parent", "search-student"]
+								}
+							}
+						},
+						{
+							"name": "Send Follow Request",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"student_id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/parent/follow-request",
+									"host": ["{{base_url}}"],
+									"path": ["parent", "follow-request"]
+								}
+							}
+						},
+						{
+							"name": "Get Followed Students",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/parent/followed-students",
+									"host": ["{{base_url}}"],
+									"path": ["parent", "followed-students"]
+								}
+							}
+						},
+						{
+							"name": "Get Student Details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/parent/student/:id",
+									"host": ["{{base_url}}"],
+									"path": ["parent", "student", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Unfollow Student",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/parent/unfollow/:id",
+									"host": ["{{base_url}}"],
+									"path": ["parent", "unfollow", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get Profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/student/profile",
+									"host": ["{{base_url}}"],
+									"path": ["student", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Update Profile",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Student Name\",\n  \"phone\": \"+201234567890\",\n  \"grade\": \"10\",\n  \"school\": \"Cairo High School\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/student/profile",
+									"host": ["{{base_url}}"],
+									"path": ["student", "profile"]
+								}
+							}
+						},
+						{
+							"name": "Upload Profile Picture",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "profile_picture",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/student/upload-profile-picture",
+									"host": ["{{base_url}}"],
+									"path": ["student", "upload-profile-picture"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Courses",
+					"item": [
+						{
+							"name": "View Course",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/student/courses/:id/view",
+									"host": ["{{base_url}}"],
+									"path": ["student", "courses", ":id", "view"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Enroll In Course",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/student/courses/:id/enroll",
+									"host": ["{{base_url}}"],
+									"path": ["student", "courses", ":id", "enroll"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Get My Courses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/student/my-courses",
+									"host": ["{{base_url}}"],
+									"path": ["student", "my-courses"]
+								}
+							}
+						},
+						{
+							"name": "Update Lesson Progress",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"completed\": true\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/student/lessons/:id/progress",
+									"host": ["{{base_url}}"],
+									"path": ["student", "lessons", ":id", "progress"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Follow Requests",
+					"item": [
+						{
+							"name": "Get Follow Requests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/follow-requests",
+									"host": ["{{base_url}}"],
+									"path": ["follow-requests"]
+								}
+							}
+						},
+						{
+							"name": "Accept/Reject Follow Request",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"action\": \"accept\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/follow-request/:id",
+									"host": ["{{base_url}}"],
+									"path": ["follow-request", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Courses (Public)",
+			"item": [
+				{
+					"name": "Get All Courses (No Grade Restriction)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/courses",
+							"host": ["{{base_url}}"],
+							"path": ["courses"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Stripe",
+					"item": [
+						{
+							"name": "Create Payment Intent",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"payment_method_id\": \"pm_card_visa\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/payment/stripe/create-intent/:courseId",
+									"host": ["{{base_url}}"],
+									"path": ["payment", "stripe", "create-intent", ":courseId"],
+									"variable": [
+										{
+											"key": "courseId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Confirm Payment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"payment_intent_id\": \"pi_xxxxx\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/payment/stripe/confirm",
+									"host": ["{{base_url}}"],
+									"path": ["payment", "stripe", "confirm"]
+								}
+							}
+						},
+						{
+							"name": "Stripe Webhook",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{base_url}}/stripe/webhook",
+									"host": ["{{base_url}}"],
+									"path": ["stripe", "webhook"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "PayPal",
+					"item": [
+						{
+							"name": "Create Order",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/payment/paypal/create-order/:courseId",
+									"host": ["{{base_url}}"],
+									"path": ["payment", "paypal", "create-order", ":courseId"],
+									"variable": [
+										{
+											"key": "courseId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Confirm Payment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"order_id\": \"ORDER_ID_FROM_PAYPAL\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/payment/paypal/confirm",
+									"host": ["{{base_url}}"],
+									"path": ["payment", "paypal", "confirm"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Get Payment History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/payment/history",
+							"host": ["{{base_url}}"],
+							"path": ["payment", "history"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Live Streaming",
+			"item": [
+				{
+					"name": "Student",
+					"item": [
+						{
+							"name": "Get Upcoming Sessions",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/live/sessions/upcoming",
+									"host": ["{{base_url}}"],
+									"path": ["live", "sessions", "upcoming"]
+								}
+							}
+						},
+						{
+							"name": "Join Session",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/live/session/:sessionId/join",
+									"host": ["{{base_url}}"],
+									"path": ["live", "session", ":sessionId", "join"],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Get Next Session For Course",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/live/course/:courseId/next-session",
+									"host": ["{{base_url}}"],
+									"path": ["live", "course", ":courseId", "next-session"],
+									"variable": [
+										{
+											"key": "courseId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Teacher",
+					"item": [
+						{
+							"name": "Start Session",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/live/session/:sessionId/start",
+									"host": ["{{base_url}}"],
+									"path": ["live", "session", ":sessionId", "start"],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "End Session",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/live/session/:sessionId/end",
+									"host": ["{{base_url}}"],
+									"path": ["live", "session", ":sessionId", "end"],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Chat",
+					"item": [
+						{
+							"name": "Get Messages",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/live/session/:sessionId/messages",
+									"host": ["{{base_url}}"],
+									"path": ["live", "session", ":sessionId", "messages"],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Send Message",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"message\": \"Hello everyone!\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/live/session/:sessionId/message",
+									"host": ["{{base_url}}"],
+									"path": ["live", "session", ":sessionId", "message"],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1"
+										}
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "AI Career Mentor",
+			"item": [
+				{
+					"name": "Send Chat Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"message\": \"What career path should I follow as a computer science student?\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ai-career/chat",
+							"host": ["{{base_url}}"],
+							"path": ["ai-career", "chat"]
+						}
+					}
+				},
+				{
+					"name": "Get Chat History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ai-career/history",
+							"host": ["{{base_url}}"],
+							"path": ["ai-career", "history"]
+						}
+					}
+				},
+				{
+					"name": "Clear Chat History",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ai-career/history",
+							"host": ["{{base_url}}"],
+							"path": ["ai-career", "history"]
+						}
+					}
+				},
+				{
+					"name": "Analyze CV",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cv",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/ai-career/analyze-cv",
+							"host": ["{{base_url}}"],
+							"path": ["ai-career", "analyze-cv"]
+						}
+					}
+				},
+				{
+					"name": "Get Learning Path",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"field\": \"Software Engineering\",\n  \"current_level\": \"beginner\",\n  \"goals\": \"Become a full-stack developer\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ai-career/learning-path",
+							"host": ["{{base_url}}"],
+							"path": ["ai-career", "learning-path"]
+						}
+					}
+				},
+				{
+					"name": "Get Job Recommendations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"skills\": [\"JavaScript\", \"React\", \"Node.js\"],\n  \"experience_level\": \"junior\",\n  \"location\": \"Cairo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ai-career/job-recommendations",
+							"host": ["{{base_url}}"],
+							"path": ["ai-career", "job-recommendations"]
+						}
+					}
+				},
+				{
+					"name": "Analyze Skills Gap",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"current_skills\": [\"HTML\", \"CSS\", \"JavaScript\"],\n  \"target_position\": \"Full Stack Developer\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ai-career/skills-gap",
+							"host": ["{{base_url}}"],
+							"path": ["ai-career", "skills-gap"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Didit (Identity Verification)",
+			"item": [
+				{
+					"name": "Create Verification Session",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": \"123\",\n  \"callback_url\": \"https://yourapp.com/verification/callback\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/didit/create-session",
+							"host": ["{{base_url}}"],
+							"path": ["didit", "create-session"]
+						}
+					}
+				},
+				{
+					"name": "Get Session Status",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/didit/session-status/:sessionId",
+							"host": ["{{base_url}}"],
+							"path": ["didit", "session-status", ":sessionId"],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "session_123"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Didit Webhook",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{base_url}}/didit/webhook",
+							"host": ["{{base_url}}"],
+							"path": ["didit", "webhook"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Video Streaming",
+			"item": [
+				{
+					"name": "Stream Lesson Video",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/stream/lesson/:lessonId?token=YOUR_AUTH_TOKEN",
+							"host": ["{{base_url}}"],
+							"path": ["stream", "lesson", ":lessonId"],
+							"query": [
+								{
+									"key": "token",
+									"value": "YOUR_AUTH_TOKEN"
+								}
+							],
+							"variable": [
+								{
+									"key": "lessonId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Storage",
+			"item": [
+				{
+					"name": "Get Storage File",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/storage/:path",
+							"host": ["{{base_url}}"],
+							"path": ["storage", ":path"],
+							"variable": [
+								{
+									"key": "path",
+									"value": "profile_pictures/image.jpg"
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}
