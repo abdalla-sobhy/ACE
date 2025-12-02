@@ -4,7 +4,7 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class TeacherRejectedNotification extends Notification
 {
@@ -24,9 +24,6 @@ class TeacherRejectedNotification extends Notification
 
     public function toMail($notifiable)
     {
-        // Get the appropriate email address
-        $email = $this->getEmailAddress($notifiable);
-
         // Arabic content
         $title = 'طلب التسجيل كمحاضر';
         $greeting = 'عزيزي ' . $notifiable->first_name;
@@ -47,14 +44,12 @@ class TeacherRejectedNotification extends Notification
             'Thank you for your interest in joining the Edvance platform.'
         ];
 
-        Mail::send('emails.notification', compact(
-            'title', 'greeting', 'messageContent', 'additionalInfo',
-            'titleEn', 'greetingEn', 'messageContentEn', 'additionalInfoEn'
-        ), function ($mail) use ($email, $title) {
-            $mail->to($email)->subject($title . ' - Teacher Application Rejected');
-        });
-
-        return null;
+        return (new MailMessage)
+            ->subject($title . ' - Teacher Application Rejected')
+            ->view('emails.notification', compact(
+                'title', 'greeting', 'messageContent', 'additionalInfo',
+                'titleEn', 'greetingEn', 'messageContentEn', 'additionalInfoEn'
+            ));
     }
 
     public function toDatabase($notifiable)
@@ -65,13 +60,5 @@ class TeacherRejectedNotification extends Notification
             'message' => 'تم رفض طلبك للتسجيل كمحاضر. السبب: ' . $this->reason,
             'reason' => $this->reason,
         ];
-    }
-
-    /**
-     * Get the email address for the notification
-     */
-    private function getEmailAddress($notifiable)
-    {
-        return $notifiable->email;
     }
 }
