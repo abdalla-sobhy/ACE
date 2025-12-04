@@ -4,7 +4,7 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class TeacherApprovedNotification extends Notification
 {
@@ -17,9 +17,6 @@ class TeacherApprovedNotification extends Notification
 
     public function toMail($notifiable)
     {
-        // Get the appropriate email address
-        $email = $this->getEmailAddress($notifiable);
-
         // Arabic content
         $title = 'تمت الموافقة على حسابك!';
         $greeting = 'مبروك ' . $notifiable->first_name . '!';
@@ -41,15 +38,13 @@ class TeacherApprovedNotification extends Notification
         ];
         $actionTextEn = 'Login';
 
-        Mail::send('emails.notification', compact(
-            'title', 'greeting', 'messageContent', 'additionalInfo',
-            'titleEn', 'greetingEn', 'messageContentEn', 'additionalInfoEn',
-            'actionUrl', 'actionText', 'actionTextEn'
-        ), function ($mail) use ($email, $title) {
-            $mail->to($email)->subject($title . ' - Teacher Account Approved');
-        });
-
-        return null;
+        return (new MailMessage)
+            ->subject($title . ' - Teacher Account Approved')
+            ->view('emails.notification', compact(
+                'title', 'greeting', 'messageContent', 'additionalInfo',
+                'titleEn', 'greetingEn', 'messageContentEn', 'additionalInfoEn',
+                'actionUrl', 'actionText', 'actionTextEn'
+            ));
     }
 
     public function toDatabase($notifiable)
@@ -59,13 +54,5 @@ class TeacherApprovedNotification extends Notification
             'title' => 'تمت الموافقة على حسابك',
             'message' => 'يمكنك الآن البدء في استخدام المنصة كمحاضر',
         ];
-    }
-
-    /**
-     * Get the email address for the notification
-     */
-    private function getEmailAddress($notifiable)
-    {
-        return $notifiable->email;
     }
 }
