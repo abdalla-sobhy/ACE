@@ -100,7 +100,6 @@ export default function CompaniesPage() {
       );
 
       if (response.ok) {
-        alert(t("admin.companies.companyVerifiedSuccess"));
         fetchCompanies();
       }
     } catch (error) {
@@ -123,7 +122,6 @@ export default function CompaniesPage() {
       );
 
       if (response.ok) {
-        alert(t("admin.companies.companyUnverifiedSuccess"));
         fetchCompanies();
       }
     } catch (error) {

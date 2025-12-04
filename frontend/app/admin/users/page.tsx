@@ -101,7 +101,6 @@ export default function UsersPage() {
       );
 
       if (response.ok) {
-        alert(t("admin.users.userSuspendedSuccess"));
         fetchUsers();
       }
     } catch (error) {
@@ -124,7 +123,6 @@ export default function UsersPage() {
       );
 
       if (response.ok) {
-        alert(t("admin.users.userActivatedSuccess"));
         fetchUsers();
       }
     } catch (error) {

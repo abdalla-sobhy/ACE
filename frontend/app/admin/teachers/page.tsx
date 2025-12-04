@@ -122,20 +122,16 @@ export default function TeachersPage() {
       );
 
       if (response.ok) {
-        alert(t("admin.teachers.teacherApprovedSuccess"));
         fetchTeachers();
       } else {
-        alert(t("admin.teachers.failedToApprove"));
       }
     } catch (error) {
       console.error("Error approving teacher:", error);
-      alert(t("admin.teachers.errorApprovingTeacher"));
     }
   };
 
   const rejectTeacher = async () => {
     if (!selectedTeacher || !rejectReason.trim()) {
-      alert(t("admin.teachers.provideReason"));
       return;
     }
 
@@ -155,17 +151,14 @@ export default function TeachersPage() {
       );
 
       if (response.ok) {
-        alert(t("admin.teachers.teacherRejectedSuccess"));
         setShowRejectModal(false);
         setRejectReason("");
         setSelectedTeacher(null);
         fetchTeachers();
       } else {
-        alert(t("admin.teachers.failedToReject"));
       }
     } catch (error) {
       console.error("Error rejecting teacher:", error);
-      alert(t("admin.teachers.errorRejectingTeacher"));
     }
   };
 
@@ -192,11 +185,9 @@ export default function TeachersPage() {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       } else {
-        alert(t("admin.teachers.cvNotFound"));
       }
     } catch (error) {
       console.error("Error downloading CV:", error);
-      alert(t("admin.teachers.errorDownloadingCV"));
     }
   };
 

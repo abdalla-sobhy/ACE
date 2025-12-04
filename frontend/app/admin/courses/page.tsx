@@ -104,7 +104,6 @@ export default function CoursesPage() {
       );
 
       if (response.ok) {
-        alert(t("admin.courses.courseStatusUpdated"));
         fetchCourses();
       }
     } catch (error) {
