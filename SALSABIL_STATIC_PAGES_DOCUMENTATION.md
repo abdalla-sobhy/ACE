@@ -1349,3 +1349,673 @@ Can navigate to:
 ```
 
 Good luck with your presentation! 🚀
+
+---
+
+## Additional Technical Interview Questions (40+ More Questions)
+
+### Advanced Next.js Concepts (10 questions)
+
+**61. What is the difference between `generateStaticParams` and `getStaticPaths`?**
+- `generateStaticParams`: App Router (new), returns array of params
+- `getStaticPaths`: Pages Router (old), returns paths and fallback
+- Both used for dynamic routes with SSG
+- Example:
+```tsx
+export async function generateStaticParams() {
+  return [{ id: '1' }, { id: '2' }]
+}
+```
+
+**62. What is Incremental Static Regeneration (ISR)?**
+- Updates static pages after build without rebuilding entire site
+- Set `revalidate` option to specify update interval
+- Example: `export const revalidate = 3600` (revalidate every hour)
+- Best of both worlds: fast static pages + fresh content
+
+**63. How do you handle dynamic imports in Next.js?**
+```tsx
+import dynamic from 'next/dynamic'
+
+const DynamicComponent = dynamic(() => import('./HeavyComponent'), {
+  loading: () => <p>Loading...</p>,
+  ssr: false  // Disable SSR for this component
+})
+```
+- Lazy load components
+- Reduce initial bundle size
+- Improve performance
+
+**64. What are Route Handlers in App Router?**
+```tsx
+// app/api/contact/route.ts
+export async function POST(request: Request) {
+  const data = await request.json()
+  // Handle contact form submission
+  return Response.json({ success: true })
+}
+```
+- Replace API routes from Pages Router
+- Handle backend logic in frontend repo
+- Support GET, POST, PUT, DELETE, etc.
+
+**65. What is Parallel Routes and when to use it?**
+```
+app/
+├── @modal/
+│   └── page.tsx
+└── @main/
+    └── page.tsx
+```
+- Load multiple pages in same layout simultaneously
+- Use for modals, split views
+- `@` prefix for slot names
+
+**66. What are Intercepting Routes?**
+- Intercept navigation to show different content
+- Example: Modal overlay for gallery image instead of new page
+- Use `(.)` folder convention
+- Better UX for certain navigation patterns
+
+**67. How does Next.js middleware work?**
+```tsx
+// middleware.ts
+export function middleware(request: NextRequest) {
+  // Run before request is processed
+  // Can redirect, rewrite, set headers
+  return NextResponse.next()
+}
+```
+- Runs before cached content
+- Good for authentication, redirects, A/B testing
+
+**68. What is the difference between `redirect()` and `router.push()`?**
+- `redirect()`: Server-side, use in Server Components/Actions
+- `router.push()`: Client-side, use in Client Components with useRouter
+- Choose based on where code runs
+
+**69. How do you implement internationalization (i18n) in Next.js?**
+- Use `next-intl` or similar library
+- Configure locales in `next.config.js`
+- Use locale-based routing: `/en/about`, `/ar/about`
+- Detect user language preference
+
+**70. What are Server Actions in Next.js 15?**
+```tsx
+'use server'
+
+async function submitForm(formData: FormData) {
+  // Runs on server
+  const name = formData.get('name')
+  // Save to database
+}
+```
+- Backend functions called from frontend
+- Marked with `'use server'`
+- No API route needed
+- Type-safe
+
+---
+
+### Advanced React Patterns (10 questions)
+
+**71. What is useEffect hook and when do you use it?**
+```tsx
+useEffect(() => {
+  // Side effect code (API calls, subscriptions)
+  return () => {
+    // Cleanup function
+  }
+}, [dependencies])
+```
+- Run side effects after render
+- Dependencies array controls when it runs
+- Cleanup function runs before re-run and unmount
+
+**72. What is the dependency array in useEffect?**
+- `[]` = run once on mount
+- `[var]` = run when var changes
+- No array = run on every render
+- Must include all used external values
+
+**73. What is useCallback and when to use it?**
+```tsx
+const handleClick = useCallback(() => {
+  doSomething(value)
+}, [value])
+```
+- Memoizes function to prevent recreating on every render
+- Use when passing callbacks to optimized child components
+- Include dependencies in array
+
+**74. What is useMemo vs useCallback?**
+- `useMemo`: Memoizes **return value** of function
+- `useCallback`: Memoizes **function itself**
+- Both optimize performance by preventing recalculations
+
+**75. What is useRef and its use cases?**
+```tsx
+const inputRef = useRef<HTMLInputElement>(null)
+
+// Focus input
+inputRef.current?.focus()
+```
+- Access DOM elements directly
+- Store mutable values that don't cause re-render
+- Persist values between renders
+
+**76. What is the Context API and when to use it?**
+```tsx
+const ThemeContext = createContext('light')
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Component />
+    </ThemeContext.Provider>
+  )
+}
+
+function Component() {
+  const theme = useContext(ThemeContext)
+}
+```
+- Share data across component tree without prop drilling
+- Good for themes, auth state, language
+- Don't overuse (prop drilling is fine for 2-3 levels)
+
+**77. What is React.memo() and when to use it?**
+```tsx
+const ExpensiveComponent = React.memo(({ data }) => {
+  // Only re-renders if data prop changes
+  return <div>{data}</div>
+})
+```
+- Memoizes component
+- Skips re-render if props haven't changed
+- Use for expensive renders with stable props
+
+**78. What is the difference between useEffect and useLayoutEffect?**
+- `useEffect`: Runs **after** browser paint (async)
+- `useLayoutEffect`: Runs **before** browser paint (sync)
+- Use useLayoutEffect for DOM measurements
+- Default to useEffect
+
+**79. What are custom hooks?**
+```tsx
+function useFormData(initialState) {
+  const [data, setData] = useState(initialState)
+  
+  const handleChange = (e) => {
+    setData({...data, [e.target.name]: e.target.value})
+  }
+  
+  return [data, handleChange, setData]
+}
+```
+- Reusable logic extracted into function
+- Must start with "use"
+- Can use other hooks inside
+- Better code organization
+
+**80. What is the React component lifecycle?**
+- **Mounting**: Component created and inserted into DOM
+- **Updating**: Props or state change, re-render occurs
+- **Unmounting**: Component removed from DOM
+- Hooks replace class lifecycle methods
+
+---
+
+### JavaScript/ES6+ Fundamentals (10 questions)
+
+**81. What is destructuring in JavaScript?**
+```tsx
+// Array destructuring
+const [first, second] = [1, 2]
+
+// Object destructuring
+const { name, age } = person
+
+// Function parameters
+function Component({ title, description }) { }
+```
+- Extract values from arrays/objects
+- Cleaner, more readable code
+- Very common in React
+
+**82. What is the spread operator (...)?**
+```tsx
+// Copy array
+const newArray = [...oldArray]
+
+// Merge objects
+const merged = {...obj1, ...obj2}
+
+// Pass array as arguments
+Math.max(...numbers)
+```
+- Expands arrays/objects
+- Create copies (immutability)
+- Merge data structures
+
+**83. What is the difference between map(), filter(), and reduce()?**
+- `map()`: Transform each item, return new array
+- `filter()`: Keep items matching condition
+- `reduce()`: Combine all items into single value
+```tsx
+const doubled = nums.map(n => n * 2)
+const evens = nums.filter(n => n % 2 === 0)
+const sum = nums.reduce((acc, n) => acc + n, 0)
+```
+
+**84. What are arrow functions and how do they differ from regular functions?**
+```tsx
+// Arrow function
+const add = (a, b) => a + b
+
+// Regular function
+function add(a, b) { return a + b }
+```
+- Shorter syntax
+- Lexical `this` binding (inherits from parent)
+- Cannot be used as constructors
+- No `arguments` object
+
+**85. What is the difference between let, const, and var?**
+- `var`: Function-scoped, hoisted, can redeclare (old, avoid)
+- `let`: Block-scoped, not hoisted, can reassign
+- `const`: Block-scoped, not hoisted, cannot reassign
+- Use `const` by default, `let` when reassignment needed
+
+**86. What are template literals?**
+```tsx
+const name = "Ahmed"
+const greeting = `Hello, ${name}!`
+const multi = `
+  Line 1
+  Line 2
+`
+```
+- Backticks for strings
+- Interpolation with `${}`
+- Multiline strings
+- Cleaner than concatenation
+
+**87. What is optional chaining (?.) ?**
+```tsx
+const city = user?.address?.city
+// Returns undefined if user or address is null/undefined
+// Without optional chaining:
+const city = user && user.address && user.address.city
+```
+- Safe property access
+- Prevents "Cannot read property of undefined" errors
+- Cleaner code
+
+**88. What is nullish coalescing (??)?**
+```tsx
+const value = userInput ?? 'default'
+// Uses 'default' only if userInput is null or undefined
+// vs OR operator:
+const value = userInput || 'default'  // Uses 'default' for '', 0, false too
+```
+- Better than `||` for default values
+- Only checks null/undefined
+- Preserves falsy values like 0, ''
+
+**89. What is async/await?**
+```tsx
+async function fetchData() {
+  try {
+    const response = await fetch('/api/data')
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+```
+- Cleaner syntax for Promises
+- `async` function always returns Promise
+- `await` pauses execution until Promise resolves
+- Use try/catch for error handling
+
+**90. What are Promises?**
+```tsx
+fetch('/api/data')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error))
+```
+- Represents eventual completion of async operation
+- Three states: pending, fulfilled, rejected
+- Can chain with `.then()`
+- async/await is syntactic sugar over Promises
+
+---
+
+### CSS & Responsive Design (5 questions)
+
+**91. What is mobile-first design?**
+- Design for mobile screens first
+- Add styles for larger screens using media queries
+- TailwindCSS follows this approach
+```tsx
+// Mobile by default, tablet and up gets larger text
+className="text-sm md:text-lg"
+```
+
+**92. What is Flexbox and when to use it?**
+```css
+display: flex;
+justify-content: space-between;  /* Horizontal alignment */
+align-items: center;              /* Vertical alignment */
+flex-direction: row;              /* Direction of items */
+```
+- One-dimensional layout (row or column)
+- Great for navigation bars, cards in a row
+- Dynamic sizing and spacing
+
+**93. What is CSS Grid and when to use it?**
+```css
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 1rem;
+```
+- Two-dimensional layout (rows and columns)
+- Great for page layouts, galleries
+- More powerful than Flexbox for complex layouts
+
+**94. What is the difference between px, rem, and em?**
+- `px`: Absolute pixels, fixed size
+- `rem`: Relative to root font size (16px default)
+- `em`: Relative to parent font size
+- Use `rem` for accessibility (respects user font size settings)
+
+**95. What is specificity in CSS?**
+- Determines which style rule applies when multiple rules target same element
+- Inline styles > IDs > Classes > Elements
+- `!important` overrides everything (avoid using)
+- TailwindCSS handles this for you
+
+---
+
+### TypeScript (5 questions)
+
+**96. What is TypeScript and why use it?**
+- Superset of JavaScript with static typing
+- Catch errors at compile time
+- Better IDE autocomplete
+- Self-documenting code
+- Easier refactoring
+
+**97. What is an interface vs type?**
+```tsx
+// Interface
+interface User {
+  name: string
+  age: number
+}
+
+// Type
+type User = {
+  name: string
+  age: number
+}
+```
+- Both define object shapes
+- Interfaces can be extended/merged
+- Types can represent unions, primitives
+- Use interfaces for objects, types for everything else
+
+**98. What is a union type?**
+```tsx
+type Status = 'pending' | 'success' | 'error'
+let status: Status = 'pending'  // ✅
+let status: Status = 'loading'  // ❌ Error
+```
+- Value can be one of several types
+- Provides type safety for enums
+- TypeScript enforces valid values
+
+**99. What are generics in TypeScript?**
+```tsx
+function identity<T>(value: T): T {
+  return value
+}
+
+const num = identity<number>(42)
+const str = identity<string>("hello")
+```
+- Type variables for reusable components
+- Type-safe without hardcoding specific type
+- Used extensively in React (useState<T>, etc.)
+
+**100. What is the difference between any and unknown?**
+- `any`: Disables type checking, avoid when possible
+- `unknown`: Type-safe alternative, must narrow type before using
+```tsx
+let value: unknown
+// Must check type before using
+if (typeof value === 'string') {
+  value.toUpperCase()  // ✅ Safe
+}
+```
+
+---
+
+## Scenario-Based Questions (10 questions)
+
+**101. A user reports the contact form isn't submitting. How do you debug?**
+1. Check browser console for errors
+2. Verify handleSubmit function is called (add console.log)
+3. Check network tab for failed API request
+4. Verify form validation isn't blocking submission
+5. Test with simpler data to isolate issue
+6. Check backend logs if API is failing
+
+**102. The FAQ accordion isn't working. What could be wrong?**
+- Missing `'use client'` directive (needs state)
+- State not updating correctly
+- onClick handler not attached
+- Conditional rendering logic wrong
+- CSS hiding content (check classes)
+
+**103. How would you add a loading state to the contact form?**
+```tsx
+const [isLoading, setIsLoading] = useState(false)
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+  setIsLoading(true)
+  
+  try {
+    await fetch('/api/contact', {...})
+  } finally {
+    setIsLoading(false)
+  }
+}
+
+<button disabled={isLoading}>
+  {isLoading ? 'Sending...' : 'Send Message'}
+</button>
+```
+
+**104. How would you make the static pages load faster?**
+- Use Next.js Image component for optimized images
+- Minimize JavaScript bundle (remove unused dependencies)
+- Use static generation (already done for these pages)
+- Compress images before uploading
+- Lazy load images below the fold
+- Use CDN for assets
+- Enable Gzip/Brotli compression
+
+**105. A user wants dark mode. How would you implement it?**
+```tsx
+// 1. Create context
+const ThemeContext = createContext('light')
+
+// 2. Wrapper component
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light')
+  
+  return (
+    <ThemeContext.Provider value={{theme, setTheme}}>
+      <div className={theme === 'dark' ? 'dark' : ''}>
+        {children}
+      </div>
+    </ThemeContext.Provider>
+  )
+}
+
+// 3. Use in components
+const { theme } = useContext(ThemeContext)
+```
+
+**106. How would you add a search feature to the FAQ page?**
+```tsx
+const [searchTerm, setSearchTerm] = useState('')
+
+const filteredFaqs = faqs.filter(faq =>
+  faq.q.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  faq.a.toLowerCase().includes(searchTerm.toLowerCase())
+)
+
+<input
+  placeholder="Search FAQs..."
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+/>
+
+{filteredFaqs.map(faq => <FAQ {...faq} />)}
+```
+
+**107. How would you implement analytics tracking?**
+```tsx
+// Using Google Analytics
+useEffect(() => {
+  // Track page view
+  if (typeof window.gtag !== 'undefined') {
+    window.gtag('config', 'GA_ID', {
+      page_path: window.location.pathname
+    })
+  }
+}, [])
+
+// Track button clicks
+const handleSignupClick = () => {
+  window.gtag('event', 'click', {
+    event_category: 'signup',
+    event_label: 'hero_cta'
+  })
+  router.push('/signup')
+}
+```
+
+**108. How would you make the site bilingual (Arabic/English)?**
+```tsx
+// Use next-intl or similar
+import { useTranslations } from 'next-intl'
+
+function Home() {
+  const t = useTranslations('home')
+  
+  return (
+    <h1>{t('title')}</h1>
+    // translations/en.json: {"home": {"title": "Welcome"}}
+    // translations/ar.json: {"home": {"title": "مرحبا"}}
+  )
+}
+```
+
+**109. The site looks broken on mobile. How do you fix it?**
+1. Open Chrome DevTools mobile view
+2. Check responsive breakpoints (sm, md, lg)
+3. Verify Tailwind classes are mobile-first
+4. Test on real device if possible
+5. Check for overflow issues (text too wide)
+6. Adjust font sizes for mobile
+7. Ensure touch targets are large enough (44px minimum)
+
+**110. How would you add animations to the home page?**
+```tsx
+// Using Framer Motion
+import { motion } from 'framer-motion'
+
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5 }}
+>
+  <h1>Welcome to ACE</h1>
+</motion.div>
+```
+- Or use TailwindCSS animations
+- Or CSS transitions/keyframes
+- Keep animations subtle (don't overdo it)
+
+---
+
+## Best Practices Quick Reference
+
+### Code Organization
+```tsx
+✅ Good:
+- One component per file
+- Descriptive component names
+- Group related files in folders
+- Separate concerns (logic, UI, styles)
+
+❌ Avoid:
+- Giant components (>300 lines)
+- Generic names (Component1, Temp)
+- Mixing concerns in one file
+```
+
+### Performance
+```tsx
+✅ Good:
+- Use Next.js Image component
+- Lazy load heavy components
+- Memoize expensive calculations
+- Avoid inline functions in JSX
+
+❌ Avoid:
+- Large images without optimization
+- Loading everything upfront
+- Recalculating on every render
+- Creating functions in render
+```
+
+### Accessibility
+```tsx
+✅ Good:
+- Semantic HTML (<nav>, <main>, <button>)
+- Alt text on images
+- Labels on form inputs
+- Keyboard navigation support
+- Sufficient color contrast
+
+❌ Avoid:
+- Divs for everything
+- Images without alt text
+- Inputs without labels
+- Click handlers on non-interactive elements
+- Poor color contrast
+```
+
+### Type Safety
+```tsx
+✅ Good:
+- Define prop interfaces
+- Type useState hooks
+- Use TypeScript strict mode
+- Avoid 'any' type
+
+❌ Avoid:
+- Untyped props
+- Implicit any
+- Type assertions everywhere
+- Disabling TypeScript errors
+```
+
