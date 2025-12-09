@@ -229,7 +229,7 @@ export default function CompanyJobsPage() {
           </div>
 
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-5 flex items-center gap-4 hover:border-red-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-500/10 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-[#f85149] flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#79c0ff] flex items-center justify-center flex-shrink-0">
               <FaTimesCircle className="text-white text-xl" />
             </div>
             <div>
@@ -239,7 +239,7 @@ export default function CompanyJobsPage() {
           </div>
 
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-5 flex items-center gap-4 hover:border-purple-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/10 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-[#a371f7] flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#79c0ff] flex items-center justify-center flex-shrink-0">
               <FaUsers className="text-white text-xl" />
             </div>
             <div>
