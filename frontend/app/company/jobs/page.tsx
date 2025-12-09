@@ -219,7 +219,7 @@ export default function CompanyJobsPage() {
           </div>
 
           <div className="bg-[var(--sections-color)] border border-[var(--borders)] rounded-xl p-5 flex items-center gap-4 hover:border-green-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-500/10 transition-all">
-            <div className="w-12 h-12 rounded-xl from-[#58a6ff] to-[#79c0ff] flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#79c0ff] flex items-center justify-center flex-shrink-0">
               <FaCheckCircle className="text-white text-xl" />
             </div>
             <div>
