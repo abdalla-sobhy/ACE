@@ -101,6 +101,7 @@ export default function UniversityStudentDashboard() {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [profileStats, setProfileStats] = useState<ProfileStats>({
     profile_views: 0,
@@ -128,11 +129,20 @@ export default function UniversityStudentDashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Debounce search query to avoid API calls on every keystroke
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   useEffect(() => {
     setCurrentPage(1);
     fetchDashboardData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, selectedCategory]);
+  }, [debouncedSearchQuery, selectedCategory]);
 
   const checkAuth = async () => {
     const userData = localStorage.getItem("user");
@@ -220,8 +230,8 @@ export default function UniversityStudentDashboard() {
         params.append("category", selectedCategory);
       }
 
-      if (searchQuery) {
-        params.append("search", searchQuery);
+      if (debouncedSearchQuery) {
+        params.append("search", debouncedSearchQuery);
       }
 
       const coursesResponse = await fetch(
