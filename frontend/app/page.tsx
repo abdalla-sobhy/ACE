@@ -10,12 +10,20 @@ export default function LandingPage() {
   const { t, dir } = useLanguage();
 
   useEffect(() => {
-    // Load the Three.js experience script
-    const script = document.createElement('script');
-    script.src = '/index.js';
-    script.type = 'module';
-    script.async = true;
-    document.body.appendChild(script);
+    // Disable sound errors
+    window.addEventListener('error', function(e: ErrorEvent) {
+      if (e.message && (e.message.includes('sound') || e.message.includes('.mp3'))) {
+        e.preventDefault();
+        console.log('Sound file not found - continuing without audio');
+      }
+    }, true);
+
+    // Override Howler to prevent sound errors
+    (window as any).Howler = (window as any).Howler || {
+      mute: function() {},
+      volume: function() {},
+      ctx: { createGain: function() { return { connect: function() {}, gain: { value: 1 } }; } }
+    };
 
     // Load the CSS
     const link = document.createElement('link');
@@ -23,9 +31,20 @@ export default function LandingPage() {
     link.href = '/index.css';
     document.head.appendChild(link);
 
+    // Load the Three.js experience script
+    const script = document.createElement('script');
+    script.src = '/index.js';
+    script.type = 'module';
+    script.async = true;
+    document.body.appendChild(script);
+
     return () => {
-      document.body.removeChild(script);
-      document.head.removeChild(link);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+      if (document.head.contains(link)) {
+        document.head.removeChild(link);
+      }
     };
   }, []);
 
@@ -35,6 +54,11 @@ export default function LandingPage() {
 
       {/* Three.js Canvas - David's Scene */}
       <canvas id="main-canvas" className={styles.threeCanvas}></canvas>
+
+      {/* Required DOM structure for Three.js experience */}
+      <div id="intro-container" style={{ display: 'none' }}></div>
+      <div id="overlay-container" style={{ pointerEvents: 'none', position: 'fixed', zIndex: 1 }}></div>
+      <div id="hover-icon" style={{ position: 'fixed', zIndex: 999 }}></div>
 
       {/* Hero Section */}
       <section className={styles.hero}>
