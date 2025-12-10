@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./StudentDashboard.module.css";
 import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaShoppingCart, FaTimes, FaVideo, FaCalendarAlt, FaBroadcastTower } from "react-icons/fa";
@@ -373,7 +373,7 @@ const findNextSessionFromSchedule = (
   };
 
     const getCategoryLabel = (category: string) => {
-    const categoryData: { [key: string]: { labelKey: string; icon: JSX.Element } } = {
+    const categoryData: { [key: string]: { labelKey: string; icon: ReactElement } } = {
       arabic: { labelKey: "categories.arabic", icon: <FileEdit size={16} /> },
       english: { labelKey: "categories.english", icon: <Globe size={16} /> },
       math: { labelKey: "categories.math", icon: <Hash size={16} /> },
