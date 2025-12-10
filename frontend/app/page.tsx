@@ -5,10 +5,71 @@ import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
 import { BookOpen, Target, FileEdit, DollarSign } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function LandingPage() {
   const { t, dir } = useLanguage();
+  const heroRef = useRef<HTMLElement>(null);
+  const [heroScrollProgress, setHeroScrollProgress] = useState(0);
+  const [isHeroLocked, setIsHeroLocked] = useState(true);
+
+  // Hide scrollbar on landing page
+  useEffect(() => {
+    // Type-safe way to set CSS properties
+    document.body.style.setProperty('-ms-overflow-style', 'none');
+    document.body.style.setProperty('scrollbar-width', 'none');
+    document.body.classList.add('hide-scrollbar');
+
+    return () => {
+      document.body.style.removeProperty('-ms-overflow-style');
+      document.body.style.removeProperty('scrollbar-width');
+      document.body.classList.remove('hide-scrollbar');
+    };
+  }, []);
+
+  // Hero section scroll lock
+  useEffect(() => {
+    let heroScrollAmount = 0;
+    const SCROLL_THRESHOLD = 800; // Amount of scroll needed to unlock
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!isHeroLocked) return;
+
+      const scrollTop = window.scrollY;
+
+      // If already scrolled past hero, unlock
+      if (scrollTop > 100) {
+        setIsHeroLocked(false);
+        return;
+      }
+
+      // Prevent page scroll while in hero
+      e.preventDefault();
+
+      // Track scroll amount
+      heroScrollAmount += Math.abs(e.deltaY);
+      const progress = Math.min((heroScrollAmount / SCROLL_THRESHOLD) * 100, 100);
+      setHeroScrollProgress(progress);
+
+      // Unlock when threshold reached
+      if (heroScrollAmount >= SCROLL_THRESHOLD) {
+        setIsHeroLocked(false);
+        // Smooth scroll to features section
+        window.scrollTo({
+          top: window.innerHeight,
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    if (isHeroLocked) {
+      window.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, [isHeroLocked]);
 
   // Hide scrollbar on landing page
   useEffect(() => {
@@ -29,7 +90,7 @@ export default function LandingPage() {
       <NavigationBar />
 
       {/* Hero Section with 3D Scene in iframe */}
-      <section className={styles.hero}>
+      <section className={styles.hero} ref={heroRef}>
         <iframe
           src="/index2.html"
           style={{
@@ -43,6 +104,13 @@ export default function LandingPage() {
           }}
           title="3D Experience"
         />
+        {/* Scroll indicator */}
+        {isHeroLocked && (
+          <div className={styles.scrollIndicator}>
+            <div className={styles.scrollProgress} style={{ width: `${heroScrollProgress}%` }} />
+            <p className={styles.scrollText}>Scroll to explore</p>
+          </div>
+        )}
       </section>
 
       {/* Features Section */}

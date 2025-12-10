@@ -42,6 +42,42 @@
   /* margin-top: 5rem; */
 }
 
+/* Scroll Indicator */
+.scrollIndicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  width: 200px;
+}
+
+.scrollProgress {
+  height: 3px;
+  background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
+  border-radius: 2px;
+  transition: width 0.2s ease;
+  margin-bottom: 12px;
+}
+
+.scrollText {
+  color: var(--main-text-white);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  animation: fadeInOut 2s infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .experienceIframe {
   position: absolute;
   top: 0;
