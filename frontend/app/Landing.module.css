@@ -12,15 +12,20 @@
 
 /* Hero Section */
 .hero {
+  position: relative;
   padding: 120px 24px 80px;
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
   gap: 64px;
   align-items: center;
+  min-height: 80vh;
+  overflow: hidden;
 }
 
 .heroContent {
+  position: relative;
+  z-index: 1;
 }
 
 .heroTitle {
