@@ -5,9 +5,24 @@ import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
 import { BookOpen, Target, FileEdit, DollarSign } from 'lucide-react';
+import { useEffect } from 'react';
 
 export default function LandingPage() {
   const { t, dir } = useLanguage();
+
+  // Hide scrollbar on landing page
+  useEffect(() => {
+    // Type-safe way to set CSS properties
+    document.body.style.setProperty('-ms-overflow-style', 'none');
+    document.body.style.setProperty('scrollbar-width', 'none');
+    document.body.classList.add('hide-scrollbar');
+
+    return () => {
+      document.body.style.removeProperty('-ms-overflow-style');
+      document.body.style.removeProperty('scrollbar-width');
+      document.body.classList.remove('hide-scrollbar');
+    };
+  }, []);
 
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
