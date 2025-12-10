@@ -4,32 +4,65 @@ import styles from "./Landing.module.css";
 import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useEffect } from "react";
 
 export default function LandingPage() {
   const { t, dir } = useLanguage();
+
+  useEffect(() => {
+    // Disable sound errors
+    window.addEventListener('error', function(e: ErrorEvent) {
+      if (e.message && (e.message.includes('sound') || e.message.includes('.mp3'))) {
+        e.preventDefault();
+        console.log('Sound file not found - continuing without audio');
+      }
+    }, true);
+
+    // Override Howler to prevent sound errors
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).Howler = (window as any).Howler || {
+      mute: function() {},
+      volume: function() {},
+      ctx: { createGain: function() { return { connect: function() {}, gain: { value: 1 } }; } }
+    };
+
+    // Load the CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/index.css';
+    document.head.appendChild(link);
+
+    // Load the Three.js experience script
+    const script = document.createElement('script');
+    script.src = '/index.js';
+    script.type = 'module';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+      if (document.head.contains(link)) {
+        document.head.removeChild(link);
+      }
+    };
+  }, []);
 
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
       <NavigationBar />
 
-      {/* Three.js Hero Section - Embedded iframe */}
-      <section className={styles.hero}>
-        <div className={styles.experienceIframe}>
-          <iframe
-            src="/experience.html"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              border: "none",
-              overflow: "hidden"
-            }}
-            title="3D Hero Experience"
-          />
-        </div>
+      {/* Three.js Canvas - David's Scene */}
+      <canvas id="main-canvas" className={styles.threeCanvas}></canvas>
 
+      {/* Required DOM structure for Three.js experience */}
+      <div id="intro-container" style={{ display: 'none' }}></div>
+      <div id="overlay-container" style={{ pointerEvents: 'none', position: 'fixed', zIndex: 1 }}></div>
+      <div id="hover-icon" style={{ position: 'fixed', zIndex: 999 }}></div>
+
+      {/* Hero Section */}
+      <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             <div className={styles.heroTitleFirst}>Edvance</div>
@@ -54,9 +87,9 @@ export default function LandingPage() {
           </div>
 
           <div style={{ marginTop: "20px" }}>
-            <Link href="/experience.html" className={styles.exploreButton} target="_blank">
+            <a href="/experience.html" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
               ✨ Explore Full Experience
-            </Link>
+            </a>
           </div>
         </div>
       </section>
