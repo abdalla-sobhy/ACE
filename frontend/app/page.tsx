@@ -12,13 +12,14 @@ export default function LandingPage() {
 
   // Hide scrollbar on landing page
   useEffect(() => {
-    document.body.style.msOverflowStyle = 'none';
-    document.body.style.scrollbarWidth = 'none';
+    // Type-safe way to set CSS properties
+    document.body.style.setProperty('-ms-overflow-style', 'none');
+    document.body.style.setProperty('scrollbar-width', 'none');
     document.body.classList.add('hide-scrollbar');
 
     return () => {
-      document.body.style.msOverflowStyle = '';
-      document.body.style.scrollbarWidth = '';
+      document.body.style.removeProperty('-ms-overflow-style');
+      document.body.style.removeProperty('scrollbar-width');
       document.body.classList.remove('hide-scrollbar');
     };
   }, []);
