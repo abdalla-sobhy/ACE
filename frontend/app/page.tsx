@@ -71,6 +71,20 @@ export default function LandingPage() {
     };
   }, [isHeroLocked]);
 
+  // Hide scrollbar on landing page
+  useEffect(() => {
+    // Type-safe way to set CSS properties
+    document.body.style.setProperty('-ms-overflow-style', 'none');
+    document.body.style.setProperty('scrollbar-width', 'none');
+    document.body.classList.add('hide-scrollbar');
+
+    return () => {
+      document.body.style.removeProperty('-ms-overflow-style');
+      document.body.style.removeProperty('scrollbar-width');
+      document.body.classList.remove('hide-scrollbar');
+    };
+  }, []);
+
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
       <NavigationBar />
