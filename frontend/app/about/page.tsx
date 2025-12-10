@@ -7,6 +7,7 @@ import NavigationBar from '@/components/Nav/Nav';
 import { useLanguage } from '@/hooks/useLanguage';
 import arTranslations from '@/locales/ar.json';
 import enTranslations from '@/locales/en.json';
+import { Target, Globe, Zap } from 'lucide-react';
 
 interface Developer {
   name: string;
@@ -45,21 +46,21 @@ export default function AboutPage() {
             <p>{t("about.missionDescription")}</p>
             <div className={styles.missionPoints}>
               <div className={styles.point}>
-                <span className={styles.pointIcon}>🎯</span>
+                <span className={styles.pointIcon}><Target size={24} /></span>
                 <div>
                   <h3>{t("about.missionPoint1Title")}</h3>
                   <p>{t("about.missionPoint1Description")}</p>
                 </div>
               </div>
               <div className={styles.point}>
-                <span className={styles.pointIcon}>🌍</span>
+                <span className={styles.pointIcon}><Globe size={24} /></span>
                 <div>
                   <h3>{t("about.missionPoint2Title")}</h3>
                   <p>{t("about.missionPoint2Description")}</p>
                 </div>
               </div>
               <div className={styles.point}>
-                <span className={styles.pointIcon}>⚡</span>
+                <span className={styles.pointIcon}><Zap size={24} /></span>
                 <div>
                   <h3>{t("about.missionPoint3Title")}</h3>
                   <p>{t("about.missionPoint3Description")}</p>

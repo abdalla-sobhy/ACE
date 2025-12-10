@@ -6,6 +6,8 @@ import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./MyCourses.module.css";
 import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaCalendarAlt, FaChalkboardTeacher, FaTimes } from "react-icons/fa";
 import { useLanguage } from "@/hooks/useLanguage";
+import { BookOpen, GraduationCap, Target, Circle } from "lucide-react";
+
 interface Teacher {
   id: number;
   first_name: string;
@@ -201,21 +203,21 @@ export default function MyCourses() {
           </div>
           <div className={styles.statsCards}>
             <div className={styles.statCard}>
-              <div className={styles.statIcon}>📚</div>
+              <div className={styles.statIcon}><BookOpen size={32} /></div>
               <div className={styles.statInfo}>
                 <h3>{courses.length}</h3>
                 <p>{t("student.coursesEnrolled")}</p>
               </div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statIcon}>👨‍🏫</div>
+              <div className={styles.statIcon}><GraduationCap size={32} /></div>
               <div className={styles.statInfo}>
                 <h3>{new Set(courses.map(c => c.teacher.id)).size}</h3>
                 <p>{t("student.teachersAvailable")}</p>
               </div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statIcon}>🎯</div>
+              <div className={styles.statIcon}><Target size={32} /></div>
               <div className={styles.statInfo}>
                 <h3>
                   {courses.filter(course => course.course_type === 'live').length}
@@ -260,7 +262,7 @@ export default function MyCourses() {
 
           {filteredCourses.length === 0 ? (
             <div className={styles.noResults}>
-              <span className={styles.noResultsIcon}>📚</span>
+              <span className={styles.noResultsIcon}><BookOpen size={48} /></span>
               <h3>{t("student.noCourses")}</h3>
               <p>
                 {searchQuery
@@ -297,7 +299,7 @@ export default function MyCourses() {
                       {course.course_type === 'live' && (
                         <>
                           <div className={styles.liveBadge}>
-                            <span>🔴</span> {t("student.liveStream")}
+                            <Circle className="text-red-500 fill-red-500" size={12} /> {t("student.liveStream")}
                           </div>
                           {course.is_full && (
                             <div className={styles.seatsInfo}>

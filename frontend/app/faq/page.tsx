@@ -7,6 +7,20 @@ import NavigationBar from '@/components/Nav/Nav';
 import { useLanguage } from '@/hooks/useLanguage';
 import arTranslations from '@/locales/ar.json';
 import enTranslations from '@/locales/en.json';
+import {
+  ClipboardList,
+  MessageCircle,
+  User,
+  Settings,
+  BookOpen,
+  DollarSign,
+  Search,
+  ThumbsUp,
+  ThumbsDown,
+  Mail,
+  X,
+  Phone
+} from 'lucide-react';
 
 interface FAQItem {
   id: string;
@@ -33,12 +47,12 @@ export default function FAQPage() {
   }));
 
   const faqCategories = [
-    { id: 'all', name: t('faq.categoryAll'), icon: '📋', count: 16 },
-    { id: 'general', name: t('faq.categoryGeneral'), icon: '💭', count: 4 },
-    { id: 'registration', name: t('faq.categoryRegistration'), icon: '👤', count: 4 },
-    { id: 'technical', name: t('faq.categoryTechnical'), icon: '⚙️', count: 3 },
-    { id: 'educational', name: t('faq.categoryEducational'), icon: '📚', count: 3 },
-    { id: 'payment', name: t('faq.categoryPayment'), icon: '💰', count: 2 }
+    { id: 'all', name: t('faq.categoryAll'), icon: <ClipboardList size={20} />, count: 16 },
+    { id: 'general', name: t('faq.categoryGeneral'), icon: <MessageCircle size={20} />, count: 4 },
+    { id: 'registration', name: t('faq.categoryRegistration'), icon: <User size={20} />, count: 4 },
+    { id: 'technical', name: t('faq.categoryTechnical'), icon: <Settings size={20} />, count: 3 },
+    { id: 'educational', name: t('faq.categoryEducational'), icon: <BookOpen size={20} />, count: 3 },
+    { id: 'payment', name: t('faq.categoryPayment'), icon: <DollarSign size={20} />, count: 2 }
   ];
 
   const filteredFAQs = useMemo(() => {
@@ -83,7 +97,7 @@ export default function FAQPage() {
           {/* Search Bar */}
           <div className={styles.searchContainer}>
             <div className={styles.searchBox}>
-              <span className={styles.searchIcon}>🔍</span>
+              <span className={styles.searchIcon}><Search size={20} /></span>
               <input
                 type="text"
                 placeholder={t('faq.searchPlaceholder')}
@@ -96,7 +110,7 @@ export default function FAQPage() {
                   className={styles.clearButton}
                   onClick={() => setSearchQuery('')}
                 >
-                  ✕
+                  <X size={16} />
                 </button>
               )}
             </div>
@@ -131,7 +145,7 @@ export default function FAQPage() {
         <div className={styles.faqContainer}>
           {filteredFAQs.length === 0 ? (
             <div className={styles.noResults}>
-              <span className={styles.noResultsIcon}>🔍</span>
+              <span className={styles.noResultsIcon}><Search size={48} /></span>
               <h3>{t('faq.noResultsTitle')}</h3>
               <p>{t('faq.noResultsDescription')}</p>
               <Link href="/contact" className={styles.contactLink}>
@@ -170,14 +184,14 @@ export default function FAQPage() {
                             className={styles.helpfulButton}
                             onClick={() => handleHelpful(faq.id, true)}
                           >
-                            <span>👍</span>
+                            <span><ThumbsUp size={16} /></span>
                             <span>{faq.helpful}</span>
                           </button>
                           <button
                             className={styles.notHelpfulButton}
                             onClick={() => handleHelpful(faq.id, false)}
                           >
-                            <span>👎</span>
+                            <span><ThumbsDown size={16} /></span>
                             <span>{faq.notHelpful}</span>
                           </button>
                         </div>
@@ -198,13 +212,13 @@ export default function FAQPage() {
           <p>{t('faq.needHelpSubtitle')}</p>
           <div className={styles.helpOptions}>
             <div className={styles.helpCard}>
-              <span className={styles.helpIcon}>💬</span>
+              <span className={styles.helpIcon}><MessageCircle size={32} /></span>
               <h3>{t('faq.helpLiveChat')}</h3>
               <p>{t('faq.helpLiveChatDescription')}</p>
               <button className={styles.helpButton}>{t('faq.helpLiveChatButton')}</button>
             </div>
             <div className={styles.helpCard}>
-              <span className={styles.helpIcon}>📧</span>
+              <span className={styles.helpIcon}><Mail size={32} /></span>
               <h3>{t('faq.helpEmail')}</h3>
               <p>{t('faq.helpEmailDescription')}</p>
               <Link href="/contact" className={styles.helpButton}>
@@ -212,7 +226,7 @@ export default function FAQPage() {
               </Link>
             </div>
             <div className={styles.helpCard}>
-              <span className={styles.helpIcon}>📞</span>
+              <span className={styles.helpIcon}><Phone size={32} /></span>
               <h3>{t('faq.helpPhone')}</h3>
               <p>{t('faq.helpPhoneDescription')}</p>
               <button className={styles.helpButton}>{t('faq.helpPhoneButton')}</button>

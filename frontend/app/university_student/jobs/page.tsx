@@ -19,6 +19,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { useLanguage } from "@/hooks/useLanguage";
+import { DollarSign } from "lucide-react";
+
 interface Company {
   id: number;
   name: string;
@@ -397,7 +399,7 @@ export default function UniversityJobs() {
                       </span>
                       {job.salary_range && (
                         <span className={styles.metaItem}>
-                          💰 {job.salary_range}
+                          <DollarSign size={16} /> {job.salary_range}
                         </span>
                       )}
                     </div>

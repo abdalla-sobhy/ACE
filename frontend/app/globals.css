@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Default font for all pages - Cairo */
+body {
+  font-family: var(--font-cairo), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
 /* Smooth transitions applied globally */
 * {
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;

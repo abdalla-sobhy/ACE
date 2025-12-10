@@ -57,7 +57,6 @@
 }
 
 body {
-  font-family: 'Playfair Display', serif;
   font-size: var(--fs-body);
   color: var(--text-black);
   min-height: 100vh;
@@ -70,7 +69,6 @@ body {
    TYPOGRAPHY
 ------------------ */
 h1, h2, h3 {
-  font-family: 'Playfair Display', serif;
   font-weight: 600;
   text-transform: capitalize;
   margin-bottom: 0.5em;

@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import styles from "./LiveClass.module.css";
+import { AlertTriangle } from 'lucide-react';
 
 import { useLanguage } from "@/hooks/useLanguage";
 declare global {
@@ -227,7 +228,7 @@ export default function LiveClassPage() {
 
       {error && (
         <div className={styles.error}>
-          <div className={styles.errorIcon}>⚠️</div>
+          <div className={styles.errorIcon}><AlertTriangle size={48} /></div>
           <h2>حدث خطأ</h2>
           <p>{error}</p>
           <button
