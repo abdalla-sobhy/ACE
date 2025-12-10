@@ -12,7 +12,11 @@ export default function Nav() {
   const pathname = usePathname();
   const { t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const navRef = useRef<HTMLElement>(null);
+
+  const isLandingPage = pathname === '/';
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -51,8 +55,38 @@ export default function Nav() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Scroll detection for landing page only
+  useEffect(() => {
+    if (!isLandingPage) {
+      setIsVisible(true);
+      return;
+    }
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Show navbar when scrolling up, hide when scrolling down
+      if (currentScrollY < lastScrollY) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      }
+
+      // Always show navbar at the top
+      if (currentScrollY < 10) {
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isLandingPage, lastScrollY]);
+
   return (
-    <nav className={styles.nav} ref={navRef}>
+    <nav className={`${styles.nav} ${isLandingPage && !isVisible ? styles.hidden : ''}`} ref={navRef}>
       <div className={styles.navContainer}>
         <div className={styles.navHeader}>
           <Link href="/" className={styles.logo} onClick={closeMenu}>

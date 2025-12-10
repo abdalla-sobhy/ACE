@@ -7,6 +7,12 @@
   border-bottom: 1px solid var(--borders);
   z-index: 1000;
   padding: 16px 0;
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav.hidden {
+  transform: translateY(-100%);
 }
 
 .navContainer {
