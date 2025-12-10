@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edvance - 3D Experience</title>
+    <link rel="stylesheet" href="/index.css">
+    <style>
+        /* Back button styles */
+        #back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: rgba(255, 146, 62, 0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(255, 146, 62, 0.4);
+            backdrop-filter: blur(10px);
+        }
+        #back-button:hover {
+            background: rgba(255, 146, 62, 1);
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(255, 146, 62, 0.6);
+        }
+        #back-button::before {
+            content: '←';
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Home Button -->
+    <a href="/" id="back-button">Back to Home</a>
+
+    <!-- Main Canvas -->
+    <canvas id="main-canvas"></canvas>
+
+    <!-- Intro Container -->
+    <div id="intro-container" class="center column">
+        <h1 style="opacity: 0;">Welcome</h1>
+    </div>
+
+    <!-- Overlay Container -->
+    <div id="overlay-container">
+        <!-- Header Container -->
+        <div id="header-container" class="content-width row">
+            <!-- Logo -->
+            <div id="logo-click-container"></div>
+
+            <!-- Sound Button -->
+            <div id="sound-button" class="overlay-button center">
+                <div id="sound-button-scale-container"></div>
+            </div>
+
+            <!-- Menu Button -->
+            <div id="menu-button" class="overlay-button center pointer">
+                <div id="menu-button-scale-container">
+                    <div class="menu-button-bar"></div>
+                    <div class="menu-button-bar"></div>
+                    <div class="menu-button-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Landing Page -->
+        <div id="landing-page" class="content-container">
+            <section id="landing-page-section" class="content-width"></section>
+        </div>
+
+        <!-- About Section -->
+        <section id="about-section" class="content-container">
+            <div id="about-content-container" class="content-width column"></div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-section" class="content-container column">
+            <div id="contact-header-container" class="content-width">
+                <div class="section-subheader-container">
+                    <hr>
+                    <h5>CONTACT</h5>
+                </div>
+                <h1>Get in touch.</h1>
+            </div>
+            <div id="contact-container" class="column"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="content-width row">
+            <span>© 2024 Edvance</span>
+        </footer>
+
+        <!-- Scroll Icon -->
+        <div class="scroll-container">
+            <div id="scroll-icon"></div>
+        </div>
+    </div>
+
+    <!-- Menu Container -->
+    <div id="menu-container" class="column"></div>
+
+    <!-- Hover Icon -->
+    <div id="hover-icon"></div>
+
+    <!-- Transition Container -->
+    <div id="transition-container"></div>
+
+    <!-- Load the Three.js Experience -->
+    <script>
+        // Disable sound errors by catching them
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('sound') || e.message.includes('.mp3')) {
+                e.preventDefault();
+                console.log('Sound file not found - continuing without audio');
+            }
+        }, true);
+
+        // Override Howler if sounds are missing
+        window.Howler = window.Howler || {
+            mute: function() {},
+            volume: function() {},
+            ctx: { createGain: function() { return { connect: function() {}, gain: { value: 1 } }; } }
+        };
+    </script>
+    <script type="module" src="/index.js"></script>
+</body>
+</html>
