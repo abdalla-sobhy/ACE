@@ -15,6 +15,7 @@ import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./Payment.module.css";
 import { FaCreditCard, FaPaypal, FaLock, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import Image from "next/image";
+import { Circle, Video } from "lucide-react";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
 
@@ -147,7 +148,7 @@ function StripeCheckoutForm({ course, onSuccess }: { course: Course; onSuccess: 
     style: {
       base: {
         color: "#32325d",
-        fontFamily: "Arial, sans-serif",
+        fontFamily: "Cairo, Arial, sans-serif",
         fontSmoothing: "antialiased" as const,
         fontSize: "16px",
         "::placeholder": {
@@ -361,7 +362,7 @@ export default function PaymentPage() {
                 <p className={styles.teacherName}>By {course.teacher_name}</p>
                 <p className={styles.courseDescription}>{course.description}</p>
                 <div className={styles.courseType}>
-                  {course.course_type === 'live' ? '🔴 Live Course' : '📹 Recorded Course'}
+                  {course.course_type === 'live' ? <><Circle className="text-red-500 fill-red-500" size={12} /> Live Course</> : <><Video size={16} /> Recorded Course</>}
                 </div>
               </div>
             </div>

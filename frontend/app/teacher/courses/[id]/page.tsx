@@ -6,6 +6,7 @@ import TeacherNav from "@/components/TeacherNav/TeacherNav";
 import styles from "./CourseDetail.module.css";
 import Image from "next/image";
 import { useLanguage } from "@/hooks/useLanguage";
+import { X } from 'lucide-react';
 import {
   FaArrowRight,
   FaPlus,
@@ -550,7 +551,7 @@ export default function CourseDetailPage() {
                     resetForm();
                   }}
                 >
-                  ✕
+                  <X size={16} />
                 </button>
               </div>
 

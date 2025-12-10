@@ -2,10 +2,8 @@
   min-height: 100vh;
   background: var(--main-color);
   direction: rtl;
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .container[dir="rtl"] {
-  font-family: var(--font-cairo), 'Noto Sans Arabic', sans-serif;
 }
 
 .main {

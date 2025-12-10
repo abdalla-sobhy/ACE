@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./verifyEmail.module.css";
 import { useLanguage } from "@/hooks/useLanguage";
+import { Mail, AlertTriangle, Check } from 'lucide-react';
 
 export default function VerifyEmailPage({
   searchParams,
@@ -175,7 +176,7 @@ export default function VerifyEmailPage({
       <div className={styles.mainContent}>
         <div className={styles.verifyCard}>
           <div className={styles.iconWrapper}>
-            <span className={styles.emailIcon}>✉️</span>
+            <span className={styles.emailIcon}><Mail size={48} /></span>
           </div>
 
           <h1 className={styles.title}>{t("auth.verifyEmailTitle")}</h1>
@@ -212,14 +213,14 @@ export default function VerifyEmailPage({
 
           {error && (
             <div className={styles.errorMessage}>
-              <span className={styles.errorIcon}>⚠️</span>
+              <span className={styles.errorIcon}><AlertTriangle size={20} /></span>
               {error}
             </div>
           )}
 
           {message && (
             <div className={styles.successMessage}>
-              <span className={styles.successIcon}>✓</span>
+              <span className={styles.successIcon}><Check size={20} /></span>
               {message}
             </div>
           )}

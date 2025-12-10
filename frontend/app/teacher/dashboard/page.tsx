@@ -22,6 +22,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import { useLanguage } from "@/hooks/useLanguage";
+import { Circle } from "lucide-react";
+
 interface Course {
   id: number;
   title: string;
@@ -422,7 +424,7 @@ export default function TeacherDashboard() {
                     )}
                     {course.course_type === 'live' && (
                       <div className={styles.liveBadge}>
-                        <span>🔴</span>  {t("teacher.live")}
+                        <Circle className="text-red-500 fill-red-500" size={12} />  {t("teacher.live")}
                       </div>
                     )}
                     {!course.is_active && (
