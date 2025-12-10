@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
+import { MessageCircle, Wrench, BookOpen, Handshake, Clock, Send, Mail, Smartphone, MapPin, Facebook, Twitter, Camera, Tv, Briefcase, AlertTriangle, Phone, ChevronDown } from 'lucide-react';
 
 export default function ContactPage() {
   const { t, dir } = useLanguage();
@@ -21,15 +22,15 @@ export default function ContactPage() {
   const [activeCategory, setActiveCategory] = useState("general");
 
   const contactCategories = [
-    { id: "general", icon: "💬", title: t("contact.categoryGeneral"), response: t("contact.categoryGeneralResponse") },
-    { id: "technical", icon: "🛠️", title: t("contact.categoryTechnical"), response: t("contact.categoryTechnicalResponse") },
+    { id: "general", icon: <MessageCircle size={24} />, title: t("contact.categoryGeneral"), response: t("contact.categoryGeneralResponse") },
+    { id: "technical", icon: <Wrench size={24} />, title: t("contact.categoryTechnical"), response: t("contact.categoryTechnicalResponse") },
     {
       id: "educational",
-      icon: "📚",
+      icon: <BookOpen size={24} />,
       title: t("contact.categoryEducational"),
       response: t("contact.categoryEducationalResponse"),
     },
-    { id: "partnership", icon: "🤝", title: t("contact.categoryPartnership"), response: t("contact.categoryPartnershipResponse") },
+    { id: "partnership", icon: <Handshake size={24} />, title: t("contact.categoryPartnership"), response: t("contact.categoryPartnershipResponse") },
   ];
 
   const faqs = [
@@ -60,11 +61,11 @@ export default function ContactPage() {
   ];
 
   const socialLinks = [
-    { icon: "📘", name: t("contact.facebook"), url: "#" },
-    { icon: "🐦", name: t("contact.twitter"), url: "#" },
-    { icon: "📷", name: t("contact.instagram"), url: "#" },
-    { icon: "📺", name: t("contact.youtube"), url: "#" },
-    { icon: "💼", name: t("contact.linkedin"), url: "#" },
+    { icon: <Facebook size={20} />, name: t("contact.facebook"), url: "#" },
+    { icon: <Twitter size={20} />, name: t("contact.twitter"), url: "#" },
+    { icon: <Camera size={20} />, name: t("contact.instagram"), url: "#" },
+    { icon: <Tv size={20} />, name: t("contact.youtube"), url: "#" },
+    { icon: <Briefcase size={20} />, name: t("contact.linkedin"), url: "#" },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -138,7 +139,7 @@ export default function ContactPage() {
                 <span className={styles.categoryIcon}>{category.icon}</span>
                 <h3>{category.title}</h3>
                 <p className={styles.responseTime}>
-                  <span className={styles.clockIcon}>⏰</span>
+                  <span className={styles.clockIcon}><Clock size={16} /></span>
                   {t("contact.responseTime")} {category.response}
                 </p>
               </div>
@@ -233,7 +234,7 @@ export default function ContactPage() {
                 )}
                 <button type="submit" className={styles.submitButton}>
                   <span>{t("contact.sendMessage")}</span>
-                  <span className={styles.sendIcon}>📤</span>
+                  <span className={styles.sendIcon}><Send size={20} /></span>
                 </button>
               </form>
             </div>
@@ -243,28 +244,28 @@ export default function ContactPage() {
               <div className={styles.infoCard}>
                 <h3>{t("contact.contactInfoTitle")}</h3>
                 <div className={styles.infoItem}>
-                  <span className={styles.infoIcon}>📧</span>
+                  <span className={styles.infoIcon}><Mail size={24} /></span>
                   <div>
                     <h4>{t("contact.emailLabel")}</h4>
                     <p>{t("contact.emailValue")}</p>
                   </div>
                 </div>
                 <div className={styles.infoItem}>
-                  <span className={styles.infoIcon}>📱</span>
+                  <span className={styles.infoIcon}><Smartphone size={24} /></span>
                   <div>
                     <h4>{t("contact.whatsappLabel")}</h4>
                     <p>{t("contact.whatsappValue")}</p>
                   </div>
                 </div>
                 <div className={styles.infoItem}>
-                  <span className={styles.infoIcon}>📍</span>
+                  <span className={styles.infoIcon}><MapPin size={24} /></span>
                   <div>
                     <h4>{t("contact.addressLabel")}</h4>
                     <p>{t("contact.addressValue")}</p>
                   </div>
                 </div>
                 <div className={styles.infoItem}>
-                  <span className={styles.infoIcon}>🕐</span>
+                  <span className={styles.infoIcon}><Clock size={24} /></span>
                   <div>
                     <h4>{t("contact.officeHoursLabel")}</h4>
                     <p>{t("contact.officeHoursValue")}</p>
@@ -296,7 +297,7 @@ export default function ContactPage() {
                 <h3>{t("contact.quickResponseTitle")}</h3>
                 <p>{t("contact.quickResponseDescription")}</p>
                 <button className={styles.chatButton}>
-                  <span>💬</span>
+                  <span><MessageCircle size={20} /></span>
                   <span>{t("contact.startChatButton")}</span>
                 </button>
               </div>
@@ -317,7 +318,7 @@ export default function ContactPage() {
               <details key={index} className={styles.faqItem}>
                 <summary className={styles.faqQuestion}>
                   <span>{faq.question}</span>
-                  <span className={styles.faqIcon}>⌄</span>
+                  <span className={styles.faqIcon}><ChevronDown size={20} /></span>
                 </summary>
                 <div className={styles.faqAnswer}>
                   <p>{faq.answer}</p>
@@ -337,16 +338,16 @@ export default function ContactPage() {
       {/* Emergency Contact */}
       <section className={styles.emergency}>
         <div className={styles.emergencyContainer}>
-          <div className={styles.emergencyIcon}>🚨</div>
+          <div className={styles.emergencyIcon}><AlertTriangle size={48} /></div>
           <h3>{t("contact.emergencyTitle")}</h3>
           <p>{t("contact.emergencyDescription")}</p>
           <div className={styles.emergencyActions}>
             <button className={styles.emergencyButton}>
-              <span>📞</span>
+              <span><Phone size={20} /></span>
               <span>{t("contact.emergencyCallButton")}</span>
             </button>
             <button className={styles.emergencyChat}>
-              <span>💬</span>
+              <span><MessageCircle size={20} /></span>
               <span>{t("contact.emergencyChatButton")}</span>
             </button>
           </div>
@@ -361,7 +362,7 @@ export default function ContactPage() {
             <p>{t("contact.mapDescription")}</p>
             <div className={styles.mapPlaceholder}>
               <div className={styles.mapOverlay}>
-                <span className={styles.mapIcon}>📍</span>
+                <span className={styles.mapIcon}><MapPin size={48} /></span>
                 <h3>{t("contact.mapLocation")}</h3>
                 <p>{t("contact.mapAddress")}</p>
               </div>

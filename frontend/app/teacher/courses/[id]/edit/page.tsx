@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import { useDropzone } from 'react-dropzone';
 import Image from "next/image";
+import { Hash, FileEdit, Globe, FlaskConical, Map, Building } from 'lucide-react';
 import { useLanguage } from "@/hooks/useLanguage";
 
 interface Session {
@@ -43,14 +44,14 @@ interface CourseFormData {
 }
 
 const CATEGORIES = [
-  { value: 'math', label: 'الرياضيات', icon: '🔢' },
-  { value: 'arabic', label: 'اللغة العربية', icon: '📝' },
-  { value: 'english', label: 'اللغة الإنجليزية', icon: '🌍' },
-  { value: 'science', label: 'العلوم', icon: '🔬' },
-  { value: 'social', label: 'الدراسات الاجتماعية', icon: '🗺️' },
-  { value: 'religion', label: 'التربية الدينية', icon: '🕌' },
-  { value: 'french', label: 'اللغة الفرنسية', icon: '🇫🇷' },
-  { value: 'german', label: 'اللغة الألمانية', icon: '🇩🇪' },
+  { value: 'math', label: 'الرياضيات', icon: <Hash size={20} /> },
+  { value: 'arabic', label: 'اللغة العربية', icon: <FileEdit size={20} /> },
+  { value: 'english', label: 'اللغة الإنجليزية', icon: <Globe size={20} /> },
+  { value: 'science', label: 'العلوم', icon: <FlaskConical size={20} /> },
+  { value: 'social', label: 'الدراسات الاجتماعية', icon: <Map size={20} /> },
+  { value: 'religion', label: 'التربية الدينية', icon: <Building size={20} /> },
+  { value: 'french', label: 'اللغة الفرنسية', icon: <span>FR</span> },
+  { value: 'german', label: 'اللغة الألمانية', icon: <span>DE</span> },
 ];
 
 const GRADES = [

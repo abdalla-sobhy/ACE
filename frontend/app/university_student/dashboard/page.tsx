@@ -24,6 +24,8 @@ import {
 import Image from "next/image";
 
 import { useLanguage } from "@/hooks/useLanguage";
+import { Search } from "lucide-react";
+
 interface Course {
   id: number;
   title: string;
@@ -559,7 +561,7 @@ export default function UniversityStudentDashboard() {
 
           {filteredCourses.length === 0 ? (
             <div className={styles.noResults}>
-              <span className={styles.noResultsIcon}>🔍</span>
+              <span className={styles.noResultsIcon}><Search size={48} /></span>
               <h3>{t("universityStudent.noResults")}</h3>
               <p>{t("universityStudent.tryDifferentSearch")}</p>
             </div>

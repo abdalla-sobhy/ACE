@@ -4,13 +4,33 @@ import styles from "./Features.module.css";
 import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
+import {
+  Tv,
+  Sofa,
+  Trophy,
+  FileEdit,
+  Users,
+  BarChart,
+  MessageCircle,
+  BookOpen,
+  Smartphone,
+  Bell,
+  Check,
+  X,
+  Circle,
+  Video,
+  TrendingUp,
+  Clock,
+  Target,
+  Rocket
+} from "lucide-react";
 
 export default function FeaturesPage() {
   const { t, dir } = useLanguage();
 
   const mainFeatures = [
     {
-      icon: "📺",
+      icon: <Tv size={24} />,
       title: t("features.feature1"),
       description: t("features.feature1Description"),
       details: [
@@ -21,7 +41,7 @@ export default function FeaturesPage() {
       ],
     },
     {
-      icon: "🪑",
+      icon: <Sofa size={24} />,
       title: t("features.feature2"),
       description: t("features.feature2Description"),
       details: [
@@ -32,7 +52,7 @@ export default function FeaturesPage() {
       ],
     },
     {
-      icon: "🏆",
+      icon: <Trophy size={24} />,
       title: t("features.feature3"),
       description: t("features.feature3Description"),
       details: [
@@ -43,7 +63,7 @@ export default function FeaturesPage() {
       ],
     },
     {
-      icon: "📝",
+      icon: <FileEdit size={24} />,
       title: t("features.feature4"),
       description: t("features.feature4Description"),
       details: [
@@ -57,32 +77,32 @@ export default function FeaturesPage() {
 
   const additionalFeatures = [
     {
-      icon: "👨‍👩‍👧",
+      icon: <Users size={24} />,
       title: t("features.additionalFeature1"),
       description: t("features.additionalFeature1Description"),
     },
     {
-      icon: "📊",
+      icon: <BarChart size={24} />,
       title: t("features.additionalFeature2"),
       description: t("features.additionalFeature2Description"),
     },
     {
-      icon: "💬",
+      icon: <MessageCircle size={24} />,
       title: t("features.additionalFeature3"),
       description: t("features.additionalFeature3Description"),
     },
     {
-      icon: "📚",
+      icon: <BookOpen size={24} />,
       title: t("features.additionalFeature4"),
       description: t("features.additionalFeature4Description"),
     },
     {
-      icon: "📱",
+      icon: <Smartphone size={24} />,
       title: t("features.additionalFeature5"),
       description: t("features.additionalFeature5Description"),
     },
     {
-      icon: "🔔",
+      icon: <Bell size={24} />,
       title: t("features.additionalFeature6"),
       description: t("features.additionalFeature6Description"),
     },
@@ -126,7 +146,7 @@ export default function FeaturesPage() {
                 <ul className={styles.featureDetails}>
                   {feature.details.map((detail, idx) => (
                     <li key={idx}>
-                      <span className={styles.checkIcon}>✓</span>
+                      <span className={styles.checkIcon}><Check size={16} /></span>
                       {detail}
                     </li>
                   ))}
@@ -146,21 +166,21 @@ export default function FeaturesPage() {
             <p>{t("features.showcaseDescription")}</p>
             <div className={styles.showcaseFeatures}>
               <div className={styles.showcaseFeature}>
-                <span className={styles.showcaseIcon}>👥</span>
+                <span className={styles.showcaseIcon}><Users size={24} /></span>
                 <div>
                   <h4>{t("features.showcaseFeature1Title")}</h4>
                   <p>{t("features.showcaseFeature1Description")}</p>
                 </div>
               </div>
               <div className={styles.showcaseFeature}>
-                <span className={styles.showcaseIcon}>🎥</span>
+                <span className={styles.showcaseIcon}><Video size={24} /></span>
                 <div>
                   <h4>{t("features.showcaseFeature2Title")}</h4>
                   <p>{t("features.showcaseFeature2Description")}</p>
                 </div>
               </div>
               <div className={styles.showcaseFeature}>
-                <span className={styles.showcaseIcon}>💭</span>
+                <span className={styles.showcaseIcon}><MessageCircle size={24} /></span>
                 <div>
                   <h4>{t("features.showcaseFeature3Title")}</h4>
                   <p>{t("features.showcaseFeature3Description")}</p>
@@ -183,8 +203,8 @@ export default function FeaturesPage() {
               <div className={styles.browserContent}>
                 <div className={styles.videoPlayer}>
                   <div className={styles.videoOverlay}>
-                    <span className={styles.liveIndicator}>● {t("features.liveIndicator")}</span>
-                    <span className={styles.viewerCount}>👥 18 {t("features.viewerCount")}</span>
+                    <span className={styles.liveIndicator}><Circle className="text-red-500 fill-red-500" size={12} /> {t("features.liveIndicator")}</span>
+                    <span className={styles.viewerCount}><Users size={16} /> 18 {t("features.viewerCount")}</span>
                   </div>
                 </div>
                 <div className={styles.chatPanel}>
@@ -238,33 +258,33 @@ export default function FeaturesPage() {
             <div className={styles.comparisonRow}>
               <div className={styles.comparisonFeature}>{t("features.comparisonCost")}</div>
               <div className={styles.comparisonValue}>
-                <span className={styles.checkMark}>✓</span>
+                <span className={styles.checkMark}><Check size={20} /></span>
                 <span>{t("features.comparisonCostEdvance")}</span>
               </div>
               <div className={styles.comparisonValue}>
-                <span className={styles.crossMark}>✗</span>
+                <span className={styles.crossMark}><X size={20} /></span>
                 <span>{t("features.comparisonCostOthers")}</span>
               </div>
             </div>
             <div className={styles.comparisonRow}>
               <div className={styles.comparisonFeature}>{t("features.comparisonLive")}</div>
               <div className={styles.comparisonValue}>
-                <span className={styles.checkMark}>✓</span>
+                <span className={styles.checkMark}><Check size={20} /></span>
                 <span>{t("features.comparisonLiveEdvance")}</span>
               </div>
               <div className={styles.comparisonValue}>
-                <span className={styles.crossMark}>✗</span>
+                <span className={styles.crossMark}><X size={20} /></span>
                 <span>{t("features.comparisonLiveOthers")}</span>
               </div>
             </div>
             <div className={styles.comparisonRow}>
               <div className={styles.comparisonFeature}>{t("features.comparisonPoints")}</div>
               <div className={styles.comparisonValue}>
-                <span className={styles.checkMark}>✓</span>
+                <span className={styles.checkMark}><Check size={20} /></span>
                 <span>{t("features.comparisonPointsEdvance")}</span>
               </div>
               <div className={styles.comparisonValue}>
-                <span className={styles.crossMark}>✗</span>
+                <span className={styles.crossMark}><X size={20} /></span>
                 <span>{t("features.comparisonPointsOthers")}</span>
               </div>
             </div>
@@ -273,11 +293,11 @@ export default function FeaturesPage() {
                 {t("features.comparisonParents")}
               </div>
               <div className={styles.comparisonValue}>
-                <span className={styles.checkMark}>✓</span>
+                <span className={styles.checkMark}><Check size={20} /></span>
                 <span>{t("features.comparisonParentsEdvance")}</span>
               </div>
               <div className={styles.comparisonValue}>
-                <span className={styles.crossMark}>✗</span>
+                <span className={styles.crossMark}><X size={20} /></span>
                 <span>{t("features.comparisonParentsOthers")}</span>
               </div>
             </div>
@@ -291,22 +311,22 @@ export default function FeaturesPage() {
           <h2>{t("features.statsTitle")}</h2>
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
-              <span className={styles.statIcon}>📈</span>
+              <span className={styles.statIcon}><TrendingUp size={32} /></span>
               <h3>98%</h3>
               <p>{t("features.statImprovement")}</p>
             </div>
             <div className={styles.statCard}>
-              <span className={styles.statIcon}>⏰</span>
+              <span className={styles.statIcon}><Clock size={32} /></span>
               <h3>24/7</h3>
               <p>{t("features.statSupport")}</p>
             </div>
             <div className={styles.statCard}>
-              <span className={styles.statIcon}>🎯</span>
+              <span className={styles.statIcon}><Target size={32} /></span>
               <h3>95%</h3>
               <p>{t("features.statSatisfaction")}</p>
             </div>
             <div className={styles.statCard}>
-              <span className={styles.statIcon}>🚀</span>
+              <span className={styles.statIcon}><Rocket size={32} /></span>
               <h3>0.5 {t("common.time")}</h3>
               <p>{t("features.statLatency")}</p>
             </div>

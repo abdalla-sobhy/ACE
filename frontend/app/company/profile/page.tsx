@@ -21,6 +21,7 @@ import {
   FaCalendar,
   FaIndustry,
 } from "react-icons/fa";
+import { Check } from "lucide-react";
 
 interface CompanyProfile {
   company_name: string;
@@ -333,7 +334,7 @@ export default function CompanyProfile() {
               <h1>
                 {profile.company_name || t("profilePage.companyName")}
                 {profile.is_verified && (
-                  <span className={styles.verifiedBadge}>✓ {t("profilePage.verified")}</span>
+                  <span className={styles.verifiedBadge}><Check size={16} /> {t("profilePage.verified")}</span>
                 )}
               </h1>
               <p className={styles.profileTitle}>

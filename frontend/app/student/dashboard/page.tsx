@@ -1,12 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import StudentNav from "@/components/StudentNav/StudentNav";
 import styles from "./StudentDashboard.module.css";
 import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaShoppingCart, FaTimes, FaVideo, FaCalendarAlt, FaBroadcastTower } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useLanguage } from "@/hooks/useLanguage";
+import {
+  FileEdit,
+  Globe,
+  Hash,
+  FlaskConical,
+  Map,
+  Building,
+  BookOpen,
+  Target,
+  GraduationCap,
+  Search,
+  Circle
+} from "lucide-react";
 
 interface Course {
   id: number;
@@ -360,17 +373,17 @@ const findNextSessionFromSchedule = (
   };
 
     const getCategoryLabel = (category: string) => {
-    const categoryData: { [key: string]: { labelKey: string; icon: string } } = {
-      arabic: { labelKey: "categories.arabic", icon: "📝" },
-      english: { labelKey: "categories.english", icon: "🌍" },
-      math: { labelKey: "categories.math", icon: "🔢" },
-      science: { labelKey: "categories.science", icon: "🔬" },
-      social: { labelKey: "categories.social", icon: "🗺️" },
-      religion: { labelKey: "categories.religion", icon: "🕌" },
-      french: { labelKey: "categories.french", icon: "🇫🇷" },
-      german: { labelKey: "categories.german", icon: "🇩🇪" },
+    const categoryData: { [key: string]: { labelKey: string; icon: ReactElement } } = {
+      arabic: { labelKey: "categories.arabic", icon: <FileEdit size={16} /> },
+      english: { labelKey: "categories.english", icon: <Globe size={16} /> },
+      math: { labelKey: "categories.math", icon: <Hash size={16} /> },
+      science: { labelKey: "categories.science", icon: <FlaskConical size={16} /> },
+      social: { labelKey: "categories.social", icon: <Map size={16} /> },
+      religion: { labelKey: "categories.religion", icon: <Building size={16} /> },
+      french: { labelKey: "categories.french", icon: <span>FR</span> },
+      german: { labelKey: "categories.german", icon: <span>DE</span> },
     };
-    const data = categoryData[category] || { labelKey: category, icon: "📚" };
+    const data = categoryData[category] || { labelKey: category, icon: <BookOpen size={16} /> };
     return { label: t(data.labelKey), icon: data.icon };
   };
 
@@ -399,21 +412,21 @@ const findNextSessionFromSchedule = (
           </div>
           <div className={styles.statsCards}>
             <div className={styles.statCard}>
-              <div className={styles.statIcon}>📚</div>
+              <div className={styles.statIcon}><BookOpen size={32} /></div>
               <div className={styles.statInfo}>
                 <h3>{courses.length}</h3>
                 <p>{t("student.coursesAvailable")}</p>
               </div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statIcon}>🎯</div>
+              <div className={styles.statIcon}><Target size={32} /></div>
               <div className={styles.statInfo}>
                 <h3>{enrolledCount}</h3>
                 <p>{t("student.coursesEnrolled")}</p>
               </div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statIcon}>👨‍🏫</div>
+              <div className={styles.statIcon}><GraduationCap size={32} /></div>
               <div className={styles.statInfo}>
                 <h3>{new Set(courses.map(c => c.teacher_id)).size}</h3>
                 <p>{t("student.teachersAvailable")}</p>
@@ -498,7 +511,7 @@ const findNextSessionFromSchedule = (
                 fetchCourses(teacherNameFilter, 'live');
               }}
             >
-              <span className={styles.liveIcon}>🔴</span>{t("student.liveStream")}
+              <Circle className="text-red-500 fill-red-500" size={12} />{t("student.liveStream")}
             </button>
           </div>
 
@@ -519,7 +532,7 @@ const findNextSessionFromSchedule = (
 
           {filteredCourses.length === 0 ? (
             <div className={styles.noResults}>
-              <span className={styles.noResultsIcon}>🔍</span>
+              <span className={styles.noResultsIcon}><Search size={48} /></span>
               <h3>{t("student.noCoursesFound")}</h3>
               <p>{t("student.tryDifferentSearch")}</p>
             </div>

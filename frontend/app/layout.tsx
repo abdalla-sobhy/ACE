@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Cairo, Alexandria } from "next/font/google";
+import { Cairo } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -9,25 +9,9 @@ import { AuthProvider } from '@/context/AuthContext';
 import { getTheme } from "@/app/actions/theme";
 import Chatbot from "@/components/Chatbot/Chatbot";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 const cairo = Cairo({
   variable: "--font-cairo",
-  subsets: ["arabic"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const alexandria = Alexandria({
-  variable: "--font-alexandria",
-  subsets: ["arabic"],
+  subsets: ["arabic", "latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
 
@@ -78,7 +62,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <ClientBody
-        className={`${geistSans.variable} ${geistMono.variable} ${cairo.variable} ${alexandria.variable} antialiased`}
+        className={`${cairo.variable} antialiased`}
       >
         <LanguageProvider>
           <AuthProvider>

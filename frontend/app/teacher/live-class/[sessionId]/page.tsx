@@ -7,6 +7,8 @@ import AgoraRTC from "agora-rtc-sdk-ng";
 import styles from "./TeacherLiveClass.module.css";
 
 import { useLanguage } from "@/hooks/useLanguage";
+import { AlertTriangle, Users, Mic, MicOff, Video, Clock } from "lucide-react";
+
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
 export default function TeacherLiveClassPage() {
@@ -205,7 +207,7 @@ export default function TeacherLiveClassPage() {
           <h1>البث المباشر</h1>
         </div>
         <div className={styles.error}>
-          <div className={styles.errorIcon}>⚠️</div>
+          <div className={styles.errorIcon}><AlertTriangle size={48} /></div>
           <h2>حدث خطأ</h2>
           <p>{error}</p>
           <button onClick={() => router.push("/teacher/dashboard")} className={styles.errorButton}>
@@ -242,22 +244,22 @@ export default function TeacherLiveClassPage() {
             </div>
           )}
           <div className={styles.participantsCount}>
-            <span>👥</span>
+            <Users size={20} />
             <span>{remoteUsers.length + 1} مشارك</span>
           </div>
-          <button 
-            onClick={toggleMic} 
+          <button
+            onClick={toggleMic}
             className={`${styles.controlButton} ${!micEnabled ? styles.disabled : ''}`}
             title={micEnabled ? "كتم الصوت" : "تشغيل الصوت"}
           >
-            {micEnabled ? "🎤" : "🔇"}
+            {micEnabled ? <Mic size={20} /> : <MicOff size={20} />}
           </button>
-          <button 
-            onClick={toggleCamera} 
+          <button
+            onClick={toggleCamera}
             className={`${styles.controlButton} ${!cameraEnabled ? styles.disabled : ''}`}
             title={cameraEnabled ? "إيقاف الكاميرا" : "تشغيل الكاميرا"}
           >
-            {cameraEnabled ? "📹" : "📷"}
+            {cameraEnabled ? <Video size={20} /> : <Video size={20} />}
           </button>
           <button onClick={handleEndSession} className={styles.endButton}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -279,7 +281,7 @@ export default function TeacherLiveClassPage() {
           <div id="remote-players" className={styles.remotePlayers}>
             {remoteUsers.length === 0 && (
               <div className={styles.waitingMessage}>
-                <p>⏳ في انتظار انضمام الطلاب...</p>
+                <p><Clock size={24} /> في انتظار انضمام الطلاب...</p>
               </div>
             )}
           </div>

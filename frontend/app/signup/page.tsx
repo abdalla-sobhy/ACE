@@ -16,6 +16,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useLanguage } from "@/hooks/useLanguage";
+import { CreditCard, X, CheckCircle, FileText, Check, Clock } from "lucide-react";
 
 const verifyAcademicEmail = async (email: string) => {
   try {
@@ -950,7 +951,7 @@ function SignupContent() {
 
           setDiditVerified(true);
           setVerificationStatus("approved");
-          setVerificationMessage("تم التحقق من هويتك بنجاح! ✅");
+          setVerificationMessage("تم التحقق من هويتك بنجاح!");
           sessionStorage.removeItem("diditSessionId");
 
           // Auto-proceed after verification
@@ -1354,7 +1355,7 @@ function SignupContent() {
                   {!diditVerified ? (
                     <div className={styles.verificationContainer}>
                       <div className={styles.verificationCard}>
-                        <div className={styles.verificationIcon}>🆔</div>
+                        <div className={styles.verificationIcon}><CreditCard size={48} /></div>
                         <h3 className={styles.verificationTitle}>
                           التحقق من البطاقة الشخصية
                         </h3>
@@ -1403,7 +1404,7 @@ function SignupContent() {
 
                         {verificationStatus === "failed" && (
                           <div className={styles.verificationStatus}>
-                            <div className={styles.failedIcon}>❌</div>
+                            <div className={styles.failedIcon}><X size={48} /></div>
                             <p className={styles.statusMessage}>
                               {verificationMessage}
                             </p>
@@ -1430,7 +1431,7 @@ function SignupContent() {
 
                         {verificationStatus === "approved" && (
                           <div className={styles.verificationStatus}>
-                            <div className={styles.successIcon}>✅</div>
+                            <div className={styles.successIcon}><CheckCircle size={48} /></div>
                             <p className={styles.statusMessage}>
                               {verificationMessage}
                             </p>
@@ -1448,7 +1449,7 @@ function SignupContent() {
                     </div>
                   ) : (
                     <div className={styles.verifiedCard}>
-                      <div className={styles.successIcon}>✅</div>
+                      <div className={styles.successIcon}><CheckCircle size={48} /></div>
                       <h3 className={styles.verifiedTitle}>تم التحقق بنجاح!</h3>
                       <p className={styles.verifiedDesc}>هويتك موثقة الآن</p>
 
@@ -1545,7 +1546,7 @@ function SignupContent() {
                                   htmlFor="cv"
                                   className={styles.fileUploadLabel}
                                 >
-                                  <span className={styles.uploadIcon}>📄</span>
+                                  <span className={styles.uploadIcon}><FileText size={24} /></span>
                                   <span>اختر ملف السيرة الذاتية</span>
                                   <small>
                                     PDF أو Word (حد أقصى 5 ميجابايت)
@@ -1866,7 +1867,7 @@ function SignupContent() {
               <div className={styles.successAnimation}>
                 <div className={styles.successCheckmark}>
                   <div className={styles.checkIcon}>
-                    ✓
+                    <Check size={48} />
                   </div>
                 </div>
               </div>
@@ -1886,7 +1887,7 @@ function SignupContent() {
           {step === 6 && (
             <div className={styles.successContent}>
               <div className={styles.pendingAnimation}>
-                <div className={styles.pendingIcon}>⏳</div>
+                <div className={styles.pendingIcon}><Clock size={48} /></div>
               </div>
               <h1 className={styles.successTitle}>{t("common.success")}</h1>
               <p className={styles.successText}>

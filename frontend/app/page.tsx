@@ -4,6 +4,7 @@ import styles from "./Landing.module.css";
 import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
+import { BookOpen, Target, FileEdit, DollarSign } from 'lucide-react';
 
 export default function LandingPage() {
   const { t, dir } = useLanguage();
@@ -45,22 +46,22 @@ export default function LandingPage() {
           <h2>{t("landing.whyEdvance")}</h2>
           <div className={styles.featuresGrid}>
             <div className={styles.feature}>
-              <div className={styles.featureIcon}>📚</div>
+              <div className={styles.featureIcon}><BookOpen size={32} /></div>
               <h3>{t("landing.feature1Title")}</h3>
               <p>{t("landing.feature1Description")}</p>
             </div>
             <div className={styles.feature}>
-              <div className={styles.featureIcon}>🎯</div>
+              <div className={styles.featureIcon}><Target size={32} /></div>
               <h3>{t("landing.feature2Title")}</h3>
               <p>{t("landing.feature2Description")}</p>
             </div>
             <div className={styles.feature}>
-              <div className={styles.featureIcon}>📝</div>
+              <div className={styles.featureIcon}><FileEdit size={32} /></div>
               <h3>{t("landing.feature3Title")}</h3>
               <p>{t("landing.feature3Description")}</p>
             </div>
             <div className={styles.feature}>
-              <div className={styles.featureIcon}>🆓</div>
+              <div className={styles.featureIcon}><DollarSign size={32} /></div>
               <h3>{t("landing.feature4Title")}</h3>
               <p>{t("landing.feature4Description")}</p>
             </div>

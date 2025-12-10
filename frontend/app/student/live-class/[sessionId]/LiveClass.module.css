@@ -5,11 +5,9 @@
   flex-direction: column;
   background: var(--main-color);
   overflow: hidden;
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   direction: rtl;
 }
 .container[dir="rtl"] {
-  font-family: var(--font-cairo), 'Noto Sans Arabic', sans-serif;
 }
 
 .header {
