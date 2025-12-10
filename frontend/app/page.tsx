@@ -78,7 +78,7 @@ export default function LandingPage() {
           right: '40px',
           zIndex: 10
         }}>
-          <a href="/experience.html" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
+          <a href="/experience" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
             ✨ Explore Full Experience
           </a>
         </div>
