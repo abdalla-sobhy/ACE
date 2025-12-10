@@ -86,9 +86,9 @@ export default function LandingPage() {
           </div>
 
           <div style={{ marginTop: "20px" }}>
-            <Link href="/experience.html" className={styles.exploreButton} target="_blank">
+            <a href="/experience.html" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
               ✨ Explore Full Experience
-            </Link>
+            </a>
           </div>
         </div>
       </section>
