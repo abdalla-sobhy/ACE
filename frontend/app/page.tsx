@@ -19,6 +19,7 @@ export default function LandingPage() {
     }, true);
 
     // Override Howler to prevent sound errors
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).Howler = (window as any).Howler || {
       mute: function() {},
       volume: function() {},
