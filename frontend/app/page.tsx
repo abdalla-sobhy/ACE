@@ -32,21 +32,30 @@ export default function LandingPage() {
     link.href = '/index.css';
     document.head.appendChild(link);
 
-    // Load the Three.js experience script
-    const script = document.createElement('script');
-    script.src = '/index.js';
-    script.type = 'module';
-    script.async = true;
-    document.body.appendChild(script);
+    // Wait for canvas to be in DOM, then load the Three.js experience script
+    const canvas = document.getElementById('main-canvas');
+    if (canvas) {
+      const script = document.createElement('script');
+      script.src = '/index.js';
+      script.type = 'module';
+      script.async = false; // Load synchronously to ensure canvas exists
+      script.onload = () => {
+        console.log('Three.js experience loaded');
+      };
+      script.onerror = (error) => {
+        console.error('Failed to load Three.js experience:', error);
+      };
+      document.body.appendChild(script);
 
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-      if (document.head.contains(link)) {
-        document.head.removeChild(link);
-      }
-    };
+      return () => {
+        if (document.body.contains(script)) {
+          document.body.removeChild(script);
+        }
+        if (document.head.contains(link)) {
+          document.head.removeChild(link);
+        }
+      };
+    }
   }, []);
 
   return (
