@@ -9,76 +9,32 @@ import { useEffect } from "react";
 export default function LandingPage() {
   const { t, dir } = useLanguage();
 
-  useEffect(() => {
-    // Disable sound errors
-    window.addEventListener('error', function(e: ErrorEvent) {
-      if (e.message && (e.message.includes('sound') || e.message.includes('.mp3'))) {
-        e.preventDefault();
-        console.log('Sound file not found - continuing without audio');
-      }
-    }, true);
-
-    // Override Howler to prevent sound errors
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).Howler = (window as any).Howler || {
-      mute: function() {},
-      volume: function() {},
-      ctx: { createGain: function() { return { connect: function() {}, gain: { value: 1 } }; } }
-    };
-
-    // Load the CSS
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/index.css';
-    document.head.appendChild(link);
-
-    // Wait for canvas to be in DOM, then load the Three.js experience script
-    const canvas = document.getElementById('main-canvas');
-    if (canvas) {
-      const script = document.createElement('script');
-      script.src = '/index.js';
-      script.type = 'module';
-      script.async = false; // Load synchronously to ensure canvas exists
-      script.onload = () => {
-        console.log('Three.js experience loaded');
-      };
-      script.onerror = (error) => {
-        console.error('Failed to load Three.js experience:', error);
-      };
-      document.body.appendChild(script);
-
-      return () => {
-        if (document.body.contains(script)) {
-          document.body.removeChild(script);
-        }
-        if (document.head.contains(link)) {
-          document.head.removeChild(link);
-        }
-      };
-    }
-  }, []);
-
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
       <NavigationBar />
 
-      {/* Three.js Canvas - David's Scene */}
-      <canvas id="main-canvas" className={styles.threeCanvas}></canvas>
-
-      {/* Required DOM structure for Three.js experience */}
-      <div id="intro-container" style={{ display: 'none' }}></div>
-      <div id="overlay-container" style={{ pointerEvents: 'none', position: 'fixed', zIndex: 1 }}></div>
-      <div id="hover-icon" style={{ position: 'fixed', zIndex: 999 }}></div>
-
-      {/* Hero Section - Just the 3D Scene */}
+      {/* Hero Section with 3D Scene in iframe */}
       <section className={styles.hero}>
+        <iframe
+          src="/experience.html"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            border: 'none',
+            pointerEvents: 'auto'
+          }}
+          title="3D Experience"
+        />
         <div style={{
           position: 'absolute',
           bottom: '40px',
           right: '40px',
           zIndex: 10
         }}>
-          <a href="/experience" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
+          <a href="/experience.html" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
             ✨ Explore Full Experience
           </a>
         </div>
