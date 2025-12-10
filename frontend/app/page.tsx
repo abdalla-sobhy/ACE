@@ -4,25 +4,32 @@ import styles from "./Landing.module.css";
 import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
-import { useTheme } from "@/hooks/useTheme";
-import dynamic from "next/dynamic";
-
-// Dynamically import Three.js component to avoid SSR issues
-const HeroScene = dynamic(() => import("@/components/ThreeJS/HeroScene"), {
-  ssr: false,
-});
 
 export default function LandingPage() {
   const { t, dir } = useLanguage();
-  const { theme } = useTheme();
 
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
       <NavigationBar />
 
-      {/* Hero Section */}
+      {/* Three.js Hero Section - Embedded iframe */}
       <section className={styles.hero}>
-        <HeroScene isDark={theme === "dark"} />
+        <div className={styles.experienceIframe}>
+          <iframe
+            src="/experience.html"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              border: "none",
+              overflow: "hidden"
+            }}
+            title="3D Hero Experience"
+          />
+        </div>
+
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             <div className={styles.heroTitleFirst}>Edvance</div>
@@ -47,8 +54,8 @@ export default function LandingPage() {
           </div>
 
           <div style={{ marginTop: "20px" }}>
-            <Link href="/experience" className={styles.exploreButton}>
-              ✨ Explore in 3D
+            <Link href="/experience.html" className={styles.exploreButton} target="_blank">
+              ✨ Explore Full Experience
             </Link>
           </div>
         </div>

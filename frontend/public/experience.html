@@ -114,6 +114,22 @@
     <div id="transition-container"></div>
 
     <!-- Load the Three.js Experience -->
+    <script>
+        // Disable sound errors by catching them
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('sound') || e.message.includes('.mp3')) {
+                e.preventDefault();
+                console.log('Sound file not found - continuing without audio');
+            }
+        }, true);
+
+        // Override Howler if sounds are missing
+        window.Howler = window.Howler || {
+            mute: function() {},
+            volume: function() {},
+            ctx: { createGain: function() { return { connect: function() {}, gain: { value: 1 } }; } }
+        };
+    </script>
     <script type="module" src="/index.js"></script>
 </body>
 </html>
