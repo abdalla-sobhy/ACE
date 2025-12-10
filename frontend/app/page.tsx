@@ -61,36 +61,17 @@ export default function LandingPage() {
       <div id="overlay-container" style={{ pointerEvents: 'none', position: 'fixed', zIndex: 1 }}></div>
       <div id="hover-icon" style={{ position: 'fixed', zIndex: 999 }}></div>
 
-      {/* Hero Section */}
+      {/* Hero Section - Just the 3D Scene */}
       <section className={styles.hero}>
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>
-            <div className={styles.heroTitleFirst}>Edvance</div>
-            {t("landing.heroTitle")}
-            <br />
-            <span className={styles.heroGradient}>{t("landing.heroGradient")}</span>
-          </h1>
-          <p className={styles.heroDescription}>
-            {t("landing.heroDescription")}
-            <br />
-            {t("landing.heroSubDescription")}
-          </p>
-
-          <div className={styles.heroButtons}>
-            <Link href="/signup" className={styles.primaryButton}>
-              {t("landing.registerAsStudent")}
-            </Link>
-
-            <Link href="/company/register" className={styles.secondaryButton}>
-              {t("landing.joinAsCompany")}
-            </Link>
-          </div>
-
-          <div style={{ marginTop: "20px" }}>
-            <a href="/experience.html" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
-              ✨ Explore Full Experience
-            </a>
-          </div>
+        <div style={{
+          position: 'absolute',
+          bottom: '40px',
+          right: '40px',
+          zIndex: 10
+        }}>
+          <a href="/experience.html" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
+            ✨ Explore Full Experience
+          </a>
         </div>
       </section>
 
