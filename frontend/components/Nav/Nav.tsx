@@ -12,11 +12,10 @@ export default function Nav() {
   const pathname = usePathname();
   const { t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
+  const isLandingPage = pathname === '/';
+  const [isVisible, setIsVisible] = useState(!isLandingPage);
   const [lastScrollY, setLastScrollY] = useState(0);
   const navRef = useRef<HTMLElement>(null);
-
-  const isLandingPage = pathname === '/';
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -68,13 +67,8 @@ export default function Nav() {
       // Show navbar when scrolling up, hide when scrolling down
       if (currentScrollY < lastScrollY) {
         setIsVisible(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      } else if (currentScrollY > lastScrollY) {
         setIsVisible(false);
-      }
-
-      // Always show navbar at the top
-      if (currentScrollY < 10) {
-        setIsVisible(true);
       }
 
       setLastScrollY(currentScrollY);
