@@ -16,7 +16,7 @@ export default function LandingPage() {
       {/* Hero Section with 3D Scene in iframe */}
       <section className={styles.hero}>
         <iframe
-          src="/experience.html"
+          src="/simple-scene.html"
           style={{
             position: 'absolute',
             top: 0,
@@ -34,7 +34,7 @@ export default function LandingPage() {
           right: '40px',
           zIndex: 10
         }}>
-          <a href="/experience" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
+          <a href="/simple-scene.html" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
             ✨ Explore Full Experience
           </a>
         </div>
