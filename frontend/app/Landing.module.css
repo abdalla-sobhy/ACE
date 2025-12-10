@@ -28,13 +28,15 @@
 .hero {
   position: relative;
   padding: 120px 24px 80px;
-  max-width: 1280px;
+  padding: 0 !important;
+  width: 100%;
   margin: 0 auto;
   display: grid;
   gap: 64px;
   align-items: center;
-  min-height: 80vh;
+  min-height: 89vh;
   overflow: hidden;
+  margin-top: 5rem;
 }
 
 .experienceIframe {
@@ -118,24 +120,6 @@
 .secondaryButton:hover {
   border-color: var(--accent-blue);
   background: var(--accent-blue-bg);
-}
-
-.exploreButton {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 12px 32px;
-  text-decoration: none;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: 600;
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: inline-block;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-.exploreButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
 
 /* User Types */

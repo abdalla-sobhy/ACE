@@ -28,16 +28,6 @@ export default function LandingPage() {
           }}
           title="3D Experience"
         />
-        <div style={{
-          position: 'absolute',
-          bottom: '40px',
-          right: '40px',
-          zIndex: 10
-        }}>
-          <a href="/index.html" className={styles.exploreButton} target="_blank" rel="noopener noreferrer">
-            ✨ Explore Full Experience
-          </a>
-        </div>
       </section>
 
       {/* Features Section */}
