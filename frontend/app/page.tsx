@@ -14,6 +14,25 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className={styles.hero}>
+        {/* Animated Background */}
+        <div className={styles.heroBackground}>
+          <div className={styles.gradientOrb1}></div>
+          <div className={styles.gradientOrb2}></div>
+          <div className={styles.gradientOrb3}></div>
+        </div>
+
+        {/* Floating Particles */}
+        <div className={styles.particles}>
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className={styles.particle} style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${5 + Math.random() * 10}s`
+            }}></div>
+          ))}
+        </div>
+
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             <div className={styles.heroTitleFirst}>Edvance</div>
@@ -31,7 +50,7 @@ export default function LandingPage() {
             <Link href="/signup" className={styles.primaryButton}>
               {t("landing.registerAsStudent")}
             </Link>
-            
+
             <Link href="/company/register" className={styles.secondaryButton}>
               {t("landing.joinAsCompany")}
             </Link>
