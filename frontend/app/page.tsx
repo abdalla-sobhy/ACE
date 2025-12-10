@@ -8,7 +8,7 @@ import { useTheme } from "@/hooks/useTheme";
 import dynamic from "next/dynamic";
 
 // Dynamically import Three.js component to avoid SSR issues
-const ParticleScene = dynamic(() => import("@/components/ThreeJS/ParticleScene"), {
+const HeroScene = dynamic(() => import("@/components/ThreeJS/HeroScene"), {
   ssr: false,
 });
 
@@ -22,7 +22,7 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className={styles.hero}>
-        <ParticleScene isDark={theme === "dark"} />
+        <HeroScene isDark={theme === "dark"} />
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             <div className={styles.heroTitleFirst}>Edvance</div>
@@ -40,9 +40,15 @@ export default function LandingPage() {
             <Link href="/signup" className={styles.primaryButton}>
               {t("landing.registerAsStudent")}
             </Link>
-            
+
             <Link href="/company/register" className={styles.secondaryButton}>
               {t("landing.joinAsCompany")}
+            </Link>
+          </div>
+
+          <div style={{ marginTop: "20px" }}>
+            <Link href="/experience" className={styles.exploreButton}>
+              ✨ Explore in 3D
             </Link>
           </div>
         </div>
