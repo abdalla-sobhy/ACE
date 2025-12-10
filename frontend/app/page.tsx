@@ -4,9 +4,17 @@ import styles from "./Landing.module.css";
 import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useTheme } from "@/hooks/useTheme";
+import dynamic from "next/dynamic";
+
+// Dynamically import Three.js component to avoid SSR issues
+const ParticleScene = dynamic(() => import("@/components/ThreeJS/ParticleScene"), {
+  ssr: false,
+});
 
 export default function LandingPage() {
   const { t, dir } = useLanguage();
+  const { theme } = useTheme();
 
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
@@ -14,6 +22,7 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className={styles.hero}>
+        <ParticleScene isDark={theme === "dark"} />
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             <div className={styles.heroTitleFirst}>Edvance</div>
