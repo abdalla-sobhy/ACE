@@ -18,6 +18,14 @@ export default function LandingPage() {
     let heroScrollAmount = 0;
     const SCROLL_THRESHOLD = 800; // Amount of scroll needed to unlock
 
+    // Lock body scroll when hero is locked
+    if (isHeroLocked) {
+      document.body.style.overflow = 'hidden';
+      window.scrollTo(0, 0); // Ensure we're at top
+    } else {
+      document.body.style.overflow = '';
+    }
+
     const handleWheel = (e: WheelEvent) => {
       if (!isHeroLocked) return;
 
@@ -53,11 +61,12 @@ export default function LandingPage() {
     };
 
     if (isHeroLocked) {
-      window.addEventListener('wheel', handleWheel, { passive: false });
+      window.addEventListener('wheel', handleWheel, { passive: true });
     }
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
+      document.body.style.overflow = ''; // Cleanup
     };
   }, [isHeroLocked]);
 
