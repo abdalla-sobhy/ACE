@@ -5,44 +5,11 @@ import Link from "next/link";
 import NavigationBar from "@/components/Nav/Nav";
 import { useLanguage } from "@/hooks/useLanguage";
 import { BookOpen, Target, FileEdit, DollarSign } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 export default function LandingPage() {
   const { t, dir } = useLanguage();
   const heroRef = useRef<HTMLElement>(null);
-
-  // Lock page scroll until hero is fully scrolled
-  useEffect(() => {
-    const handleScroll = (e: WheelEvent) => {
-      const heroElement = heroRef.current;
-      if (!heroElement) return;
-
-      const heroRect = heroElement.getBoundingClientRect();
-      const isHeroInView = heroRect.top <= 0 && heroRect.bottom > window.innerHeight;
-
-      if (isHeroInView) {
-        const heroScrollTop = heroElement.scrollTop;
-        const heroScrollHeight = heroElement.scrollHeight;
-        const heroClientHeight = heroElement.clientHeight;
-        const isAtBottom = heroScrollTop + heroClientHeight >= heroScrollHeight - 1;
-
-        // If hero is not fully scrolled, prevent page scroll
-        if (!isAtBottom && e.deltaY > 0) {
-          e.preventDefault();
-          heroElement.scrollTop += e.deltaY;
-        } else if (heroScrollTop > 0 && e.deltaY < 0) {
-          e.preventDefault();
-          heroElement.scrollTop += e.deltaY;
-        }
-      }
-    };
-
-    window.addEventListener('wheel', handleScroll, { passive: false });
-
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-    };
-  }, []);
 
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
