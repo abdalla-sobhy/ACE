@@ -27,24 +27,21 @@ export default function LandingPage() {
     };
   }, []);
 
-  // Hero section scroll lock
+  // Hero section scroll lock - prevent page scroll completely
   useEffect(() => {
     let heroScrollAmount = 0;
     const SCROLL_THRESHOLD = 800; // Amount of scroll needed to unlock
 
+    // Lock body scroll when hero is locked
+    if (isHeroLocked) {
+      document.body.style.overflow = 'hidden';
+      window.scrollTo(0, 0); // Ensure we're at top
+    } else {
+      document.body.style.overflow = '';
+    }
+
     const handleWheel = (e: WheelEvent) => {
       if (!isHeroLocked) return;
-
-      const scrollTop = window.scrollY;
-
-      // If already scrolled past hero, unlock
-      if (scrollTop > 100) {
-        setIsHeroLocked(false);
-        return;
-      }
-
-      // Prevent page scroll while in hero
-      e.preventDefault();
 
       // Track scroll amount
       heroScrollAmount += Math.abs(e.deltaY);
@@ -54,36 +51,30 @@ export default function LandingPage() {
       // Unlock when threshold reached
       if (heroScrollAmount >= SCROLL_THRESHOLD) {
         setIsHeroLocked(false);
-        // Smooth scroll to features section
-        window.scrollTo({
-          top: window.innerHeight,
-          behavior: 'smooth'
-        });
       }
     };
 
     if (isHeroLocked) {
-      window.addEventListener('wheel', handleWheel, { passive: false });
+      window.addEventListener('wheel', handleWheel, { passive: true });
     }
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
+      document.body.style.overflow = ''; // Cleanup
     };
   }, [isHeroLocked]);
 
-  // Hide scrollbar on landing page
+  // When hero unlocks, scroll to next section
   useEffect(() => {
-    // Type-safe way to set CSS properties
-    document.body.style.setProperty('-ms-overflow-style', 'none');
-    document.body.style.setProperty('scrollbar-width', 'none');
-    document.body.classList.add('hide-scrollbar');
-
-    return () => {
-      document.body.style.removeProperty('-ms-overflow-style');
-      document.body.style.removeProperty('scrollbar-width');
-      document.body.classList.remove('hide-scrollbar');
-    };
-  }, []);
+    if (!isHeroLocked) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: window.innerHeight,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
+  }, [isHeroLocked]);
 
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
