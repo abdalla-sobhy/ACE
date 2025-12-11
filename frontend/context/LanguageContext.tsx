@@ -23,7 +23,7 @@ const translations = {
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("ar");
+  const [language, setLanguageState] = useState<Language>("en");
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -35,10 +35,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       document.documentElement.lang = savedLanguage;
       document.documentElement.dir = savedLanguage === "ar" ? "rtl" : "ltr";
     } else {
-      // Default to Arabic
-      setLanguageState("ar");
-      document.documentElement.lang = "ar";
-      document.documentElement.dir = "rtl";
+      // Default to English
+      setLanguageState("en");
+      document.documentElement.lang = "en";
+      document.documentElement.dir = "ltr";
     }
   }, []);
 
