@@ -10,65 +10,39 @@ import { useEffect, useRef, useState } from 'react';
 export default function LandingPage() {
   const { t, dir } = useLanguage();
   const heroRef = useRef<HTMLElement>(null);
-  const [heroScrollProgress, setHeroScrollProgress] = useState(0);
-  const [isHeroLocked, setIsHeroLocked] = useState(true);
 
-  // Hero section scroll lock
+  // Lock page scroll until hero is fully scrolled
   useEffect(() => {
-    let heroScrollAmount = 0;
-    const SCROLL_THRESHOLD = 800; // Amount of scroll needed to unlock
+    const handleScroll = (e: WheelEvent) => {
+      const heroElement = heroRef.current;
+      if (!heroElement) return;
 
-    // Lock body scroll when hero is locked
-    if (isHeroLocked) {
-      document.body.style.overflow = 'hidden';
-      window.scrollTo(0, 0); // Ensure we're at top
-    } else {
-      document.body.style.overflow = '';
-    }
+      const heroRect = heroElement.getBoundingClientRect();
+      const isHeroInView = heroRect.top <= 0 && heroRect.bottom > window.innerHeight;
 
-    const handleWheel = (e: WheelEvent) => {
-      if (!isHeroLocked) return;
+      if (isHeroInView) {
+        const heroScrollTop = heroElement.scrollTop;
+        const heroScrollHeight = heroElement.scrollHeight;
+        const heroClientHeight = heroElement.clientHeight;
+        const isAtBottom = heroScrollTop + heroClientHeight >= heroScrollHeight - 1;
 
-      const scrollTop = window.scrollY;
-
-      // If user manually scrolled past hero, unlock
-      if (scrollTop > 50) {
-        setIsHeroLocked(false);
-        return;
-      }
-
-      // Only prevent scroll if at top of page
-      if (scrollTop === 0) {
-        e.preventDefault();
-
-        // Track scroll amount
-        heroScrollAmount += Math.abs(e.deltaY);
-        const progress = Math.min((heroScrollAmount / SCROLL_THRESHOLD) * 100, 100);
-        setHeroScrollProgress(progress);
-
-        // Unlock when threshold reached
-        if (heroScrollAmount >= SCROLL_THRESHOLD) {
-          setIsHeroLocked(false);
-          // Smooth scroll to features section
-          setTimeout(() => {
-            window.scrollTo({
-              top: window.innerHeight - 80,
-              behavior: 'smooth'
-            });
-          }, 100);
+        // If hero is not fully scrolled, prevent page scroll
+        if (!isAtBottom && e.deltaY > 0) {
+          e.preventDefault();
+          heroElement.scrollTop += e.deltaY;
+        } else if (heroScrollTop > 0 && e.deltaY < 0) {
+          e.preventDefault();
+          heroElement.scrollTop += e.deltaY;
         }
       }
     };
 
-    if (isHeroLocked) {
-      window.addEventListener('wheel', handleWheel, { passive: true });
-    }
+    window.addEventListener('wheel', handleScroll, { passive: false });
 
     return () => {
-      window.removeEventListener('wheel', handleWheel);
-      document.body.style.overflow = ''; // Cleanup
+      window.removeEventListener('wheel', handleScroll);
     };
-  }, [isHeroLocked]);
+  }, []);
 
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
@@ -89,13 +63,6 @@ export default function LandingPage() {
           }}
           title="3D Experience"
         />
-        {/* Scroll indicator */}
-        {isHeroLocked && (
-          <div className={styles.scrollIndicator}>
-            <div className={styles.scrollProgress} style={{ width: `${heroScrollProgress}%` }} />
-            <p className={styles.scrollText}>Scroll to explore</p>
-          </div>
-        )}
       </section>
 
       {/* Features Section */}

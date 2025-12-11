@@ -27,12 +27,10 @@
   padding: 0 !important;
   width: 100%;
   margin: 0 auto;
-  display: grid;
-  gap: 64px;
-  align-items: center;
-  min-height: 100vh;
-  overflow: hidden;
-  /* margin-top: 5rem; */
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 /* Scroll Indicator */
