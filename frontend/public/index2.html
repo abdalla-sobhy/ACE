@@ -218,7 +218,9 @@
                 </text>
 
                 <foreignObject x="8" y="250" height="100" width="300" requiredExtensions="http://www.w3.org/1999/xhtml">
-                    <div id="landing-cta-button" class="big-button orange-hover" data-i18n="hero3d.landingCta">Get Started</div>
+                    <a href="/signup" style="text-decoration: none;">
+                        <div id="landing-cta-button" class="big-button orange-hover" data-i18n="hero3d.landingCta">Get Started</div>
+                    </a>
                 </foreignObject>
             </svg>
         </section>
@@ -457,75 +459,32 @@
 
         <div id="hover-icon-color-switch"></div>
 
-        <!--Contact Container-->
+        <!--Call to Action Container-->
         <section id="contact-section" class="content-width column">
             <div class="column" id="contact-header-container">
                 <div class="section-subheader-container">
                     <hr>
-                    <h5 data-i18n="hero3d.contactSubheader">Get in touch</h5>
+                    <h5 data-i18n="hero3d.ctaSubheader">Join Us Today</h5>
                 </div>
-                <h1 class="section-header-container" data-i18n="hero3d.contactHeader">
-                    Contact Us
+                <h1 class="section-header-container" data-i18n="hero3d.ctaHeader">
+                    Ready to Start Your Journey?
                 </h1>
             </div>
 
             <div id="contact-container">
-                <!--Form Container-->
-                <div id="contact-form-container" class="column contact-container">
-                    <div id="contact-name-input" class="input-container column">
-                        <div class="row">
-                            <label for="contact-name-input-field" data-i18n="hero3d.contactNameLabel">Name :</label>
-                            <span class="error-label hide" data-i18n="hero3d.contactNameError">Please enter your name.</span>
-                        </div>
-                        <input id="contact-name-input-field" tabindex="-1">
-                    </div>
-                    <div id="contact-email-input" class="input-container column">
-                        <div class="row">
-                            <label for="contact-email-input-field" data-i18n="hero3d.contactEmailLabel">Email :</label>
-                            <span class="error-label hide" data-i18n="hero3d.contactEmailError">Please enter a valid email address.</span>
-                        </div>
-                        <input id="contact-email-input-field" type="email" tabindex="-1">
-                    </div>
-                    <div id="contact-message-input" class="input-container column">
-                        <div class="row">
-                            <label for="contact-message-input-field" data-i18n="hero3d.contactMessageLabel">Message :</label>
-                            <span class="error-label hide" data-i18n="hero3d.contactMessageError">Please enter your message.</span>
-                        </div>
-                        <textarea id="contact-message-input-field" tabindex="-1"></textarea>
-                    </div>
-                    <div class="row" id="contact-button-container">
-                        <!--Social Icons-->
-                        <a tabindex="-1" target="_blank" href="mailto:support@edvance.com"><img class="social-icon"
-                                alt="email contact social icon small 28x28" height="28" width="28"
-                                src="/icons/mail-icon.png"></img></a>
-                        <!--Submit Button-->
-                        <div id="contact-submit-button" class="small-button orange-hover" data-i18n="hero3d.contactSubmit">
-                            Submit
-                        </div>
+                <div id="contact-form-container" class="column contact-container" style="justify-content: center; align-items: flex-start; gap: 20px;">
+                    <p style="color: #091434; font-size: 18px; margin-bottom: 10px;" data-i18n="hero3d.ctaDescription">
+                        Take the first step towards your future. Join thousands of students already transforming their careers with Edvance.
+                    </p>
+                    <div class="row" id="contact-button-container" style="gap: 15px; flex-wrap: wrap;">
+                        <a href="/signup" style="text-decoration: none;">
+                            <div class="big-button orange-hover" data-i18n="hero3d.ctaRegister">Register</div>
+                        </a>
+                        <a href="/company/register" style="text-decoration: none;">
+                            <div class="big-button orange-hover" style="background: #091434;" data-i18n="hero3d.ctaCompany">Join as a Company</div>
+                        </a>
                     </div>
                 </div>
-
-                <!--Loading Container-->
-                <div id="contact-loading-container" class="center contact-container hide">
-                    <h4 data-i18n="hero3d.contactDelivering">Delivering...</h4>
-                </div>
-
-                <!--Result Container-->
-                <div id="contact-result-container" class="contact-container column center hide">
-                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                        <polyline id="contact-success-line" class="hide" stroke="#A1CC4D" points="10,70 40,100 115,20">
-                        </polyline>
-                        <line stroke="rgb(216, 84, 84)" class="contact-error-line" x1="5" y1="5" x2="115" y2="115">
-                        </line>
-                        <line stroke="rgb(216, 84, 84)" class="contact-error-line" x1="115" y1="5" x2="5" y2="115">
-                        </line>
-                    </svg>
-                    <div id="contact-result-message-container" class="center column">
-
-                    </div>
-                    <div class="small-button orange-hover" id="contact-result-button"></div>
-                </div>
-
             </div>
         </section>
 

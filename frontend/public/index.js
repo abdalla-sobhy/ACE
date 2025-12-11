@@ -37300,8 +37300,9 @@ class yM {
     (this.experience = new ye()),
       (this.sections = this.experience.ui.sections),
       (this.scroll = this.experience.ui.scroll),
-      (this.sounds = this.experience.sounds),
-      this.addSubmitButtonEventListener(),
+      (this.sounds = this.experience.sounds);
+    if (!this.domElements.submitButton) return;
+    this.addSubmitButtonEventListener(),
       this.addHideErrorEventListeners(),
       this.addResultButtonEventListener(),
       this.initTabEvents();
