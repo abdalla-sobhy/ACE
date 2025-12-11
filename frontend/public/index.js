@@ -35888,6 +35888,7 @@ class rM {
     (this.currentItemIndex = 2), this.updatePositions();
   }
   addButtonEventListeners() {
+    if (!this.domElements.backButton || !this.domElements.nextButton) return;
     this.domElements.backButton.addEventListener("click", () => {
       this.sounds.play("buttonClick"), this.moveBack();
     }),
@@ -35897,8 +35898,9 @@ class rM {
   }
   initSwipes() {
     this.gestures.on("swipe-right", () => this.swipe("right")),
-      this.gestures.on("swipe-left", () => this.swipe("left")),
-      this.domElements.section.addEventListener(
+      this.gestures.on("swipe-left", () => this.swipe("left"));
+    if (!this.domElements.section) return;
+    this.domElements.section.addEventListener(
         "touchend",
         () => {
           setTimeout(() => (this.isCurrentSwipeElement = !1));
@@ -35918,19 +35920,19 @@ class rM {
       (e == "right" ? this.moveForward() : this.moveBack());
   }
   moveBack() {
+    const workItem0 = document.getElementById("work-item-0");
+    if (!workItem0) return;
     this.currentItemIndex != 4 &&
       !this.itemsAreMoving &&
-      document
-        .getElementById("work-item-0")
-        .classList.contains("work-item-container-transition") &&
+      workItem0.classList.contains("work-item-container-transition") &&
       (this.currentItemIndex++, this.updatePositions());
   }
   moveForward() {
+    const workItem0 = document.getElementById("work-item-0");
+    if (!workItem0) return;
     this.currentItemIndex != 0 &&
       !this.itemsAreMoving &&
-      document
-        .getElementById("work-item-0")
-        .classList.contains("work-item-container-transition") &&
+      workItem0.classList.contains("work-item-container-transition") &&
       (this.currentItemIndex--, this.updatePositions());
   }
   onArrowClick() {
@@ -35942,24 +35944,24 @@ class rM {
     });
   }
   updatePositions(e = !1) {
+    if (!this.render || !this.render.items) return;
     (!this.itemsAreMoving || e) &&
       (this.render.items.forEach((t) => {
         const n = this.render.items.indexOf(t);
-        (document.getElementById("work-item-" + t.id).style =
+        const workItem = document.getElementById("work-item-" + t.id);
+        if (!workItem) return;
+        (workItem.style =
           this.positionStyles[n + this.currentItemIndex]),
           n + this.currentItemIndex != 4
-            ? document
-                .getElementById("work-item-" + t.id)
-                .classList.add("work-inactive-item-container")
-            : document
-                .getElementById("work-item-" + t.id)
-                .classList.remove("work-inactive-item-container");
+            ? workItem.classList.add("work-inactive-item-container")
+            : workItem.classList.remove("work-inactive-item-container");
       }),
       (this.itemsAreMoving = !0),
       P.delayedCall(0.5, () => (this.itemsAreMoving = !1)),
       this.updateNavigation());
   }
   updateNavigation() {
+    if (!this.domElements.nextButton || !this.domElements.backButton) return;
     this.currentItemIndex == 0
       ? (this.domElements.nextButton.classList.add(
           "work-disabled-navigation-button"
@@ -36059,6 +36061,7 @@ class lM {
       this.renderItems();
   }
   renderItems() {
+    if (!this.domElements.renderContainer) return;
     this.items.forEach((e) => {
       this.domElements.renderContainer.insertAdjacentHTML(
         "beforeend",
@@ -36965,8 +36968,10 @@ class mM {
       P.fromTo(n[i], { height: 0 }, { height: 64, delay: i / 10 });
   }
   addScrollEvents() {
+    const workSection = document.getElementById("work-section");
+    if (!workSection) return;
     new Ln({
-      element: document.getElementById("work-section"),
+      element: workSection,
       direction: "up",
       f: () => {
         this.playHologramAnimation(0.1), this.resetCharacterToPosition();
@@ -37244,7 +37249,7 @@ class _M {
         container: document.getElementById("contact-section"),
         offset: () => (this.sizes.portrait ? -100 : 0),
       },
-    ]);
+    ].filter(s => s.container));
     (this.experience = new ye()),
       (this.scroll = this.experience.ui.scroll),
       (this.gestures = this.experience.gestures),
@@ -37295,8 +37300,9 @@ class yM {
     (this.experience = new ye()),
       (this.sections = this.experience.ui.sections),
       (this.scroll = this.experience.ui.scroll),
-      (this.sounds = this.experience.sounds),
-      this.addSubmitButtonEventListener(),
+      (this.sounds = this.experience.sounds);
+    if (!this.domElements.submitButton) return;
+    this.addSubmitButtonEventListener(),
       this.addHideErrorEventListeners(),
       this.addResultButtonEventListener(),
       this.initTabEvents();
@@ -37439,8 +37445,8 @@ class yM {
 class xM {
   constructor() {
     he(this, "domElements", {
-      smallHeader: document.querySelectorAll(".section-subheader-container")[1],
-      header: document.querySelectorAll(".section-header-container")[2],
+      smallHeader: document.querySelectorAll(".section-subheader-container")[0],
+      header: document.querySelectorAll(".section-header-container")[0],
       form: document.getElementById("contact-container"),
       contactSection: document.getElementById("contact-section"),
     });
@@ -37694,11 +37700,13 @@ class bM {
       this.addScrollEvents();
   }
   resetPositions() {
+    if (!this.scrollEvents) return;
     this.scrollEvents.forEach((e) => {
       e.reset && e.reset();
     });
   }
   addScrollEvents() {
+    if (!this.domElements.cards || this.domElements.cards.length < 5) return;
     this.played ||
       (this.scrollEvents = [
         new Ln({
@@ -37837,6 +37845,7 @@ class bM {
       ]);
   }
   addTransitionClass(e) {
+    if (!this.domElements.cards) return;
     this.domElements.cards.forEach((t) => {
       e
         ? t.classList.add("work-item-container-transition")
