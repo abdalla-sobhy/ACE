@@ -329,6 +329,10 @@
 .noResults {
   text-align: center;
   padding: 80px 24px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .noResultsIcon {

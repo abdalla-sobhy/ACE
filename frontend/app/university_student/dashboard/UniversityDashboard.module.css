@@ -668,6 +668,10 @@
   text-align: center;
   padding: 80px 24px;
   grid-column: 1 / -1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .noResultsIcon {
