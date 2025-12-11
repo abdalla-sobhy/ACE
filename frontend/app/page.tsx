@@ -10,39 +10,117 @@ import { useEffect, useRef, useState } from 'react';
 export default function LandingPage() {
   const { t, dir } = useLanguage();
   const heroRef = useRef<HTMLElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeScrollState, setIframeScrollState] = useState({
+    isAtTop: true,
+    isAtBottom: false
+  });
+  const [allowParentScroll, setAllowParentScroll] = useState(false);
 
-  // Lock page scroll until hero is fully scrolled
+  // Listen for messages from iframe
   useEffect(() => {
-    const handleScroll = (e: WheelEvent) => {
-      const heroElement = heroRef.current;
-      if (!heroElement) return;
-
-      const heroRect = heroElement.getBoundingClientRect();
-      const isHeroInView = heroRect.top <= 0 && heroRect.bottom > window.innerHeight;
-
-      if (isHeroInView) {
-        const heroScrollTop = heroElement.scrollTop;
-        const heroScrollHeight = heroElement.scrollHeight;
-        const heroClientHeight = heroElement.clientHeight;
-        const isAtBottom = heroScrollTop + heroClientHeight >= heroScrollHeight - 1;
-
-        // If hero is not fully scrolled, prevent page scroll
-        if (!isAtBottom && e.deltaY > 0) {
-          e.preventDefault();
-          heroElement.scrollTop += e.deltaY;
-        } else if (heroScrollTop > 0 && e.deltaY < 0) {
-          e.preventDefault();
-          heroElement.scrollTop += e.deltaY;
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data && event.data.type === 'iframeScrollState') {
+        setIframeScrollState({
+          isAtTop: event.data.isAtTop,
+          isAtBottom: event.data.isAtBottom
+        });
+      } else if (event.data && event.data.type === 'iframeScrollComplete') {
+        // Iframe has finished scrolling in a direction
+        if (event.data.direction === 'down') {
+          // Allow parent page to scroll down
+          setAllowParentScroll(true);
+        } else if (event.data.direction === 'up') {
+          // When iframe signals scroll complete upward while at top,
+          // we would handle this if parent were scrolled
         }
       }
     };
 
-    window.addEventListener('wheel', handleScroll, { passive: false });
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
+  // Handle scroll to lock/unlock based on iframe state
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      const heroElement = heroRef.current;
+      if (!heroElement) return;
+
+      const heroRect = heroElement.getBoundingClientRect();
+      // Hero is fully covering the viewport
+      const heroFullyInView = heroRect.top <= 0 && heroRect.bottom >= window.innerHeight;
+      // Hero is at least partially in view
+      const heroPartiallyInView = heroRect.top < window.innerHeight && heroRect.bottom > 0;
+
+      // Scrolling down
+      if (e.deltaY > 0) {
+        // If hero is fully in view and iframe hasn't reached bottom, prevent parent scroll
+        if (heroFullyInView && !iframeScrollState.isAtBottom && !allowParentScroll) {
+          e.preventDefault();
+          return;
+        }
+      }
+
+      // Scrolling up
+      if (e.deltaY < 0) {
+        // If we're at the top of the parent page and hero is in view
+        if (window.scrollY <= 0 && heroPartiallyInView) {
+          // If iframe is not at top, we should let iframe handle the scroll
+          if (!iframeScrollState.isAtTop) {
+            // Reset parent scroll allowance so next time we scroll down,
+            // we wait for iframe to finish first
+            setAllowParentScroll(false);
+          }
+        }
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [iframeScrollState, allowParentScroll]);
+
+  // Reset allowParentScroll when iframe goes back to top
+  useEffect(() => {
+    if (iframeScrollState.isAtTop) {
+      setAllowParentScroll(false);
+    }
+  }, [iframeScrollState.isAtTop]);
+
+  // Handle touch events for mobile
+  useEffect(() => {
+    let touchStartY = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const heroElement = heroRef.current;
+      if (!heroElement) return;
+
+      const heroRect = heroElement.getBoundingClientRect();
+      const heroFullyInView = heroRect.top <= 0 && heroRect.bottom >= window.innerHeight;
+      const deltaY = touchStartY - e.touches[0].clientY;
+
+      // Scrolling down on mobile
+      if (deltaY > 0) {
+        if (heroFullyInView && !iframeScrollState.isAtBottom && !allowParentScroll) {
+          e.preventDefault();
+        }
+      }
+
+      touchStartY = e.touches[0].clientY;
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
 
     return () => {
-      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
     };
-  }, []);
+  }, [iframeScrollState, allowParentScroll]);
 
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
@@ -51,6 +129,7 @@ export default function LandingPage() {
       {/* Hero Section with 3D Scene in iframe */}
       <section className={styles.hero} ref={heroRef}>
         <iframe
+          ref={iframeRef}
           src="/index2.html"
           style={{
             position: 'absolute',
@@ -62,6 +141,7 @@ export default function LandingPage() {
             pointerEvents: 'auto'
           }}
           title="3D Experience"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
         />
       </section>
 

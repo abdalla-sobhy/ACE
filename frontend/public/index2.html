@@ -595,6 +595,153 @@
     </div>
     
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"39cd6e69cb8a4b5987f14d60360f2696","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<!-- Scroll communication with parent -->
+<script>
+(function() {
+  // Track scroll state - for GSAP-based scroll system
+  let isAtTop = true;
+  let isAtBottom = false;
+  let scrollContainer = null;
+  let landingPage = null;
+  let contactSection = null;
+  let footer = null;
+
+  // Wait for DOM to be ready
+  function init() {
+    scrollContainer = document.getElementById('scroll-container');
+    landingPage = document.getElementById('landing-page');
+    contactSection = document.getElementById('contact-section');
+    footer = document.querySelector('footer');
+
+    // Check scroll position based on GSAP-controlled elements
+    function checkScrollPosition() {
+      // Check if landing page is visible (at top state)
+      // Landing page uses GSAP to control top position
+      if (landingPage) {
+        const landingStyle = window.getComputedStyle(landingPage);
+        const landingTop = landingStyle.top;
+        // Landing page starts at top: 50% and moves to top: -100% when scrolled
+        isAtTop = landingTop === '50%' || parseFloat(landingTop) >= window.innerHeight * 0.4;
+      }
+
+      // Check if we're at the bottom by looking at the footer/contact section visibility
+      if (footer && scrollContainer) {
+        const scrollContainerStyle = window.getComputedStyle(scrollContainer);
+        const scrollContainerTop = scrollContainerStyle.top;
+
+        // Scroll container moves from top: 50% to top: 0 when scrolling starts
+        const isScrollContainerActive = scrollContainerTop === '0px' || parseFloat(scrollContainerTop) <= 10;
+
+        if (isScrollContainerActive) {
+          // Check if footer is in view
+          const footerRect = footer.getBoundingClientRect();
+          const contactRect = contactSection ? contactSection.getBoundingClientRect() : null;
+
+          // At bottom when footer is visible in viewport
+          isAtBottom = footerRect.top < window.innerHeight && footerRect.bottom > 0;
+        } else {
+          isAtBottom = false;
+        }
+      }
+
+      // Send scroll state to parent
+      if (window.parent !== window) {
+        window.parent.postMessage({
+          type: 'iframeScrollState',
+          isAtTop: isAtTop,
+          isAtBottom: isAtBottom
+        }, '*');
+      }
+    }
+
+    // Observe style changes on key elements (for GSAP animations)
+    const observer = new MutationObserver(function(mutations) {
+      checkScrollPosition();
+    });
+
+    if (landingPage) {
+      observer.observe(landingPage, { attributes: true, attributeFilter: ['style', 'class'] });
+    }
+    if (scrollContainer) {
+      observer.observe(scrollContainer, { attributes: true, attributeFilter: ['style', 'class'] });
+    }
+
+    // Also check on wheel events
+    let wheelTimeout = null;
+    window.addEventListener('wheel', function(e) {
+      // Debounce the check
+      if (wheelTimeout) clearTimeout(wheelTimeout);
+      wheelTimeout = setTimeout(function() {
+        checkScrollPosition();
+
+        // If at bottom and scrolling down, tell parent to scroll
+        if (isAtBottom && e.deltaY > 0) {
+          if (window.parent !== window) {
+            window.parent.postMessage({
+              type: 'iframeScrollComplete',
+              direction: 'down'
+            }, '*');
+          }
+        }
+
+        // If at top and scrolling up, tell parent to scroll
+        if (isAtTop && e.deltaY < 0) {
+          if (window.parent !== window) {
+            window.parent.postMessage({
+              type: 'iframeScrollComplete',
+              direction: 'up'
+            }, '*');
+          }
+        }
+      }, 50);
+    }, { passive: true });
+
+    // Listen for touch events for mobile
+    let touchStartY = 0;
+    window.addEventListener('touchstart', function(e) {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', function(e) {
+      checkScrollPosition();
+      const touchEndY = e.changedTouches[0].clientY;
+      const deltaY = touchStartY - touchEndY;
+
+      if (isAtBottom && deltaY > 30) {
+        if (window.parent !== window) {
+          window.parent.postMessage({
+            type: 'iframeScrollComplete',
+            direction: 'down'
+          }, '*');
+        }
+      }
+
+      if (isAtTop && deltaY < -30) {
+        if (window.parent !== window) {
+          window.parent.postMessage({
+            type: 'iframeScrollComplete',
+            direction: 'up'
+          }, '*');
+        }
+      }
+    }, { passive: true });
+
+    // Periodic check for state changes
+    setInterval(checkScrollPosition, 200);
+
+    // Initial check
+    setTimeout(checkScrollPosition, 500);
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    setTimeout(init, 100);
+  }
+})();
+</script>
 </body>
 
 </html>
