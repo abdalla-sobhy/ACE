@@ -37444,8 +37444,8 @@ class yM {
 class xM {
   constructor() {
     he(this, "domElements", {
-      smallHeader: document.querySelectorAll(".section-subheader-container")[1],
-      header: document.querySelectorAll(".section-header-container")[2],
+      smallHeader: document.querySelectorAll(".section-subheader-container")[0],
+      header: document.querySelectorAll(".section-header-container")[0],
       form: document.getElementById("contact-container"),
       contactSection: document.getElementById("contact-section"),
     });

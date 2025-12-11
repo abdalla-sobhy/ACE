@@ -575,7 +575,13 @@
   }
 
   // Set RTL direction for Arabic
-  
+  function setDirection(lang) {
+    if (lang === 'ar') {
+      document.documentElement.setAttribute('dir', 'rtl');
+    } else {
+      document.documentElement.setAttribute('dir', 'ltr');
+    }
+  }
 
   // Load and apply translations
   function loadTranslations() {
