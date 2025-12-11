@@ -3,13 +3,6 @@
   min-height: 100vh;
   background: transparent;
   color: var(--main-text-white);
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-.container::-webkit-scrollbar {
-  display: none;
 }
 
 .container[dir="rtl"] {

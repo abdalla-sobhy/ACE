@@ -13,67 +13,52 @@ export default function LandingPage() {
   const [heroScrollProgress, setHeroScrollProgress] = useState(0);
   const [isHeroLocked, setIsHeroLocked] = useState(true);
 
-  // Hide scrollbar on landing page
-  useEffect(() => {
-    // Type-safe way to set CSS properties
-    document.body.style.setProperty('-ms-overflow-style', 'none');
-    document.body.style.setProperty('scrollbar-width', 'none');
-    document.body.classList.add('hide-scrollbar');
-
-    return () => {
-      document.body.style.removeProperty('-ms-overflow-style');
-      document.body.style.removeProperty('scrollbar-width');
-      document.body.classList.remove('hide-scrollbar');
-    };
-  }, []);
-
-  // Hero section scroll lock - prevent page scroll completely
+  // Hero section scroll lock
   useEffect(() => {
     let heroScrollAmount = 0;
     const SCROLL_THRESHOLD = 800; // Amount of scroll needed to unlock
 
-    // Lock body scroll when hero is locked
-    if (isHeroLocked) {
-      document.body.style.overflow = 'hidden';
-      window.scrollTo(0, 0); // Ensure we're at top
-    } else {
-      document.body.style.overflow = '';
-    }
-
     const handleWheel = (e: WheelEvent) => {
       if (!isHeroLocked) return;
 
-      // Track scroll amount
-      heroScrollAmount += Math.abs(e.deltaY);
-      const progress = Math.min((heroScrollAmount / SCROLL_THRESHOLD) * 100, 100);
-      setHeroScrollProgress(progress);
+      const scrollTop = window.scrollY;
 
-      // Unlock when threshold reached
-      if (heroScrollAmount >= SCROLL_THRESHOLD) {
+      // If user manually scrolled past hero, unlock
+      if (scrollTop > 50) {
         setIsHeroLocked(false);
+        return;
+      }
+
+      // Only prevent scroll if at top of page
+      if (scrollTop === 0) {
+        e.preventDefault();
+
+        // Track scroll amount
+        heroScrollAmount += Math.abs(e.deltaY);
+        const progress = Math.min((heroScrollAmount / SCROLL_THRESHOLD) * 100, 100);
+        setHeroScrollProgress(progress);
+
+        // Unlock when threshold reached
+        if (heroScrollAmount >= SCROLL_THRESHOLD) {
+          setIsHeroLocked(false);
+          // Smooth scroll to features section
+          setTimeout(() => {
+            window.scrollTo({
+              top: window.innerHeight - 80,
+              behavior: 'smooth'
+            });
+          }, 100);
+        }
       }
     };
 
     if (isHeroLocked) {
-      window.addEventListener('wheel', handleWheel, { passive: true });
+      window.addEventListener('wheel', handleWheel, { passive: false });
     }
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
-      document.body.style.overflow = ''; // Cleanup
     };
-  }, [isHeroLocked]);
-
-  // When hero unlocks, scroll to next section
-  useEffect(() => {
-    if (!isHeroLocked) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: window.innerHeight,
-          behavior: 'smooth'
-        });
-      }, 100);
-    }
   }, [isHeroLocked]);
 
   return (
