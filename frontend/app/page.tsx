@@ -10,30 +10,54 @@ import { useEffect, useRef, useState } from 'react';
 export default function LandingPage() {
   const { t, dir } = useLanguage();
   const heroRef = useRef<HTMLElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeScrollPosition, setIframeScrollPosition] = useState({ scrollTop: 0, scrollHeight: 0, clientHeight: 0 });
 
-  // Lock page scroll until hero is fully scrolled
+  // Listen for scroll position updates from iframe
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      // Only accept messages from same origin
+      if (event.origin !== window.location.origin) return;
+
+      if (event.data.type === 'IFRAME_SCROLL_UPDATE') {
+        setIframeScrollPosition({
+          scrollTop: event.data.scrollTop,
+          scrollHeight: event.data.scrollHeight,
+          clientHeight: event.data.clientHeight
+        });
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
+  // Lock page scroll until iframe content is fully scrolled
   useEffect(() => {
     const handleScroll = (e: WheelEvent) => {
       const heroElement = heroRef.current;
-      if (!heroElement) return;
+      const iframe = iframeRef.current;
+      if (!heroElement || !iframe) return;
 
       const heroRect = heroElement.getBoundingClientRect();
       const isHeroInView = heroRect.top <= 0 && heroRect.bottom > window.innerHeight;
 
       if (isHeroInView) {
-        const heroScrollTop = heroElement.scrollTop;
-        const heroScrollHeight = heroElement.scrollHeight;
-        const heroClientHeight = heroElement.clientHeight;
-        const isAtBottom = heroScrollTop + heroClientHeight >= heroScrollHeight - 1;
+        const { scrollTop, scrollHeight, clientHeight } = iframeScrollPosition;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
+        const isAtTop = scrollTop <= 10; // 10px threshold
 
-        // If hero is not fully scrolled, prevent page scroll
-        if (!isAtBottom && e.deltaY > 0) {
+        // Scrolling down
+        if (e.deltaY > 0 && !isAtBottom) {
           e.preventDefault();
-          heroElement.scrollTop += e.deltaY;
-        } else if (heroScrollTop > 0 && e.deltaY < 0) {
-          e.preventDefault();
-          heroElement.scrollTop += e.deltaY;
+          iframe.contentWindow?.postMessage({ type: 'SCROLL_IFRAME', deltaY: e.deltaY }, window.location.origin);
         }
+        // Scrolling up within iframe
+        else if (e.deltaY < 0 && !isAtTop) {
+          e.preventDefault();
+          iframe.contentWindow?.postMessage({ type: 'SCROLL_IFRAME', deltaY: e.deltaY }, window.location.origin);
+        }
+        // If at bottom and scrolling down, or at top and scrolling up, allow page scroll
       }
     };
 
@@ -42,7 +66,7 @@ export default function LandingPage() {
     return () => {
       window.removeEventListener('wheel', handleScroll);
     };
-  }, []);
+  }, [iframeScrollPosition]);
 
   return (
     <div className={styles.container} dir={dir} style={{ textAlign: dir === 'rtl' ? 'right' : 'left' }}>
@@ -51,6 +75,7 @@ export default function LandingPage() {
       {/* Hero Section with 3D Scene in iframe */}
       <section className={styles.hero} ref={heroRef}>
         <iframe
+          ref={iframeRef}
           src="/index2.html"
           style={{
             position: 'absolute',
