@@ -604,45 +604,30 @@
   let isAtBottom = false;
   let scrollContainer = null;
   let landingPage = null;
-  let contactSection = null;
   let footer = null;
 
   // Wait for DOM to be ready
   function init() {
     scrollContainer = document.getElementById('scroll-container');
     landingPage = document.getElementById('landing-page');
-    contactSection = document.getElementById('contact-section');
     footer = document.querySelector('footer');
 
     // Check scroll position based on GSAP-controlled elements
     function checkScrollPosition() {
       // Check if landing page is visible (at top state)
-      // Landing page uses GSAP to control top position
+      // Landing page starts visible (top: 0) and moves to top: -100% when scrolled
       if (landingPage) {
-        const landingStyle = window.getComputedStyle(landingPage);
-        const landingTop = landingStyle.top;
-        // Landing page starts at top: 50% and moves to top: -100% when scrolled
-        isAtTop = landingTop === '50%' || parseFloat(landingTop) >= window.innerHeight * 0.4;
+        const landingRect = landingPage.getBoundingClientRect();
+        // At top when landing page is visible (its bottom is below the viewport top)
+        isAtTop = landingRect.bottom > 100;
       }
 
-      // Check if we're at the bottom by looking at the footer/contact section visibility
-      if (footer && scrollContainer) {
-        const scrollContainerStyle = window.getComputedStyle(scrollContainer);
-        const scrollContainerTop = scrollContainerStyle.top;
-
-        // Scroll container moves from top: 50% to top: 0 when scrolling starts
-        const isScrollContainerActive = scrollContainerTop === '0px' || parseFloat(scrollContainerTop) <= 10;
-
-        if (isScrollContainerActive) {
-          // Check if footer is in view
-          const footerRect = footer.getBoundingClientRect();
-          const contactRect = contactSection ? contactSection.getBoundingClientRect() : null;
-
-          // At bottom when footer is visible in viewport
-          isAtBottom = footerRect.top < window.innerHeight && footerRect.bottom > 0;
-        } else {
-          isAtBottom = false;
-        }
+      // Check if we're at the bottom by looking at the footer visibility
+      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        // At bottom when footer bottom is visible (within viewport)
+        // Footer should be fully or mostly visible
+        isAtBottom = footerRect.bottom <= window.innerHeight + 50 && footerRect.top < window.innerHeight;
       }
 
       // Send scroll state to parent
@@ -656,7 +641,7 @@
     }
 
     // Observe style changes on key elements (for GSAP animations)
-    const observer = new MutationObserver(function(mutations) {
+    const observer = new MutationObserver(function() {
       checkScrollPosition();
     });
 
@@ -667,16 +652,19 @@
       observer.observe(scrollContainer, { attributes: true, attributeFilter: ['style', 'class'] });
     }
 
-    // Also check on wheel events
-    let wheelTimeout = null;
-    window.addEventListener('wheel', function(e) {
-      // Debounce the check
-      if (wheelTimeout) clearTimeout(wheelTimeout);
-      wheelTimeout = setTimeout(function() {
-        checkScrollPosition();
+    // Track consecutive scroll-at-bottom events
+    let bottomScrollCount = 0;
+    let topScrollCount = 0;
 
-        // If at bottom and scrolling down, tell parent to scroll
-        if (isAtBottom && e.deltaY > 0) {
+    // Check on wheel events
+    window.addEventListener('wheel', function(e) {
+      checkScrollPosition();
+
+      // If at bottom and scrolling down, count and then tell parent
+      if (isAtBottom && e.deltaY > 0) {
+        bottomScrollCount++;
+        // After 2 consecutive scroll-down events at bottom, signal parent
+        if (bottomScrollCount >= 2) {
           if (window.parent !== window) {
             window.parent.postMessage({
               type: 'iframeScrollComplete',
@@ -684,9 +672,14 @@
             }, '*');
           }
         }
+      } else {
+        bottomScrollCount = 0;
+      }
 
-        // If at top and scrolling up, tell parent to scroll
-        if (isAtTop && e.deltaY < 0) {
+      // If at top and scrolling up, count and then tell parent
+      if (isAtTop && e.deltaY < 0) {
+        topScrollCount++;
+        if (topScrollCount >= 2) {
           if (window.parent !== window) {
             window.parent.postMessage({
               type: 'iframeScrollComplete',
@@ -694,7 +687,9 @@
             }, '*');
           }
         }
-      }, 50);
+      } else {
+        topScrollCount = 0;
+      }
     }, { passive: true });
 
     // Listen for touch events for mobile
@@ -708,7 +703,7 @@
       const touchEndY = e.changedTouches[0].clientY;
       const deltaY = touchStartY - touchEndY;
 
-      if (isAtBottom && deltaY > 30) {
+      if (isAtBottom && deltaY > 50) {
         if (window.parent !== window) {
           window.parent.postMessage({
             type: 'iframeScrollComplete',
@@ -717,7 +712,7 @@
         }
       }
 
-      if (isAtTop && deltaY < -30) {
+      if (isAtTop && deltaY < -50) {
         if (window.parent !== window) {
           window.parent.postMessage({
             type: 'iframeScrollComplete',
@@ -728,7 +723,7 @@
     }, { passive: true });
 
     // Periodic check for state changes
-    setInterval(checkScrollPosition, 200);
+    setInterval(checkScrollPosition, 300);
 
     // Initial check
     setTimeout(checkScrollPosition, 500);

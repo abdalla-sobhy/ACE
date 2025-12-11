@@ -41,48 +41,42 @@ export default function LandingPage() {
     return () => window.removeEventListener('message', handleMessage);
   }, []);
 
-  // Handle scroll to lock/unlock based on iframe state
+  // Lock body scroll when hero is active and iframe hasn't finished scrolling
+  useEffect(() => {
+    // If we're at the top of the page and iframe hasn't reached bottom, lock scroll
+    if (!allowParentScroll && window.scrollY === 0) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [allowParentScroll]);
+
+  // Handle scroll to unlock when iframe signals completion
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      const heroElement = heroRef.current;
-      if (!heroElement) return;
+      // If parent scroll is not allowed yet, the body overflow is hidden
+      // so we don't need to preventDefault here
 
-      const heroRect = heroElement.getBoundingClientRect();
-      // Hero is fully covering the viewport
-      const heroFullyInView = heroRect.top <= 0 && heroRect.bottom >= window.innerHeight;
-      // Hero is at least partially in view
-      const heroPartiallyInView = heroRect.top < window.innerHeight && heroRect.bottom > 0;
-
-      // Scrolling down
-      if (e.deltaY > 0) {
-        // If hero is fully in view and iframe hasn't reached bottom, prevent parent scroll
-        if (heroFullyInView && !iframeScrollState.isAtBottom && !allowParentScroll) {
-          e.preventDefault();
-          return;
-        }
-      }
-
-      // Scrolling up
-      if (e.deltaY < 0) {
-        // If we're at the top of the parent page and hero is in view
-        if (window.scrollY <= 0 && heroPartiallyInView) {
-          // If iframe is not at top, we should let iframe handle the scroll
-          if (!iframeScrollState.isAtTop) {
-            // Reset parent scroll allowance so next time we scroll down,
-            // we wait for iframe to finish first
-            setAllowParentScroll(false);
-          }
+      // Scrolling up when at top of page
+      if (e.deltaY < 0 && window.scrollY <= 0) {
+        // If iframe is not at top, reset the scroll allowance
+        if (!iframeScrollState.isAtTop && allowParentScroll) {
+          setAllowParentScroll(false);
         }
       }
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('wheel', handleWheel, { passive: true });
     return () => window.removeEventListener('wheel', handleWheel);
   }, [iframeScrollState, allowParentScroll]);
 
   // Reset allowParentScroll when iframe goes back to top
   useEffect(() => {
-    if (iframeScrollState.isAtTop) {
+    if (iframeScrollState.isAtTop && window.scrollY === 0) {
       setAllowParentScroll(false);
     }
   }, [iframeScrollState.isAtTop]);
@@ -95,30 +89,23 @@ export default function LandingPage() {
       touchStartY = e.touches[0].clientY;
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      const heroElement = heroRef.current;
-      if (!heroElement) return;
+    const handleTouchEnd = (e: TouchEvent) => {
+      const deltaY = touchStartY - e.changedTouches[0].clientY;
 
-      const heroRect = heroElement.getBoundingClientRect();
-      const heroFullyInView = heroRect.top <= 0 && heroRect.bottom >= window.innerHeight;
-      const deltaY = touchStartY - e.touches[0].clientY;
-
-      // Scrolling down on mobile
-      if (deltaY > 0) {
-        if (heroFullyInView && !iframeScrollState.isAtBottom && !allowParentScroll) {
-          e.preventDefault();
+      // Scrolling up on mobile when at top
+      if (deltaY < -30 && window.scrollY <= 0) {
+        if (!iframeScrollState.isAtTop && allowParentScroll) {
+          setAllowParentScroll(false);
         }
       }
-
-      touchStartY = e.touches[0].clientY;
     };
 
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [iframeScrollState, allowParentScroll]);
 
