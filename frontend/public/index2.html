@@ -593,8 +593,60 @@
             </div>
         </footer>
     </div>
-    
+
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"39cd6e69cb8a4b5987f14d60360f2696","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+    <!-- Scroll communication script for parent window -->
+    <script>
+      (function() {
+        // Virtual scroll position since body has overflow:hidden
+        let virtualScrollTop = 0;
+        const MAX_SCROLL = 10000; // Adjust based on your content height
+
+        // Function to send scroll position to parent
+        function sendScrollPosition() {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({
+              type: 'IFRAME_SCROLL_UPDATE',
+              scrollTop: virtualScrollTop,
+              scrollHeight: MAX_SCROLL,
+              clientHeight: window.innerHeight
+            }, window.location.origin);
+          }
+        }
+
+        // Listen for wheel events to update virtual scroll
+        window.addEventListener('wheel', function(event) {
+          // Update virtual scroll position
+          virtualScrollTop = Math.max(0, Math.min(MAX_SCROLL - window.innerHeight, virtualScrollTop + event.deltaY));
+          sendScrollPosition();
+        }, { passive: true });
+
+        // Listen for messages from parent to scroll
+        window.addEventListener('message', function(event) {
+          // Only accept messages from same origin
+          if (event.origin !== window.location.origin) return;
+
+          if (event.data.type === 'SCROLL_IFRAME') {
+            // Create and dispatch a wheel event to simulate scrolling
+            const wheelEvent = new WheelEvent('wheel', {
+              deltaY: event.data.deltaY,
+              bubbles: true,
+              cancelable: true
+            });
+            window.dispatchEvent(wheelEvent);
+          }
+        });
+
+        // Send initial scroll position when loaded
+        window.addEventListener('load', function() {
+          setTimeout(sendScrollPosition, 100);
+        });
+
+        // Also send scroll position on resize
+        window.addEventListener('resize', sendScrollPosition);
+      })();
+    </script>
 </body>
 
 </html>
