@@ -7,6 +7,7 @@ import styles from "./MyCourses.module.css";
 import { FaSearch, FaBook, FaClock, FaUsers, FaStar, FaCalendarAlt, FaChalkboardTeacher, FaTimes } from "react-icons/fa";
 import { useLanguage } from "@/hooks/useLanguage";
 import { BookOpen, GraduationCap, Target, Circle } from "lucide-react";
+import Image from "next/image";
 
 interface Teacher {
   id: number;
@@ -290,7 +291,19 @@ export default function MyCourses() {
                       onClick={() => router.push(`/student/courses/${course.id}`)} 
                       className={`${styles.courseThumbnail} ${styles.cursorPointer}`}
                     >
-                      <img src={course.thumbnail || "/api/placeholder/320/180"}/>
+                      {course.thumbnail ? (
+                        <Image
+                          src={course.thumbnail}
+                          alt={course.title}
+                          width={320}
+                          height={180}
+                          style={{ objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div className={styles.placeholderImage}>
+                          <FaBook />
+                        </div>
+                      )}
                       <div className={styles.courseCategory}>
                         {category.icon} {category.label}
                       </div>
