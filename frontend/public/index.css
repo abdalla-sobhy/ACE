@@ -540,6 +540,8 @@
   height: 560px;
   max-height: 90vh;
   box-sizing: border-box;
+  align-items: center;
+  text-align: center;
 }
 #contact-container input,
 textarea {
