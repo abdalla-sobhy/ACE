@@ -1,3 +1,6 @@
+/* Import Cairo font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
 #transition-container {
   position: absolute;
   z-index: 1000;
@@ -545,7 +548,7 @@
 textarea {
   border: none;
   font-size: 1.1rem;
-  font-family: Poppins, sans-serif;
+  font-family: Cairo, Poppins, sans-serif;
   background: transparent !important;
   font-weight: 500;
   color: #111029;
@@ -872,7 +875,7 @@ body {
   pointer-events: all;
 }
 body {
-  font-family: Poppins, sans-serif;
+  font-family: Cairo, Poppins, sans-serif;
   color: #091434;
   position: relative;
   display: flex;
@@ -912,7 +915,7 @@ body {
 }
 h1 {
   font-size: 4.3rem;
-  font-family: Poppins, sans-serif;
+  font-family: Cairo, Poppins, sans-serif;
   line-height: 1.16667;
   font-weight: 600;
   letter-spacing: -0.5px;
