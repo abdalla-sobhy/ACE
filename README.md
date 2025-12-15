@@ -1,6 +1,5 @@
 <h1>Edvance</h1>
 
----
 
 ## Quick Links
 
