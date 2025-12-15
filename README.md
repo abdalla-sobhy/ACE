@@ -1,11 +1,4 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/Edvance-Learning%20Platform-blue?style=for-the-badge" alt="Edvance">
-</p>
-
-<p align="center">
-  <a href="https://drive.google.com/file/d/1Apl8kTBPtioX6ZlsQwwTnkxxUkKaaR7T/view?usp=sharing"><img src="https://img.shields.io/badge/Video%20Demo-30%2B%20Minutes-red?style=flat-square&logo=google-drive" alt="Video Demo"></a>
-  <a href="https://edvance-ace.vercel.app"><img src="https://img.shields.io/badge/Live%20Platform-Vercel-black?style=flat-square&logo=vercel" alt="Live Platform"></a>
-</p>
+<h1>Edvance</h1>
 
 ---
 
