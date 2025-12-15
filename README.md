@@ -1,43 +1,57 @@
 # Edvance
 
-<p align="center">
-  <a href="https://drive.google.com/file/d/1Apl8kTBPtioX6ZlsQwwTnkxxUkKaaR7T/view?usp=sharing"><img src="https://img.shields.io/badge/Video%20Demo-30%2B%20Minutes-red?style=flat-square&logo=google-drive" alt="Video Demo"></a>
-  <a href="https://edvance-ace.vercel.app"><img src="https://img.shields.io/badge/Live%20Platform-Vercel-black?style=flat-square&logo=vercel" alt="Live Platform"></a>
-  <a href="https://drive.google.com/file/d/1Kmc7LNSFSHOz7bu8w7IkSFMTN0NUxXRO/view?usp=sharing"><img src="https://img.shields.io/badge/Documentation-PDF-blue?style=flat-square&logo=google-drive" alt="Documentation"></a>
-  <a href="https://drive.google.com/file/d/1U7QieFolTmTjrc1kD8M2k2tvdo5oSasq/view?usp=sharing"><img src="https://img.shields.io/badge/Presentation-PDF-green?style=flat-square&logo=google-drive" alt="Presentation"></a>
-</p>
-
----
-
 ## Quick Links
 
-- **[Video Presentation](https://drive.google.com/file/d/1Apl8kTBPtioX6ZlsQwwTnkxxUkKaaR7T/view?usp=sharing)** — 30+ minute presentation with idea demonstration (first 4 minutes) and full platform walkthrough
-- **[Live Platform](https://edvance-ace.vercel.app)** — Fully functional deployed application
+- **[Video Presentation](https://drive.google.com/file/d/1Apl8kTBPtioX6ZlsQwwTnkxxUkKaaR7T/view?usp=sharing)** - 24-minute presentation with idea demonstration (first 4 minutes) and full platform walkthrough
+- **[Live Platform](https://edvance-ace.vercel.app)** - Fully functional deployed application
 - **[Documentation](https://drive.google.com/file/d/1Kmc7LNSFSHOz7bu8w7IkSFMTN0NUxXRO/view?usp=sharing)** — Complete project documentation with ERD, screenshots, and technical details
 - **[Presentation PDF](https://drive.google.com/file/d/1U7QieFolTmTjrc1kD8M2k2tvdo5oSasq/view?usp=sharing)** — Project presentation slides
 
-### Demo Accounts
-
-To explore the platform, use these test accounts (all passwords: `password123`):
+### Users' Accounts to Access the Platform
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@admin.com | password123 |
-| Teacher | ahmed@ahmed.com | password123 |
-| Student | student15@student.com | password123 |
-| University Student | yasmin.ahmed@cu.edu.eg | password123 |
-| Parent | parent1@parent.com | password123 |
-| Company | company1@company.com | password123 |
+| Admin | admin@edvance.com | Admin@123 |
+| University Student | yasmin.ahmed@university.com | password123 |
+| Company | company1@test.com | password123 |
+| Teacher | ahmed.mohamed@teacher.com | password123 |
+| Student | student15@test.com | password123 |
+| Parent | parent1@test.com | password123 |
 
 ---
 
-## About Edvance
+## Group Details:
 
-Edvance is a comprehensive Learning Management System (LMS) designed to connect students, teachers, parents, universities, and companies in a unified educational ecosystem. The platform provides tools for course management, real-time communication, progress tracking, AI-powered career guidance, job recruitment, and seamless payment integration.
+```bash
+- Group name: ALX3_SWD2_S1
+- Instructor name: Basmaa Abd Elhaleem
+```
+
+---
+
+## Presented By:
+
+```bash
+- Abdalla Sobhy
+- Ziad Mahmoud
+- Mohammed Mahmoud
+- Malak Magdy
+- Salsabeel Shehata
+```
 
 ---
 
 ## Features
+
+## Special Features
+- Web Scraping using JSearch
+- AI integration using Google Gemini
+- Face & Identity Verification using DIDIT
+- Academic Email OTP using MailGun
+- Live Stream Using Jitsi
+- Payment Gateways Using Stripe and PayPal Integration
+
+## Detailed Features
 
 ### Authentication & Security
 - **User Registration** — Role-based registration for Students, Teachers, Parents, University Students, and Companies
@@ -387,12 +401,6 @@ ACE/
 
 ---
 
-## ERD Diagram & Screenshots
-
-The complete Entity Relationship Diagram (ERD) and platform screenshots are included in the **[Documentation PDF](https://drive.google.com/file/d/1Kmc7LNSFSHOz7bu8w7IkSFMTN0NUxXRO/view?usp=sharing)**.
-
----
-
 ## Getting Started
 
 ### Prerequisites
@@ -417,9 +425,3 @@ php artisan key:generate
 php artisan migrate
 php artisan serve
 ```
-
----
-
-## License
-
-This project is proprietary software. All rights reserved.
