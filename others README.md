@@ -1,4 +1,11 @@
-# PayFlow
+# Edvance
+
+## Quick Links
+
+- **[Video Presentation](https://drive.google.com/file/d/1Apl8kTBPtioX6ZlsQwwTnkxxUkKaaR7T/view?usp=sharing)** - 24-minute presentation with idea demonstration (first 4 minutes) and full platform walkthrough
+- **[Live Platform](https://edvance-ace.vercel.app)** - Fully functional deployed application
+
+---
 
 PayFlow is a lightweight yet powerful Customer Relationship Management (CRM) and Billing Platform crafted to help startups, freelancers, and small businesses eliminate operational chaos.
 With integrated AI insights and seamless payment handling — PayFlow makes business management smarter and simpler.
@@ -19,11 +26,11 @@ With integrated AI insights and seamless payment handling — PayFlow makes busi
 ## Presented By:
 
 ```bash
-- Bassem Hazem
-- Seraj Eldeen
-- Amira Ahmed
-- Alaa Nabil
-- Marwa Hassan
+- Abdalla Sobhy
+- Ziad Mahmoud
+- Mohammed Mahmoud
+- Malak Magdy
+- Salsabeel Shehata
 ```
 
 ---
