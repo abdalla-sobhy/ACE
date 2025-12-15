@@ -43,6 +43,16 @@
 
 ## Features
 
+## Special Features
+- Web Scraping using JSearch
+- AI integration using Google Gemini
+- Face & Identity Verification using DIDIT
+- Academic Email OTP using MailGun
+- Live Stream Using Jitsi
+- Payment Gateways Using Stripe and PayPal Integration
+
+## Detailed Features
+
 ### Authentication & Security
 - **User Registration** — Role-based registration for Students, Teachers, Parents, University Students, and Companies
 - **Secure Login** — Email/password authentication with token-based sessions
