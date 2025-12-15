@@ -9,11 +9,6 @@
 
 ---
 
-PayFlow is a lightweight yet powerful Customer Relationship Management (CRM) and Billing Platform crafted to help startups, freelancers, and small businesses eliminate operational chaos.
-With integrated AI insights and seamless payment handling — PayFlow makes business management smarter and simpler.
-
----
-
 ## Group Details:
 
 ```bash
