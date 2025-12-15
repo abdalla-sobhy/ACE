@@ -3,7 +3,7 @@
 
 ## Quick Links
 
-- **[Video Presentation](https://drive.google.com/file/d/1Apl8kTBPtioX6ZlsQwwTnkxxUkKaaR7T/view?usp=sharing)** - 30+ minute presentation with idea demonstration (first 4 minutes) and full platform walkthrough
+- **[Video Presentation](https://drive.google.com/file/d/1Apl8kTBPtioX6ZlsQwwTnkxxUkKaaR7T/view?usp=sharing)** - 24-minute presentation with idea demonstration (first 4 minutes) and full platform walkthrough
 - **[Live Platform](https://edvance-ace.vercel.app)** - Fully functional deployed application
 
 ---
