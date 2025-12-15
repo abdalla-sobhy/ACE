@@ -7,6 +7,17 @@
 - **[Documentation](https://drive.google.com/file/d/1Kmc7LNSFSHOz7bu8w7IkSFMTN0NUxXRO/view?usp=sharing)** — Complete project documentation with ERD, screenshots, and technical details
 - **[Presentation PDF](https://drive.google.com/file/d/1U7QieFolTmTjrc1kD8M2k2tvdo5oSasq/view?usp=sharing)** — Project presentation slides
 
+### Users' Accounts to Access the Platform
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@edvance.com | Admin@123 |
+| University Student | yasmin.ahmed@university.com | password123 |
+| Company | company1@test.com | password123 |
+| Teacher | ahmed.mohamed@teacher.com | password123 |
+| Student | student15@test.com | password123 |
+| Parent | parent1@test.com | password123 |
+
 ---
 
 ## Group Details:
