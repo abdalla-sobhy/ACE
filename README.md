@@ -16,6 +16,19 @@
 - **[Documentation](https://drive.google.com/file/d/1Kmc7LNSFSHOz7bu8w7IkSFMTN0NUxXRO/view?usp=sharing)** — Complete project documentation with ERD, screenshots, and technical details
 - **[Presentation PDF](https://drive.google.com/file/d/1U7QieFolTmTjrc1kD8M2k2tvdo5oSasq/view?usp=sharing)** — Project presentation slides
 
+### Demo Accounts
+
+To explore the platform, use these test accounts (all passwords: `password123`):
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@admin.com | password123 |
+| Teacher | ahmed@ahmed.com | password123 |
+| Student | student15@student.com | password123 |
+| University Student | yasmin.ahmed@cu.edu.eg | password123 |
+| Parent | parent1@parent.com | password123 |
+| Company | company1@company.com | password123 |
+
 ---
 
 ## About Edvance
