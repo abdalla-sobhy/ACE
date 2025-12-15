@@ -26,11 +26,11 @@ With integrated AI insights and seamless payment handling — PayFlow makes busi
 ## Presented By:
 
 ```bash
-- Bassem Hazem
-- Seraj Eldeen
-- Amira Ahmed
-- Alaa Nabil
-- Marwa Hassan
+- Abdalla Sobhy
+- Ziad Mahmoud
+- Mohammed Mahmoud
+- Malak Magdy
+- Salsabeel Shehata
 ```
 
 ---
