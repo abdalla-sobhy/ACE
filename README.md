@@ -53,15 +53,67 @@
 
 ## Detailed Features
 
+### Web Scraping (JSearch API)
+- **External Job Listings** — Access external jobs via JSearch API integration
+- **Real-time Job Data** — Fetch up-to-date job postings from multiple sources
+- **Job Search Integration** — Search external job markets by keywords and location
+- **Job Filtering** — Filter external jobs by location, job type, and experience level
+- **Seamless Integration** — External jobs displayed alongside platform job postings
+
+### AI Integration (Google Gemini)
+- **AI Chat Interface** — Interactive chat with AI career mentor powered by Google Gemini
+- **Career Conversations** — General career guidance and advice
+- **CV Analysis** — AI-powered CV review and feedback
+- **Learning Path Generation** — Personalized learning recommendations
+- **Job Recommendations** — AI-suggested job opportunities
+- **Skills Gap Analysis** — Identify skills to develop
+- **Conversation History** — Access last 50 messages
+- **Conversation Types** — Select conversation focus
+- **Profile Context** — AI uses profile data for personalized responses
+- **Clear History** — Reset conversation history
+
+### Face & Identity Verification (Didit)
+- **Identity Verification** — Didit integration for document verification, face matching, liveness detection, and AML checks
+- **Document Verification** — Upload and verify government-issued IDs
+- **Face Matching** — Compare selfie with ID photo for identity confirmation
+- **Liveness Detection** — Ensure real-time presence to prevent fraud
+- **AML Checks** — Anti-money laundering verification for compliance
+- **Parent Verification** — Didit verification required for parent accounts
+- **Teacher Verification** — Identity verification for teacher applications
+- **Verification Review** — Admin can check Didit verification data
+
+### Academic Email OTP (Mailgun)
+- **Email Verification** — OTP-based email verification system via Mailgun
+- **Academic Email Validation** — University domain verification for academic accounts
+- **OTP Delivery** — Secure one-time password delivery to email
+- **Password Recovery** — Secure password reset via email tokens
+- **Welcome Emails** — Automated welcome messages for new users
+- **Notification Emails** — Email alerts for important events
+- **Transactional Email** — Reliable email delivery through Mailgun API
+
+### Live Streaming (Jitsi)
+- **Jitsi Integration** — Video conferencing support for live classes
+- **Agora Integration** — Real-time video streaming alternative
+- **Live Sessions** — Schedule and host live class sessions
+- **Session Status** — Track scheduled, live, completed, and cancelled sessions
+- **Real-time Attendance** — Track student attendance during sessions
+- **Live Chat** — In-session messaging for teachers and students
+- **Role-based Access** — Teachers as hosts, students as participants
+
+### Payment Gateways (Stripe & PayPal)
+- **Stripe Integration** — Secure card payment processing
+- **PayPal Integration** — Alternative payment method
+- **Payment Intent** — Create and confirm payment intents
+- **Currency Conversion** — EGP to USD conversion for PayPal
+- **Payment History** — Track all transactions
+- **Transaction IDs** — Unique identifiers for payments
+- **Webhook Handling** — Automated payment confirmation
+
 ### Authentication & Security
 - **User Registration** — Role-based registration for Students, Teachers, Parents, University Students, and Companies
 - **Secure Login** — Email/password authentication with token-based sessions
-- **Email Verification** — OTP-based email verification system
-- **Password Recovery** — Secure password reset via email tokens
 - **Rate Limiting** — Login attempt protection (5 attempts max, 15-minute lockout)
 - **Session Tracking** — Track last login time, IP address, and user agent
-- **Identity Verification** — Didit integration for document verification, face matching, liveness detection, and AML checks
-- **Academic Email Validation** — University domain verification for academic accounts
 - **Account Status Management** — Active, suspended, and pending account states
 - **Remember Me** — Extended session tokens (90-day expiration)
 
@@ -92,8 +144,6 @@
 - **Experience & Projects** — Display work experience and project portfolio
 - **Certifications & Achievements** — Highlight certifications and accomplishments
 - **Job Board Access** — Browse job postings from verified companies
-- **External Job Listings** — Access external jobs via JSearch API integration
-- **Job Filtering** — Filter by location, job type, and experience level
 - **Job Applications** — Apply with cover letters and track status
 - **Application Tracking** — Monitor application status (pending, reviewing, shortlisted, interviewed, accepted, rejected)
 - **Application Withdrawal** — Withdraw submitted applications
@@ -134,7 +184,6 @@
 - **Completion Tracking** — View completed courses and lessons
 - **Overall Statistics** — See combined progress across all students
 - **Children Count** — Manage number of children in profile
-- **Identity Verification** — Didit verification for parent accounts
 
 ### Company/Recruiter Features
 - **Company Registration** — Register with company details and verification
@@ -168,7 +217,6 @@
 - **Teacher Approval** — Review and approve/reject teacher applications
 - **Rejection Reasons** — Provide feedback for rejected applications
 - **CV Review** — Download and review teacher CVs
-- **Verification Review** — Check Didit verification data
 - **Course Oversight** — Monitor and manage all courses
 - **Company Verification** — Verify and unverify company accounts
 - **Analytics Dashboard** — View trends for 7, 30, and 90-day periods
@@ -178,39 +226,8 @@
 - **Activity Monitoring** — View recent platform activity
 - **Admin Creation** — Create new admin accounts
 
-### AI Career Mentor
-- **AI Chat Interface** — Interactive chat with AI career mentor
-- **Career Conversations** — General career guidance and advice
-- **CV Analysis** — AI-powered CV review and feedback
-- **Learning Path Generation** — Personalized learning recommendations
-- **Job Recommendations** — AI-suggested job opportunities
-- **Skills Gap Analysis** — Identify skills to develop
-- **Conversation History** — Access last 50 messages
-- **Conversation Types** — Select conversation focus
-- **Profile Context** — AI uses profile data for personalized responses
-- **Clear History** — Reset conversation history
-
-### Live Streaming & Video
-- **Agora Integration** — Real-time video streaming for live classes
-- **Jitsi Fallback** — Alternative video conferencing support
-- **Live Sessions** — Schedule and host live class sessions
-- **Session Status** — Track scheduled, live, completed, and cancelled sessions
-- **Real-time Attendance** — Track student attendance during sessions
-- **Live Chat** — In-session messaging for teachers and students
-- **Role-based Access** — Teachers as hosts, students as participants
-
-### Payment System
-- **Stripe Integration** — Secure card payment processing
-- **PayPal Integration** — Alternative payment method
-- **Payment Intent** — Create and confirm payment intents
-- **Currency Conversion** — EGP to USD conversion for PayPal
-- **Payment History** — Track all transactions
-- **Transaction IDs** — Unique identifiers for payments
-- **Webhook Handling** — Automated payment confirmation
-
 ### Notifications System
 - **Database Notifications** — Persistent notification storage
-- **Email Notifications** — Email alerts for important events
 - **Welcome Notifications** — Onboarding notifications for new users
 - **Follow Request Alerts** — Notifications for parent-student linking
 - **Job Posting Alerts** — Notify relevant students about new jobs
