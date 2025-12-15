@@ -223,56 +223,191 @@ With integrated AI insights and seamless payment handling — PayFlow makes busi
 
 ---
 
-# Technologies Used:
+## Technologies Used
 
-```bash
-## Backend:
-- Node.js
-- Express.js
-- JWT (Authentication)
-- Bcrypt (Password Encryption)
-## Frontend:
-- React.js
-- Vite
-- Tailwind CSS
+### Frontend
+- **Next.js 15** — React framework with App Router and Turbopack
+- **React 19** — UI component library
+- **TypeScript** — Type-safe JavaScript
+- **Tailwind CSS 4** — Utility-first CSS framework
+- **React Hook Form** — Form state management
+- **Zod** — Schema validation
+- **Axios** — HTTP client
+- **Socket.io Client** — Real-time WebSocket communication
+- **Agora RTC SDK** — Live video streaming
+- **Recharts** — Data visualization and charts
+- **Three.js** — 3D graphics and animations
+- **React Three Fiber** — React renderer for Three.js
+- **React Three Drei** — Useful helpers for React Three Fiber
+- **Lucide React** — Icon library
+- **React Icons** — Additional icon sets
+- **React Dropzone** — File upload with drag-and-drop
+- **React Phone Number Input** — International phone input
+- **Stripe.js** — Stripe payment integration
+- **PayPal React SDK** — PayPal payment integration
+- **Didit SDK** — Identity verification
+- **Onfido SDK** — Document verification
+- **Persona React** — Identity verification alternative
 
-## Database:
-- MongoDB
+### Backend
+- **Laravel 12** — PHP web application framework
+- **PHP 8.2+** — Server-side programming language
+- **Laravel Sanctum** — API token authentication
+- **Laravel Pail** — Real-time log viewer
+- **Pusher** — Real-time WebSocket server
+- **Guzzle HTTP** — HTTP client for API calls
+- **Firebase JWT** — JSON Web Token handling
+- **Stripe PHP** — Stripe payment processing
+- **PayPal REST SDK** — PayPal payment processing
+- **Mailgun** — Transactional email service
+- **Symfony HTTP Client** — HTTP requests
+- **PHPUnit** — Unit testing framework
+- **Laravel Pint** — Code style fixer
+- **Faker** — Test data generation
+- **Mockery** — Mock object framework
 
-## Payments:
-- Stripe
+### Database
+- **MySQL/PostgreSQL** — Relational database
+- **Eloquent ORM** — Database object-relational mapping
+- **Database Migrations** — Version-controlled schema changes
+- **Database Seeders** — Test data seeding
 
-## Deployment:
-- Vercel
+### External Services
+- **Agora** — Real-time video communication
+- **Jitsi** — Open-source video conferencing
+- **Stripe** — Payment processing
+- **PayPal** — Alternative payments
+- **Mailgun** — Email delivery
+- **Pusher** — WebSocket infrastructure
+- **Didit** — Identity verification
+- **Onfido** — Document verification
+- **Persona** — Identity verification
+- **JSearch API** — External job listings
+- **Google Gemini** — AI career mentor
+
+### Deployment
+- **Vercel** — Frontend hosting and deployment
+- **Laravel Sail** — Docker development environment
+
+---
+
+## Architecture Overview
+
+### System Architecture
+Edvance follows a modern **decoupled architecture** with a clear separation between the frontend and backend systems, communicating exclusively through RESTful APIs.
+
+### API Design
+- **RESTful API** — Standard HTTP methods (GET, POST, PUT, DELETE) for resource operations
+- **Resource-based URLs** — Logical URL structure following REST conventions
+- **JSON Response Format** — Consistent JSON responses across all endpoints
+- **HTTP Status Codes** — Proper status codes for success, errors, and validation
+- **API Versioning** — Structured for future version support
+
+### Authentication Architecture
+- **Token-based Authentication** — Laravel Sanctum for stateless API authentication
+- **JWT Integration** — JSON Web Tokens for secure session management
+- **Role-based Access Control (RBAC)** — Middleware-enforced permissions per user type
+- **Multi-guard System** — Separate authentication guards for different user types
+
+### Real-time Architecture
+- **WebSocket Layer** — Pusher for server-side real-time events
+- **Client Socket** — Socket.io for frontend real-time communication
+- **Event Broadcasting** — Laravel events broadcast to connected clients
+- **Presence Channels** — Track online users in live sessions
+
+### Payment Architecture
+- **Payment Gateway Abstraction** — Unified interface for Stripe and PayPal
+- **Webhook Handlers** — Async payment confirmation processing
+- **Transaction Logging** — Complete audit trail for all payments
+- **Currency Handling** — Multi-currency support with conversion
+
+### File Storage Architecture
+- **Public Disk Storage** — Laravel filesystem for media files
+- **Organized Directories** — Separate folders for profiles, CVs, videos, thumbnails
+- **URL Generation** — Dynamic URL generation for stored files
+- **File Validation** — Server-side type and size validation
+
+### Database Architecture
+- **Relational Design** — Normalized database schema with proper relationships
+- **Eloquent Relationships** — HasMany, BelongsTo, MorphMany for related data
+- **Soft Deletes** — Preserve data integrity with soft deletion
+- **Query Optimization** — Eager loading and indexed queries
+
+### Security Architecture
+- **Password Hashing** — Bcrypt encryption for passwords
+- **CORS Configuration** — Cross-origin resource sharing rules
+- **Rate Limiting** — Protection against brute force attacks
+- **Input Validation** — Server-side validation for all inputs
+- **SQL Injection Prevention** — Eloquent ORM parameterized queries
+- **XSS Protection** — Output escaping and sanitization
+
+### Modular Structure
+```
+ACE/
+├── frontend/                    # Next.js Application
+│   ├── app/                     # App Router pages
+│   │   ├── admin/              # Admin dashboard pages
+│   │   ├── student/            # Student pages
+│   │   ├── teacher/            # Teacher pages
+│   │   ├── parent/             # Parent pages
+│   │   ├── university_student/ # University student pages
+│   │   ├── company/            # Company/recruiter pages
+│   │   └── ...                 # Public pages
+│   ├── components/             # Reusable UI components
+│   ├── context/                # React context providers
+│   ├── hooks/                  # Custom React hooks
+│   ├── lib/                    # Utility functions
+│   └── public/                 # Static assets
+│
+├── backend/                     # Laravel Application
+│   ├── app/
+│   │   ├── Http/
+│   │   │   ├── Controllers/    # API controllers
+│   │   │   ├── Middleware/     # Request middleware
+│   │   │   └── Requests/       # Form request validation
+│   │   ├── Models/             # Eloquent models
+│   │   ├── Notifications/      # Notification classes
+│   │   └── Services/           # Business logic services
+│   ├── database/
+│   │   ├── migrations/         # Database migrations
+│   │   └── seeders/            # Data seeders
+│   ├── routes/
+│   │   ├── api.php            # API routes
+│   │   └── web.php            # Web routes
+│   └── config/                 # Configuration files
+│
+└── README.md
 ```
 
----
-
-# Architecture Overview
-
-- RESTful API design
-- Token-based authentication (JWT)
-- Modular and scalable folder structure
-- Integrated AI-based automation layer
-
-# ERD Diagram:
-
-![ERD](./frontend/src/assets/ERD.png)
-
-## Screenshots:
-
-| Page                   | Preview                                                              |
-| ---------------------- | -------------------------------------------------------------------- |
-| **Unregistered Panel** | ![Unregistered](./frontend/src/assets/unregistered_github.png)       |
-| **Login**              | ![Login](./frontend/src/assets/login_github.png)                     |
-| **Dashboard**          | ![Dashboard](./frontend/src/assets/dashboard_github.png)             |
-| **Invoices**           | ![Invoices](./frontend/src/assets/invoice_github.png)                |
-| **Products**           | ![Products](./frontend/src/assets/product_github.png)                |
-| **Customers**          | ![Customers](./frontend/src/assets/customer_github.png)              |
-| **Pricing & Billing**  | ![Pricing_Billing](./frontend/src/assets/pricing_billing_github.png) |
-| **Reports**            | ![Reports](./frontend/src/assets/report_github.png)                  |
-| **AI Assistant**       | ![AI Assistant](./frontend/src/assets/ai_assistance_github.png)      |
-| **Settings**           | ![Settings](./frontend/src/assets/settings_github.png)               |
-| **Admin Panel**        | ![Admin Panel](./frontend/src/assets/admin_github.png)               |
+### Scalability Considerations
+- **Stateless API** — Horizontal scaling support
+- **Queue System** — Background job processing for heavy tasks
+- **Caching Layer** — Response caching for performance
+- **CDN Ready** — Static assets optimized for CDN delivery
 
 ---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- PHP 8.2+
+- Composer
+- MySQL/PostgreSQL
+
+### Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Backend Setup
+```bash
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
