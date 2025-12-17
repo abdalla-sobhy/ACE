@@ -50,10 +50,54 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/auth/register",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "register"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Successful Registration",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"user_type\": \"university_student\",\n  \"phone\": \"+201234567890\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"User registered successfully\",\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"user_type\": \"university_student\",\n    \"phone\": \"+201234567890\",\n    \"created_at\": \"2025-12-17T10:00:00.000000Z\",\n    \"updated_at\": \"2025-12-17T10:00:00.000000Z\"\n  },\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Login",
@@ -88,10 +132,54 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/auth/login",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "login"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Successful Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Login successful\",\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"user_type\": \"university_student\",\n    \"phone\": \"+201234567890\",\n    \"created_at\": \"2025-12-17T10:00:00.000000Z\",\n    \"updated_at\": \"2025-12-17T10:00:00.000000Z\"\n  },\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYzMjQwMzIwMCwiZXhwIjoxNjMyNDA2ODAwLCJuYmYiOjE2MzI0MDMyMDAsImp0aSI6IjFhMmIzYzRkNWU2ZjciLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.qwertyuiopasdfghjklzxcvbnm123456\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Logout",
@@ -100,10 +188,45 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/auth/logout",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "logout"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Successful Logout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/auth/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Successfully logged out\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Current User",
@@ -112,10 +235,45 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/auth/user",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "user"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"user"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Get Current User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/auth/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 1,\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"user_type\": \"university_student\",\n  \"phone\": \"+201234567890\",\n  \"email_verified_at\": \"2025-12-17T10:00:00.000000Z\",\n  \"created_at\": \"2025-12-17T10:00:00.000000Z\",\n  \"updated_at\": \"2025-12-17T10:00:00.000000Z\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Check Email",
@@ -136,10 +294,54 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/auth/check-email",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "check-email"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"check-email"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Email Exists",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john@example.com\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/check-email",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"check-email"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"exists\": true,\n  \"message\": \"Email is already registered\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Forgot Password",
@@ -160,10 +362,54 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/auth/forgot-password",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "forgot-password"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Password Reset Link Sent",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john@example.com\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/forgot-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"forgot-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Password reset link sent to your email\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Reset Password",
@@ -184,10 +430,57 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/auth/reset-password",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "reset-password"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Reset Password",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"token\": \"reset_token\",\n  \"email\": \"john@example.com\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/reset-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"reset-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Password has been reset successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Send OTP",
@@ -208,10 +501,55 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/send-otp",
-							"host": ["{{base_url}}"],
-							"path": ["send-otp"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"send-otp"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Send OTP",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john@example.com\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/send-otp",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"send-otp"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"OTP sent successfully to your email\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Verify OTP",
@@ -232,10 +570,55 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/verify-otp",
-							"host": ["{{base_url}}"],
-							"path": ["verify-otp"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"verify-otp"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Verify OTP",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john@example.com\",\n  \"otp\": \"123456\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/verify-otp",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"verify-otp"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"OTP verified successfully\",\n  \"verified\": true\n}"
+						}
+					]
 				}
 			]
 		},
@@ -249,10 +632,43 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/notifications",
-							"host": ["{{base_url}}"],
-							"path": ["notifications"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notifications"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Get All Notifications",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/notifications",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"notifications"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"info\",\n      \"data\": {\n        \"message\": \"New course available\",\n        \"course_id\": 5\n      },\n      \"read_at\": null,\n      \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ],\n  \"total\": 1,\n  \"unread_count\": 1\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Unread Count",
@@ -261,10 +677,45 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/notifications/unread-count",
-							"host": ["{{base_url}}"],
-							"path": ["notifications", "unread-count"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notifications",
+								"unread-count"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Get Unread Count",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/notifications/unread-count",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"notifications",
+										"unread-count"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"unread_count\": 5\n}"
+						}
+					]
 				},
 				{
 					"name": "Mark As Read",
@@ -273,8 +724,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/notifications/:id/read",
-							"host": ["{{base_url}}"],
-							"path": ["notifications", ":id", "read"],
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notifications",
+								":id",
+								"read"
+							],
 							"variable": [
 								{
 									"key": "id",
@@ -282,7 +739,44 @@
 								}
 							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Mark As Read",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/notifications/:id/read",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"notifications",
+										":id",
+										"read"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Notification(s) marked as read\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Mark All As Read",
@@ -291,10 +785,45 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/notifications/mark-all-read",
-							"host": ["{{base_url}}"],
-							"path": ["notifications", "mark-all-read"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notifications",
+								"mark-all-read"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Mark All As Read",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/notifications/mark-all-read",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"notifications",
+										"mark-all-read"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Notification(s) marked as read\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Delete Notification",
@@ -303,8 +832,13 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/notifications/:id",
-							"host": ["{{base_url}}"],
-							"path": ["notifications", ":id"],
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notifications",
+								":id"
+							],
 							"variable": [
 								{
 									"key": "id",
@@ -312,7 +846,43 @@
 								}
 							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Delete Notification",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/notifications/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"notifications",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Notification(s) deleted successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Delete All Read",
@@ -321,10 +891,47 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/notifications/read/all",
-							"host": ["{{base_url}}"],
-							"path": ["notifications", "read", "all"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notifications",
+								"read",
+								"all"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Delete All Read",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/notifications/read/all",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"notifications",
+										"read",
+										"all"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Notification(s) deleted successfully\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -341,10 +948,47 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/dashboard/stats",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "dashboard", "stats"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"dashboard",
+										"stats"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Dashboard Stats",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/dashboard/stats",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"dashboard",
+												"stats"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"total_users\": 1250,\n  \"total_courses\": 85,\n  \"total_enrollments\": 3420,\n  \"total_revenue\": 125000,\n  \"recent_registrations\": 45,\n  \"active_teachers\": 28,\n  \"pending_approvals\": 7\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Analytics",
@@ -353,8 +997,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/analytics/:period?",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "analytics", ":period?"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"analytics",
+										":period?"
+									],
 									"variable": [
 										{
 											"key": "period?",
@@ -362,7 +1012,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Analytics",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/analytics/:period?",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"analytics",
+												":period?"
+											],
+											"variable": [
+												{
+													"key": "period?",
+													"value": "week"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"total_users\": 1250,\n  \"total_courses\": 85,\n  \"total_enrollments\": 3420,\n  \"total_revenue\": 125000,\n  \"recent_registrations\": 45,\n  \"active_teachers\": 28,\n  \"pending_approvals\": 7\n}"
+								}
+							]
 						}
 					]
 				},
@@ -376,10 +1063,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/users",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "users"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get All Users",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/users",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Get User By ID",
@@ -388,8 +1110,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/users/:id",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "users", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -397,7 +1125,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get User By ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/users/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Update User Status",
@@ -415,8 +1180,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/admin/users/:id/status",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "users", ":id", "status"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										":id",
+										"status"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -424,7 +1196,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update User Status",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"status\": \"active\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/admin/users/:id/status",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"users",
+												":id",
+												"status"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Suspend User",
@@ -433,8 +1252,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/users/:id/suspend",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "users", ":id", "suspend"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										":id",
+										"suspend"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -442,7 +1268,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Suspend User",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/users/:id/suspend",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"users",
+												":id",
+												"suspend"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Activate User",
@@ -451,8 +1315,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/users/:id/activate",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "users", ":id", "activate"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										":id",
+										"activate"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -460,7 +1331,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Activate User",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/users/:id/activate",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"users",
+												":id",
+												"activate"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Delete User",
@@ -469,8 +1378,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/users/:id",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "users", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -478,7 +1393,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Delete User",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/users/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Create Admin",
@@ -496,10 +1448,56 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/admin/users/create-admin",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "users", "create-admin"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"create-admin"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Create Admin",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Admin User\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword123\",\n  \"password_confirmation\": \"adminpassword123\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/admin/users/create-admin",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"users",
+												"create-admin"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -513,10 +1511,47 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/teachers/pending",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "teachers", "pending"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"teachers",
+										"pending"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Pending Teachers",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/teachers/pending",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"teachers",
+												"pending"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"Dr. Jane Smith\",\n      \"email\": \"jane@example.com\",\n      \"specialization\": \"Computer Science\",\n      \"status\": \"pending\",\n      \"cv_path\": \"cvs/teacher_1.pdf\",\n      \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ]\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Teacher Details",
@@ -525,8 +1560,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/teachers/:id",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "teachers", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"teachers",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -534,7 +1575,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Teacher Details",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/teachers/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"teachers",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Approve Teacher",
@@ -543,8 +1621,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/teachers/:id/approve",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "teachers", ":id", "approve"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"teachers",
+										":id",
+										"approve"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -552,7 +1637,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Approve Teacher",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/teachers/:id/approve",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"teachers",
+												":id",
+												"approve"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Teacher approved successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Reject Teacher",
@@ -570,8 +1693,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/admin/teachers/:id/reject",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "teachers", ":id", "reject"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"teachers",
+										":id",
+										"reject"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -579,7 +1709,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Reject Teacher",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"rejection_reason\": \"Insufficient qualifications\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/admin/teachers/:id/reject",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"teachers",
+												":id",
+												"reject"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Teacher rejected successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Download Teacher CV",
@@ -588,8 +1765,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/teachers/:id/cv",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "teachers", ":id", "cv"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"teachers",
+										":id",
+										"cv"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -597,7 +1781,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Download Teacher CV",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/teachers/:id/cv",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"teachers",
+												":id",
+												"cv"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"download_url\": \"http://localhost:8000/storage/cvs/teacher_1.pdf\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -611,10 +1833,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/courses",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "courses"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"courses"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get All Courses",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/courses",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"courses"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Introduction to Programming\",\n      \"description\": \"Learn programming basics\",\n      \"category\": \"Programming\",\n      \"price\": 500,\n      \"difficulty_level\": \"beginner\",\n      \"instructor\": \"Dr. Jane Smith\",\n      \"enrolled_count\": 120,\n      \"rating\": 4.8,\n      \"thumbnail\": \"thumbnails/course_1.jpg\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 50\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Course Status",
@@ -632,8 +1889,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/admin/courses/:id/status",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "courses", ":id", "status"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"courses",
+										":id",
+										"status"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -641,7 +1905,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Course Status",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"status\": \"approved\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/admin/courses/:id/status",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"courses",
+												":id",
+												"status"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Course updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Delete Course",
@@ -650,8 +1961,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/courses/:id",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "courses", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"courses",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -659,7 +1976,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Delete Course",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/courses/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"courses",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Course deleted successfully\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -673,10 +2027,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/companies",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "companies"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"companies"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get All Companies",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/companies",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"companies"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"company_name\": \"Tech Corp\",\n      \"email\": \"contact@techcorp.com\",\n      \"industry\": \"Technology\",\n      \"is_verified\": true\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 30\n}"
+								}
+							]
 						},
 						{
 							"name": "Verify Company",
@@ -685,8 +2074,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/companies/:id/verify",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "companies", ":id", "verify"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"companies",
+										":id",
+										"verify"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -694,7 +2090,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Verify Company",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/companies/:id/verify",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"companies",
+												":id",
+												"verify"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Unverify Company",
@@ -703,8 +2137,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/admin/companies/:id/unverify",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "companies", ":id", "unverify"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"companies",
+										":id",
+										"unverify"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -712,7 +2153,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Unverify Company",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/admin/companies/:id/unverify",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"companies",
+												":id",
+												"unverify"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -736,10 +2215,55 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/admin/upload-profile-picture",
-									"host": ["{{base_url}}"],
-									"path": ["admin", "upload-profile-picture"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"upload-profile-picture"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Upload Profile Picture",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "profile_picture",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/admin/upload-profile-picture",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"admin",
+												"upload-profile-picture"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"File uploaded successfully\",\n  \"file_path\": \"uploads/file_123.jpg\"\n}"
+								}
+							]
 						}
 					]
 				}
@@ -767,10 +2291,57 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/company/register",
-							"host": ["{{base_url}}"],
-							"path": ["company", "register"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"company",
+								"register"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Register Company (Public)",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"company_name\": \"Tech Corp\",\n  \"email\": \"contact@techcorp.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"industry\": \"Technology\",\n  \"website\": \"https://techcorp.com\",\n  \"description\": \"Leading tech company\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/company/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Dashboard",
@@ -782,10 +2353,47 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/dashboard/stats",
-									"host": ["{{base_url}}"],
-									"path": ["company", "dashboard", "stats"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"dashboard",
+										"stats"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Dashboard Stats",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/dashboard/stats",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"dashboard",
+												"stats"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"total_users\": 1250,\n  \"total_courses\": 85,\n  \"total_enrollments\": 3420,\n  \"total_revenue\": 125000,\n  \"recent_registrations\": 45,\n  \"active_teachers\": 28,\n  \"pending_approvals\": 7\n}"
+								}
+							]
 						}
 					]
 				},
@@ -799,10 +2407,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/profile",
-									"host": ["{{base_url}}"],
-									"path": ["company", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Profile",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+201234567890\",\n  \"profile_picture\": \"profile_pictures/user_1.jpg\",\n  \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Profile",
@@ -820,10 +2463,54 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/company/profile",
-									"host": ["{{base_url}}"],
-									"path": ["company", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Profile",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company_name\": \"Updated Tech Corp\",\n  \"industry\": \"Technology\",\n  \"website\": \"https://techcorp.com\",\n  \"description\": \"Updated description\",\n  \"location\": \"Cairo, Egypt\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/company/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Profile updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Upload Logo",
@@ -842,10 +2529,55 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/company/upload-logo",
-									"host": ["{{base_url}}"],
-									"path": ["company", "upload-logo"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"upload-logo"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Upload Logo",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "logo",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/company/upload-logo",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"upload-logo"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"File uploaded successfully\",\n  \"file_path\": \"uploads/file_123.jpg\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Upload Profile Picture",
@@ -864,10 +2596,55 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/company/upload-profile-picture",
-									"host": ["{{base_url}}"],
-									"path": ["company", "upload-profile-picture"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"upload-profile-picture"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Upload Profile Picture",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "profile_picture",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/company/upload-profile-picture",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"upload-profile-picture"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"File uploaded successfully\",\n  \"file_path\": \"uploads/file_123.jpg\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -881,10 +2658,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/jobs",
-									"host": ["{{base_url}}"],
-									"path": ["company", "jobs"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"jobs"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get All Jobs",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/jobs",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"jobs"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Software Engineer\",\n      \"description\": \"We are looking for a talented software engineer\",\n      \"location\": \"Cairo, Egypt\",\n      \"job_type\": \"full-time\",\n      \"salary_range\": \"50000-80000 EGP\",\n      \"company_name\": \"Tech Corp\",\n      \"deadline\": \"2025-12-31\",\n      \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 25\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Job By ID",
@@ -893,8 +2705,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/jobs/:id",
-									"host": ["{{base_url}}"],
-									"path": ["company", "jobs", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"jobs",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -902,7 +2720,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Job By ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/jobs/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"jobs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Software Engineer\",\n      \"description\": \"We are looking for a talented software engineer\",\n      \"location\": \"Cairo, Egypt\",\n      \"job_type\": \"full-time\",\n      \"salary_range\": \"50000-80000 EGP\",\n      \"company_name\": \"Tech Corp\",\n      \"deadline\": \"2025-12-31\",\n      \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 25\n}"
+								}
+							]
 						},
 						{
 							"name": "Create Job",
@@ -920,10 +2775,54 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/company/jobs",
-									"host": ["{{base_url}}"],
-									"path": ["company", "jobs"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"jobs"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Create Job",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"Software Engineer\",\n  \"description\": \"We are looking for a talented software engineer\",\n  \"requirements\": \"3+ years experience with JavaScript\",\n  \"location\": \"Cairo, Egypt\",\n  \"job_type\": \"full-time\",\n  \"salary_range\": \"50000-80000 EGP\",\n  \"deadline\": \"2025-12-31\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/company/jobs",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"jobs"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Job created successfully\",\n  \"job\": {\n    \"id\": 1,\n    \"title\": \"Software Engineer\",\n    \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n  }\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Job",
@@ -941,8 +2840,14 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/company/jobs/:id",
-									"host": ["{{base_url}}"],
-									"path": ["company", "jobs", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"jobs",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -950,7 +2855,53 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Job",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"Senior Software Engineer\",\n  \"description\": \"Updated job description\",\n  \"requirements\": \"5+ years experience\",\n  \"location\": \"Cairo, Egypt\",\n  \"job_type\": \"full-time\",\n  \"salary_range\": \"80000-120000 EGP\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/company/jobs/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"jobs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Job updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Delete Job",
@@ -959,8 +2910,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/jobs/:id",
-									"host": ["{{base_url}}"],
-									"path": ["company", "jobs", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"jobs",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -968,7 +2925,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Delete Job",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/jobs/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"jobs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Job deleted successfully\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -982,10 +2976,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/applications",
-									"host": ["{{base_url}}"],
-									"path": ["company", "applications"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"applications"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get All Applications",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/applications",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"applications"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"job_title\": \"Software Engineer\",\n      \"applicant_name\": \"John Doe\",\n      \"applicant_email\": \"john@example.com\",\n      \"status\": \"pending\",\n      \"cover_letter\": \"I am very interested...\",\n      \"applied_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 45\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Applications For Job",
@@ -994,8 +3023,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/jobs/:jobId/applications",
-									"host": ["{{base_url}}"],
-									"path": ["company", "jobs", ":jobId", "applications"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"jobs",
+										":jobId",
+										"applications"
+									],
 									"variable": [
 										{
 											"key": "jobId",
@@ -1003,7 +3039,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Applications For Job",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/jobs/:jobId/applications",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"jobs",
+												":jobId",
+												"applications"
+											],
+											"variable": [
+												{
+													"key": "jobId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Software Engineer\",\n      \"description\": \"We are looking for a talented software engineer\",\n      \"location\": \"Cairo, Egypt\",\n      \"job_type\": \"full-time\",\n      \"salary_range\": \"50000-80000 EGP\",\n      \"company_name\": \"Tech Corp\",\n      \"deadline\": \"2025-12-31\",\n      \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 25\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Application Details",
@@ -1012,8 +3086,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/applications/:id",
-									"host": ["{{base_url}}"],
-									"path": ["company", "applications", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"applications",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1021,7 +3101,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Application Details",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/applications/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"applications",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"job_title\": \"Software Engineer\",\n      \"applicant_name\": \"John Doe\",\n      \"applicant_email\": \"john@example.com\",\n      \"status\": \"pending\",\n      \"cover_letter\": \"I am very interested...\",\n      \"applied_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 45\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Application Status",
@@ -1039,8 +3156,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/company/applications/:id/status",
-									"host": ["{{base_url}}"],
-									"path": ["company", "applications", ":id", "status"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"applications",
+										":id",
+										"status"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1048,7 +3172,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Application Status",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"status\": \"accepted\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/company/applications/:id/status",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"applications",
+												":id",
+												"status"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Application status updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Toggle Favorite",
@@ -1057,8 +3228,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/applications/:id/favorite",
-									"host": ["{{base_url}}"],
-									"path": ["company", "applications", ":id", "favorite"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"applications",
+										":id",
+										"favorite"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1066,7 +3244,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Toggle Favorite",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/applications/:id/favorite",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"applications",
+												":id",
+												"favorite"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Download Student CV",
@@ -1075,8 +3291,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/company/students/:studentId/cv",
-									"host": ["{{base_url}}"],
-									"path": ["company", "students", ":studentId", "cv"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"company",
+										"students",
+										":studentId",
+										"cv"
+									],
 									"variable": [
 										{
 											"key": "studentId",
@@ -1084,7 +3307,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Download Student CV",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/company/students/:studentId/cv",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"company",
+												"students",
+												":studentId",
+												"cv"
+											],
+											"variable": [
+												{
+													"key": "studentId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"download_url\": \"http://localhost:8000/storage/files/document.pdf\"\n}"
+								}
+							]
 						}
 					]
 				}
@@ -1103,10 +3364,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/profile",
-									"host": ["{{base_url}}"],
-									"path": ["university", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Profile",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+201234567890\",\n  \"profile_picture\": \"profile_pictures/user_1.jpg\",\n  \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Profile",
@@ -1124,10 +3420,54 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/university/profile",
-									"host": ["{{base_url}}"],
-									"path": ["university", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Profile",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"John Doe\",\n  \"phone\": \"+201234567890\",\n  \"university\": \"Cairo University\",\n  \"major\": \"Computer Science\",\n  \"graduation_year\": 2026,\n  \"bio\": \"Passionate about software development\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/university/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Profile updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Upload Profile Picture",
@@ -1146,10 +3486,55 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/university/upload-profile-picture",
-									"host": ["{{base_url}}"],
-									"path": ["university", "upload-profile-picture"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"upload-profile-picture"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Upload Profile Picture",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "profile_picture",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/university/upload-profile-picture",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"upload-profile-picture"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"File uploaded successfully\",\n  \"file_path\": \"uploads/file_123.jpg\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Profile Stats",
@@ -1158,10 +3543,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/profile-stats",
-									"host": ["{{base_url}}"],
-									"path": ["university", "profile-stats"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"profile-stats"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Profile Stats",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/profile-stats",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"profile-stats"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"total_users\": 1250,\n  \"total_courses\": 85,\n  \"total_enrollments\": 3420,\n  \"total_revenue\": 125000,\n  \"recent_registrations\": 45,\n  \"active_teachers\": 28,\n  \"pending_approvals\": 7\n}"
+								}
+							]
 						}
 					]
 				},
@@ -1185,10 +3605,55 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/university/upload-cv",
-									"host": ["{{base_url}}"],
-									"path": ["university", "upload-cv"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"upload-cv"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Upload CV",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "cv",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/university/upload-cv",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"upload-cv"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"File uploaded successfully\",\n  \"file_path\": \"uploads/file_123.jpg\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Download CV",
@@ -1197,10 +3662,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/download-cv",
-									"host": ["{{base_url}}"],
-									"path": ["university", "download-cv"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"download-cv"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Download CV",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/download-cv",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"download-cv"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"download_url\": \"http://localhost:8000/storage/files/document.pdf\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -1214,10 +3714,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/courses",
-									"host": ["{{base_url}}"],
-									"path": ["university", "courses"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"courses"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get All Courses",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/courses",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"courses"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Introduction to Programming\",\n      \"description\": \"Learn programming basics\",\n      \"category\": \"Programming\",\n      \"price\": 500,\n      \"difficulty_level\": \"beginner\",\n      \"instructor\": \"Dr. Jane Smith\",\n      \"enrolled_count\": 120,\n      \"rating\": 4.8,\n      \"thumbnail\": \"thumbnails/course_1.jpg\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 50\n}"
+								}
+							]
 						},
 						{
 							"name": "View Course",
@@ -1226,8 +3761,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/courses/:id/view",
-									"host": ["{{base_url}}"],
-									"path": ["university", "courses", ":id", "view"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"courses",
+										":id",
+										"view"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1235,7 +3777,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - View Course",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/courses/:id/view",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"courses",
+												":id",
+												"view"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"title\": \"Introduction to Programming\",\n  \"description\": \"Learn programming basics\",\n  \"category\": \"Programming\",\n  \"price\": 500,\n  \"difficulty_level\": \"beginner\",\n  \"lessons\": [\n    {\n      \"id\": 1,\n      \"title\": \"Lesson 1: Introduction\",\n      \"duration\": 1800,\n      \"order\": 1\n    }\n  ]\n}"
+								}
+							]
 						},
 						{
 							"name": "Enroll In Course",
@@ -1244,8 +3824,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/courses/:id/enroll",
-									"host": ["{{base_url}}"],
-									"path": ["university", "courses", ":id", "enroll"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"courses",
+										":id",
+										"enroll"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1253,7 +3840,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Enroll In Course",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/courses/:id/enroll",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"courses",
+												":id",
+												"enroll"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Course created successfully\",\n  \"course\": {\n    \"id\": 1,\n    \"title\": \"Introduction to Programming\",\n    \"description\": \"Learn programming basics\",\n    \"price\": 500,\n    \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n  }\n}"
+								}
+							]
 						},
 						{
 							"name": "Get My Courses",
@@ -1262,10 +3887,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/my-courses",
-									"host": ["{{base_url}}"],
-									"path": ["university", "my-courses"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"my-courses"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get My Courses",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/my-courses",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"my-courses"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Introduction to Programming\",\n      \"progress\": 45,\n      \"enrolled_at\": \"2025-12-15T10:00:00.000000Z\"\n    }\n  ]\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Lesson Progress",
@@ -1283,8 +3943,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/university/lessons/:id/progress",
-									"host": ["{{base_url}}"],
-									"path": ["university", "lessons", ":id", "progress"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"lessons",
+										":id",
+										"progress"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1292,7 +3959,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Lesson Progress",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"completed\": true\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/university/lessons/:id/progress",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"lessons",
+												":id",
+												"progress"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Progress updated successfully\",\n  \"completed\": true\n}"
+								}
+							]
 						}
 					]
 				},
@@ -1306,10 +4020,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/jobs",
-									"host": ["{{base_url}}"],
-									"path": ["university", "jobs"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"jobs"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get All Jobs",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/jobs",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"jobs"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Software Engineer\",\n      \"description\": \"We are looking for a talented software engineer\",\n      \"location\": \"Cairo, Egypt\",\n      \"job_type\": \"full-time\",\n      \"salary_range\": \"50000-80000 EGP\",\n      \"company_name\": \"Tech Corp\",\n      \"deadline\": \"2025-12-31\",\n      \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 25\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Job By ID",
@@ -1318,8 +4067,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/jobs/:id",
-									"host": ["{{base_url}}"],
-									"path": ["university", "jobs", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"jobs",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1327,7 +4082,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Job By ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/jobs/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"jobs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Software Engineer\",\n      \"description\": \"We are looking for a talented software engineer\",\n      \"location\": \"Cairo, Egypt\",\n      \"job_type\": \"full-time\",\n      \"salary_range\": \"50000-80000 EGP\",\n      \"company_name\": \"Tech Corp\",\n      \"deadline\": \"2025-12-31\",\n      \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 25\n}"
+								}
+							]
 						},
 						{
 							"name": "Apply For Job",
@@ -1345,8 +4137,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/university/jobs/:id/apply",
-									"host": ["{{base_url}}"],
-									"path": ["university", "jobs", ":id", "apply"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"jobs",
+										":id",
+										"apply"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1354,7 +4153,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Apply For Job",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cover_letter\": \"I am very interested in this position...\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/university/jobs/:id/apply",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"jobs",
+												":id",
+												"apply"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Application submitted successfully\",\n  \"application_id\": 1\n}"
+								}
+							]
 						},
 						{
 							"name": "Test JSearch API",
@@ -1363,10 +4209,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/test-jsearch",
-									"host": ["{{base_url}}"],
-									"path": ["university", "test-jsearch"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"test-jsearch"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Test JSearch API",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/test-jsearch",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"test-jsearch"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -1380,10 +4261,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/applications",
-									"host": ["{{base_url}}"],
-									"path": ["university", "applications"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"applications"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get My Applications",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/applications",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"applications"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"job_title\": \"Software Engineer\",\n      \"applicant_name\": \"John Doe\",\n      \"applicant_email\": \"john@example.com\",\n      \"status\": \"pending\",\n      \"cover_letter\": \"I am very interested...\",\n      \"applied_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 45\n}"
+								}
+							]
 						},
 						{
 							"name": "Withdraw Application",
@@ -1392,8 +4308,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/university/applications/:id",
-									"host": ["{{base_url}}"],
-									"path": ["university", "applications", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"applications",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1401,7 +4323,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Withdraw Application",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/university/applications/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"university",
+												"applications",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Application withdrawn successfully\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -1415,10 +4374,48 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/university/public-profiles",
-							"host": ["{{base_url}}"],
-							"path": ["university", "public-profiles"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"university",
+								"public-profiles"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Public Profiles",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/university/public-profiles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"university",
+										"public-profiles"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 1,\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+201234567890\",\n  \"profile_picture\": \"profile_pictures/user_1.jpg\",\n  \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -1435,10 +4432,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/teacher/profile",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Profile",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/teacher/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+201234567890\",\n  \"profile_picture\": \"profile_pictures/user_1.jpg\",\n  \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Profile",
@@ -1456,10 +4488,54 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/teacher/profile",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Profile",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Dr. Jane Smith\",\n  \"phone\": \"+201234567890\",\n  \"bio\": \"Experienced educator with 10+ years\",\n  \"specialization\": \"Computer Science\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/teacher/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Profile updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Upload CV",
@@ -1478,10 +4554,55 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/teacher/upload-cv",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "upload-cv"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"upload-cv"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Upload CV",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "cv",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/teacher/upload-cv",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"upload-cv"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"File uploaded successfully\",\n  \"file_path\": \"uploads/file_123.jpg\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Upload Profile Picture",
@@ -1500,10 +4621,55 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/teacher/upload-profile-picture",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "upload-profile-picture"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"upload-profile-picture"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Upload Profile Picture",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "profile_picture",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/teacher/upload-profile-picture",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"upload-profile-picture"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"File uploaded successfully\",\n  \"file_path\": \"uploads/file_123.jpg\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Stats",
@@ -1512,10 +4678,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/teacher/stats",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "stats"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"stats"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Stats",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/teacher/stats",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"stats"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"total_users\": 1250,\n  \"total_courses\": 85,\n  \"total_enrollments\": 3420,\n  \"total_revenue\": 125000,\n  \"recent_registrations\": 45,\n  \"active_teachers\": 28,\n  \"pending_approvals\": 7\n}"
+								}
+							]
 						}
 					]
 				},
@@ -1529,10 +4730,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/teacher/courses",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "courses"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"courses"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get All Courses",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/teacher/courses",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"courses"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Introduction to Programming\",\n      \"description\": \"Learn programming basics\",\n      \"category\": \"Programming\",\n      \"price\": 500,\n      \"difficulty_level\": \"beginner\",\n      \"instructor\": \"Dr. Jane Smith\",\n      \"enrolled_count\": 120,\n      \"rating\": 4.8,\n      \"thumbnail\": \"thumbnails/course_1.jpg\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 50\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Course With Lessons",
@@ -1541,8 +4777,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/teacher/courses/:id",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "courses", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"courses",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1550,7 +4792,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Course With Lessons",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/teacher/courses/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"courses",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Create Course",
@@ -1568,10 +4847,54 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/teacher/courses",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "courses"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"courses"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Create Course",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"Introduction to Programming\",\n  \"description\": \"Learn the basics of programming\",\n  \"category\": \"Programming\",\n  \"price\": 500,\n  \"difficulty_level\": \"beginner\",\n  \"thumbnail\": \"https://example.com/image.jpg\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/teacher/courses",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"courses"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Course created successfully\",\n  \"course\": {\n    \"id\": 1,\n    \"title\": \"Introduction to Programming\",\n    \"description\": \"Learn programming basics\",\n    \"price\": 500,\n    \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n  }\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Course",
@@ -1589,8 +4912,14 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/teacher/courses/:id",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "courses", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"courses",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1598,7 +4927,53 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Course",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"Advanced Programming\",\n  \"description\": \"Updated description\",\n  \"price\": 750\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/teacher/courses/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"courses",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Course updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Delete Course",
@@ -1607,8 +4982,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/teacher/courses/:id",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "courses", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"courses",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1616,7 +4997,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Delete Course",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/teacher/courses/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"courses",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Course deleted successfully\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -1639,8 +5057,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/teacher/courses/:course/lessons",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "courses", ":course", "lessons"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"courses",
+										":course",
+										"lessons"
+									],
 									"variable": [
 										{
 											"key": "course",
@@ -1648,7 +5073,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Create Lesson",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"Lesson 1: Introduction\",\n  \"description\": \"Introduction to the course\",\n  \"video_url\": \"https://example.com/video.mp4\",\n  \"duration\": 1800,\n  \"order\": 1\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/teacher/courses/:course/lessons",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"courses",
+												":course",
+												"lessons"
+											],
+											"variable": [
+												{
+													"key": "course",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Lesson created successfully\",\n  \"lesson\": {\n    \"id\": 1,\n    \"title\": \"Lesson 1: Introduction\",\n    \"duration\": 1800,\n    \"order\": 1\n  }\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Lesson",
@@ -1666,8 +5138,14 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/teacher/lessons/:lesson",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "lessons", ":lesson"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"lessons",
+										":lesson"
+									],
 									"variable": [
 										{
 											"key": "lesson",
@@ -1675,7 +5153,53 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Lesson",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"Updated Lesson Title\",\n  \"description\": \"Updated description\",\n  \"video_url\": \"https://example.com/new-video.mp4\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/teacher/lessons/:lesson",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"lessons",
+												":lesson"
+											],
+											"variable": [
+												{
+													"key": "lesson",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Lesson updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Delete Lesson",
@@ -1684,8 +5208,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/teacher/lessons/:lesson",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "lessons", ":lesson"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"lessons",
+										":lesson"
+									],
 									"variable": [
 										{
 											"key": "lesson",
@@ -1693,7 +5223,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Delete Lesson",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/teacher/lessons/:lesson",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"lessons",
+												":lesson"
+											],
+											"variable": [
+												{
+													"key": "lesson",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Lesson deleted successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Reorder Lessons",
@@ -1711,8 +5278,16 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/teacher/courses/:course/lessons/reorder",
-									"host": ["{{base_url}}"],
-									"path": ["teacher", "courses", ":course", "lessons", "reorder"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"teacher",
+										"courses",
+										":course",
+										"lessons",
+										"reorder"
+									],
 									"variable": [
 										{
 											"key": "course",
@@ -1720,7 +5295,55 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Reorder Lessons",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"lessons\": [\n    {\"id\": 1, \"order\": 2},\n    {\"id\": 2, \"order\": 1}\n  ]\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/teacher/courses/:course/lessons/reorder",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"teacher",
+												"courses",
+												":course",
+												"lessons",
+												"reorder"
+											],
+											"variable": [
+												{
+													"key": "course",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Lesson created successfully\",\n  \"lesson\": {\n    \"id\": 1,\n    \"title\": \"Lesson 1: Introduction\",\n    \"duration\": 1800,\n    \"order\": 1\n  }\n}"
+								}
+							]
 						}
 					]
 				}
@@ -1739,10 +5362,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/parent/profile",
-									"host": ["{{base_url}}"],
-									"path": ["parent", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parent",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Profile",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/parent/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"parent",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+201234567890\",\n  \"profile_picture\": \"profile_pictures/user_1.jpg\",\n  \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Profile",
@@ -1760,10 +5418,54 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/parent/profile",
-									"host": ["{{base_url}}"],
-									"path": ["parent", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parent",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Profile",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Parent Name\",\n  \"phone\": \"+201234567890\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/parent/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"parent",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Profile updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Upload Profile Picture",
@@ -1782,10 +5484,55 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/parent/upload-profile-picture",
-									"host": ["{{base_url}}"],
-									"path": ["parent", "upload-profile-picture"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parent",
+										"upload-profile-picture"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Upload Profile Picture",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "profile_picture",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/parent/upload-profile-picture",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"parent",
+												"upload-profile-picture"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"File uploaded successfully\",\n  \"file_path\": \"uploads/file_123.jpg\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -1808,10 +5555,54 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/parent/search-student",
-									"host": ["{{base_url}}"],
-									"path": ["parent", "search-student"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parent",
+										"search-student"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Search Student",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"student@example.com\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/parent/search-student",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"parent",
+												"search-student"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Send Follow Request",
@@ -1829,10 +5620,54 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/parent/follow-request",
-									"host": ["{{base_url}}"],
-									"path": ["parent", "follow-request"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parent",
+										"follow-request"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Send Follow Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"student_id\": 1\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/parent/follow-request",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"parent",
+												"follow-request"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Follow request processed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Followed Students",
@@ -1841,10 +5676,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/parent/followed-students",
-									"host": ["{{base_url}}"],
-									"path": ["parent", "followed-students"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parent",
+										"followed-students"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Followed Students",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/parent/followed-students",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"parent",
+												"followed-students"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Student Details",
@@ -1853,8 +5723,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/parent/student/:id",
-									"host": ["{{base_url}}"],
-									"path": ["parent", "student", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parent",
+										"student",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1862,7 +5738,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Student Details",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/parent/student/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"parent",
+												"student",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Unfollow Student",
@@ -1871,8 +5784,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/parent/unfollow/:id",
-									"host": ["{{base_url}}"],
-									"path": ["parent", "unfollow", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parent",
+										"unfollow",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1880,7 +5799,44 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Unfollow Student",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/parent/unfollow/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"parent",
+												"unfollow",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						}
 					]
 				}
@@ -1899,10 +5855,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/student/profile",
-									"host": ["{{base_url}}"],
-									"path": ["student", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"student",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Profile",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/student/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"student",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+201234567890\",\n  \"profile_picture\": \"profile_pictures/user_1.jpg\",\n  \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Profile",
@@ -1920,10 +5911,54 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/student/profile",
-									"host": ["{{base_url}}"],
-									"path": ["student", "profile"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"student",
+										"profile"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Profile",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Student Name\",\n  \"phone\": \"+201234567890\",\n  \"grade\": \"10\",\n  \"school\": \"Cairo High School\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/student/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"student",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Profile updated successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Upload Profile Picture",
@@ -1942,10 +5977,55 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/student/upload-profile-picture",
-									"host": ["{{base_url}}"],
-									"path": ["student", "upload-profile-picture"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"student",
+										"upload-profile-picture"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Upload Profile Picture",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "profile_picture",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/student/upload-profile-picture",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"student",
+												"upload-profile-picture"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"File uploaded successfully\",\n  \"file_path\": \"uploads/file_123.jpg\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -1959,8 +6039,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/student/courses/:id/view",
-									"host": ["{{base_url}}"],
-									"path": ["student", "courses", ":id", "view"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"student",
+										"courses",
+										":id",
+										"view"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1968,7 +6055,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - View Course",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/student/courses/:id/view",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"student",
+												"courses",
+												":id",
+												"view"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"title\": \"Introduction to Programming\",\n  \"description\": \"Learn programming basics\",\n  \"category\": \"Programming\",\n  \"price\": 500,\n  \"difficulty_level\": \"beginner\",\n  \"lessons\": [\n    {\n      \"id\": 1,\n      \"title\": \"Lesson 1: Introduction\",\n      \"duration\": 1800,\n      \"order\": 1\n    }\n  ]\n}"
+								}
+							]
 						},
 						{
 							"name": "Enroll In Course",
@@ -1977,8 +6102,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/student/courses/:id/enroll",
-									"host": ["{{base_url}}"],
-									"path": ["student", "courses", ":id", "enroll"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"student",
+										"courses",
+										":id",
+										"enroll"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -1986,7 +6118,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Enroll In Course",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/student/courses/:id/enroll",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"student",
+												"courses",
+												":id",
+												"enroll"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Course created successfully\",\n  \"course\": {\n    \"id\": 1,\n    \"title\": \"Introduction to Programming\",\n    \"description\": \"Learn programming basics\",\n    \"price\": 500,\n    \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n  }\n}"
+								}
+							]
 						},
 						{
 							"name": "Get My Courses",
@@ -1995,10 +6165,45 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/student/my-courses",
-									"host": ["{{base_url}}"],
-									"path": ["student", "my-courses"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"student",
+										"my-courses"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get My Courses",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/student/my-courses",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"student",
+												"my-courses"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Introduction to Programming\",\n      \"progress\": 45,\n      \"enrolled_at\": \"2025-12-15T10:00:00.000000Z\"\n    }\n  ]\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Lesson Progress",
@@ -2016,8 +6221,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/student/lessons/:id/progress",
-									"host": ["{{base_url}}"],
-									"path": ["student", "lessons", ":id", "progress"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"student",
+										"lessons",
+										":id",
+										"progress"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -2025,7 +6237,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Update Lesson Progress",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"completed\": true\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/student/lessons/:id/progress",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"student",
+												"lessons",
+												":id",
+												"progress"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Progress updated successfully\",\n  \"completed\": true\n}"
+								}
+							]
 						}
 					]
 				},
@@ -2039,10 +6298,43 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/follow-requests",
-									"host": ["{{base_url}}"],
-									"path": ["follow-requests"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"follow-requests"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Follow Requests",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/follow-requests",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"follow-requests"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"parent_name\": \"Parent Name\",\n      \"parent_email\": \"parent@example.com\",\n      \"status\": \"pending\",\n      \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ]\n}"
+								}
+							]
 						},
 						{
 							"name": "Accept/Reject Follow Request",
@@ -2060,8 +6352,13 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/follow-request/:id",
-									"host": ["{{base_url}}"],
-									"path": ["follow-request", ":id"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"follow-request",
+										":id"
+									],
 									"variable": [
 										{
 											"key": "id",
@@ -2069,7 +6366,52 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Accept/Reject Follow Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"action\": \"accept\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/follow-request/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"follow-request",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Follow request processed successfully\"\n}"
+								}
+							]
 						}
 					]
 				}
@@ -2085,10 +6427,43 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/courses",
-							"host": ["{{base_url}}"],
-							"path": ["courses"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"courses"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Get All Courses (No Grade Restriction)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/courses",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Introduction to Programming\",\n      \"description\": \"Learn programming basics\",\n      \"category\": \"Programming\",\n      \"price\": 500,\n      \"difficulty_level\": \"beginner\",\n      \"instructor\": \"Dr. Jane Smith\",\n      \"enrolled_count\": 120,\n      \"rating\": 4.8,\n      \"thumbnail\": \"thumbnails/course_1.jpg\"\n    }\n  ],\n  \"current_page\": 1,\n  \"total\": 50\n}"
+						}
+					]
 				}
 			]
 		},
@@ -2114,8 +6489,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/payment/stripe/create-intent/:courseId",
-									"host": ["{{base_url}}"],
-									"path": ["payment", "stripe", "create-intent", ":courseId"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"payment",
+										"stripe",
+										"create-intent",
+										":courseId"
+									],
 									"variable": [
 										{
 											"key": "courseId",
@@ -2123,7 +6505,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Create Payment Intent",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"payment_method_id\": \"pm_card_visa\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/payment/stripe/create-intent/:courseId",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"payment",
+												"stripe",
+												"create-intent",
+												":courseId"
+											],
+											"variable": [
+												{
+													"key": "courseId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"client_secret\": \"pi_xxxxx_secret_yyyyy\",\n  \"payment_intent_id\": \"pi_1234567890\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Confirm Payment",
@@ -2141,10 +6570,56 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/payment/stripe/confirm",
-									"host": ["{{base_url}}"],
-									"path": ["payment", "stripe", "confirm"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"payment",
+										"stripe",
+										"confirm"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Confirm Payment",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"payment_intent_id\": \"pi_xxxxx\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/payment/stripe/confirm",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"payment",
+												"stripe",
+												"confirm"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Payment confirmed successfully\",\n  \"enrollment_id\": 123\n}"
+								}
+							]
 						},
 						{
 							"name": "Stripe Webhook",
@@ -2165,10 +6640,57 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/stripe/webhook",
-									"host": ["{{base_url}}"],
-									"path": ["stripe", "webhook"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stripe",
+										"webhook"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Stripe Webhook",
+									"originalRequest": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}"
+										},
+										"url": {
+											"raw": "{{base_url}}/stripe/webhook",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"stripe",
+												"webhook"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"received\": true\n}"
+								}
+							]
 						}
 					]
 				},
@@ -2182,8 +6704,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/payment/paypal/create-order/:courseId",
-									"host": ["{{base_url}}"],
-									"path": ["payment", "paypal", "create-order", ":courseId"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"payment",
+										"paypal",
+										"create-order",
+										":courseId"
+									],
 									"variable": [
 										{
 											"key": "courseId",
@@ -2191,7 +6720,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Create Order",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/payment/paypal/create-order/:courseId",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"payment",
+												"paypal",
+												"create-order",
+												":courseId"
+											],
+											"variable": [
+												{
+													"key": "courseId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Confirm Payment",
@@ -2209,10 +6776,56 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/payment/paypal/confirm",
-									"host": ["{{base_url}}"],
-									"path": ["payment", "paypal", "confirm"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"payment",
+										"paypal",
+										"confirm"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Confirm Payment",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"order_id\": \"ORDER_ID_FROM_PAYPAL\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/payment/paypal/confirm",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"payment",
+												"paypal",
+												"confirm"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Payment confirmed successfully\",\n  \"enrollment_id\": 123\n}"
+								}
+							]
 						}
 					]
 				},
@@ -2223,10 +6836,45 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/payment/history",
-							"host": ["{{base_url}}"],
-							"path": ["payment", "history"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payment",
+								"history"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Get Payment History",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/payment/history",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"payment",
+										"history"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"course_title\": \"Introduction to Programming\",\n      \"amount\": 500,\n      \"payment_method\": \"stripe\",\n      \"status\": \"completed\",\n      \"created_at\": \"2025-12-15T10:00:00.000000Z\"\n    }\n  ]\n}"
+						}
+					]
 				}
 			]
 		},
@@ -2243,10 +6891,47 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/live/sessions/upcoming",
-									"host": ["{{base_url}}"],
-									"path": ["live", "sessions", "upcoming"]
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"live",
+										"sessions",
+										"upcoming"
+									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Upcoming Sessions",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/live/sessions/upcoming",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"live",
+												"sessions",
+												"upcoming"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"course_title\": \"Introduction to Programming\",\n      \"title\": \"Live Session 1\",\n      \"scheduled_at\": \"2025-12-18T14:00:00.000000Z\",\n      \"duration\": 3600,\n      \"teacher_name\": \"Dr. Jane Smith\"\n    }\n  ]\n}"
+								}
+							]
 						},
 						{
 							"name": "Join Session",
@@ -2255,8 +6940,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/live/session/:sessionId/join",
-									"host": ["{{base_url}}"],
-									"path": ["live", "session", ":sessionId", "join"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"live",
+										"session",
+										":sessionId",
+										"join"
+									],
 									"variable": [
 										{
 											"key": "sessionId",
@@ -2264,7 +6956,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Join Session",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/live/session/:sessionId/join",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"live",
+												"session",
+												":sessionId",
+												"join"
+											],
+											"variable": [
+												{
+													"key": "sessionId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Joined session successfully\",\n  \"stream_url\": \"rtmp://stream.example.com/live/session_1\",\n  \"session_token\": \"eyJ0eXAi...\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Get Next Session For Course",
@@ -2273,8 +7003,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/live/course/:courseId/next-session",
-									"host": ["{{base_url}}"],
-									"path": ["live", "course", ":courseId", "next-session"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"live",
+										"course",
+										":courseId",
+										"next-session"
+									],
 									"variable": [
 										{
 											"key": "courseId",
@@ -2282,7 +7019,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Next Session For Course",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/live/course/:courseId/next-session",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"live",
+												"course",
+												":courseId",
+												"next-session"
+											],
+											"variable": [
+												{
+													"key": "courseId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -2296,8 +7071,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/live/session/:sessionId/start",
-									"host": ["{{base_url}}"],
-									"path": ["live", "session", ":sessionId", "start"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"live",
+										"session",
+										":sessionId",
+										"start"
+									],
 									"variable": [
 										{
 											"key": "sessionId",
@@ -2305,7 +7087,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Start Session",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/live/session/:sessionId/start",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"live",
+												"session",
+												":sessionId",
+												"start"
+											],
+											"variable": [
+												{
+													"key": "sessionId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Joined session successfully\",\n  \"stream_url\": \"rtmp://stream.example.com/live/session_1\",\n  \"session_token\": \"eyJ0eXAi...\"\n}"
+								}
+							]
 						},
 						{
 							"name": "End Session",
@@ -2314,8 +7134,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/live/session/:sessionId/end",
-									"host": ["{{base_url}}"],
-									"path": ["live", "session", ":sessionId", "end"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"live",
+										"session",
+										":sessionId",
+										"end"
+									],
 									"variable": [
 										{
 											"key": "sessionId",
@@ -2323,7 +7150,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - End Session",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/live/session/:sessionId/end",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"live",
+												"session",
+												":sessionId",
+												"end"
+											],
+											"variable": [
+												{
+													"key": "sessionId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Session ended successfully\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -2337,8 +7202,15 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/live/session/:sessionId/messages",
-									"host": ["{{base_url}}"],
-									"path": ["live", "session", ":sessionId", "messages"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"live",
+										"session",
+										":sessionId",
+										"messages"
+									],
 									"variable": [
 										{
 											"key": "sessionId",
@@ -2346,7 +7218,45 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Get Messages",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/live/session/:sessionId/messages",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"live",
+												"session",
+												":sessionId",
+												"messages"
+											],
+											"variable": [
+												{
+													"key": "sessionId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Send Message",
@@ -2364,8 +7274,15 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/live/session/:sessionId/message",
-									"host": ["{{base_url}}"],
-									"path": ["live", "session", ":sessionId", "message"],
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"live",
+										"session",
+										":sessionId",
+										"message"
+									],
 									"variable": [
 										{
 											"key": "sessionId",
@@ -2373,7 +7290,54 @@
 										}
 									]
 								}
-							}
+							},
+							"response": [
+								{
+									"name": "Example Response - Send Message",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"message\": \"Hello everyone!\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/live/session/:sessionId/message",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"live",
+												"session",
+												":sessionId",
+												"message"
+											],
+											"variable": [
+												{
+													"key": "sessionId",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+								}
+							]
 						}
 					]
 				}
@@ -2398,10 +7362,54 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/ai-career/chat",
-							"host": ["{{base_url}}"],
-							"path": ["ai-career", "chat"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ai-career",
+								"chat"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Send Chat Message",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"message\": \"What career path should I follow as a computer science student?\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/ai-career/chat",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"ai-career",
+										"chat"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"response\": \"Based on your profile, I recommend focusing on...\",\n  \"conversation_id\": \"conv_123\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Chat History",
@@ -2410,10 +7418,45 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/ai-career/history",
-							"host": ["{{base_url}}"],
-							"path": ["ai-career", "history"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ai-career",
+								"history"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Get Chat History",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/ai-career/history",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"ai-career",
+										"history"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"message\": \"What career path should I follow?\",\n      \"response\": \"Based on your profile...\",\n      \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n    }\n  ]\n}"
+						}
+					]
 				},
 				{
 					"name": "Clear Chat History",
@@ -2422,10 +7465,45 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/ai-career/history",
-							"host": ["{{base_url}}"],
-							"path": ["ai-career", "history"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ai-career",
+								"history"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Clear Chat History",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/ai-career/history",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"ai-career",
+										"history"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Chat history cleared successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Analyze CV",
@@ -2444,10 +7522,55 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/ai-career/analyze-cv",
-							"host": ["{{base_url}}"],
-							"path": ["ai-career", "analyze-cv"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ai-career",
+								"analyze-cv"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Analyze CV",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "cv",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/ai-career/analyze-cv",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"ai-career",
+										"analyze-cv"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Learning Path",
@@ -2465,10 +7588,54 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/ai-career/learning-path",
-							"host": ["{{base_url}}"],
-							"path": ["ai-career", "learning-path"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ai-career",
+								"learning-path"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Get Learning Path",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"field\": \"Software Engineering\",\n  \"current_level\": \"beginner\",\n  \"goals\": \"Become a full-stack developer\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/ai-career/learning-path",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"ai-career",
+										"learning-path"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Job Recommendations",
@@ -2486,10 +7653,54 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/ai-career/job-recommendations",
-							"host": ["{{base_url}}"],
-							"path": ["ai-career", "job-recommendations"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ai-career",
+								"job-recommendations"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Get Job Recommendations",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"skills\": [\"JavaScript\", \"React\", \"Node.js\"],\n  \"experience_level\": \"junior\",\n  \"location\": \"Cairo\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/ai-career/job-recommendations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"ai-career",
+										"job-recommendations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Job created successfully\",\n  \"job\": {\n    \"id\": 1,\n    \"title\": \"Software Engineer\",\n    \"created_at\": \"2025-12-17T10:00:00.000000Z\"\n  }\n}"
+						}
+					]
 				},
 				{
 					"name": "Analyze Skills Gap",
@@ -2507,10 +7718,54 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/ai-career/skills-gap",
-							"host": ["{{base_url}}"],
-							"path": ["ai-career", "skills-gap"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ai-career",
+								"skills-gap"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Analyze Skills Gap",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"current_skills\": [\"HTML\", \"CSS\", \"JavaScript\"],\n  \"target_position\": \"Full Stack Developer\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/ai-career/skills-gap",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"ai-career",
+										"skills-gap"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -2536,10 +7791,57 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/didit/create-session",
-							"host": ["{{base_url}}"],
-							"path": ["didit", "create-session"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"didit",
+								"create-session"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Create Verification Session",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user_id\": \"123\",\n  \"callback_url\": \"https://yourapp.com/verification/callback\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/didit/create-session",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"didit",
+										"create-session"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Session Status",
@@ -2551,8 +7853,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/didit/session-status/:sessionId",
-							"host": ["{{base_url}}"],
-							"path": ["didit", "session-status", ":sessionId"],
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"didit",
+								"session-status",
+								":sessionId"
+							],
 							"variable": [
 								{
 									"key": "sessionId",
@@ -2560,7 +7868,47 @@
 								}
 							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Get Session Status",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/didit/session-status/:sessionId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"didit",
+										"session-status",
+										":sessionId"
+									],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "session_123"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Operation completed successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Didit Webhook",
@@ -2581,10 +7929,57 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/didit/webhook",
-							"host": ["{{base_url}}"],
-							"path": ["didit", "webhook"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"didit",
+								"webhook"
+							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Didit Webhook",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{base_url}}/didit/webhook",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"didit",
+										"webhook"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"received\": true\n}"
+						}
+					]
 				}
 			]
 		},
@@ -2601,8 +7996,14 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/stream/lesson/:lessonId?token=YOUR_AUTH_TOKEN",
-							"host": ["{{base_url}}"],
-							"path": ["stream", "lesson", ":lessonId"],
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"stream",
+								"lesson",
+								":lessonId"
+							],
 							"query": [
 								{
 									"key": "token",
@@ -2616,7 +8017,53 @@
 								}
 							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Stream Lesson Video",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/stream/lesson/:lessonId?token=YOUR_AUTH_TOKEN",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stream",
+										"lesson",
+										":lessonId"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "YOUR_AUTH_TOKEN"
+										}
+									],
+									"variable": [
+										{
+											"key": "lessonId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"stream_url\": \"http://localhost:8000/storage/videos/lesson_1.mp4\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -2633,8 +8080,13 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/storage/:path",
-							"host": ["{{base_url}}"],
-							"path": ["storage", ":path"],
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"storage",
+								":path"
+							],
 							"variable": [
 								{
 									"key": "path",
@@ -2642,7 +8094,46 @@
 								}
 							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Example Response - Get Storage File",
+							"originalRequest": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/storage/:path",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"storage",
+										":path"
+									],
+									"variable": [
+										{
+											"key": "path",
+											"value": "profile_pictures/image.jpg"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"file_url\": \"http://localhost:8000/storage/files/document.pdf\"\n}"
+						}
+					]
 				}
 			]
 		}
