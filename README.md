@@ -6,6 +6,7 @@
 - **[Live Platform](https://edvance-ace.vercel.app)** - Fully functional deployed application
 - **[Documentation](https://drive.google.com/file/d/1Kmc7LNSFSHOz7bu8w7IkSFMTN0NUxXRO/view?usp=sharing)** — Complete project documentation with ERD, screenshots, and technical details
 - **[Presentation PDF](https://drive.google.com/file/d/1U7QieFolTmTjrc1kD8M2k2tvdo5oSasq/view?usp=sharing)** — Project presentation slides
+- **[Postman API Collection](https://documenter.getpostman.com/view/37731054/2sB3dLVCTz)** — Project Postman API Collection
 
 ### Users' Accounts to Access the Platform
 
@@ -44,21 +45,28 @@
 ## Features
 
 ## Special Features
-- Web Scraping using JSearch
-- AI integration using Google Gemini
 - Face & Identity Verification using DIDIT
+- AI integration using Google Gemini
+- Web Scraping using JSearch
+- Notifications System
 - Academic Email OTP using MailGun
 - Live Stream Using Jitsi
 - Payment Gateways Using Stripe and PayPal Integration
+- Multi-language Support
+- Dark & Light Themes
+- Profile & Media Management
 
 ## Detailed Features
 
-### Web Scraping (JSearch API)
-- **External Job Listings** — Access external jobs via JSearch API integration
-- **Real-time Job Data** — Fetch up-to-date job postings from multiple sources
-- **Job Search Integration** — Search external job markets by keywords and location
-- **Job Filtering** — Filter external jobs by location, job type, and experience level
-- **Seamless Integration** — External jobs displayed alongside platform job postings
+### Face & Identity Verification (Didit)
+- **Identity Verification** — Didit integration for document verification, face matching, liveness detection, and AML checks
+- **Document Verification** — Upload and verify government-issued IDs
+- **Face Matching** — Compare selfie with ID photo for identity confirmation
+- **Liveness Detection** — Ensure real-time presence to prevent fraud
+- **AML Checks** — Anti-money laundering verification for compliance
+- **Parent Verification** — Didit verification required for parent accounts
+- **Teacher Verification** — Identity verification for teacher applications
+- **Verification Review** — Admin can check Didit verification data
 
 ### AI Integration (Google Gemini)
 - **AI Chat Interface** — Interactive chat with AI career mentor powered by Google Gemini
@@ -72,15 +80,24 @@
 - **Profile Context** — AI uses profile data for personalized responses
 - **Clear History** — Reset conversation history
 
-### Face & Identity Verification (Didit)
-- **Identity Verification** — Didit integration for document verification, face matching, liveness detection, and AML checks
-- **Document Verification** — Upload and verify government-issued IDs
-- **Face Matching** — Compare selfie with ID photo for identity confirmation
-- **Liveness Detection** — Ensure real-time presence to prevent fraud
-- **AML Checks** — Anti-money laundering verification for compliance
-- **Parent Verification** — Didit verification required for parent accounts
-- **Teacher Verification** — Identity verification for teacher applications
-- **Verification Review** — Admin can check Didit verification data
+### Web Scraping (JSearch API)
+- **External Job Listings** — Access external jobs via JSearch API integration
+- **Real-time Job Data** — Fetch up-to-date job postings from multiple sources
+- **Job Search Integration** — Search external job markets by keywords and location
+- **Job Filtering** — Filter external jobs by location, job type, and experience level
+- **Seamless Integration** — External jobs displayed alongside platform job postings
+
+### Notifications System
+- **Database Notifications** — Persistent notification storage
+- **Email Notifications** — Email alerts for important events
+- **Welcome Notifications** — Onboarding notifications for new users
+- **Follow Request Alerts** — Notifications for parent-student linking
+- **Job Posting Alerts** — Notify relevant students about new jobs
+- **Application Updates** — Status change notifications
+- **Teacher Notifications** — Approval and rejection alerts
+- **Notification Management** — View, mark read, and delete notifications
+- **Unread Count** — Track unread notification count
+- **Bulk Actions** — Mark all as read, delete all read
 
 ### Academic Email OTP (Mailgun)
 - **Email Verification** — OTP-based email verification system via Mailgun
@@ -112,10 +129,29 @@
 ### Authentication & Security
 - **User Registration** — Role-based registration for Students, Teachers, Parents, University Students, and Companies
 - **Secure Login** — Email/password authentication with token-based sessions
+- **Email Verification** — OTP-based email verification system
+- **Password Recovery** — Secure password reset via email tokens
 - **Rate Limiting** — Login attempt protection (5 attempts max, 15-minute lockout)
 - **Session Tracking** — Track last login time, IP address, and user agent
+- **Identity Verification** — Didit integration for document verification, face matching, liveness detection, and AML checks
+- **Academic Email Validation** — University domain verification for academic accounts
 - **Account Status Management** — Active, suspended, and pending account states
 - **Remember Me** — Extended session tokens (90-day expiration)
+
+### Profile & Media Management
+- **Profile Pictures** — Upload for all user types (JPEG, PNG, JPG, GIF)
+- **CV Documents** — Upload PDF, DOC, DOCX files (5MB max)
+- **Video Content** — Upload videos or link external URLs
+- **Thumbnails** — Course and lesson thumbnail images
+- **Company Logos** — Company branding images
+- **File Validation** — Type and size validation
+- **Auto Cleanup** — Delete old files on update
+
+### Multi-language Support
+- **Arabic Support** — Full Arabic language interface
+- **English Support** — Complete English localization
+- **Localized Notifications** — Language-specific notification text
+- **RTL Support** — Right-to-left layout for Arabic
 
 ### Student Features
 - **Student Dashboard** — Personalized dashboard with enrolled courses and progress tracking
@@ -144,6 +180,8 @@
 - **Experience & Projects** — Display work experience and project portfolio
 - **Certifications & Achievements** — Highlight certifications and accomplishments
 - **Job Board Access** — Browse job postings from verified companies
+- **External Job Listings** — Access external jobs via JSearch API integration
+- **Job Filtering** — Filter by location, job type, and experience level
 - **Job Applications** — Apply with cover letters and track status
 - **Application Tracking** — Monitor application status (pending, reviewing, shortlisted, interviewed, accepted, rejected)
 - **Application Withdrawal** — Withdraw submitted applications
@@ -184,6 +222,7 @@
 - **Completion Tracking** — View completed courses and lessons
 - **Overall Statistics** — See combined progress across all students
 - **Children Count** — Manage number of children in profile
+- **Identity Verification** — Didit verification for parent accounts
 
 ### Company/Recruiter Features
 - **Company Registration** — Register with company details and verification
@@ -217,6 +256,7 @@
 - **Teacher Approval** — Review and approve/reject teacher applications
 - **Rejection Reasons** — Provide feedback for rejected applications
 - **CV Review** — Download and review teacher CVs
+- **Verification Review** — Check Didit verification data
 - **Course Oversight** — Monitor and manage all courses
 - **Company Verification** — Verify and unverify company accounts
 - **Analytics Dashboard** — View trends for 7, 30, and 90-day periods
@@ -225,32 +265,6 @@
 - **Revenue Analytics** — Track platform revenue
 - **Activity Monitoring** — View recent platform activity
 - **Admin Creation** — Create new admin accounts
-
-### Notifications System
-- **Database Notifications** — Persistent notification storage
-- **Welcome Notifications** — Onboarding notifications for new users
-- **Follow Request Alerts** — Notifications for parent-student linking
-- **Job Posting Alerts** — Notify relevant students about new jobs
-- **Application Updates** — Status change notifications
-- **Teacher Notifications** — Approval and rejection alerts
-- **Notification Management** — View, mark read, and delete notifications
-- **Unread Count** — Track unread notification count
-- **Bulk Actions** — Mark all as read, delete all read
-
-### Profile & Media Management
-- **Profile Pictures** — Upload for all user types (JPEG, PNG, JPG, GIF)
-- **CV Documents** — Upload PDF, DOC, DOCX files (5MB max)
-- **Video Content** — Upload videos or link external URLs
-- **Thumbnails** — Course and lesson thumbnail images
-- **Company Logos** — Company branding images
-- **File Validation** — Type and size validation
-- **Auto Cleanup** — Delete old files on update
-
-### Multi-language Support
-- **Arabic Support** — Full Arabic language interface
-- **English Support** — Complete English localization
-- **Localized Notifications** — Language-specific notification text
-- **RTL Support** — Right-to-left layout for Arabic
 
 ---
 
