@@ -1,0 +1,164 @@
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{1.0\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\begin{document}
+
+\begin{center}
+    {\Huge \scshape ABDULLAH SOBHY} \\ \vspace{1pt}
+    \small
+    \raisebox{-0.1\height}\faMapMarker\ Alexandria, Egypt ~
+    \href{mailto:abdallahbs9393@gmail.com}{\raisebox{-0.2\height}\faEnvelope\  \underline{abdallahbs9393@gmail.com}} ~
+    \raisebox{-0.1\height}\faPhone\ (+20)155-032-8625 ~
+    \href{https://linkedin.com/in/yourprofile}{\raisebox{-0.2\height}\faLinkedin\ \underline{LinkedIn}}  ~
+    \href{https://github.com/yourusername}{\raisebox{-0.2\height}\faGithub\ \underline{GitHub}} ~
+    \href{https://codeforces.com/profile/yourusername}{\raisebox{-0.2\height}\faCode\ \underline{Codeforces}}
+    \vspace{-8pt}
+\end{center}
+
+\section{SUMMARY}
+\begin{itemize}[leftmargin=0in, label={}]
+    \small{\item{
+    Web Developer with strong foundations in Laravel, React, PHP, and MySQL, building secure, responsive, and scalable web applications. Experienced with authentication, CRUD, REST APIs, and modern front-end tooling. Passionate about clean code, performance, and delivering smooth user experiences.
+    }}
+\end{itemize}
+\vspace{-16pt}
+
+\section{SKILLS}
+\begin{itemize}[leftmargin=0in, label={}]
+    \small{\item{
+    \textbf{Frontend:} React, JavaScript (ES6+), TypeScript, HTML5, CSS3, Tailwind CSS, Bootstrap, Next.js, Vite \\
+    \textbf{Backend:} PHP, Laravel (Sanctum for Auth), REST APIs, GraphQL, JWT \\
+    \textbf{Database:} MySQL, SQL, Database Design \& Management \\
+    \textbf{Tools \& Technologies:} Git, GitHub, Docker, Postman, Stripe API, Socket.io, Pusher \\
+    \textbf{CMS:} WordPress, WooCommerce, Elementor, WPForms, YayCommerce \\
+    \textbf{Programming Fundamentals:} Object-Oriented Programming (OOP), Data Structures \& Algorithms, C++, Java \\
+    \textbf{Soft Skills:} Communication, Team Collaboration, Time Management, Problem Solving, Adaptability, Attention to Detail, Critical Thinking, Self-motivation \\
+    \textbf{Languages:} Arabic, English
+    }}
+\end{itemize}
+\vspace{-16pt}
+
+\section{EXPERIENCE}
+\resumeSubHeadingListStart
+
+\resumeSubheading
+{Freelance Frontend Developer}{Oct 2024 -- Present}
+{LMS Platform Project}{}
+\resumeItemListStart
+\resumeItem{Built a comprehensive LMS platform using React, Next.js, TypeScript, and Tailwind CSS for an educational institution.}
+\resumeItem{Architected reusable codebase with 3 foundational file structures (types, services, hooks) ensuring maintainability and scalability.}
+\resumeItem{Implemented role-based interfaces for 4 user types: Teacher, Assistant, Student, and Admin with distinct dashboards and permissions.}
+\resumeItem{Optimized application performance through code splitting, lazy loading, and efficient state management.}
+\resumeItemListEnd
+
+\resumeSubheading
+{Full-Stack Developer}{Sep 2024 -- Dec 2024}
+{Edvance - ACE Platform | University Capstone Project}{}
+\resumeItemListStart
+\resumeItem{Developed a comprehensive platform combining job board and Learning Management System (LMS) using the ACE (Access to Careers \& Education) framework, bridging the gap between university students' academic skills and professional opportunities.}
+\resumeItem{Architected and implemented full-stack solution with Next.js 15, React 19, TypeScript, Tailwind CSS (frontend) and Laravel 12, PHP 8.2+ (backend); designed normalized database schema with 50+ tables supporting 6 distinct user roles.}
+\resumeItem{Built 100+ RESTful API endpoints for authentication, job postings, course management, applications, payments, and real-time features; integrated Laravel Sanctum for secure token-based authentication and role-based access control.}
+\resumeItem{Integrated 8 third-party services: DIDIT for identity verification, Google Gemini AI for career mentoring, JSearch API for external job listings, Mailgun for academic email OTP verification, Jitsi for live streaming, Stripe \& PayPal for payments, and Pusher for real-time notifications.}
+\resumeItem{Implemented advanced features including AI-powered CV analysis and job recommendations, web scraping for external job data, live video classes with attendance tracking, multi-language support (Arabic/English), and comprehensive notification system.}
+\resumeItem{Collaborated with 4-member team following Agile methodology; delivered fully functional platform deployed on Vercel with complete API documentation, video presentation, and technical documentation; achieved seamless integration between academic learning and job placement systems.}
+\resumeItemListEnd
+
+\resumeSubheading
+{Freelance WordPress Developer}{Sep 2024}
+{ZidClean - Cleaning Services Platform}{}
+\resumeItemListStart
+\resumeItem{Developed a full-featured cleaning services platform for the Saudi Arabia market covering home, villa, pool, furniture, and AC cleaning services.}
+\resumeItem{Built 150+ pages, including 120 SEO-optimized blog posts; implemented Google Search Console indexing and on-page SEO best practices.}
+\resumeItem{Integrated Stripe and PayPal payment gateways with custom PHP modifications to payment plugins for localized checkout flow.}
+\resumeItem{Customized Elementor layouts and form plugins with PHP backend modifications; delivered full project in 5 days under a tight deadline.}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+\vspace{-16pt}
+
+\section{EDUCATION}
+\resumeSubHeadingListStart
+\resumeSubheading
+{Bachelor of Computer Science}{2022 -- 2026}
+{Alexandria University}{GPA: 3.69}
+\resumeSubHeadingListEnd
+
+\end{document}
